@@ -10,6 +10,32 @@ from production_logging import log_event
 SOCIAL_REQUIRED_FIELDS = ("facebook_post_text",)
 SOCIAL_MAX_ATTEMPTS = 2
 
+_NOTICE_STAGE_HASHTAGS = {
+    "vacancy": "#وظائف_المغرب",
+    "competition": "#مباريات_التوظيف",
+    "candidate_list": "#لوائح_المترشحين",
+    "results": "#نتائج_المباريات",
+    "final_results": "#النتائج_النهائية",
+    "update": "#مستجدات_التوظيف",
+}
+_ALLOWED_SOCIAL_EMOJIS = ("📢", "💼", "📍", "🎓", "⏳", "📋", "✅", "🔄", "👇")
+
+
+def jobs_contextual_hashtag(notice_type):
+    return _NOTICE_STAGE_HASHTAGS.get(
+        str(notice_type or "").strip().lower(),
+        "#وظائف_المغرب",
+    )
+
+
+def _copy_memory_key(value):
+    return re.sub(
+        r"[^\\w\\u0600-\\u06FF]+",
+        "",
+        _strip_bidi(value).casefold(),
+        flags=re.UNICODE,
+    )
+
 
 class SocialAIQualityError(ValueError):
     """Raised when generated social copy is structurally invalid."""
@@ -34,6 +60,17 @@ def _social_prompt(article, previous_error=""):
     company = str(article.get("job_company") or package.get("job_company") or "").strip()
     location = str(article.get("job_location") or package.get("job_location") or "").strip()
     positions = str(article.get("job_number_of_positions") or package.get("job_number_of_positions") or "").strip()
+    contextual_hashtag = jobs_contextual_hashtag(notice_type)
+    recent_hooks = [
+        str(value).strip()
+        for value in (article.get("_facebook_recent_hooks") or [])[-8:]
+        if str(value).strip()
+    ]
+    recent_ctas = [
+        str(value).strip()
+        for value in (article.get("_facebook_recent_ctas") or [])[-6:]
+        if str(value).strip()
+    ]
     final_html = str(article.get("final_html") or article.get("blogger_article_html") or "")
     article_text = re.sub(r"<[^>]+>", " ", final_html)
     article_text = re.sub(r"\s+", " ", article_text).strip()[:5000]
@@ -62,39 +99,52 @@ open the article for useful details. Be engaging through specific verified
 information, never by hiding the job, exaggerating, or promising employment.
 
 POST STRUCTURE
-- Write 3 to 5 short paragraphs, separated by a blank line.
-- First paragraph: one concise hook (18 to 140 characters). Lead with the
-  strongest verified match: the role, qualification, location, or notice stage.
-  A question about a verified qualification is optional, not a fixed template.
-  Avoid generic openings such as "هل تبحث عن عمل؟" or "فرصة لا تعوض".
-- Middle paragraphs: identify the role and employer, then include only 1 or 2
-  useful screening facts, such as qualification, location, or available posts.
-  State enough for readers to know what they are opening; do not copy the article.
-- For an active vacancy/competition, put the verified application deadline on
-  its own line, once. Omit missing deadlines. A positions value of 0 is unknown,
-  not a verified count.
-- Last paragraph: one natural CTA containing "أول تعليق". Say what the reader
-  can check in the article, such as eligibility, required documents or application
-  steps, ONLY when those details actually appear in the context. For lists or
-  results, invite readers to check that notice, not to apply for a new vacancy.
-- Aim for 250 to 650 visible characters. Use plain text and at most one 👇 at
-  the end. No decorative emojis, hashtags, or repeated information.
+- Write 4 to 7 short readable paragraphs/lines, separated by blank lines.
+- The first paragraph is a concise hook (18 to 160 characters) chosen from the
+  strongest VERIFIED fact for THIS notice. Do not rotate openings randomly:
+  * vacancy/competition: lead with the role, qualification, location, positions,
+    or another concrete eligibility fact that best helps the reader self-screen.
+  * candidate_list: lead with publication of the candidate/admitted list and,
+    when verified, the relevant test date/place.
+  * results: lead with publication of the results and the exact competition/role.
+  * final_results: say clearly that these are FINAL results.
+  * update: lead with the actual verified change, such as a new deadline/date/document.
+- Use 2 to 6 functional emojis only when they match the fact: 📢 announcement,
+  💼 role, 📍 location, 🎓 qualification, ⏳ deadline, 📋 list/results,
+  ✅ final result, 🔄 update, 👇 first-comment CTA. Never decorate every line.
+- Middle paragraphs: include the useful verified facts a reader needs to decide
+  whether the notice concerns them. Do NOT omit a useful verified fact merely to
+  hit a target length. Remove repetition and filler instead.
+- For an active vacancy/competition, state the verified deadline once. A positions
+  value of 0 is unknown and must never be presented as a verified count.
+- The paragraph immediately before hashtags is one natural CTA containing
+  "أول تعليق". Its wording must match the notice stage: application details for
+  active jobs/competitions, list/test details for candidate lists, result details
+  for results, and changed details for updates.
+- The FINAL line must contain exactly these two hashtags and no others:
+  #CyberoPlus {contextual_hashtag}
+- Aim for roughly 250 to 800 visible characters when the facts support it, but
+  completeness of useful verified information is more important than shortening.
 
 STRICT RULES
 - Use only facts in the published article context below.
-- Write entirely in clear Modern Standard Arabic, including roles and locations.
-  Use established Arabic names for employers. Omit a foreign name if no reliable
-  Arabic spelling is available; never invent a name or leave Latin acronyms.
-- Reflect the exact notice stage: vacancy, competition, candidate list, results, final results, or update.
-- Never turn lists/results/updates into a fresh vacancy.
+- Write in clear Modern Standard Arabic. #CyberoPlus is the only required Latin
+  brand text. Use established Arabic names for employers; never invent translations.
+- Reflect the exact notice stage: vacancy, competition, candidate list, results,
+  final results, or update. Never turn lists/results/updates into a fresh vacancy.
 - Do not copy the Blogger title as the first line.
-- Do not use repetitive database labels such as "الجهة:", "المكان:", "عدد المناصب:" line after line.
-- Never invent salary, deadline, count, requirement, location, urgency, application method, or status.
+- Vary the wording and sentence order naturally INSIDE the correct notice type.
+  Do not reuse a recent hook/CTA merely for variation, and do not change meaning.
+- Do not use repetitive database labels line after line.
+- Never invent salary, deadline, count, requirement, location, urgency,
+  application method, test date/place, or result status.
 - No manufactured urgency, guaranteed acceptance, curiosity bait, or requests
   for likes/shares/comments such as "اكتب مهتم" or "شارك ليصلك العرض".
 - Do not include any URL. The Blogger URL is posted separately in the first comment.
 - No HTML, markdown, JSON inside the value, or bidi control characters.
 - Keep the complete post between 120 and 1200 visible characters.
+- Recent hook fingerprints to avoid when possible: {recent_hooks}
+- Recent CTA fingerprints to avoid when possible: {recent_ctas}
 {repair}
 PUBLISHED ARTICLE CONTEXT
 Title: {title}
@@ -110,34 +160,91 @@ Article text: {article_text}
 
 def validate_jobs_facebook_post(text, article=None):
     text = _strip_bidi(text)
+    article = dict(article or {})
     if not text:
         raise SocialAIQualityError("Facebook social copy is empty")
-    if re.search(r"https?://\S+", text):
+    if re.search(r"https?://\\S+", text):
         raise SocialAIQualityError("Facebook social copy must not contain a URL")
     if re.search(r"<[^>]+>", text) or (chr(96) * 3) in text:
         raise SocialAIQualityError("Facebook social copy must be plain text")
     if text.count("أول تعليق") != 1:
         raise SocialAIQualityError('Facebook social copy must contain "أول تعليق" once')
-    if "#" in text:
-        raise SocialAIQualityError("Facebook social copy must not contain hashtags")
-    if re.search(r"[A-Za-zÀ-ÖØ-öø-ÿ]", text):
-        raise SocialAIQualityError("Facebook social copy must be written entirely in Arabic")
-    if len(re.findall(r"[\u0600-\u06FF]", text)) < 40:
+
+    notice_type = str(
+        article.get("job_notice_type")
+        or (article.get("ai_input_package") or {}).get("job_notice_type")
+        or "vacancy"
+    ).strip().lower()
+    contextual_hashtag = jobs_contextual_hashtag(notice_type)
+    hashtags = re.findall(r"#[\\w\\u0600-\\u06FF_]+", text, flags=re.UNICODE)
+    if hashtags != ["#CyberoPlus", contextual_hashtag]:
+        raise SocialAIQualityError(
+            f"Facebook social copy must end with exactly #CyberoPlus and {contextual_hashtag}"
+        )
+
+    body_without_hashtags = re.sub(
+        r"#[\\w\\u0600-\\u06FF_]+",
+        "",
+        text,
+        flags=re.UNICODE,
+    )
+    if re.search(r"[A-Za-zÀ-ÖØ-öø-ÿ]", body_without_hashtags):
+        raise SocialAIQualityError(
+            "Facebook social copy body must be written entirely in Arabic"
+        )
+    if len(re.findall(r"[\\u0600-\\u06FF]", body_without_hashtags)) < 40:
         raise SocialAIQualityError("Facebook social copy must be Arabic-first")
     if not (120 <= len(text) <= 1200):
-        raise SocialAIQualityError("Facebook social copy length must be 120 to 1200 characters")
+        raise SocialAIQualityError(
+            "Facebook social copy length must be 120 to 1200 characters"
+        )
 
-    title = str((article or {}).get("seo_title") or (article or {}).get("title") or "").strip()
     lines = [line.strip() for line in text.splitlines() if line.strip()]
-    if not (3 <= len(lines) <= 6):
-        raise SocialAIQualityError("Facebook social copy needs 3 to 6 short paragraphs")
+    if not (4 <= len(lines) <= 8):
+        raise SocialAIQualityError(
+            "Facebook social copy needs 4 to 8 short readable lines"
+        )
     first_line = lines[0]
-    if not (18 <= len(first_line) <= 140):
-        raise SocialAIQualityError("Facebook social copy hook must be 18 to 140 characters")
-    if "أول تعليق" not in lines[-1]:
-        raise SocialAIQualityError("Facebook social copy CTA must be the final paragraph")
-    if title and re.sub(r"\s+", " ", first_line).casefold() == re.sub(r"\s+", " ", title).casefold():
-        raise SocialAIQualityError("Facebook social copy hook must not equal the Blogger title")
+    if not (18 <= len(first_line) <= 160):
+        raise SocialAIQualityError(
+            "Facebook social copy hook must be 18 to 160 characters"
+        )
+    expected_hashtag_line = f"#CyberoPlus {contextual_hashtag}"
+    if lines[-1] != expected_hashtag_line:
+        raise SocialAIQualityError(
+            "Facebook social copy hashtags must be the final line"
+        )
+    if len(lines) < 2 or "أول تعليق" not in lines[-2]:
+        raise SocialAIQualityError(
+            "Facebook social copy CTA must be immediately before hashtags"
+        )
+
+    emoji_count = sum(text.count(emoji) for emoji in _ALLOWED_SOCIAL_EMOJIS)
+    if not (2 <= emoji_count <= 6):
+        raise SocialAIQualityError(
+            "Facebook social copy must use 2 to 6 functional emojis"
+        )
+
+    title = str(article.get("seo_title") or article.get("title") or "").strip()
+    hook_for_compare = first_line
+    for emoji in _ALLOWED_SOCIAL_EMOJIS:
+        hook_for_compare = hook_for_compare.replace(emoji, "")
+    if title and re.sub(r"\\s+", " ", hook_for_compare).strip().casefold() == re.sub(
+        r"\\s+", " ", title
+    ).casefold():
+        raise SocialAIQualityError(
+            "Facebook social copy hook must not equal the Blogger title"
+        )
+
+    recent_hooks = {
+        str(value).strip()
+        for value in (article.get("_facebook_recent_hooks") or [])
+        if str(value).strip()
+    }
+    if recent_hooks and _copy_memory_key(first_line) in recent_hooks:
+        raise SocialAIQualityError(
+            "Facebook hook repeats a recent opening; vary the wording using another verified angle"
+        )
     return text
 
 
@@ -174,12 +281,7 @@ def _arabic_published_social_fact(value, max_chars=260):
 
 
 def _deterministic_jobs_facebook_post(article):
-    """Build safe social copy only from already-published verified fields.
-
-    This is a last-resort formatting fallback when social AI returns malformed
-    JSON or otherwise fails locally. It never runs after a Graph delivery
-    attempt, so it cannot create a duplicate remote post.
-    """
+    """Build stage-aware safe social copy only from published verified fields."""
     article = dict(article or {})
     package = article.get("ai_input_package") or {}
     notice_type = str(
@@ -188,6 +290,7 @@ def _deterministic_jobs_facebook_post(article):
         or "vacancy"
     ).strip().lower()
     stage = _NOTICE_STAGE_LABELS.get(notice_type, "إعلان توظيف")
+    contextual_hashtag = jobs_contextual_hashtag(notice_type)
 
     company = _arabic_published_social_fact(
         article.get("job_company") or package.get("job_company") or "",
@@ -217,33 +320,54 @@ def _deterministic_jobs_facebook_post(article):
     )
 
     active = notice_type in {"vacancy", "competition"}
+    stage_emoji = {
+        "candidate_list": "📋",
+        "results": "📋",
+        "final_results": "✅",
+        "update": "🔄",
+    }.get(notice_type, "📢")
+
     place = f" في {location}" if location else ""
-    hook = f"{stage}{place}: راجع التفاصيل قبل الترشيح." if active else (
-        f"{stage}{place}: اطّلع على تفاصيل هذا الإعلان."
-    )
+    if active:
+        hook = f"{stage_emoji} {stage}{place}: راجع المعطيات الأساسية قبل الترشيح."
+    else:
+        hook = f"{stage_emoji} {stage}{place}: اطّلع على تفاصيل الإعلان المنشور."
 
     summary = title
     if company and company not in summary:
-        summary = f"{summary}. الجهة المعلنة: {company}" if summary else f"الجهة المعلنة: {company}"
+        summary = (
+            f"{summary}. الجهة المعلنة: {company}"
+            if summary
+            else f"الجهة المعلنة: {company}"
+        )
     if not summary:
-        summary = "تعرّف على تفاصيل هذا الإعلان كما وردت في المقال المنشور."
-    lines = [hook, summary.rstrip("。.!؟") + "."]
+        summary = "تفاصيل موثقة من الإعلان المنشور متاحة للاطلاع."
+    lines = [hook, f"💼 {summary.rstrip('。.!؟')}."]
 
-    facts = []
     if active and positions and positions not in {"0", "0.0"}:
-        facts.append(f"عدد المناصب {positions}")
-    if facts:
-        lines.append("، ".join(facts) + ".")
+        lines.append(f"📋 عدد المناصب المؤكد: {positions}.")
+    if location and location not in hook:
+        lines.append(f"📍 المكان: {location}.")
     if deadline and active and deadline not in summary:
-        lines.append(f"آخر أجل للترشيح: {deadline}.")
+        lines.append(f"⏳ آخر أجل للترشيح: {deadline}.")
 
+    cta_by_type = {
+        "vacancy": "👇 التفاصيل وشروط وطريقة التقديم في أول تعليق.",
+        "competition": "👇 شروط المباراة والوثائق وطريقة الترشيح في أول تعليق.",
+        "candidate_list": "👇 لائحة المترشحين ومعلومات الاختبار في أول تعليق.",
+        "results": "👇 النتائج والتفاصيل المرتبطة بها في أول تعليق.",
+        "final_results": "👇 النتائج النهائية والتفاصيل في أول تعليق.",
+        "update": "👇 تفاصيل المستجد وما تغيّر في أول تعليق.",
+    }
     lines.append(
-        "راجع تفاصيل الإعلان قبل تقديم ترشيحك؛ رابط المقال في أول تعليق 👇."
-        if active else
-        "للاطلاع على تفاصيل هذا الإعلان، تجد رابط المقال في أول تعليق 👇."
+        cta_by_type.get(
+            notice_type,
+            "👇 التفاصيل الكاملة لهذا الإعلان في أول تعليق.",
+        )
     )
+    lines.append(f"#CyberoPlus {contextual_hashtag}")
 
-    text = "\n\n".join(line for line in lines if line.strip())
+    text = "\\n\\n".join(line for line in lines if line.strip())
     return validate_jobs_facebook_post(text, article=article)
 
 

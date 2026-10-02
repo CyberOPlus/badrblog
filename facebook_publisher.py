@@ -43,7 +43,7 @@ from job_core import (
     list_active_job_campaign_records,
     record_job_social_state,
 )
-from social_ai_processor import generate_jobs_facebook_post
+from social_ai_processor import generate_jobs_facebook_post, jobs_contextual_hashtag
 JOBS_CAPTION_STYLE = "jobs"
 
 FORBIDDEN_CAPTION_PHRASES = (
@@ -1124,31 +1124,29 @@ def _split_caption_parts(caption):
     return post_text.strip(), hashtags.strip()
 
 
-def _format_jobs_facebook_caption(raw_caption):
-    """Format approved Jobs social copy without rewriting its factual content."""
+def _format_jobs_facebook_caption(raw_caption, article=None):
+    """Format approved Jobs copy and enforce the two-hashtag brand policy."""
     text = re.sub(
-        r"[\u200e\u200f\u202a-\u202e\u2066-\u2069]",
+        r"[\\u200e\\u200f\\u202a-\\u202e\\u2066-\\u2069]",
         "",
         str(raw_caption or ""),
     ).strip()
     if not text:
         return ""
 
-    # Cached copy remains reusable on delivery retries. Remove its legacy
-    # hashtags without regenerating the caption or altering verified facts.
-    text = re.sub(r"#[\w\u0600-\u06FF_]+", " ", text, flags=re.UNICODE)
+    text = re.sub(r"#[\\w\\u0600-\\u06FF_]+", " ", text, flags=re.UNICODE)
 
     paragraphs = []
     for raw_line in text.splitlines():
-        raw_line = re.sub(r"\s+", " ", raw_line).strip()
+        raw_line = re.sub(r"\\s+", " ", raw_line).strip()
         if not raw_line:
             continue
-
-        # Preserve coherent paragraphs and the notice-specific CTA. Rewriting
-        # every CTA as application instructions is wrong for lists/results.
         paragraphs.append(raw_line)
 
-    return "\n\n".join(paragraphs).strip()
+    notice_type = str((article or {}).get("job_notice_type") or "vacancy").strip().lower()
+    hashtag_line = f"#CyberoPlus {jobs_contextual_hashtag(notice_type)}"
+    paragraphs.append(hashtag_line)
+    return "\\n\\n".join(paragraphs).strip()
 
 
 def _jobs_facebook_blueprint(article, blogger_url):
@@ -1157,7 +1155,11 @@ def _jobs_facebook_blueprint(article, blogger_url):
     source = str(article.get("facebook_post_source") or "").strip().lower()
 
     if source not in {"social_ai", "deterministic"} or not raw_caption:
-        social_result = generate_jobs_facebook_post(article)
+        memory = _load_style_memory()
+        social_article = dict(article)
+        social_article["_facebook_recent_hooks"] = list(memory.get("recent_hooks", []))[-12:]
+        social_article["_facebook_recent_ctas"] = list(memory.get("recent_ctas", []))[-8:]
+        social_result = generate_jobs_facebook_post(social_article)
         raw_caption = str(social_result.get("facebook_post_text") or "").strip()
         if not raw_caption:
             raise RuntimeError("Social copy generator returned an empty Jobs Facebook post.")
@@ -1178,7 +1180,7 @@ def _jobs_facebook_blueprint(article, blogger_url):
 
     # AI owns the wording; the publisher only formats it into short readable
     # paragraphs before forcing RTL display.
-    raw_caption = _format_jobs_facebook_caption(raw_caption)
+    raw_caption = _format_jobs_facebook_caption(raw_caption, article=article)
 
     plain_lines = raw_caption.splitlines()
     nonempty_lines = [line.strip() for line in plain_lines if line.strip()]
@@ -1221,6 +1223,7 @@ def _prepare_facebook_post(article, articles, blogger_url):
         title=_short_title(article),
         memory=memory,
         allow_simple=True,
+        article=article,
     )
     return blueprint
 
@@ -1285,19 +1288,7 @@ def _publish_facebook_post(article, blueprint):
     )
 
 
-def _post_first_comment(facebook_post_id, blogger_post_url):
-    comment = _first_comment_text(blogger_post_url)
-    data = _post_to_graph(
-        f"{facebook_post_id}/comments",
-        {
-            "access_token": FACEBOOK_PAGE_ACCESS_TOKEN,
-            "message": comment,
-        },
-    )
-    return data.get("id") or ""
-
-
-def _first_comment_text(blogger_post_url):
+def _legacy_first_comment_text(blogger_post_url):
     lines = [
         "🔗 رابط التفاصيل:",
         blogger_post_url,
@@ -1308,60 +1299,132 @@ def _first_comment_text(blogger_post_url):
             "📲 تابع قناة واتساب للعروض الجديدة:",
             WHATSAPP_CHANNEL_URL,
         ])
-    return "\n".join(lines)
+    return "\\n".join(lines)
 
 
-def _validate_facebook_caption(caption, blogger_url="", style="", hook="", structure_id="", title="", memory=None, allow_simple=False):
+def _first_comment_text(blogger_post_url, article=None):
+    notice_type = str((article or {}).get("job_notice_type") or "").strip().lower()
+    lead = {
+        "vacancy": "🔗 التفاصيل وشروط وطريقة التقديم:",
+        "competition": "🔗 شروط المباراة والوثائق وطريقة الترشيح:",
+        "candidate_list": "🔗 لائحة المترشحين ومعلومات الاختبار:",
+        "results": "🔗 النتائج والتفاصيل:",
+        "final_results": "🔗 النتائج النهائية والتفاصيل:",
+        "update": "🔗 تفاصيل المستجد:",
+    }.get(notice_type, "🔗 رابط التفاصيل:")
+
+    lines = [lead, blogger_post_url]
+    if WHATSAPP_CHANNEL_URL:
+        lines.extend([
+            "",
+            "📲 تابع قناة واتساب لمستجدات الوظائف والمباريات:",
+            WHATSAPP_CHANNEL_URL,
+        ])
+    return "\\n".join(lines)
+
+
+def _post_first_comment(facebook_post_id, blogger_post_url, article=None):
+    comment = _first_comment_text(blogger_post_url, article=article)
+    data = _post_to_graph(
+        f"{facebook_post_id}/comments",
+        {
+            "access_token": FACEBOOK_PAGE_ACCESS_TOKEN,
+            "message": comment,
+        },
+    )
+    return data.get("id") or ""
+
+
+def _validate_facebook_caption(
+    caption,
+    blogger_url="",
+    style="",
+    hook="",
+    structure_id="",
+    title="",
+    memory=None,
+    allow_simple=False,
+    article=None,
+):
     if not str(caption or "").strip():
         raise RuntimeError("Facebook caption is empty.")
 
     raw_caption = str(caption)
     plain_caption = re.sub(
-        r"[\u200e\u200f\u202a-\u202e\u2066-\u2069]",
+        r"[\\u200e\\u200f\\u202a-\\u202e\\u2066-\\u2069]",
         "",
         raw_caption,
     )
 
     visible_lines = [line for line in raw_caption.splitlines() if line.strip()]
-    if any(not line.startswith("\u200f") for line in visible_lines):
-        raise RuntimeError("Jobs Facebook caption is not forced to RTL on every visible line.")
+    if any(not line.startswith("\\u200f") for line in visible_lines):
+        raise RuntimeError(
+            "Jobs Facebook caption is not forced to RTL on every visible line."
+        )
 
-    if "```" in plain_caption or re.search(r'"\s*(title|description|html_content|facebook_post_text)\s*"\s*:', plain_caption):
+    if (chr(96) * 3) in plain_caption or re.search(
+        r'"\\s*(title|description|html_content|facebook_post_text)\\s*"\\s*:',
+        plain_caption,
+    ):
         raise RuntimeError("Facebook caption contains visible JSON/markdown.")
-    if re.search(r"https?://\S+", plain_caption):
+    if re.search(r"https?://\\S+", plain_caption):
         raise RuntimeError("Facebook caption contains a URL.")
-    if re.search(r"^\s*[-*]\s+", plain_caption, flags=re.MULTILINE):
+    if re.search(r"^\\s*[-*]\\s+", plain_caption, flags=re.MULTILINE):
         raise RuntimeError("Facebook caption contains markdown bullets.")
 
-    if "#" in plain_caption:
-        raise RuntimeError("Jobs Facebook caption must not contain hashtags.")
+    notice_type = str((article or {}).get("job_notice_type") or "vacancy").strip().lower()
+    expected_contextual = jobs_contextual_hashtag(notice_type)
+    hashtags = re.findall(
+        r"#[\\w\\u0600-\\u06FF_]+",
+        plain_caption,
+        flags=re.UNICODE,
+    )
+    if hashtags != ["#CyberoPlus", expected_contextual]:
+        raise RuntimeError(
+            "Jobs Facebook caption must contain exactly the brand and notice hashtags."
+        )
 
-    if blogger_url and "أول تعليق" not in plain_caption:
-        raise RuntimeError("Facebook caption must say the link is in the first comment.")
+    if blogger_url and plain_caption.count("أول تعليق") != 1:
+        raise RuntimeError(
+            "Facebook caption must mention the first comment exactly once."
+        )
     if not hook or _normalize_memory_text(hook) == _normalize_memory_text(title):
         raise RuntimeError("Facebook caption hook is missing or identical to the title.")
 
-    first_line = next((line.strip() for line in plain_caption.splitlines() if line.strip()), "")
+    plain_lines = [line.strip() for line in plain_caption.splitlines() if line.strip()]
+    first_line = plain_lines[0] if plain_lines else ""
     if len(first_line) < 18 or first_line.startswith("#"):
         raise RuntimeError("Facebook caption hook is too weak.")
+    if not plain_lines or plain_lines[-1] != f"#CyberoPlus {expected_contextual}":
+        raise RuntimeError("Jobs Facebook hashtags must be the final line.")
+    if len(plain_lines) < 2 or "أول تعليق" not in plain_lines[-2]:
+        raise RuntimeError(
+            "Facebook first-comment CTA must be immediately before hashtags."
+        )
 
-    arabic_chars = len(re.findall(r"[\u0600-\u06FF]", plain_caption))
+    body_without_hashtags = re.sub(
+        r"#[\\w\\u0600-\\u06FF_]+",
+        "",
+        plain_caption,
+        flags=re.UNICODE,
+    )
+    arabic_chars = len(re.findall(r"[\\u0600-\\u06FF]", body_without_hashtags))
     if arabic_chars < 40:
         raise RuntimeError("Facebook caption is not Arabic enough.")
 
-    latin_chars = len(re.findall(r"[A-Za-zÀ-ÖØ-öø-ÿ]", plain_caption))
+    latin_chars = len(re.findall(r"[A-Za-zÀ-ÖØ-öø-ÿ]", body_without_hashtags))
     if latin_chars > max(80, int(arabic_chars * 0.60)):
-        raise RuntimeError("Jobs Facebook caption must remain Arabic-first even with foreign terms.")
+        raise RuntimeError(
+            "Jobs Facebook caption must remain Arabic-first even with foreign terms."
+        )
 
-    # New social copy already passes the generator's 120-character minimum.
-    # Removing legacy hashtags can shorten a valid cached caption on a retry.
     minimum_length = 80 if allow_simple else 120
     if len(plain_caption) > 1200 or len(plain_caption) < minimum_length:
         raise RuntimeError("Facebook caption length is outside the expected range.")
     fingerprint = _caption_fingerprint(plain_caption)
     if fingerprint in set((memory or {}).get("recent_fingerprints", [])):
         raise RuntimeError("Facebook caption is too similar to a recent post.")
-    if not allow_simple and len([line for line in plain_caption.splitlines() if line.strip()]) < 5:
+    if not allow_simple and len(plain_lines) < 5:
         raise RuntimeError("Facebook caption is too thin.")
 
 def _facebook_failure_delay_seconds(error, failure_count):
@@ -1734,7 +1797,7 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         save_article_queue(queue)
 
         try:
-            comment_id = _post_first_comment(facebook_post_id, blogger_url)
+            comment_id = _post_first_comment(facebook_post_id, blogger_url, article=article)
             if not comment_id:
                 raise RuntimeError("Facebook first comment did not return a comment id.")
             article["facebook_comment_id"] = comment_id
@@ -2051,7 +2114,10 @@ def reconcile_uncertain_facebook_comment(article, now=None):
         }
 
     now = now or datetime.now(timezone.utc)
-    target = _facebook_caption_key(_first_comment_text(blogger_url))
+    targets = {
+        _facebook_caption_key(_first_comment_text(blogger_url, article=article)),
+        _facebook_caption_key(_legacy_first_comment_text(blogger_url)),
+    }
     data = _get_from_graph(
         f"{post_id}/comments",
         {
@@ -2064,7 +2130,7 @@ def reconcile_uncertain_facebook_comment(article, now=None):
         row
         for row in (data.get("data") or [])
         if isinstance(row, dict)
-        and _facebook_caption_key(row.get("message")) == target
+        and _facebook_caption_key(row.get("message")) in targets
         and str(row.get("id") or "").strip()
     ]
 
@@ -2166,7 +2232,7 @@ def retry_facebook_first_comment(target_article_id):
         return _failure_result(queue, article, "Article has no real Blogger URL for comment retry.")
 
     try:
-        comment_id = _post_first_comment(article["facebook_post_id"], blogger_url)
+        comment_id = _post_first_comment(article["facebook_post_id"], blogger_url, article=article)
         article["facebook_comment_id"] = comment_id
         article["facebook_status"] = "posted"
         article.pop("facebook_error", None)
@@ -2447,7 +2513,7 @@ def preview_next_facebook_post(target_article_id=None, include_drafts=False):
         "hook": blueprint["hook"],
         "post_text": post_text,
         "hashtags": hashtags,
-        "first_comment_text": _first_comment_text(blogger_url),
+        "first_comment_text": _first_comment_text(blogger_url, article=article),
         "link_mode": FACEBOOK_LINK_MODE_ENFORCED,
         "image_url": _main_image_url(article),
         "visual_title": (_job_visual_title(article)),
