@@ -45,7 +45,7 @@ def _strip_bidi(text):
     return re.sub(r"[\u200e\u200f\u202a-\u202e\u2066-\u2069]", "", str(text or "")).strip()
 
 
-def _social_prompt(article, previous_error=""):
+def _social_prompt(article, previous_error="", rejected_copy=""):
     package = article.get("ai_input_package") or {}
     title = str(article.get("seo_title") or article.get("title") or package.get("job_title") or "").strip()
     description = str(article.get("seo_description") or "").strip()
@@ -119,12 +119,33 @@ NO-URL REPAIR:
 - Before returning, scan facebook_post_text for http, https, www, .com, .ma,
   or another visible web address and remove/rewrite that part.
 """
+        rejected_section = ""
+        rejected_excerpt = _strip_bidi(rejected_copy)
+        if rejected_excerpt:
+            rejected_excerpt = re.sub(
+                r"https?://\\S+",
+                " [رابط محذوف] ",
+                rejected_excerpt,
+                flags=re.IGNORECASE,
+            )
+            rejected_excerpt = re.sub(
+                r"\\b(?:www\\.)?[A-Za-z0-9.-]+\\.(?:ma|com|org|net|gov|edu)(?:/\\S*)?",
+                " [رابط محذوف] ",
+                rejected_excerpt,
+                flags=re.IGNORECASE,
+            )
+            rejected_excerpt = re.sub(r"\\s+", " ", rejected_excerpt).strip()[:1400]
+            rejected_section = f"""
+REJECTED COPY TO REPAIR
+{rejected_excerpt}
+"""
         repair = f"""
 The previous social copy failed this rule:
 {previous_error}
 Repair that exact issue without changing verified facts.
 {arabic_only_repair}
 {url_repair}
+{rejected_section}
 """
 
     return f"""
@@ -442,7 +463,8 @@ def generate_jobs_facebook_post(article):
                 context=context,
             )
             data = _parse_complete_ai_json(raw_text, SOCIAL_REQUIRED_FIELDS, "Facebook social AI response")
-            facebook_post_text = validate_jobs_facebook_post(data.get("facebook_post_text"), article=article)
+            rejected_copy = str(data.get("facebook_post_text") or "").strip()
+            facebook_post_text = validate_jobs_facebook_post(rejected_copy, article=article)
             log_event(
                 "facebook_social_ai_success",
                 article_id=article.get("id"),
@@ -487,7 +509,11 @@ def generate_jobs_facebook_post(article):
                         provider=failed_provider,
                         next_attempt=attempt + 1,
                     )
-                prompt = _social_prompt(article, previous_error=str(error))
+                prompt = _social_prompt(
+                    article,
+                    previous_error=str(error),
+                    rejected_copy=locals().get("rejected_copy", ""),
+                )
 
     raise RuntimeError(
         f"Facebook social AI failed after {SOCIAL_MAX_ATTEMPTS} attempts: {last_error}"
