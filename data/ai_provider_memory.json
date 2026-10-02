@@ -37,13 +37,13 @@
     },
     "2e0f27c140f44c4d899d": {
       "category": "format",
-      "count": 1,
+      "count": 2,
       "first_seen_at": "2026-10-02T19:45:36",
-      "last_seen_at": "2026-10-02T19:45:36",
-      "last_seen_epoch": 1790970336.987878,
+      "last_seen_at": "2026-10-02T19:48:43",
+      "last_seen_epoch": 1790970523.6380985,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "AI article response is missing required field(s): title, description, slug, html_content, notice_type",
-      "retry_until": 1790971580.6448574,
+      "retry_until": 1790972323.6380985,
       "scope": "global"
     },
     "2eb46af253b68063fbef": {
@@ -279,13 +279,13 @@
     },
     "cf0230a1268583706f41": {
       "category": "format",
-      "count": 1,
+      "count": 2,
       "first_seen_at": "2026-10-02T19:45:36",
-      "last_seen_at": "2026-10-02T19:45:36",
-      "last_seen_epoch": 1790970336.9863136,
+      "last_seen_at": "2026-10-02T19:48:43",
+      "last_seen_epoch": 1790970523.635023,
       "provider": "cloudflare",
       "reason": "AI article response is missing required field(s): title, description, slug, html_content, notice_type",
-      "retry_until": 1790971236.9863136,
+      "retry_until": 1790972323.635023,
       "scope": "provider"
     },
     "d15c8a5d2460c1216a2b": {
@@ -389,8 +389,30 @@
     }
   },
   "fastest_success_model": "groq:openai/gpt-oss-20b",
-  "global_circuit": {},
+  "global_circuit": {
+    "category": "format",
+    "fingerprint": "2e0f27c140f44c4d899d",
+    "opened_at": "2026-10-02T19:48:43",
+    "providers": [
+      "cloudflare",
+      "gemini",
+      "groq",
+      "mistral",
+      "openrouter"
+    ],
+    "reason": "AI article response is missing required field(s): title, description, slug, html_content, notice_type",
+    "until": 1790971123.6363761
+  },
   "provider_circuits": {
+    "cloudflare": {
+      "category": "format",
+      "fingerprint": "cf0230a1268583706f41",
+      "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "opened_at": "2026-10-02T19:48:43",
+      "provider": "cloudflare",
+      "reason": "AI article response is missing required field(s): title, description, slug, html_content, notice_type",
+      "until": 1790971123.6363761
+    },
     "gemini": {
       "category": "quota",
       "fingerprint": "9b8ec695d1ca9e549f46",
@@ -444,13 +466,13 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 13.7374,
+      "avg_time": 19.4073,
       "key_id": "be6dab2cd8",
-      "last_success_at": "2026-10-02T19:46:53",
+      "last_success_at": "2026-10-02T19:48:43",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 7,
-      "total_success_time": 96.1618
+      "successes": 8,
+      "total_success_time": 155.2583
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 20.1587,
