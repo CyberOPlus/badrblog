@@ -411,23 +411,6 @@ def generate_jobs_facebook_post(article):
             if attempt < SOCIAL_MAX_ATTEMPTS:
                 prompt = _social_prompt(article, previous_error=str(error))
 
-    try:
-        facebook_post_text = _deterministic_jobs_facebook_post(article)
-    except Exception as fallback_error:
-        raise RuntimeError(
-            f"Facebook social AI failed: {last_error}; "
-            f"deterministic fallback failed: {fallback_error}"
-        ) from fallback_error
-
-    log_event(
-        "facebook_social_ai_fallback_used",
-        article_id=article.get("id"),
-        attempts=SOCIAL_MAX_ATTEMPTS,
-        reason=last_error.__class__.__name__ if last_error else "",
-    )
-    return {
-        "facebook_post_text": facebook_post_text,
-        "provider": "deterministic:verified-published-article",
-        "attempts": SOCIAL_MAX_ATTEMPTS,
-        "fallback": True,
-    }
+    raise RuntimeError(
+        f"Facebook social AI failed after {SOCIAL_MAX_ATTEMPTS} attempts: {last_error}"
+    ) from last_error
