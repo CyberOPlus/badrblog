@@ -90,33 +90,33 @@ def _social_prompt(article, previous_error="", rejected_copy=""):
         previous_error_key = str(previous_error or "").casefold()
         rejected_excerpt = _strip_bidi(rejected_copy)
         rejected_had_url = bool(
-            re.search(r"https?://\\S+", rejected_excerpt, flags=re.IGNORECASE)
+            re.search(r"https?://\S+", rejected_excerpt, flags=re.IGNORECASE)
             or re.search(
-                r"\\b(?:www\\.)?[A-Za-z0-9.-]+\\.(?:ma|com|org|net|gov|edu)(?:/\\S*)?",
+                r"\b(?:www\.)?[A-Za-z0-9.-]+\.(?:ma|com|org|net|gov|edu)(?:/\S*)?",
                 rejected_excerpt,
                 flags=re.IGNORECASE,
             )
         )
         if rejected_excerpt:
             rejected_excerpt = re.sub(
-                r"https?://\\S+",
+                r"https?://\S+",
                 " [رابط محذوف] ",
                 rejected_excerpt,
                 flags=re.IGNORECASE,
             )
             rejected_excerpt = re.sub(
-                r"\\b(?:www\\.)?[A-Za-z0-9.-]+\\.(?:ma|com|org|net|gov|edu)(?:/\\S*)?",
+                r"\b(?:www\.)?[A-Za-z0-9.-]+\.(?:ma|com|org|net|gov|edu)(?:/\S*)?",
                 " [رابط محذوف] ",
                 rejected_excerpt,
                 flags=re.IGNORECASE,
             )
-            rejected_excerpt = re.sub(r"\\s+", " ", rejected_excerpt).strip()[:1400]
+            rejected_excerpt = re.sub(r"\s+", " ", rejected_excerpt).strip()[:1400]
 
         # Validation stops at the first failure. Inspect the sanitized rejected
         # draft too so one repair prompt can fix all visible defects (for example
         # a URL plus a Latin employer name) instead of wasting another attempt.
         rejected_without_brand = re.sub(
-            r"#CyberoPlus\\b",
+            r"#CyberoPlus\b",
             "",
             rejected_excerpt,
             flags=re.IGNORECASE,
