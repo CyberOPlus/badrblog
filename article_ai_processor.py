@@ -2675,7 +2675,35 @@ def _generate_with_mistral(prompt, api_key=None, model_name=None, timeout_second
     )
 
 
-def _generate_with_cloudflare(prompt, api_key=None, model_name=None, timeout_seconds=None):
+def _cloudflare_response_format(context=None):
+    """Return the strict JSON contract for the current Jobs AI surface."""
+    stage = str(getattr(context, "current_stage", "") or "").strip().lower()
+    if stage == "facebook_generation":
+        properties = {"facebook_post_text": {"type": "string"}}
+        required = ["facebook_post_text"]
+    elif stage == "article_generation":
+        properties = {
+            "title": {"type": "string", "minLength": 28, "maxLength": 150},
+            "description": {"type": "string", "minLength": 80, "maxLength": 180},
+            "slug": {"type": "string", "minLength": 3},
+            "html_content": {"type": "string", "minLength": 120},
+            "notice_type": {"type": "string", "enum": sorted(ALLOWED_JOB_NOTICE_TYPES)},
+        }
+        required = list(JOBS_REQUIRED_ARTICLE_FIELDS)
+    else:
+        return {"type": "json_object"}
+    return {
+        "type": "json_schema",
+        "json_schema": {
+            "type": "object",
+            "properties": properties,
+            "required": required,
+            "additionalProperties": False,
+        },
+    }
+
+
+def _generate_with_cloudflare(prompt, api_key=None, model_name=None, timeout_seconds=None, context=None):
     api_key = api_key or CLOUDFLARE_API_TOKEN
     model_name = model_name or CLOUDFLARE_MODEL
     if not api_key or not CLOUDFLARE_ACCOUNT_ID:
@@ -2697,49 +2725,8 @@ def _generate_with_cloudflare(prompt, api_key=None, model_name=None, timeout_sec
             "prompt": prompt,
             "max_tokens": _effective_output_token_limit(CLOUDFLARE_MAX_TOKENS),
             "temperature": 0.20,
-            # Jobs article generation is a strict JSON contract. Workers AI
-            # supports JSON Schema mode, so require the exact five fields the
-            # downstream Jobs quality gate consumes instead of accepting any
-            # arbitrary JSON object.
-            "response_format": {
-                "type": "json_schema",
-                "json_schema": {
-                    "type": "object",
-                    "properties": {
-                        "title": {
-                            "type": "string",
-                            "minLength": 28,
-                            "maxLength": 150,
-                        },
-                        "description": {
-                            "type": "string",
-                            "minLength": 80,
-                            "maxLength": 180,
-                        },
-                        "slug": {"type": "string", "minLength": 3},
-                        "html_content": {"type": "string", "minLength": 120},
-                        "notice_type": {
-                            "type": "string",
-                            "enum": [
-                                "vacancy",
-                                "competition",
-                                "candidate_list",
-                                "results",
-                                "final_results",
-                                "update",
-                            ],
-                        },
-                    },
-                    "required": [
-                        "title",
-                        "description",
-                        "slug",
-                        "html_content",
-                        "notice_type",
-                    ],
-                    "additionalProperties": False,
-                },
-            },
+            # Constrain output to the exact contract needed by this stage.
+            "response_format": _cloudflare_response_format(context),
         },
     )
     if response.status_code >= 400:
@@ -3035,6 +3022,7 @@ def _generate_with_candidate(candidate, prompt, context=None):
             candidate.get("api_key"),
             candidate.get("model"),
             timeout_seconds=timeout_seconds,
+            context=context,
         )
     elif provider == "mistral":
         raw_text, provider_used = _generate_with_mistral(
@@ -3298,9 +3286,6 @@ def _is_structural_ai_response_error(error):
             "returned incomplete json",
             "returned a non-object json payload",
             "is missing required field(s)",
-            "ended before a tag was closed",
-            "ended before an html entity was completed",
-            "has unbalanced <",
         )
     )
 
