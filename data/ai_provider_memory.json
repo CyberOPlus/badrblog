@@ -26,13 +26,13 @@
     },
     "1a9c344d00234801e923": {
       "category": "format",
-      "count": 7,
+      "count": 8,
       "first_seen_at": "2026-10-01T20:47:15",
-      "last_seen_at": "2026-10-02T17:41:13",
-      "last_seen_epoch": 1790962873.712636,
+      "last_seen_at": "2026-10-02T17:44:17",
+      "last_seen_epoch": 1790963057.0137923,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "AI article response returned incomplete JSON.",
-      "retry_until": 1790966473.712636,
+      "retry_until": 1790966657.0137923,
       "scope": "global"
     },
     "21d4f95aef0b3e555bda": {
@@ -48,13 +48,13 @@
     },
     "2eb46af253b68063fbef": {
       "category": "format",
-      "count": 2,
+      "count": 3,
       "first_seen_at": "2026-10-01T20:47:15",
-      "last_seen_at": "2026-10-01T23:43:31",
-      "last_seen_epoch": 1790898211.6779408,
+      "last_seen_at": "2026-10-02T17:44:17",
+      "last_seen_epoch": 1790963057.01091,
       "provider": "openrouter",
       "reason": "AI article response returned incomplete JSON.",
-      "retry_until": 1790900011.6779408,
+      "retry_until": 1790966657.01091,
       "scope": "provider"
     },
     "336d24826c73e91571ce": {
@@ -370,7 +370,7 @@
   "global_circuit": {
     "category": "format",
     "fingerprint": "1a9c344d00234801e923",
-    "opened_at": "2026-10-02T17:41:13",
+    "opened_at": "2026-10-02T17:44:17",
     "providers": [
       "cloudflare",
       "gemini",
@@ -379,7 +379,7 @@
       "openrouter"
     ],
     "reason": "AI article response returned incomplete JSON.",
-    "until": 1790962993.1182873
+    "until": 1790966473.7098525
   },
   "provider_circuits": {
     "cloudflare": {
@@ -416,12 +416,13 @@
       "until": 1790973584.2657008
     },
     "openrouter": {
-      "category": "empty",
-      "fingerprint": "6a52ff2ce198a0896fe8",
-      "opened_at": "2026-10-02T16:43:13",
+      "category": "format",
+      "fingerprint": "2eb46af253b68063fbef",
+      "model": "cohere/north-mini-code:free",
+      "opened_at": "2026-10-02T17:44:17",
       "provider": "openrouter",
-      "reason": "OpenRouter returned an empty response.",
-      "until": 1790962993.1182873
+      "reason": "AI article response returned incomplete JSON.",
+      "until": 1790966657.01091
     }
   },
   "stats": {
@@ -482,15 +483,15 @@
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 58.5438,
+      "avg_time": 52.8746,
       "failures": 14,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-02T16:43:13",
-      "last_success_at": "2026-10-02T15:40:58",
+      "last_success_at": "2026-10-02T17:44:17",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 6,
-      "total_success_time": 351.2627
+      "successes": 7,
+      "total_success_time": 370.1221
     }
   }
 }
