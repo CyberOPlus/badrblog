@@ -1066,8 +1066,9 @@ def _split_caption_parts(caption):
     return post_text.strip(), hashtags.strip()
 
 
+
 def _format_jobs_facebook_caption(raw_caption, article=None):
-    """Format approved Jobs copy and enforce the two-hashtag brand policy."""
+    """Format Jobs copy for clean Arabic RTL reading and deterministic emojis."""
     text = re.sub(
         r"[\u200e\u200f\u202a-\u202e\u2066-\u2069]",
         "",
@@ -1077,19 +1078,66 @@ def _format_jobs_facebook_caption(raw_caption, article=None):
         return ""
 
     text = re.sub(r"#[\w\u0600-\u06FF_]+", " ", text, flags=re.UNICODE)
+    emoji_re = re.compile(
+        r"[\U0001F300-\U0001FAFF\u2600-\u27BF](?:\ufe0f)?",
+        flags=re.UNICODE,
+    )
+
+    raw_paragraphs = []
+    for raw_line in text.splitlines():
+        line = re.sub(r"\s+", " ", raw_line).strip()
+        if not line:
+            continue
+        line = emoji_re.sub("", line)
+        line = re.sub(r"\s+", " ", line).strip()
+        if line:
+            raw_paragraphs.append(line)
+
+    def paragraph_emoji(line, index):
+        folded = line.casefold()
+        if "أول تعليق" in line:
+            return "👇"
+        if any(token in folded for token in ("النتائج النهائية", "النتيجة النهائية")):
+            return "✅"
+        if any(token in folded for token in ("النتائج", "اللائحة", "اللوائح", "المدعوين")):
+            return "📋"
+        if any(token in folded for token in ("تحديث", "مستجد", "تمديد", "تغيير")):
+            return "🔄"
+        if any(token in line for token in ("آخر أجل", "آخر موعد", "ينتهي", "الأجل")):
+            return "⏳"
+        if any(token in line for token in ("شهادة", "دبلوم", "الماستر", "الإجازة", "باك")):
+            return "🎓"
+        if any(token in line for token in ("الموقع", "المدينة", "بالرباط", "بالدار البيضاء", "بطنجة", "بمراكش", "بأكادير")):
+            return "📍"
+        if index == 0:
+            return "📢"
+        if index == 1:
+            return "💼"
+        return ""
 
     paragraphs = []
-    for raw_line in text.splitlines():
-        raw_line = re.sub(r"\s+", " ", raw_line).strip()
-        if not raw_line:
-            continue
-        paragraphs.append(raw_line)
+    emoji_count = 0
+    for index, line in enumerate(raw_paragraphs):
+        emoji = paragraph_emoji(line, index)
+        if emoji and emoji_count < 6:
+            paragraphs.append(f"{emoji} {line}")
+            emoji_count += 1
+        else:
+            paragraphs.append(line)
+
+    # Guarantee at least two functional emojis without scattering them inside
+    # Arabic sentences.
+    if paragraphs and emoji_count < 2:
+        if not paragraphs[0].startswith("📢 "):
+            paragraphs[0] = "📢 " + paragraphs[0]
+            emoji_count += 1
+        if len(paragraphs) > 1 and emoji_count < 2:
+            paragraphs[1] = "💼 " + paragraphs[1]
 
     notice_type = str((article or {}).get("job_notice_type") or "vacancy").strip().lower()
     hashtag_line = f"#CyberoPlus {jobs_contextual_hashtag(notice_type)}"
     paragraphs.append(hashtag_line)
     return "\n\n".join(paragraphs).strip()
-
 
 def _jobs_facebook_blueprint(article, blogger_url):
     """Generate/use independent social AI copy after Blogger succeeds, then force RTL display."""
