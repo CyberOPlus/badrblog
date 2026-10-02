@@ -146,11 +146,9 @@ JOBS_AI_QUALITY_REPAIRS = max(0, min(2, _env_int("JOBS_AI_QUALITY_REPAIRS", 1)))
 JOBS_AI_TIMEOUT_RETRIES = max(0, min(1, _env_int("JOBS_AI_TIMEOUT_RETRIES", 0)))
 AI_TIMEOUT_SECONDS = _env_int("AI_TIMEOUT_SECONDS", 180)
 AI_TOTAL_TIME_BUDGET_SECONDS = _env_int("AI_TOTAL_TIME_BUDGET_SECONDS", AI_TIMEOUT_SECONDS)
-# Jobs articles are intentionally concise, but 2048 completion tokens can cut
-# structured Arabic JSON mid-object. Keep a 3K ceiling: enough to finish the
-# verified article contract without reserving the 4K-8K ranges that can make
-# small/free providers reject an otherwise modest evidence request (413).
-JOBS_AI_MAX_OUTPUT_TOKENS = max(768, min(3072, _env_int("JOBS_AI_MAX_OUTPUT_TOKENS", 3072)))
+# Jobs articles remain concise by prompt, but structured Arabic JSON can need
+# headroom to close the final HTML/JSON cleanly. 4096 is a ceiling, not a target.
+JOBS_AI_MAX_OUTPUT_TOKENS = max(768, min(4096, _env_int("JOBS_AI_MAX_OUTPUT_TOKENS", 4096)))
 GEMINI_TIMEOUT_SECONDS = _env_int("GEMINI_TIMEOUT_SECONDS", 45)
 AI_MODEL_TIMEOUT_SECONDS = _env_int("AI_MODEL_TIMEOUT_SECONDS", 40)
 SOURCE_HEALTH_ENABLED = _env_bool_any(["SOURCE_HEALTH_ENABLED"], True)
