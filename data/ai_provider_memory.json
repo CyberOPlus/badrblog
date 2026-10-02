@@ -299,6 +299,17 @@
       "retry_until": 1790881617.0002236,
       "scope": "provider"
     },
+    "d2584aa20cf296300160": {
+      "category": "format",
+      "count": 1,
+      "first_seen_at": "2026-10-02T19:46:53",
+      "last_seen_at": "2026-10-02T19:46:53",
+      "last_seen_epoch": 1790970413.537032,
+      "provider": "cloudflare",
+      "reason": "Meta description length must be 80-180 characters; got 53",
+      "retry_until": 1790971313.537032,
+      "scope": "provider"
+    },
     "d5fb2927c9b6d54af2f8": {
       "category": "quality",
       "count": 1,
@@ -309,6 +320,17 @@
       "reason": "AI article response is missing required field(s): description, slug, html_content, notice_type",
       "retry_until": 1790879392.5941353,
       "scope": "quality"
+    },
+    "d8c2561b1082769e0027": {
+      "category": "format",
+      "count": 1,
+      "first_seen_at": "2026-10-02T19:46:53",
+      "last_seen_at": "2026-10-02T19:46:53",
+      "last_seen_epoch": 1790970413.539203,
+      "provider": "cloudflare,gemini,groq,mistral,openrouter",
+      "reason": "Meta description length must be 80-180 characters; got 53",
+      "retry_until": 1790971580.6448574,
+      "scope": "global"
     },
     "d967456434c9c7b082a8": {
       "category": "timeout",
@@ -422,13 +444,13 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 12.566,
+      "avg_time": 13.7374,
       "key_id": "be6dab2cd8",
-      "last_success_at": "2026-10-02T19:45:36",
+      "last_success_at": "2026-10-02T19:46:53",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 6,
-      "total_success_time": 75.3959
+      "successes": 7,
+      "total_success_time": 96.1618
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 20.1587,
