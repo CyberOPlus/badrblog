@@ -5748,5 +5748,45 @@ class JobsRuntimeTests(unittest.TestCase):
 
 
 
+
+    def test_jobs_title_house_style_requires_public_competition_wording(self):
+        good = "جامعة سيدي محمد بن عبد الله بفاس – مباريات توظيف تقنيين من الدرجة الثالثة (30 منصبا)"
+        vague = "جامعة سيدي محمد بن عبد الله بفاس تعلن عن توظيف تقنيين من الدرجة الثالثة"
+        self.assertEqual(quality_gate._job_title_style_reason(good, "competition"), "")
+        self.assertEqual(
+            quality_gate._job_title_style_reason(vague, "competition"),
+            "public competition title does not clearly say it is a competition",
+        )
+
+    def test_jobs_title_house_style_requires_final_result_finality(self):
+        generic = "وزارة الداخلية – نتائج مباريات توظيف متصرفين ومهندسي دولة وتقنيين"
+        final = "وزارة الداخلية – النتائج النهائية لمباريات توظيف متصرفين ومهندسي دولة وتقنيين"
+        self.assertEqual(
+            quality_gate._job_title_style_reason(generic, "final_results"),
+            "final-results title does not clearly say the results are final",
+        )
+        self.assertEqual(quality_gate._job_title_style_reason(final, "final_results"), "")
+
+    def test_jobs_title_house_style_rejects_domain_noise(self):
+        noisy = "الوكالة الحضرية للدار البيضاء auc.ma – مباراة توظيف 16 منصب"
+        self.assertEqual(
+            quality_gate._job_title_style_reason(noisy, "competition"),
+            "job SEO title contains a website domain instead of an institution acronym/name",
+        )
+
+    def test_jobs_prompt_carries_moroccan_editorial_title_house_style(self):
+        prompt = ai._build_prompt({
+            "title": "مباراة توظيف",
+            "job_title": "تقني من الدرجة الثالثة",
+            "job_company": "جامعة سيدي محمد بن عبد الله",
+            "job_notice_type": "competition",
+            "verified_fact_manifest": {"version": 2, "facts": {}},
+        })
+        self.assertIn("TITLE — MOROCCAN EDITORIAL HOUSE STYLE", prompt)
+        self.assertIn('explicitly use "مباراة توظيف" or "مباريات توظيف"', prompt)
+        self.assertIn("final_results MUST explicitly signal finality", prompt)
+        self.assertIn("Do not force one universal word order", prompt)
+
+
 if __name__ == "__main__":
     unittest.main()
