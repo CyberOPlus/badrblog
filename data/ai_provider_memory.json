@@ -1,6 +1,15 @@
 {
   "avg_time": 2.7186,
-  "cooldowns": {},
+  "cooldowns": {
+    "openrouter:openrouter/free:1af698c9b3": {
+      "failed_at": "2026-10-02T16:43:13",
+      "key_id": "1af698c9b3",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1790959697.5963829
+    }
+  },
   "failure_fingerprints": {
     "0bfbbde687f6e2ee0b50": {
       "category": "cooldown",
@@ -136,13 +145,13 @@
     },
     "6a52ff2ce198a0896fe8": {
       "category": "empty",
-      "count": 8,
+      "count": 9,
       "first_seen_at": "2026-10-01T14:46:11",
-      "last_seen_at": "2026-10-02T15:41:54",
-      "last_seen_epoch": 1790955714.6179023,
+      "last_seen_at": "2026-10-02T16:43:13",
+      "last_seen_epoch": 1790959393.1182873,
       "provider": "openrouter",
       "reason": "OpenRouter returned an empty response.",
-      "retry_until": 1790959314.6179023,
+      "retry_until": 1790962993.1182873,
       "scope": "provider"
     },
     "7fc25b239b1f7d4ff3a5": {
@@ -345,13 +354,13 @@
     },
     "f69ff66465ee70a5a639": {
       "category": "empty",
-      "count": 1,
+      "count": 2,
       "first_seen_at": "2026-10-01T22:00:14",
-      "last_seen_at": "2026-10-01T22:00:14",
-      "last_seen_epoch": 1790892014.1267815,
+      "last_seen_at": "2026-10-02T16:43:13",
+      "last_seen_epoch": 1790959393.1208608,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "openrouter provider failed: OpenRouter returned an empty response.",
-      "retry_until": 1790893333.646935,
+      "retry_until": 1790962851.4783535,
       "scope": "global"
     },
     "fde6cf46cadeff71bc26": {
@@ -368,9 +377,9 @@
   },
   "fastest_success_model": "groq:openai/gpt-oss-20b",
   "global_circuit": {
-    "category": "format",
-    "fingerprint": "1a9c344d00234801e923",
-    "opened_at": "2026-10-02T16:40:51",
+    "category": "empty",
+    "fingerprint": "f69ff66465ee70a5a639",
+    "opened_at": "2026-10-02T16:43:13",
     "providers": [
       "cloudflare",
       "gemini",
@@ -378,8 +387,8 @@
       "mistral",
       "openrouter"
     ],
-    "reason": "AI article response returned incomplete JSON.",
-    "until": 1790959314.6179023
+    "reason": "openrouter provider failed: OpenRouter returned an empty response.",
+    "until": 1790962851.4783535
   },
   "provider_circuits": {
     "cloudflare": {
@@ -418,10 +427,10 @@
     "openrouter": {
       "category": "empty",
       "fingerprint": "6a52ff2ce198a0896fe8",
-      "opened_at": "2026-10-02T15:41:54",
+      "opened_at": "2026-10-02T16:43:13",
       "provider": "openrouter",
       "reason": "OpenRouter returned an empty response.",
-      "until": 1790959314.6179023
+      "until": 1790962993.1182873
     }
   },
   "stats": {
@@ -483,9 +492,9 @@
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 58.5438,
-      "failures": 13,
+      "failures": 14,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-02T15:41:54",
+      "last_failure_at": "2026-10-02T16:43:13",
       "last_success_at": "2026-10-02T15:40:58",
       "model": "openrouter/free",
       "provider": "openrouter",
