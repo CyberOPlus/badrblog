@@ -548,7 +548,11 @@ def _record_provider_format_failure(provider, error, raw_text="", model=""):
     fingerprint, category, retry_until = _record_failure_fingerprint(
         error,
         scope="provider",
-        provider=provider,
+        provider=(
+            f"{provider}:{str(model or '').strip()}"
+            if str(model or "").strip()
+            else provider
+        ),
     )
     memory = _load_ai_memory()
     entry = (memory.get("failure_fingerprints") or {}).get(fingerprint) or {}
@@ -556,9 +560,10 @@ def _record_provider_format_failure(provider, error, raw_text="", model=""):
     opened = False
     until = 0.0
 
-    # One malformed response can be stochastic. Two identical provider-format
-    # failures are enough to stop feeding fresh Jobs into the same provider.
-    if count >= 2:
+    # A couple of malformed responses can be stochastic and prompt-specific.
+    # Require three failures for the same provider+model before a short cooldown,
+    # so one awkward job never stalls the whole verified Jobs queue.
+    if count >= 3:
         # Malformed structured output is usually model/output-size specific, not
         # a provider-wide outage. Rotate briefly, then probe it again instead of
         # freezing a productive provider for the fingerprint's long backoff.
@@ -1615,6 +1620,7 @@ MANDATORY JOB RETRY RULES:
 - Do not invent any fact or URL.
 - Return a natural English slug using lowercase a-z and hyphens only; no digits, IDs, years, or Arabic transliteration.
 - Meta description 80-180 characters.
+- For a meta-description repair, aim for 110-160 Arabic characters and silently check the length before returning.
 - Clean semantic Blogger HTML only.
 
 VERIFIED JOB PACKAGE:
@@ -3886,11 +3892,13 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     _apply_failure(article, last_error)
     article["ai_retry_pending"] = True
     article["ai_retry_reason"] = _safe_error_reason(last_error) if last_error else "AI generation failed"
+    structural_response_failure = _is_structural_ai_response_error(last_error)
     provider_exhausted = bool(
         last_error
         and not isinstance(last_error, AITimeBudgetExceeded)
         and _is_provider_error(last_error)
         and not _is_quality_error(last_error)
+        and not structural_response_failure
     )
     article["ai_rotation_exhausted"] = provider_exhausted
     article["ai_time_budget_exceeded"] = isinstance(last_error, AITimeBudgetExceeded)
