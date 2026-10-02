@@ -2868,10 +2868,17 @@ class JobsRuntimeTests(unittest.TestCase):
                 raw_text='{"title":"x"',
                 model="model-a",
             )
+            third = ai._record_provider_format_failure(
+                "cloudflare",
+                error,
+                raw_text='{"title":"x"',
+                model="model-a",
+            )
 
         self.assertFalse(first["opened"])
-        self.assertTrue(second["opened"])
-        self.assertEqual(memory["provider_circuits"]["cloudflare"]["until"], 1600)
+        self.assertFalse(second["opened"])
+        self.assertTrue(third["opened"])
+        self.assertEqual(memory["provider_circuits"]["cloudflare"]["until"], 2800)
 
     def test_jobs_quality_failure_repairs_same_provider_once(self):
         article = {
