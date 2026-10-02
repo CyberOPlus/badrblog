@@ -2,6 +2,7 @@ name: Jobs Auto Cycle
 # Continuous single-worker Jobs discovery/publishing.
 # Facebook pending items use repaired AI-only social schema retries. Facebook/social repairs may restart this chain safely.
 # Workflow edits intentionally restart production so runtime repairs are picked up immediately.    AI recovery verified 2026-10-02.
+# Social AI queue repair verified; failed captions stay retryable without blocking Blogger.
 # Each run finishes its current job and queues exactly one successor run.
 # The concurrency lock below prevents two production cycles from overlapping.
 
