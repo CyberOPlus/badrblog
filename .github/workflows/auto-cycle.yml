@@ -211,7 +211,7 @@ jobs:
               "MISTRAL_TIMEOUT_SECONDS": "60",
               "CLOUDFLARE_API_TOKEN": os.environ.get("CLOUDFLARE_API_TOKEN", ""),
               "CLOUDFLARE_ACCOUNT_ID": os.environ.get("CLOUDFLARE_ACCOUNT_ID", ""),
-              "CLOUDFLARE_MODEL": "@cf/meta/llama-3.1-8b-instruct",
+              "CLOUDFLARE_MODEL": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
               "CLOUDFLARE_TIMEOUT_SECONDS": "60",
               "BLOG_ID": os.environ.get("BLOGGER_BLOG_ID", ""),
               "PUBLISH_MODE": "live",
