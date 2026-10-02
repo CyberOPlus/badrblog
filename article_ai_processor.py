@@ -560,10 +560,10 @@ def _record_provider_format_failure(provider, error, raw_text="", model=""):
     opened = False
     until = 0.0
 
-    # A couple of malformed responses can be stochastic and prompt-specific.
-    # Require three failures for the same provider+model before a short cooldown,
-    # so one awkward job never stalls the whole verified Jobs queue.
-    if count >= 3:
+    # One malformed response can be stochastic and prompt-specific. Two repeated
+    # malformed responses from the same provider+model are enough to rotate it
+    # briefly so the verified Jobs queue keeps moving.
+    if count >= 2:
         # Malformed structured output is usually model/output-size specific, not
         # a provider-wide outage. Rotate briefly, then probe it again instead of
         # freezing a productive provider for the fingerprint's long backoff.
@@ -2942,12 +2942,19 @@ def _generate_ai_article(prompt, skip_providers=None, context=None):
         raise AIProviderRotationExhausted(
             f"Global AI circuit open until {status.get('global_retry_after') or 'later'}"
         )
-    candidates = [
+    available_candidates = [
         candidate for candidate in _provider_candidates(context=context)
+        if not JOBS_MODE or _provider_circuit_remaining(candidate["provider"]) <= 0
+    ]
+    candidates = [
+        candidate for candidate in available_candidates
         if candidate["provider"] not in skip_providers
-        and (not JOBS_MODE or _provider_circuit_remaining(candidate["provider"]) <= 0)
     ]
     if not candidates:
+        if available_candidates and skip_providers:
+            raise AIProviderRotationExhausted(
+                "No alternate AI provider remains after excluding a rejected provider."
+            )
         providers = _resolve_providers()
         _open_global_circuit(
             AIProviderRotationExhausted("all configured AI providers are unavailable or cooling down"),
