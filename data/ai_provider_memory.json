@@ -1,14 +1,6 @@
 {
   "avg_time": 2.802,
   "cooldowns": {
-    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "failed_at": "2026-10-02T14:39:19",
-      "key_id": "fb4fab4ba1",
-      "model": "openai/gpt-oss-20b",
-      "provider": "groq",
-      "reason": "groq returned an empty response.",
-      "until": 1790952264.058119
-    },
     "mistral:mistral-small-latest:8feed32495": {
       "failed_at": "2026-10-02T14:39:44",
       "key_id": "8feed32495",
@@ -16,14 +8,6 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1790954689.1497638
-    },
-    "openrouter:openrouter/free:1af698c9b3": {
-      "failed_at": "2026-10-02T14:39:44",
-      "key_id": "1af698c9b3",
-      "model": "openrouter/free",
-      "provider": "openrouter",
-      "reason": "OpenRouter returned an empty response.",
-      "until": 1790952285.920789
     }
   },
   "failure_fingerprints": {
@@ -380,14 +364,6 @@
       "provider": "cloudflare",
       "reason": "AI article response returned incomplete JSON.",
       "until": 1790955574.0709918
-    },
-    "groq": {
-      "category": "empty",
-      "fingerprint": "7fc25b239b1f7d4ff3a5",
-      "opened_at": "2026-10-02T14:39:19",
-      "provider": "groq",
-      "reason": "groq returned an empty response.",
-      "until": 1790952259.5920732
     },
     "mistral": {
       "category": "quota",
