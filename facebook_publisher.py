@@ -888,11 +888,17 @@ def _refresh_job_logo_before_facebook(article):
 
 
 def _main_image_url(article):
+    # Facebook must reuse the exact verified logo URL that produced the Blogger
+    # article cover. This keeps both visuals on one employer identity.
+    article_logo_url = str(article.get("article_logo_url_used") or "").strip()
+    if article.get("article_logo_used") and article_logo_url:
+        return article_logo_url
+
     logo = verified_company_logo(article)
     if logo.get("company_logo_verified") and logo.get("company_logo_url"):
         return str(logo["company_logo_url"]).strip()
-    # Jobs visuals never substitute the generated article cover, a source
-    # hero image, or plain employer text for a missing verified logo.
+
+    # Never substitute the generated article cover or employer-name text.
     return ""
 
 
