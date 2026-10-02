@@ -3709,7 +3709,11 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                 quality_retry_counts[provider_key] = provider_repairs_used + 1
                 quality_repairs_used += 1
                 article["ai_quality_repairs_used"] = quality_repairs_used
-                if "too much english inside article paragraphs" in str(error).casefold():
+                language_error = str(error).casefold()
+                if (
+                    "too much english inside article paragraphs" in language_error
+                    or "random language mixing" in language_error
+                ):
                     article["ai_excess_english_retry_used"] = True
                     prompt = _build_excess_english_retry_prompt(
                         package,
