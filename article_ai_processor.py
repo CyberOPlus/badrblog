@@ -668,7 +668,16 @@ def ai_circuit_status():
                 "fingerprint": str((entry or {}).get("fingerprint") or ""),
                 "category": str((entry or {}).get("category") or ""),
             }
-    global_remaining = max(0.0, _cooldown_entry_until(global_entry) - time.time())
+    global_remaining = _global_circuit_remaining()
+    if global_remaining > 0:
+        refreshed_memory = _load_ai_memory()
+        global_entry = (
+            refreshed_memory.get("global_circuit")
+            if isinstance(refreshed_memory.get("global_circuit"), dict)
+            else {}
+        )
+    else:
+        global_entry = {}
     return {
         "global_open": global_remaining > 0,
         "global_remaining_seconds": int(global_remaining),
