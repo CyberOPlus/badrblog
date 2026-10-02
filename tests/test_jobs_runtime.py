@@ -4301,7 +4301,7 @@ class JobsRuntimeTests(unittest.TestCase):
         )
         save.assert_called_once()
 
-    def test_visual_only_quality_failure_is_downgraded_without_ai_retry(self):
+    def test_required_cover_quality_failure_waits_for_renderer_without_ai_retry(self):
         article = {
             "id": "visual-quality-only",
             "url": "https://example.com/jobs/visual-quality",
@@ -4318,12 +4318,14 @@ class JobsRuntimeTests(unittest.TestCase):
             "final_html": "<p>مقال صحيح ومكتمل عن الوظيفة.</p>",
             "main_image": "https://raw.example/cover.jpg",
             "job_article_cover_url": "https://raw.example/cover.jpg",
+            "job_article_cover_status": "ready",
             "company_logo_verified": True,
             "job_document_links": [],
             "ai_input_package": {
                 "url": "https://example.com/jobs/visual-quality",
                 "main_image": "https://raw.example/cover.jpg",
                 "job_article_cover_url": "https://raw.example/cover.jpg",
+                "job_article_cover_status": "ready",
                 "article_images": [{"url": "https://raw.example/cover.jpg"}],
             },
         }
@@ -4334,28 +4336,31 @@ class JobsRuntimeTests(unittest.TestCase):
             120,
             (),
         )
-        passed = quality_gate.QualityGateResult(True, "", 120, ())
 
         with (
             patch.object(draft, "JOBS_MODE", True),
             patch.object(
                 draft,
                 "validate_before_publish",
-                side_effect=[failed, passed],
-            ),
+                return_value=failed,
+            ) as validate,
             patch.object(draft, "validate_phase3_article_quality", return_value=""),
             patch.object(draft, "format_phase3_article_html", return_value=article["final_html"]),
         ):
             reason = draft._publish_quality_error(article, articles)
 
-        self.assertEqual(reason, "")
+        self.assertEqual(reason, failed.reason)
+        validate.assert_called_once_with(article, existing_articles=articles)
         self.assertEqual(article["ai_status"], "completed")
         self.assertEqual(article["ai_quality_status"], "passed")
         self.assertTrue(article["logo_visual_retry_pending"])
-        self.assertEqual(article.get("main_image"), "")
-        self.assertEqual(article["ai_input_package"].get("main_image"), "")
+        self.assertTrue(article["logo_visual_retry_after"])
+        self.assertEqual(article["job_article_cover_status"], "render_retry_required")
+        self.assertEqual(article.get("main_image"), "https://raw.example/cover.jpg")
+        self.assertEqual(article["ai_input_package"].get("main_image"), "https://raw.example/cover.jpg")
+        self.assertFalse(article.get("ai_retry_pending"))
         self.assertTrue(any(
-            "optional visual removed before publish" in warning
+            "visual preparation pending before publish" in warning
             for warning in article.get("pre_publish_warnings", [])
         ))
 
@@ -5132,11 +5137,15 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIn("لشغل منصب واحد", formatted)
         self.assertIn("آخر أجل للترشيح هو 18 أكتوبر 2026.", formatted)
         self.assertIn("للمزيد من التفاصيل حول المهام، الشروط المطلوبة، وكيفية التقديم،", formatted)
-        self.assertIn("\n\nآخر أجل للترشيح هو 18 أكتوبر 2026.\n\n", formatted)
+        self.assertIn("\n\n⏳ آخر أجل للترشيح هو 18 أكتوبر 2026.\n\n", formatted)
         self.assertTrue(
             formatted.endswith("#CyberoPlus #مباريات_التوظيف")
         )
-        self.assertIn("يرجى الاطلاع على أول تعليق 👇.", formatted)
+        self.assertIn("يرجى الاطلاع على أول تعليق.", formatted)
+        self.assertTrue(any(
+            line.startswith("👇 ") and "يرجى الاطلاع على أول تعليق." in line
+            for line in formatted.split("\n\n")
+        ))
 
     def test_jobs_facebook_formatter_does_not_drop_fact_when_cta_shares_line(self):
         raw = (

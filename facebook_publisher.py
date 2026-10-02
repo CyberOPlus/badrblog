@@ -1096,6 +1096,7 @@ def _format_jobs_facebook_caption(raw_caption, article=None):
             continue
         line = emoji_re.sub("", line)
         line = re.sub(r"\s+", " ", line).strip()
+        line = re.sub(r"\s+([،؛:.!?؟])", r"\1", line)
         if line:
             raw_paragraphs.append(line)
 
@@ -1105,7 +1106,7 @@ def _format_jobs_facebook_caption(raw_caption, article=None):
             return "👇"
         if any(token in folded for token in ("النتائج النهائية", "النتيجة النهائية")):
             return "✅"
-        if any(token in folded for token in ("النتائج", "اللائحة", "اللوائح", "المدعوين")):
+        if any(token in folded for token in ("نتائج", "لائحة", "لوائح", "مدعوين")):
             return "📋"
         if any(token in folded for token in ("تحديث", "مستجد", "تمديد", "تغيير")):
             return "🔄"

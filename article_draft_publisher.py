@@ -165,7 +165,7 @@ def _publish_quality_error(article, articles):
                 )
                 return result.reason
 
-            visual_warning = f"optional visual removed before publish: {result.reason}"
+            visual_warning = f"visual preparation pending before publish: {result.reason}"
             warnings = list(article.get("pre_publish_warnings") or [])
             if visual_warning not in warnings:
                 warnings.append(visual_warning)

@@ -48,7 +48,7 @@ class JobVisualTests(unittest.TestCase):
                 {"job_notice_type": notice_type},
                 now=now,
             )
-            self.assertEqual(keys, ("new",))
+            self.assertEqual(keys, ("new", "apply"))
 
             keys, _ = visual_policy.semantic_template_candidates(
                 {
@@ -69,7 +69,7 @@ class JobVisualTests(unittest.TestCase):
                 },
                 now=now,
             )
-            self.assertEqual(keys, ("apply",))
+            self.assertEqual(keys, ("new", "apply"))
 
     def test_visual_template_is_pinned_for_retries(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -526,7 +526,7 @@ class JobVisualTests(unittest.TestCase):
             self.assertFalse(facebook_result["ok"])
             self.assertIn("verified employer logo", facebook_result.get("error", ""))
 
-    def test_missing_verified_logo_is_optional_for_article_publishing(self):
+    def test_missing_verified_logo_defers_article_until_required_cover_is_ready(self):
         article = {
             "id": "job-no-logo",
             "job_title": "مهندس نظم",
@@ -558,16 +558,23 @@ class JobVisualTests(unittest.TestCase):
         self.assertEqual(cover, "")
         self.assertEqual(
             article["logo_resolution_status"],
-            "unavailable_optional",
+            "verified_logo_retry_required",
         )
         self.assertEqual(
             article["job_article_cover_status"],
-            "optional_missing_verified_logo",
+            "missing_verified_logo_retry_required",
         )
         self.assertFalse(article["article_logo_used"])
+        self.assertFalse(article["article_cover_fallback_used"])
+        self.assertTrue(article["logo_visual_retry_pending"])
+        self.assertTrue(article["logo_visual_retry_after"])
+        self.assertEqual(
+            article_draft_publisher._publish_quality_error(article, [article]),
+            "job article cover is not ready",
+        )
         self.assertNotIn("publish_block_reason", article)
 
-    def test_verified_logo_render_failure_is_optional_for_article_publishing(self):
+    def test_verified_logo_render_failure_defers_article_without_raising(self):
         article = {
             "id": "job-logo-render-fail",
             "job_title": "مهندس نظم",
@@ -603,12 +610,17 @@ class JobVisualTests(unittest.TestCase):
         self.assertEqual(cover, "")
         self.assertEqual(
             article["job_article_cover_status"],
-            "render_retry_optional",
+            "render_retry_required",
         )
         self.assertTrue(article["logo_visual_retry_pending"])
+        self.assertTrue(article["logo_visual_retry_after"])
+        self.assertEqual(
+            article_draft_publisher._publish_quality_error(article, [article]),
+            "job article cover is not ready",
+        )
         self.assertNotIn("publish_block_reason", article)
 
-    def test_exhausted_logo_retry_stays_optional_without_exception(self):
+    def test_required_cover_retry_is_retained_after_previous_retry_limit(self):
         article = {
             "id": "job-logo-exhausted",
             "job_title": "مهندس نظم",
@@ -645,15 +657,19 @@ class JobVisualTests(unittest.TestCase):
             cover = article_draft_publisher._prepare_job_article_cover(article)
 
         self.assertEqual(cover, "")
-        self.assertFalse(article["logo_visual_retry_pending"])
-        self.assertNotIn("logo_visual_retry_after", article)
+        self.assertTrue(article["logo_visual_retry_pending"])
+        self.assertTrue(article["logo_visual_retry_after"])
+        self.assertEqual(
+            article["logo_visual_retry_count"],
+            article_draft_publisher.MAX_JOB_LOGO_RENDER_RETRIES,
+        )
         self.assertEqual(
             article["job_article_cover_status"],
-            "render_unavailable_optional",
+            "render_retry_required",
         )
         self.assertEqual(
             article["ai_input_package"]["job_article_cover_status"],
-            "render_unavailable_optional",
+            "render_retry_required",
         )
         self.assertNotIn("publish_block_reason", article)
 
