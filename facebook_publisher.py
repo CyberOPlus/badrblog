@@ -1127,18 +1127,18 @@ def _split_caption_parts(caption):
 def _format_jobs_facebook_caption(raw_caption, article=None):
     """Format approved Jobs copy and enforce the two-hashtag brand policy."""
     text = re.sub(
-        r"[\\u200e\\u200f\\u202a-\\u202e\\u2066-\\u2069]",
+        r"[\u200e\u200f\u202a-\u202e\u2066-\u2069]",
         "",
         str(raw_caption or ""),
     ).strip()
     if not text:
         return ""
 
-    text = re.sub(r"#[\\w\\u0600-\\u06FF_]+", " ", text, flags=re.UNICODE)
+    text = re.sub(r"#[\w\u0600-\u06FF_]+", " ", text, flags=re.UNICODE)
 
     paragraphs = []
     for raw_line in text.splitlines():
-        raw_line = re.sub(r"\\s+", " ", raw_line).strip()
+        raw_line = re.sub(r"\s+", " ", raw_line).strip()
         if not raw_line:
             continue
         paragraphs.append(raw_line)
@@ -1146,7 +1146,7 @@ def _format_jobs_facebook_caption(raw_caption, article=None):
     notice_type = str((article or {}).get("job_notice_type") or "vacancy").strip().lower()
     hashtag_line = f"#CyberoPlus {jobs_contextual_hashtag(notice_type)}"
     paragraphs.append(hashtag_line)
-    return "\\n\\n".join(paragraphs).strip()
+    return "\n\n".join(paragraphs).strip()
 
 
 def _jobs_facebook_blueprint(article, blogger_url):
@@ -1299,7 +1299,7 @@ def _legacy_first_comment_text(blogger_post_url):
             "📲 تابع قناة واتساب للعروض الجديدة:",
             WHATSAPP_CHANNEL_URL,
         ])
-    return "\\n".join(lines)
+    return "\n".join(lines)
 
 
 def _first_comment_text(blogger_post_url, article=None):
@@ -1320,7 +1320,7 @@ def _first_comment_text(blogger_post_url, article=None):
             "📲 تابع قناة واتساب لمستجدات الوظائف والمباريات:",
             WHATSAPP_CHANNEL_URL,
         ])
-    return "\\n".join(lines)
+    return "\n".join(lines)
 
 
 def _post_first_comment(facebook_post_id, blogger_post_url, article=None):
@@ -1351,31 +1351,31 @@ def _validate_facebook_caption(
 
     raw_caption = str(caption)
     plain_caption = re.sub(
-        r"[\\u200e\\u200f\\u202a-\\u202e\\u2066-\\u2069]",
+        r"[\u200e\u200f\u202a-\u202e\u2066-\u2069]",
         "",
         raw_caption,
     )
 
     visible_lines = [line for line in raw_caption.splitlines() if line.strip()]
-    if any(not line.startswith("\\u200f") for line in visible_lines):
+    if any(not line.startswith("\u200f") for line in visible_lines):
         raise RuntimeError(
             "Jobs Facebook caption is not forced to RTL on every visible line."
         )
 
     if (chr(96) * 3) in plain_caption or re.search(
-        r'"\\s*(title|description|html_content|facebook_post_text)\\s*"\\s*:',
+        r'"\s*(title|description|html_content|facebook_post_text)\s*"\s*:',
         plain_caption,
     ):
         raise RuntimeError("Facebook caption contains visible JSON/markdown.")
-    if re.search(r"https?://\\S+", plain_caption):
+    if re.search(r"https?://\S+", plain_caption):
         raise RuntimeError("Facebook caption contains a URL.")
-    if re.search(r"^\\s*[-*]\\s+", plain_caption, flags=re.MULTILINE):
+    if re.search(r"^\s*[-*]\s+", plain_caption, flags=re.MULTILINE):
         raise RuntimeError("Facebook caption contains markdown bullets.")
 
     notice_type = str((article or {}).get("job_notice_type") or "vacancy").strip().lower()
     expected_contextual = jobs_contextual_hashtag(notice_type)
     hashtags = re.findall(
-        r"#[\\w\\u0600-\\u06FF_]+",
+        r"#[\w\u0600-\u06FF_]+",
         plain_caption,
         flags=re.UNICODE,
     )
@@ -1403,12 +1403,12 @@ def _validate_facebook_caption(
         )
 
     body_without_hashtags = re.sub(
-        r"#[\\w\\u0600-\\u06FF_]+",
+        r"#[\w\u0600-\u06FF_]+",
         "",
         plain_caption,
         flags=re.UNICODE,
     )
-    arabic_chars = len(re.findall(r"[\\u0600-\\u06FF]", body_without_hashtags))
+    arabic_chars = len(re.findall(r"[\u0600-\u06FF]", body_without_hashtags))
     if arabic_chars < 40:
         raise RuntimeError("Facebook caption is not Arabic enough.")
 

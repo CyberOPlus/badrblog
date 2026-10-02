@@ -30,7 +30,7 @@ def jobs_contextual_hashtag(notice_type):
 
 def _copy_memory_key(value):
     return re.sub(
-        r"[^\\w\\u0600-\\u06FF]+",
+        r"[^\w\u0600-\u06FF]+",
         "",
         _strip_bidi(value).casefold(),
         flags=re.UNICODE,
@@ -163,7 +163,7 @@ def validate_jobs_facebook_post(text, article=None):
     article = dict(article or {})
     if not text:
         raise SocialAIQualityError("Facebook social copy is empty")
-    if re.search(r"https?://\\S+", text):
+    if re.search(r"https?://\S+", text):
         raise SocialAIQualityError("Facebook social copy must not contain a URL")
     if re.search(r"<[^>]+>", text) or (chr(96) * 3) in text:
         raise SocialAIQualityError("Facebook social copy must be plain text")
@@ -176,14 +176,14 @@ def validate_jobs_facebook_post(text, article=None):
         or "vacancy"
     ).strip().lower()
     contextual_hashtag = jobs_contextual_hashtag(notice_type)
-    hashtags = re.findall(r"#[\\w\\u0600-\\u06FF_]+", text, flags=re.UNICODE)
+    hashtags = re.findall(r"#[\w\u0600-\u06FF_]+", text, flags=re.UNICODE)
     if hashtags != ["#CyberoPlus", contextual_hashtag]:
         raise SocialAIQualityError(
             f"Facebook social copy must end with exactly #CyberoPlus and {contextual_hashtag}"
         )
 
     body_without_hashtags = re.sub(
-        r"#[\\w\\u0600-\\u06FF_]+",
+        r"#[\w\u0600-\u06FF_]+",
         "",
         text,
         flags=re.UNICODE,
@@ -192,7 +192,7 @@ def validate_jobs_facebook_post(text, article=None):
         raise SocialAIQualityError(
             "Facebook social copy body must be written entirely in Arabic"
         )
-    if len(re.findall(r"[\\u0600-\\u06FF]", body_without_hashtags)) < 40:
+    if len(re.findall(r"[\u0600-\u06FF]", body_without_hashtags)) < 40:
         raise SocialAIQualityError("Facebook social copy must be Arabic-first")
     if not (120 <= len(text) <= 1200):
         raise SocialAIQualityError(
@@ -229,8 +229,8 @@ def validate_jobs_facebook_post(text, article=None):
     hook_for_compare = first_line
     for emoji in _ALLOWED_SOCIAL_EMOJIS:
         hook_for_compare = hook_for_compare.replace(emoji, "")
-    if title and re.sub(r"\\s+", " ", hook_for_compare).strip().casefold() == re.sub(
-        r"\\s+", " ", title
+    if title and re.sub(r"\s+", " ", hook_for_compare).strip().casefold() == re.sub(
+        r"\s+", " ", title
     ).casefold():
         raise SocialAIQualityError(
             "Facebook social copy hook must not equal the Blogger title"
@@ -367,7 +367,7 @@ def _deterministic_jobs_facebook_post(article):
     )
     lines.append(f"#CyberoPlus {contextual_hashtag}")
 
-    text = "\\n\\n".join(line for line in lines if line.strip())
+    text = "\n\n".join(line for line in lines if line.strip())
     return validate_jobs_facebook_post(text, article=article)
 
 
