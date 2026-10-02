@@ -55,12 +55,12 @@ def _has_application_path(article):
     return False
 
 
-def semantic_template_candidates(article, now=None):
-    """Map verified notice semantics to one truthful visual color.
 
-    Orange: fresh active vacancy/competition.
+def semantic_template_candidates(article, now=None):
+    """Map verified notice semantics to the owner-supplied visual colors.
+
+    Orange/Red: alternate for normal active vacancies and competitions.
     Yellow: active vacancy/competition with a verified deadline within 72h.
-    Red: active vacancy/competition with a verified specific direct-apply path.
     Blue: candidate lists, results, final results, updates, and other notices.
     """
     now = now or datetime.now(timezone.utc)
@@ -78,11 +78,7 @@ def semantic_template_candidates(article, now=None):
         if 0 <= hours_left <= DEADLINE_TEMPLATE_WINDOW_HOURS:
             return ("deadline",), "verified-deadline-within-72h"
 
-    if _has_application_path(article):
-        return ("apply",), f"active-{notice_type}-with-direct-apply"
-
-    return ("new",), f"active-{notice_type}"
-
+    return ("new", "apply"), f"active-{notice_type}-normal-rotation"
 
 def _stable_tiebreak(article, key):
     seed = "|".join(
@@ -131,12 +127,22 @@ def choose_job_template(article, state_path, now=None):
         for key in JOB_TEMPLATE_FILES_BY_KEY
     }
 
-    fresh = [key for key in candidates if key not in recent]
-    pool = fresh or list(candidates)
-    selected = min(
-        pool,
-        key=lambda key: (usage.get(key, 0), _stable_tiebreak(article, key)),
-    )
+    normal_rotation = tuple(candidates) == ("new", "apply")
+    if normal_rotation:
+        last_normal = str(
+            state.get("last_normal_template_key")
+            or state.get("last_template_key")
+            or ""
+        ).strip().lower()
+        selected = "apply" if last_normal == "new" else "new"
+        state["last_normal_template_key"] = selected
+    else:
+        fresh = [key for key in candidates if key not in recent]
+        pool = fresh or list(candidates)
+        selected = min(
+            pool,
+            key=lambda key: (usage.get(key, 0), _stable_tiebreak(article, key)),
+        )
 
     usage[selected] = usage.get(selected, 0) + 1
     recent.append(selected)
