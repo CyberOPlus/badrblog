@@ -5062,7 +5062,9 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIn("18 أكتوبر 2026", caption)
         self.assertIn("أول تعليق", caption)
         self.assertNotIn("http", caption)
-        self.assertNotIn("#", caption)
+        self.assertTrue(
+            caption.endswith("#CyberoPlus #مباريات_التوظيف")
+        )
         self.assertEqual(caption.count("18 أكتوبر 2026"), 1)
         social_ai.validate_jobs_facebook_post(caption, article=article)
 
@@ -5078,15 +5080,20 @@ class JobsRuntimeTests(unittest.TestCase):
             "#مباريات_التوظيف #التكوين_المهني #الرشيدية #النسيج_التقليدي"
         )
 
-        formatted = facebook._format_jobs_facebook_caption(raw)
+        formatted = facebook._format_jobs_facebook_caption(
+            raw,
+            article={"job_notice_type": "competition"},
+        )
 
         self.assertIn("مكتب التكوين المهني وإنعاش الشغل", formatted)
         self.assertIn("لشغل منصب واحد", formatted)
         self.assertIn("آخر أجل للترشيح هو 18 أكتوبر 2026.", formatted)
         self.assertIn("للمزيد من التفاصيل حول المهام، الشروط المطلوبة، وكيفية التقديم،", formatted)
         self.assertIn("\n\nآخر أجل للترشيح هو 18 أكتوبر 2026.\n\n", formatted)
-        self.assertNotIn("#", formatted)
-        self.assertTrue(formatted.endswith("يرجى الاطلاع على أول تعليق 👇."))
+        self.assertTrue(
+            formatted.endswith("#CyberoPlus #مباريات_التوظيف")
+        )
+        self.assertIn("يرجى الاطلاع على أول تعليق 👇.", formatted)
 
     def test_jobs_facebook_formatter_does_not_drop_fact_when_cta_shares_line(self):
         raw = (

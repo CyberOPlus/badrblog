@@ -351,13 +351,16 @@ def _deterministic_jobs_facebook_post(article):
     if deadline and active and deadline not in summary:
         lines.append(f"⏳ آخر أجل للترشيح: {deadline}.")
 
+    # The fallback does not infer article-body details. Keep its CTA specific to
+    # the notice stage without promising documents, test logistics, or another
+    # fact that was not read from a verified field above.
     cta_by_type = {
-        "vacancy": "👇 التفاصيل وشروط وطريقة التقديم في أول تعليق.",
-        "competition": "👇 شروط المباراة والوثائق وطريقة الترشيح في أول تعليق.",
-        "candidate_list": "👇 لائحة المترشحين ومعلومات الاختبار في أول تعليق.",
-        "results": "👇 النتائج والتفاصيل المرتبطة بها في أول تعليق.",
-        "final_results": "👇 النتائج النهائية والتفاصيل في أول تعليق.",
-        "update": "👇 تفاصيل المستجد وما تغيّر في أول تعليق.",
+        "vacancy": "👇 تفاصيل الوظيفة والإعلان الكامل في أول تعليق.",
+        "competition": "👇 تفاصيل المباراة والإعلان الكامل في أول تعليق.",
+        "candidate_list": "👇 تفاصيل لائحة المترشحين والإعلان في أول تعليق.",
+        "results": "👇 تفاصيل النتائج والإعلان في أول تعليق.",
+        "final_results": "👇 تفاصيل النتائج النهائية والإعلان في أول تعليق.",
+        "update": "👇 تفاصيل المستجد والإعلان الكامل في أول تعليق.",
     }
     lines.append(
         cta_by_type.get(
