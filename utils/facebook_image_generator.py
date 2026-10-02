@@ -741,16 +741,14 @@ def _generate_job_facebook_image(
     FACEBOOK_IMAGE_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     try:
-        if not str(image_url or "").strip():
-            raise RuntimeError("verified employer logo is required for Jobs Facebook images")
         base, selected_template_key = _load_job_template(template_key=template_key)
         logo_layout = _draw_job_logo_or_fallback(
             base,
             image_url,
-            "",
+            employer_name,
         )
-        if not logo_layout.get("loaded"):
-            raise RuntimeError("verified employer logo could not be rendered for Facebook")
+        if logo_layout.get("kind") == "none":
+            raise RuntimeError("employer logo/text could not be rendered for Facebook")
         title_layout = _draw_job_title(
             base,
             title,
@@ -847,27 +845,52 @@ def generate_job_article_cover(
                 f"article template is too small: {width}x{height}; use at least 800x450"
             )
 
-        # Logo: upper-middle. Jobs article covers require the same verified
-        # employer-logo asset used by Facebook; plain employer text is not a
-        # visual substitute.
-        if not str(image_url or "").strip():
-            raise RuntimeError("verified employer logo is required for Jobs article covers")
-        logo = _load_job_logo(image_url)
-        if logo is None:
-            raise RuntimeError("verified employer logo could not be loaded for article cover")
+        # Employer mark: use the verified logo when it loads; otherwise render
+        # the verified employer name so every Jobs article still has a cover.
+        logo = _load_job_logo(image_url) if str(image_url or "").strip() else None
+        if logo is not None:
+            logo = _prepare_article_job_logo(
+                logo,
+                (int(width * 0.40), int(height * 0.18)),
+            )
+
+        logo_loaded = logo is not None
         logo_center_x = int(width * 0.50)
         logo_center_y = int(height * 0.32)
-        logo_max = (int(width * 0.40), int(height * 0.18))
-        logo = _prepare_article_job_logo(logo, logo_max)
-        if logo is None:
-            raise RuntimeError("verified employer logo could not be prepared for article cover")
-        base.alpha_composite(
-            logo,
-            (
-                logo_center_x - logo.width // 2,
-                logo_center_y - logo.height // 2,
-            ),
-        )
+        if logo_loaded:
+            base.alpha_composite(
+                logo,
+                (
+                    logo_center_x - logo.width // 2,
+                    logo_center_y - logo.height // 2,
+                ),
+            )
+        else:
+            fallback = _clean_title_text(employer_name) or "فرصة عمل"
+            employer_draw = ImageDraw.Draw(base)
+            employer_layout = _fit_job_text_layout(
+                employer_draw,
+                fallback,
+                max_width=int(width * 0.62),
+                max_height=int(height * 0.17),
+                max_lines=2,
+                min_size=max(28, int(width * 0.027)),
+                max_size=max(44, int(width * 0.048)),
+                width_axes=(100, 96, 92),
+                line_ratio=1.14,
+            )
+            if not employer_layout:
+                raise RuntimeError("employer name could not fit the article cover")
+            y = logo_center_y - employer_layout["total_height"] // 2
+            for line in employer_layout["lines"]:
+                _draw_text(
+                    employer_draw,
+                    (logo_center_x, y + employer_layout["line_height"] // 2),
+                    line,
+                    employer_layout["font"],
+                    (42, 42, 42, 255),
+                )
+                y += employer_layout["line_height"]
 
         # Title: lower-middle. Dynamic size handles short/medium/long Arabic,
         # French and mixed titles without touching footer/edge branding.
@@ -937,7 +960,8 @@ def generate_job_article_cover(
             "error": "",
             "width": width,
             "height": height,
-            "logo_loaded": logo is not None,
+            "logo_loaded": logo_loaded,
+            "used_fallback": not logo_loaded,
         }
     except Exception as error:
         log_event("job_article_cover_generation_failed", error=error.__class__.__name__)
