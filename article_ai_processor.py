@@ -1071,7 +1071,18 @@ def _parse_complete_ai_json(raw_text, required_fields, stage_label):
     if "html_content" in required_fields:
         html_issue = _raw_html_incomplete_reason(data.get("html_content", ""))
         if html_issue:
-            raise AIIncompleteResponseError(html_issue)
+            # JSON is complete, so repair only the markup structure. This is not
+            # a text fallback: the model's words/facts stay untouched and the
+            # normal Jobs quality gate still validates the repaired article.
+            repaired_html = str(
+                BeautifulSoup(str(data.get("html_content") or ""), "html.parser")
+            ).strip()
+            repaired_issue = _raw_html_incomplete_reason(repaired_html)
+            if repaired_html and not repaired_issue:
+                data["html_content"] = repaired_html
+                log_event("ai_html_structure_repaired", reason=html_issue)
+            else:
+                raise AIIncompleteResponseError(html_issue)
 
     return data
 
