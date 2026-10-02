@@ -22,9 +22,11 @@ on:
         default: false
 
 concurrency:
-  # Keep main's existing lock across upgrades; all entrypoints use the same one.
+  # Normal self-dispatch/watchdog runs never cancel the active worker. A workflow
+  # code push is an explicit production upgrade, so it replaces a stuck/old worker
+  # and starts the repaired workflow immediately.
   group: jobs-production-refs/heads/main
-  cancel-in-progress: false
+  cancel-in-progress: ${{ github.event_name == 'push' }}
 
 env:
   JOBS_RUNTIME_PERSIST_BY_WORKFLOW: "true"
@@ -60,6 +62,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Install scanned-PDF OCR support
+        timeout-minutes: 4
+        continue-on-error: true
         run: |
           if ! command -v tesseract >/dev/null 2>&1 \
              || ! tesseract --list-langs 2>/dev/null | grep -qx 'fra' \
