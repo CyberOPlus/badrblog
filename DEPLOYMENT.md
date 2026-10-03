@@ -14,7 +14,7 @@ Never commit `.env`, `client_secret.json`, `data/token.json` or access tokens. T
 
 Production checks ten times per hour, chains completed cycles, and has a separate watchdog. GitHub scheduling and external services may delay execution; this is recovery automation, not a guarantee of uninterrupted service. No PC or chat session needs to stay open.
 
-Each cycle handles at most one new article. Verified official publication age is capped at 12 hours, including the final Blogger write. Discovery time cannot substitute for publication time. Old or unknown dates are never made fresh by rediscovery. Job and campaign memory prevent duplicate articles while preserving the specific application URL.
+Each cycle handles at most one new article. Verified official publication age is capped at 24 hours, including the final Blogger write; jobs at 12 hours or less receive ranking priority. Discovery time cannot substitute for publication time. Old or unknown dates are never made fresh by rediscovery. Job and campaign memory prevent duplicate articles while preserving the specific application URL.
 
 Every successful Blogger article enters the Facebook queue. New articles receive an immediate attempt when limits permit, with a minimum interval of five minutes and a configurable daily ceiling capped at 240. Pending Page posts/comments retry even when a later discovery or AI stage fails. These caps are capacity limits, not posting targets.
 
