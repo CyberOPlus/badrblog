@@ -43,6 +43,7 @@ from config import (
     GROQ_API_URL,
     GROQ_MAX_TOKENS,
     GROQ_MODEL,
+    GROQ_MODELS,
     GROQ_TIMEOUT_SECONDS,
     MISTRAL_API_KEY,
     MISTRAL_API_URL,
@@ -947,6 +948,12 @@ def _record_candidate_success(candidate, elapsed_seconds=None):
     candidate_id = _candidate_id(candidate)
     memory = _load_ai_memory()
     memory.setdefault("cooldowns", {}).pop(candidate_id, None)
+    provider = str(candidate.get("provider") or "").strip().lower()
+    if provider:
+        # A successful alternate model proves this provider/key is usable.
+        # Clear any provider-wide circuit opened by a sibling model failure;
+        # failed model-specific cooldowns remain intact.
+        memory.setdefault("provider_circuits", {}).pop(provider, None)
     stats = memory.setdefault("stats", {}).setdefault(candidate_id, {})
     stats["provider"] = candidate.get("provider")
     stats["model"] = candidate.get("model")
@@ -2911,7 +2918,12 @@ def _provider_candidates(context=None):
                 candidates.append({"provider": "gemini", "api_key": GEMINI_API_KEY, "model": GEMINI_MODEL})
         elif provider == "groq":
             if _has_real_key(GROQ_API_KEY, ""):
-                candidates.append({"provider": "groq", "api_key": GROQ_API_KEY, "model": GROQ_MODEL})
+                for model_name in _models(GROQ_MODELS, GROQ_MODEL):
+                    candidates.append({
+                        "provider": "groq",
+                        "api_key": GROQ_API_KEY,
+                        "model": model_name,
+                    })
         elif provider == "openrouter":
             if _has_real_key(OPENROUTER_API_KEY, "your_new_key_here"):
                 resolved_openrouter_models = _resolve_openrouter_models()
@@ -2981,16 +2993,9 @@ def _generate_ai_article(prompt, skip_providers=None, context=None):
         raise AIProviderRotationExhausted(
             "All configured AI providers are unavailable or cooling down."
         )
-    unique_candidates = []
-    seen_providers = set()
-    for candidate in candidates:
-        provider_name = str(candidate.get("provider") or "")
-        if provider_name in seen_providers:
-            continue
-        seen_providers.add(provider_name)
-        unique_candidates.append(candidate)
-    candidates = unique_candidates
-
+    # Preserve distinct models from the same provider. Candidate cooldowns are
+    # model+key specific, so one empty/bad model must not discard healthy
+    # alternatives on the same API key.
     last_error = None
     active_candidates = []
     for candidate in candidates:
