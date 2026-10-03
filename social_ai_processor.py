@@ -60,7 +60,6 @@ def _social_prompt(article, previous_error="", rejected_copy=""):
     company = str(article.get("job_company") or package.get("job_company") or "").strip()
     location = str(article.get("job_location") or package.get("job_location") or "").strip()
     positions = str(article.get("job_number_of_positions") or package.get("job_number_of_positions") or "").strip()
-    contextual_hashtag = jobs_contextual_hashtag(notice_type)
     recent_hooks = [
         str(value).strip()
         for value in (article.get("_facebook_recent_hooks") or [])[-8:]
@@ -115,14 +114,8 @@ def _social_prompt(article, previous_error="", rejected_copy=""):
         # Validation stops at the first failure. Inspect the sanitized rejected
         # draft too so one repair prompt can fix all visible defects (for example
         # a URL plus a Latin employer name) instead of wasting another attempt.
-        rejected_without_brand = re.sub(
-            r"#CyberoPlus\b",
-            "",
-            rejected_excerpt,
-            flags=re.IGNORECASE,
-        )
         rejected_has_latin = bool(
-            re.search(r"[A-Za-zÀ-ÖØ-öø-ÿ]", rejected_without_brand)
+            re.search(r"[A-Za-zÀ-ÖØ-öø-ÿ]", rejected_excerpt)
         )
 
         arabic_only_repair = ""
@@ -134,8 +127,7 @@ def _social_prompt(article, previous_error="", rejected_copy=""):
         ):
             arabic_only_repair = """
 ARABIC-ONLY REPAIR:
-- The facebook_post_text value must contain ZERO Latin/French letters anywhere
-  except the literal final brand hashtag #CyberoPlus.
+- The facebook_post_text value must contain ZERO Latin/French letters anywhere.
 - Translate foreign-language job titles and descriptive role terms into natural
   Modern Standard Arabic from their verified meaning. Do not copy the Latin form.
 - For a foreign proper name with no Arabic form in the verified context, render
@@ -207,20 +199,18 @@ POST STRUCTURE
   hit a target length. Remove repetition and filler instead.
 - For an active vacancy/competition, state the verified deadline once. A positions
   value of 0 is unknown and must never be presented as a verified count.
-- The paragraph immediately before hashtags is one natural CTA containing
-  "أول تعليق". Its wording must match the notice stage: application details for
-  active jobs/competitions, list/test details for candidate lists, result details
-  for results, and changed details for updates.
-- The FINAL line must contain exactly these two hashtags and no others:
-  #CyberoPlus {contextual_hashtag}
+- The FINAL paragraph is one natural CTA containing "أول تعليق". Its wording
+  must match the notice stage: application details for active jobs/competitions,
+  list/test details for candidate lists, result details for results, and changed
+  details for updates.
+- Do not use hashtags anywhere in facebook_post_text.
 - Aim for roughly 250 to 800 visible characters when the facts support it, but
   completeness of useful verified information is more important than shortening.
 
 STRICT RULES
 - Use only facts in the published article context below.
-- Write in clear Modern Standard Arabic. #CyberoPlus is the ONLY Latin text allowed.
-  The facebook_post_text value must contain no A-Z/a-z or accented Latin letters
-  outside that final brand hashtag. Translate foreign-language role titles and
+- Write in clear Modern Standard Arabic. The facebook_post_text value must contain
+  no A-Z/a-z or accented Latin letters anywhere. Translate foreign-language role titles and
   descriptive terms into natural Arabic instead of copying their French/English form.
   Use established Arabic names for employers when available; otherwise render the
   same proper name in Arabic letters only without inventing a different entity.
@@ -264,29 +254,17 @@ def validate_jobs_facebook_post(text, article=None):
     if text.count("أول تعليق") != 1:
         raise SocialAIQualityError('Facebook social copy must contain "أول تعليق" once')
 
-    notice_type = str(
-        article.get("job_notice_type")
-        or (article.get("ai_input_package") or {}).get("job_notice_type")
-        or "vacancy"
-    ).strip().lower()
-    contextual_hashtag = jobs_contextual_hashtag(notice_type)
     hashtags = re.findall(r"#[\w\u0600-\u06FF_]+", text, flags=re.UNICODE)
-    if hashtags != ["#CyberoPlus", contextual_hashtag]:
+    if hashtags:
         raise SocialAIQualityError(
-            f"Facebook social copy must end with exactly #CyberoPlus and {contextual_hashtag}"
+            "Facebook social copy must not contain hashtags"
         )
 
-    body_without_hashtags = re.sub(
-        r"#[\w\u0600-\u06FF_]+",
-        "",
-        text,
-        flags=re.UNICODE,
-    )
-    if re.search(r"[A-Za-zÀ-ÖØ-öø-ÿ]", body_without_hashtags):
+    if re.search(r"[A-Za-zÀ-ÖØ-öø-ÿ]", text):
         raise SocialAIQualityError(
-            "Facebook social copy body must be written entirely in Arabic"
+            "Facebook social copy must be written entirely in Arabic"
         )
-    if len(re.findall(r"[\u0600-\u06FF]", body_without_hashtags)) < 40:
+    if len(re.findall(r"[\u0600-\u06FF]", text)) < 40:
         raise SocialAIQualityError("Facebook social copy must be Arabic-first")
     if not (120 <= len(text) <= 1200):
         raise SocialAIQualityError(
@@ -294,23 +272,18 @@ def validate_jobs_facebook_post(text, article=None):
         )
 
     lines = [line.strip() for line in text.splitlines() if line.strip()]
-    if not (4 <= len(lines) <= 8):
+    if not (4 <= len(lines) <= 7):
         raise SocialAIQualityError(
-            "Facebook social copy needs 4 to 8 short readable lines"
+            "Facebook social copy needs 4 to 7 short readable lines"
         )
     first_line = lines[0]
     if not (18 <= len(first_line) <= 160):
         raise SocialAIQualityError(
             "Facebook social copy hook must be 18 to 160 characters"
         )
-    expected_hashtag_line = f"#CyberoPlus {contextual_hashtag}"
-    if lines[-1] != expected_hashtag_line:
+    if "أول تعليق" not in lines[-1]:
         raise SocialAIQualityError(
-            "Facebook social copy hashtags must be the final line"
-        )
-    if len(lines) < 2 or "أول تعليق" not in lines[-2]:
-        raise SocialAIQualityError(
-            "Facebook social copy CTA must be immediately before hashtags"
+            "Facebook social copy CTA must be the final line"
         )
 
     emoji_count = sum(text.count(emoji) for emoji in _ALLOWED_SOCIAL_EMOJIS)
@@ -384,7 +357,6 @@ def _deterministic_jobs_facebook_post(article):
         or "vacancy"
     ).strip().lower()
     stage = _NOTICE_STAGE_LABELS.get(notice_type, "إعلان توظيف")
-    contextual_hashtag = jobs_contextual_hashtag(notice_type)
 
     company = _arabic_published_social_fact(
         article.get("job_company") or package.get("job_company") or "",
@@ -462,8 +434,6 @@ def _deterministic_jobs_facebook_post(article):
             "👇 التفاصيل الكاملة لهذا الإعلان في أول تعليق.",
         )
     )
-    lines.append(f"#CyberoPlus {contextual_hashtag}")
-
     text = "\n\n".join(line for line in lines if line.strip())
     return validate_jobs_facebook_post(text, article=article)
 
