@@ -5397,44 +5397,47 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIn("آخر أجل للترشيح هو 18 أكتوبر 2026", formatted)
         self.assertIn("أول تعليق", formatted)
 
-    def test_deterministic_social_fallback_is_cached_without_second_ai_call(self):
+    def test_legacy_deterministic_social_state_is_regenerated_with_ai(self):
         article = {
-            "id": "cached-social-fallback",
+            "id": "legacy-social-fallback",
             "status": "published",
             "publish_status": "published",
             "blogger_post_url": "https://example.blogspot.com/2026/10/job.html",
             "seo_title": "شركة مثال تعلن عن فرصة توظيف جديدة",
             "job_notice_type": "vacancy",
             "job_company": "شركة مثال",
+            "facebook_post_source": "deterministic",
+            "facebook_post_text": (
+                "📢 نص قديم محفوظ من قالب سابق.\n\n"
+                "💼 يجب ألا يعاد استخدامه بعد اعتماد الذكاء الاصطناعي فقط.\n\n"
+                "📋 تفاصيل موثقة متاحة في الإعلان المنشور.\n\n"
+                "👇 التفاصيل في أول تعليق."
+            ),
         }
-        fallback_caption = (
-            "فرصة توظيف لدى شركة مثال: إليك أبرز التفاصيل الموثقة التي تهم المترشحين.\n"
-            "للاطلاع على التفاصيل الكاملة والوثائق المرتبطة بالإعلان، "
-            "تجد الرابط في أول تعليق 👇.\n"
-            "#وظائف #فرص_عمل #توظيف"
+        ai_caption = (
+            "📢 فرصة توظيف جديدة لدى شركة مثال لمن يبحث عن تفاصيل موثقة.\n\n"
+            "💼 يوضح الإعلان المنشور طبيعة الفرصة والمعطيات الأساسية المرتبطة بها.\n\n"
+            "📋 راجع الشروط والمعلومات المؤكدة قبل اتخاذ قرار الترشيح.\n\n"
+            "👇 التفاصيل الكاملة متاحة في أول تعليق."
         )
         with patch.object(
             facebook,
             "generate_jobs_facebook_post",
             return_value={
-                "facebook_post_text": fallback_caption,
-                "provider": "deterministic:verified-published-article",
-                "attempts": 2,
-                "fallback": True,
+                "facebook_post_text": ai_caption,
+                "provider": "groq:test",
+                "attempts": 1,
             },
         ) as generate:
-            first = facebook._jobs_facebook_blueprint(
-                article,
-                article["blogger_post_url"],
-            )
-            second = facebook._jobs_facebook_blueprint(
+            result = facebook._jobs_facebook_blueprint(
                 article,
                 article["blogger_post_url"],
             )
 
-        self.assertEqual(generate.call_count, 1)
-        self.assertEqual(article["facebook_post_source"], "deterministic")
-        self.assertEqual(first["caption"], second["caption"])
+        generate.assert_called_once()
+        self.assertEqual(article["facebook_post_source"], "social_ai")
+        self.assertEqual(article["facebook_ai_provider_used"], "groq:test")
+        self.assertNotIn("نص قديم محفوظ", result["caption"])
 
     def test_pending_facebook_runs_even_when_article_ai_fails(self):
         calls = []
