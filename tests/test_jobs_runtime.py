@@ -4695,12 +4695,18 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(generate.call_count, 2)
         cooldown.assert_called_once()
 
-    def test_successful_sibling_model_clears_provider_circuit(self):
+    def test_successful_sibling_model_clears_provider_and_global_circuits(self):
         memory = ai._empty_ai_memory()
         memory["provider_circuits"]["groq"] = {
             "until": 5000,
             "category": "empty",
             "fingerprint": "empty-fp",
+        }
+        memory["global_circuit"] = {
+            "until": 5000,
+            "providers": ["gemini", "groq", "openrouter"],
+            "category": "cooldown",
+            "fingerprint": "global-fp",
         }
         with (
             patch.object(ai, "_AI_MEMORY_CACHE", memory),
@@ -4712,6 +4718,7 @@ class JobsRuntimeTests(unittest.TestCase):
             )
 
         self.assertNotIn("groq", memory["provider_circuits"])
+        self.assertEqual(memory["global_circuit"], {})
 
     def test_groq_empty_circuit_releases_when_sibling_model_is_ready(self):
         with (
