@@ -179,6 +179,29 @@ class OfficialJobSourcesTests(unittest.TestCase):
         self.assertEqual(tried[1], "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all")
         self.assertEqual(collect.call_count, 2)
 
+    def test_anapec_repeated_transport_timeouts_stop_before_third_route(self):
+        with patch.object(
+            scraper,
+            "_collect_paginated_html_links_async",
+            side_effect=[
+                ([], "TimeoutError", None, {}),
+                ([], "TimeoutError", None, {}),
+            ],
+        ) as collect:
+            rows, error, status, details = asyncio.run(
+                scraper._collect_article_links_for_source_async(
+                    None,
+                    "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all",
+                    extractor_type="anapec_jobs",
+                )
+            )
+        self.assertEqual(rows, [])
+        self.assertEqual(error, "TimeoutError")
+        self.assertIsNone(status)
+        self.assertEqual(collect.call_count, 2)
+        self.assertEqual(len(details["tried_listing_urls"]), 2)
+        self.assertEqual(details["transport_failures"], 2)
+
     def test_smartrecruiters_follows_pagination_even_when_first_page_is_known(self):
         source = "https://api.smartrecruiters.com/v1/companies/ALTEN/postings?country=ma"
         job = lambda number: {"id":str(number),"name":"Software developer","releasedDate":"2026-10-03T08:00:00Z","location":{"country":"ma","city":"Rabat"}}
