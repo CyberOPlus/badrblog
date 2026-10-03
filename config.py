@@ -162,10 +162,11 @@ JOBS_ENRICH_MAX_TARGETS_PER_CYCLE = max(
 
 # Publish only opportunities whose official publication time proves they are fresh.
 # Unknown publication time is not treated as fresh. The configured value is
-# capped at the agreed 12h window, including manual runs.
+# capped at the agreed 24h window, including manual runs. Jobs with an
+# exact timestamp at <=12h receive ranking priority in job_core.py.
 JOBS_MAX_PUBLISH_AGE_HOURS = max(
     1,
-    min(12, _env_int("JOBS_MAX_PUBLISH_AGE_HOURS", 12)),
+    min(24, _env_int("JOBS_MAX_PUBLISH_AGE_HOURS", 24)),
 )
 
 # Jobs discovery pagination. fetch_limit_per_run remains a compatibility/page-size
