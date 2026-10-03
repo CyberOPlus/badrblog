@@ -1040,32 +1040,17 @@ def _latinize(value):
     return text
 
 
-def _alpha_token(seed, length=8):
-    digest = hashlib.sha256(str(seed or "job").encode("utf-8")).digest()
-    return "".join(chr(ord("a") + (byte % 26)) for byte in digest[:length])
-
-
 def desired_slug(article, campaign_id=""):
+    """Return a stable readable permalink stem without opaque hash suffixes.
+
+    Campaign identity/deduplication is handled separately. The public slug keeps
+    only employer + role words, so changing deadline, seat count, reference IDs,
+    or internal campaign IDs never creates a random-looking filename.
+    """
     company = _latinize(article.get("job_company") or article.get("company"))
     title = _latinize(article.get("job_title") or article.get("title"))
     base_words = [x for x in f"{company}-{title}".split("-") if x][:8]
-    base = "-".join(base_words).strip("-") or "job"
-
-    reference_seed = str(
-        article.get("job_external_reference")
-        or article.get("ats_reference")
-        or ""
-    ).strip()
-    if not reference_seed:
-        for key in ("job_application_url", "job_detail_url", "url", "canonical_url"):
-            value = str(article.get(key) or "").strip()
-            if value:
-                reference_seed = value
-                break
-
-    token_seed = reference_seed or campaign_id or identity_key(article)
-    token = _alpha_token(token_seed)
-    return f"{base}-{token}"[:90].strip("-")
+    return ("-".join(base_words).strip("-") or "job")[:90].strip("-")
 
 
 def _state_default():
