@@ -4606,6 +4606,66 @@ class JobsRuntimeTests(unittest.TestCase):
         )
 
 
+    def test_groq_candidates_keep_model_fallbacks_on_same_key(self):
+        with (
+            patch.object(ai, "AI_PROVIDER", "auto"),
+            patch.object(ai, "GROQ_API_KEY", "groq-test-key"),
+            patch.object(ai, "GROQ_MODEL", "model-a"),
+            patch.object(ai, "GROQ_MODELS", ["model-a", "model-b", "model-c"]),
+            patch.object(ai, "_resolve_providers", return_value=["groq"]),
+            patch.object(ai, "_prune_ai_memory"),
+        ):
+            candidates = ai._provider_candidates()
+
+        self.assertEqual(
+            [row["model"] for row in candidates],
+            ["model-a", "model-b", "model-c"],
+        )
+
+    def test_ai_generation_tries_second_model_from_same_provider(self):
+        candidates = [
+            {"provider": "groq", "api_key": "key", "model": "model-a"},
+            {"provider": "groq", "api_key": "key", "model": "model-b"},
+        ]
+        with (
+            patch.object(ai, "_global_circuit_remaining", return_value=0),
+            patch.object(ai, "_provider_candidates", return_value=candidates),
+            patch.object(ai, "_provider_circuit_remaining", return_value=0),
+            patch.object(ai, "_cooldown_remaining", return_value=0),
+            patch.object(
+                ai,
+                "_generate_with_candidate",
+                side_effect=[
+                    ai.AIProviderEmptyResponse("groq returned an empty response."),
+                    ("raw", "groq:model-b"),
+                ],
+            ) as generate,
+            patch.object(ai, "_put_candidate_on_cooldown") as cooldown,
+        ):
+            result = ai._generate_ai_article("prompt")
+
+        self.assertEqual(result, ("raw", "groq:model-b"))
+        self.assertEqual(generate.call_count, 2)
+        cooldown.assert_called_once()
+
+    def test_successful_sibling_model_clears_provider_circuit(self):
+        memory = ai._empty_ai_memory()
+        memory["provider_circuits"]["groq"] = {
+            "until": 5000,
+            "category": "empty",
+            "fingerprint": "empty-fp",
+        }
+        with (
+            patch.object(ai, "_AI_MEMORY_CACHE", memory),
+            patch.object(ai, "_save_ai_memory"),
+        ):
+            ai._record_candidate_success(
+                {"provider": "groq", "api_key": "key", "model": "model-b"},
+                elapsed_seconds=0.5,
+            )
+
+        self.assertNotIn("groq", memory["provider_circuits"])
+
     def test_ai_empty_response_backoff_is_bounded_for_fast_reprobe(self):
         self.assertEqual(
             ai._fingerprint_backoff_seconds("provider", "empty", 1),
