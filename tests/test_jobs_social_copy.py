@@ -201,43 +201,10 @@ class JobsSocialCopyTests(unittest.TestCase):
             ),
         )
 
-    def test_fallback_mentions_deadline_once_and_omits_unknown_count(self):
-        caption = social_ai._deterministic_jobs_facebook_post(self.article)
-        self.assertEqual(caption.count("20 أكتوبر 2026"), 1)
-        self.assertNotIn("عدد المناصب المؤكد: 0", caption)
-        self.assertNotIn("#", caption)
-        self.assertIn("أول تعليق", caption.split("\n\n")[-1])
-        self.assertNotIn("الوثائق", caption)
-
-    def test_fallback_keeps_notice_stage_without_reopening_applications(self):
-        for stage in ("candidate_list", "results", "final_results", "update"):
-            with self.subTest(stage=stage):
-                article = dict(
-                    self.article,
-                    job_notice_type=stage,
-                    seo_title="مستجدات المباراة لدى غرفة التجارة",
-                )
-                caption = social_ai._deterministic_jobs_facebook_post(article)
-                self.assertNotIn("آخر أجل للترشيح", caption)
-                self.assertNotIn("قبل الترشيح", caption)
-                self.assertNotIn("فرصة توظيف", caption)
-                self.assertIn(social_ai._NOTICE_STAGE_LABELS[stage], caption)
-                self.assertNotIn("#", caption)
-                self.assertIn("أول تعليق", caption.split("\n\n")[-1])
-
-    def test_arabic_fallback_preserves_numeric_facts_without_guessing_foreign_names(self):
-        article = dict(
-            self.article,
-            job_company="مكتب التكوين المهني وإنعاش الشغل (OFPPT)",
-            seo_title="مباراة مكون في النسيج التقليدي (1)",
-            job_location="Errachidia",
+    def test_no_deterministic_social_fallback_exists(self):
+        self.assertFalse(
+            hasattr(social_ai, "_deterministic_jobs_facebook_post")
         )
-        caption = social_ai._deterministic_jobs_facebook_post(article)
-        body = re.sub(r"#[\w\u0600-\u06FF_]+", "", caption)
-        self.assertIn("(1)", caption)
-        self.assertIn("مكتب التكوين المهني وإنعاش الشغل", caption)
-        self.assertIsNone(re.search(r"[A-Za-z]", body))
-        self.assertNotIn("الرشيدية", caption)
 
     def test_recent_hook_is_rejected_for_regeneration(self):
         article = dict(
