@@ -5,7 +5,10 @@
 import asyncio
 import html as html_lib
 import json
+import os
 import re
+import shutil
+import subprocess
 import sys
 import time
 import xml.etree.ElementTree as ET
@@ -480,10 +483,125 @@ def _source_fetch_timeout_seconds(url):
     return configured
 
 
-def _fetch_anapec_text_sync(url):
-    """Use Requests for ANAPEC because aiohttp repeatedly stalls on Actions runners."""
+def _fetch_anapec_with_curl_sync(url, timeout_seconds):
+    """Use the runner's independent libcurl stack when Python HTTP stalls."""
+    curl = shutil.which("curl")
+    if not curl:
+        return "", "CurlUnavailable", None
+
     started = time.perf_counter()
+    marker = "__CYBEROPLUS_HTTP_STATUS__:"
+    try:
+        max_time = max(3, min(8, int(round(float(timeout_seconds or 8)))))
+    except (TypeError, ValueError):
+        max_time = 8
+    connect_time = max(2, min(4, max_time))
+
+    headers = dict(HEADERS)
+    headers.setdefault("Accept-Language", "fr-FR,fr;q=0.9,ar;q=0.8")
+    command = [
+        curl,
+        "--silent",
+        "--show-error",
+        "--location",
+        "--ipv4",
+        "--http1.1",
+        "--connect-timeout",
+        str(connect_time),
+        "--max-time",
+        str(max_time),
+    ]
+    for header_name in ("User-Agent", "Accept", "Accept-Language"):
+        value = str(headers.get(header_name) or "").strip()
+        if value:
+            command.extend(["--header", f"{header_name}: {value}"])
+    command.extend(["--write-out", f"\n{marker}%{{http_code}}", url])
+
+    try:
+        result = subprocess.run(
+            command,
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=max_time + 2,
+        )
+    except subprocess.TimeoutExpired:
+        error = "TimeoutError"
+        log_event(
+            "fetch_end",
+            url=url,
+            method="curl-anapec",
+            error=error,
+            elapsed_ms=elapsed_ms(started),
+        )
+        return "", error, None
+
+    if result.returncode != 0:
+        error = "TimeoutError" if result.returncode == 28 else f"CurlExit{result.returncode}"
+        log_event(
+            "fetch_end",
+            url=url,
+            method="curl-anapec",
+            error=error,
+            stderr=(result.stderr or "")[:120],
+            elapsed_ms=elapsed_ms(started),
+        )
+        return "", error, None
+
+    body, separator, raw_status = (result.stdout or "").rpartition(f"\n{marker}")
+    if not separator:
+        error = "CurlStatusMissing"
+        log_event(
+            "fetch_end",
+            url=url,
+            method="curl-anapec",
+            error=error,
+            elapsed_ms=elapsed_ms(started),
+        )
+        return "", error, None
+    try:
+        status = int(raw_status.strip() or 0)
+    except ValueError:
+        status = 0
+    if status >= 400 or status <= 0:
+        error = f"http {status}" if status else "CurlStatusInvalid"
+        log_event(
+            "fetch_end",
+            url=url,
+            method="curl-anapec",
+            status=status or None,
+            error=error,
+            elapsed_ms=elapsed_ms(started),
+        )
+        return "", error, status or None
+
+    log_event(
+        "fetch_end",
+        url=url,
+        method="curl-anapec",
+        status=status,
+        chars=len(body),
+        elapsed_ms=elapsed_ms(started),
+    )
+    return body, "", status
+
+
+def _fetch_anapec_text_sync(url):
+    """Use two independent transports for ANAPEC without stalling the hot cycle."""
     timeout_seconds = _source_fetch_timeout_seconds(url)
+    on_github_actions = os.getenv("GITHUB_ACTIONS", "").strip().casefold() == "true"
+
+    # Python requests has repeatedly stalled against ANAPEC from GitHub-hosted
+    # runners. Prefer libcurl there; keep requests as a fallback and as the
+    # normal transport outside Actions.
+    if on_github_actions and shutil.which("curl"):
+        text, error, status = _fetch_anapec_with_curl_sync(url, timeout_seconds)
+        if not error:
+            return text, "", status
+        if not _is_anapec_transport_failure(error):
+            return "", error, status
+
+    started = time.perf_counter()
     headers = dict(HEADERS)
     headers.setdefault("Accept-Language", "fr-FR,fr;q=0.9,ar;q=0.8")
     headers["Connection"] = "close"
@@ -520,6 +638,7 @@ def _fetch_anapec_text_sync(url):
         error = "TimeoutError"
     except requests.RequestException as exc:
         error = type(exc).__name__
+
     log_event(
         "fetch_end",
         url=url,
@@ -527,6 +646,18 @@ def _fetch_anapec_text_sync(url):
         error=error,
         elapsed_ms=elapsed_ms(started),
     )
+
+    # Outside Actions, curl is still a useful independent fallback for DNS,
+    # TLS, or socket failures. On Actions it was already tried first.
+    if not on_github_actions and _is_anapec_transport_failure(error):
+        curl_text, curl_error, curl_status = _fetch_anapec_with_curl_sync(
+            url,
+            timeout_seconds,
+        )
+        if not curl_error:
+            return curl_text, "", curl_status
+        error = f"{error}; curl:{curl_error}"
+
     return "", error, None
 
 SOURCE_PRIORITY_HINTS = (
@@ -2957,12 +3088,11 @@ async def _collect_article_links_for_source_async(
                 break
             if extractor_mode == "anapec_jobs" and _is_anapec_transport_failure(error):
                 anapec_transport_failures += 1
-                # Neutral/FR/AR are routes on the same ANAPEC host. If two
-                # different routes both fail at the transport layer, a third
-                # 12-second probe is overwhelmingly likely to repeat the same
-                # runner-to-host failure. Keep ANAPEC enabled, record failure,
-                # and let source-health backoff retry it on a later cycle.
-                if anapec_transport_failures >= 2:
+                # A transport failure now means both independent transports
+                # (libcurl + requests on Actions) failed for the same host.
+                # Trying language variants after that only burns cycle time.
+                # Keep ANAPEC enabled and retry after source-health backoff.
+                if anapec_transport_failures >= 1:
                     log_event(
                         "anapec_route_probe_short_circuit",
                         attempts=len(tried_listing_urls),
