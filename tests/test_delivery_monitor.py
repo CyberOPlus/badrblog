@@ -108,6 +108,29 @@ class DeliveryReliabilityTests(unittest.TestCase):
         self.assertEqual(result["providers"]["groq"]["status"], "ok")
         self.assertNotIn("private-key", json.dumps(result))
 
+    def test_active_ai_circuit_overrides_stale_ok_probe(self):
+        with patch.object(monitor, "load_article_queue", return_value={"articles": []}), \
+             patch.object(monitor, "load_job_state", return_value={}):
+            result = monitor.delivery_status(
+                now=datetime(2026, 10, 3, 10, tzinfo=timezone.utc),
+                services={
+                    "facebook": {"status": "ok"},
+                    "ai": {"status": "ok"},
+                },
+                ai_circuit={
+                    "global_open": True,
+                    "global_retry_after": "2026-10-03T10:30:00+00:00",
+                    "global_category": "cooldown",
+                },
+            )
+
+        self.assertEqual(result["state"], "waiting_provider")
+        self.assertEqual(result["services"]["ai"]["status"], "cooldown")
+        self.assertEqual(
+            result["services"]["ai"]["retry_after"],
+            "2026-10-03T10:30:00+00:00",
+        )
+
     def test_service_checks_are_cached_between_cycles(self):
         recent = datetime.now(timezone.utc).isoformat()
         state = {"services_checked_at": recent, "services": {"facebook": {"status": "ok"}, "ai": {"status": "ok"}}}
