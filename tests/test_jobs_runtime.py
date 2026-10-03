@@ -1330,6 +1330,11 @@ class JobsRuntimeTests(unittest.TestCase):
         with (
             patch.object(facebook, "JOBS_MODE", True),
             patch.object(facebook, "classify_urgency", return_value={"level": "normal"}),
+            patch.object(
+                facebook,
+                "_recover_jobs_facebook_queue_from_memory",
+                return_value={"recovered": 0, "skipped_terminal": 0},
+            ),
             patch.object(facebook, "save_article_queue") as save,
         ):
             stats = facebook._sync_jobs_facebook_queue(
