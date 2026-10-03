@@ -145,9 +145,35 @@ def probe_ai():
                       "All AI generation probes failed; renew an invalid key or restore quota/service availability."}
 
 
-def delivery_status(now=None, services=None):
+def _runtime_ai_circuit_status():
+    """Read the shared AI circuit without spending another provider request."""
+    try:
+        import article_ai_processor as ai
+        return ai.ai_circuit_status() or {}
+    except Exception:
+        return {}
+
+
+def delivery_status(now=None, services=None, ai_circuit=None):
     now = now or datetime.now(timezone.utc)
-    services = services if services is not None else _read_health().get("services", {})
+    explicit_services = services is not None
+    services = services if explicit_services else _read_health().get("services", {})
+    if ai_circuit is None and not explicit_services:
+        ai_circuit = _runtime_ai_circuit_status()
+    ai_circuit = ai_circuit or {}
+    if ai_circuit.get("global_open"):
+        services = dict(services or {})
+        ai_service = dict(services.get("ai") or {})
+        ai_service.update({
+            "status": "cooldown",
+            "retry_after": ai_circuit.get("global_retry_after", ""),
+            "category": ai_circuit.get("global_category", ""),
+            "action": (
+                "All configured AI providers are temporarily unavailable or cooling down; "
+                "automatic generation resumes after the circuit retry window."
+            ),
+        })
+        services["ai"] = ai_service
     articles = load_article_queue().get("articles", [])
     posts = [row for row in articles if row.get("facebook_post_id")]
     latest = max(posts, key=lambda row: _date(row.get("facebook_posted_at")) or
@@ -170,7 +196,7 @@ def delivery_status(now=None, services=None):
     target_met = facebook_age is not None and facebook_age <= TARGET_MINUTES
     if services.get("facebook", {}).get("status") not in {None, "ok"}:
         state, action = "facebook_external_problem", services["facebook"].get("action", "Check Facebook access.")
-    elif services.get("ai", {}).get("status") in {"unavailable", "config"}:
+    elif services.get("ai", {}).get("status") in {"unavailable", "config", "cooldown"}:
         state, action = "waiting_provider", services["ai"].get("action", "Restore AI access.")
     elif uncertain:
         state, action = "facebook_delivery_uncertain", "Reconcile uncertain Facebook delivery before retrying that item."
@@ -208,7 +234,10 @@ def run_monitor(force=False):
         checked_at = datetime.now(timezone.utc).isoformat()
     else:
         checked_at = previous.get("services_checked_at", "")
-    report = delivery_status(services=services)
+    report = delivery_status(
+        services=services,
+        ai_circuit=_runtime_ai_circuit_status(),
+    )
     report["services_checked_at"] = checked_at
     atomic_write_json(HEALTH_PATH, report)
     return report
