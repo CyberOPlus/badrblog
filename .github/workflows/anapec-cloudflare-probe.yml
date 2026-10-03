@@ -15,6 +15,9 @@ jobs:
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       WORKER_NAME: cyberoplus-anapec-probe
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
       - name: Validate Cloudflare credentials
         shell: bash
         run: |
@@ -27,7 +30,8 @@ jobs:
       - name: Create fixed-target probe Worker
         shell: bash
         run: |
-          cat > /tmp/anapec-probe-worker.mjs <<'JS'
+          mkdir -p .probe
+          cat > .probe/anapec-probe-worker.mjs <<'JS'
           const TARGETS = [
             "https://www.anapec.org/sigec-app-rv/chercheurs/resultat_recherche/tout:all",
             "https://www.anapec.ma/sigec-app-rv/chercheurs/resultat_recherche/tout:all",
@@ -82,7 +86,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          npx -y wrangler@4 deploy /tmp/anapec-probe-worker.mjs \
+          npx -y wrangler@4 deploy .probe/anapec-probe-worker.mjs \
             --name "$WORKER_NAME" \
             --compatibility-date 2026-10-03 \
             --no-bundle
