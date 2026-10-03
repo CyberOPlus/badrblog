@@ -25,6 +25,7 @@ import requests
 from bs4 import BeautifulSoup
 from duplicate_utils import canonicalize_url
 from production_logging import elapsed_ms, log_event
+from official_job_sources import parse_anapec_links, smartrecruiters_listing_rows
 
 try:
     import aiohttp
@@ -2579,6 +2580,83 @@ async def _collect_links_from_feed_async(session, feed_url, source_url):
     return _parse_feed_article_links(text, source_url, feed_url=feed_url), ""
 
 
+def _smartrecruiters_page_url(source_url, offset):
+    parsed = urlparse(source_url)
+    query = dict(parse_qsl(parsed.query))
+    query.update(limit="100", offset=str(offset))
+    return urlunparse(parsed._replace(query=urlencode(query)))
+
+
+def _smartrecruiters_page(payload, source_url, known):
+    rows = smartrecruiters_listing_rows(payload, source_url)
+    fresh, _ = _filter_new_discovery_links(rows, known, finish_page=True,
+                                           max_items=len(rows) + 1)
+    return fresh, len(payload["content"]), int(payload.get("totalFound") or 0)
+
+
+def _smartrecruiters_result(rows, error, status, offset, pages, resume):
+    return rows, error, status, {
+        "normal_links_found": len(rows), "feed_links_found": 0,
+        "method_used": "smartrecruiters_api", "tried_feed_urls": [],
+        "empty_ok": not rows and not error and status == 200,
+        "discovery_meta": {"pages_scanned": pages, "resume_offset": offset if resume else 0},
+        "discovery_resume": {"kind": "smartrecruiters", "offset": offset} if resume else {},
+    }
+
+
+async def _collect_smartrecruiters_async(session, source_url, known_ids, max_pages, max_items, resume_state):
+    rows, known = [], set(known_ids or ())
+    offset = int(resume_state.get("offset") or 0) if resume_state.get("kind") == "smartrecruiters" else 0
+    pages, error, status, resume = 0, "", None, False
+    for _ in range(max(1, int(max_pages or JOBS_DISCOVERY_MAX_PAGES))):
+        pages += 1
+        text, error, status = await _fetch_text_async(session, _smartrecruiters_page_url(source_url, offset))
+        if error:
+            resume = offset > 0
+            break
+        try:
+            new, count, total = _smartrecruiters_page(json.loads(text), source_url, known)
+        except (ValueError, TypeError, KeyError, AttributeError):
+            error = "Invalid official SmartRecruiters listing response"
+            break
+        rows.extend(_link_to_article_dict(row, source_url) for row in new)
+        offset += count
+        if not count or offset >= total:
+            resume = False
+            break
+        resume = True
+        if len(rows) >= int(max_items or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE):
+            break
+    return _smartrecruiters_result(rows, error, status, offset, pages, resume)
+
+
+def _collect_smartrecruiters_sync(source_url, known_ids, max_pages, max_items, resume_state):
+    rows, known = [], set(known_ids or ())
+    offset = int(resume_state.get("offset") or 0) if resume_state.get("kind") == "smartrecruiters" else 0
+    pages, error, status, resume = 0, "", None, False
+    for _ in range(max(1, int(max_pages or JOBS_DISCOVERY_MAX_PAGES))):
+        pages += 1
+        try:
+            response = requests.get(_smartrecruiters_page_url(source_url, offset), headers=HEADERS,
+                                    timeout=SOURCE_TIMEOUT_SECONDS)
+            status = response.status_code
+            response.raise_for_status()
+            new, count, total = _smartrecruiters_page(response.json(), source_url, known)
+        except (requests.RequestException, ValueError, TypeError, KeyError, AttributeError) as exc:
+            error = "SmartRecruiters listing " + type(exc).__name__
+            resume = offset > 0
+            break
+        rows.extend(_link_to_article_dict(row, source_url) for row in new)
+        offset += count
+        if not count or offset >= total:
+            resume = False
+            break
+        resume = True
+        if len(rows) >= int(max_items or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE):
+            break
+    return _smartrecruiters_result(rows, error, status, offset, pages, resume)
+
+
 async def _collect_article_links_for_source_async(
     session,
     source_url,
@@ -2597,6 +2675,8 @@ async def _collect_article_links_for_source_async(
 
     extractor_mode = str(extractor_type or "").lower()
     resume_state = resume_state if isinstance(resume_state, dict) else {}
+    if extractor_mode == "smartrecruiters_api":
+        return await _collect_smartrecruiters_async(session, source_url, known_ids, max_pages, max_items, resume_state)
     if extractor_mode == "workday_api":
         links, error, status_code, discovery_meta = await _collect_workday_links_async(
             session,
@@ -2658,8 +2738,9 @@ async def _collect_article_links_for_source_async(
             ),
         }
 
-    if extractor_mode in {"inwi_jobs", "credit_du_maroc_jobs", "cih_jobs", "alten_jobs"}:
+    if extractor_mode in {"inwi_jobs", "credit_du_maroc_jobs", "cih_jobs", "alten_jobs", "anapec_jobs"}:
         parser = {
+            "anapec_jobs": parse_anapec_links,
             "alten_jobs": _parse_alten_job_links,
             "inwi_jobs": _parse_inwi_job_links,
             "credit_du_maroc_jobs": _parse_credit_du_maroc_job_links,
@@ -2919,8 +3000,11 @@ def _collect_article_links_for_source(
 
     extractor_mode = str(extractor_type or "").lower()
     resume_state = resume_state if isinstance(resume_state, dict) else {}
-    if extractor_mode in {'emploi_public', 'capgemini_jobs', 'etalent', 'ats_listing', 'inwi_jobs', 'credit_du_maroc_jobs', 'cih_jobs', 'alten_jobs'}:
+    if extractor_mode == "smartrecruiters_api":
+        return _collect_smartrecruiters_sync(source_url, known_ids, max_pages, max_items, resume_state)
+    if extractor_mode in {'emploi_public', 'capgemini_jobs', 'etalent', 'ats_listing', 'inwi_jobs', 'credit_du_maroc_jobs', 'cih_jobs', 'alten_jobs', 'anapec_jobs'}:
         parser = {
+            "anapec_jobs": parse_anapec_links,
             "alten_jobs": _parse_alten_job_links,
             "emploi_public": _parse_emploi_public_links,
             "capgemini_jobs": _parse_capgemini_job_links,
@@ -2966,6 +3050,7 @@ def _collect_article_links_for_source(
                 "credit_du_maroc_jobs",
                 "cih_jobs",
                 "alten_jobs",
+                "anapec_jobs",
             } and not links and not error,
         }
 

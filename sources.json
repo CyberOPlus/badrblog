@@ -195,16 +195,29 @@
         },
         {
           "name": "ALTEN Maroc",
-          "base_url": "https://www.alten.ma/rejoignez-nous/",
+          "base_url": "https://api.smartrecruiters.com/v1/companies/ALTEN/postings?country=ma",
           "enabled": true,
           "fetch_limit_per_run": 12,
-          "extractor_type": "alten_jobs",
+          "extractor_type": "smartrecruiters_api",
           "source_priority": "A+",
           "official_source": true,
           "source_country": "MA",
           "source_eligibility": "morocco",
           "strict_source_path": false,
-          "source_note": "Official ALTEN Morocco vacancy cards; preserve official listing dates, accept only /jobs/<id>-<slug> details, and keep the existing freshness/identity/quality gates."
+          "source_note": "Official public ALTEN SmartRecruiters API, country=ma, verified HTTP 200 from Actions; preserve releasedDate and enrich from the matching posting ID. Avoid the employer HTML listing that returns 403 from Actions."
+        },
+        {
+          "name": "ANAPEC — offres nationales",
+          "base_url": "https://www.anapec.org/sigec-app-rv/",
+          "enabled": true,
+          "fetch_limit_per_run": 30,
+          "extractor_type": "anapec_jobs",
+          "source_priority": "A+",
+          "official_source": true,
+          "source_country": "MA",
+          "source_eligibility": "morocco",
+          "strict_source_path": false,
+          "source_note": "Official ANAPEC offer IDs only. Read publication dates from the same offer card/detail header, never from discovery time or a start date. Connectivity probes on 2026-10-03 timed out from Actions; failures remain visible and retryable, and live offer capture is not yet confirmed."
         }
       ]
     },
