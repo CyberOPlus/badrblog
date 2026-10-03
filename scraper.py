@@ -435,6 +435,19 @@ COMMON_FEED_SUFFIXES = (
 
 ASYNC_SOURCE_FETCH_CONCURRENCY = 8
 ASYNC_FETCH_TIMEOUT_SECONDS = SOURCE_TIMEOUT_SECONDS
+ANAPEC_MIN_FETCH_TIMEOUT_SECONDS = 12.0
+
+
+def _source_fetch_timeout_seconds(url):
+    """Give the slower ANAPEC portal extra time without slowing other sources."""
+    try:
+        configured = max(1.0, float(ASYNC_FETCH_TIMEOUT_SECONDS or 1))
+    except (TypeError, ValueError):
+        configured = 6.0
+    hostname = (urlparse(str(url or "")).hostname or "").casefold()
+    if hostname in {"anapec.org", "www.anapec.org", "anapec.ma", "www.anapec.ma"}:
+        return max(configured, ANAPEC_MIN_FETCH_TIMEOUT_SECONDS)
+    return configured
 
 SOURCE_PRIORITY_HINTS = (
     "the hacker news",
@@ -522,7 +535,21 @@ def _record_source_result(base_url, source_name, error, links_found, empty_ok=Fa
     elif "http 403" in lowered:
         record_source_cooldown(base_url, source_name=source_name, error=error_text, minutes=180)
     elif "timeout" in lowered or "timed out" in lowered:
-        record_source_cooldown(base_url, source_name=source_name, error=error_text, minutes=30)
+        hostname = (urlparse(str(base_url or "")).hostname or "").casefold()
+        # ANAPEC is important but demonstrably slower from Actions. Retry it
+        # sooner after transient timeouts while keeping the normal 30-minute
+        # protection for every other source.
+        timeout_cooldown_minutes = (
+            10
+            if hostname in {"anapec.org", "www.anapec.org", "anapec.ma", "www.anapec.ma"}
+            else 30
+        )
+        record_source_cooldown(
+            base_url,
+            source_name=source_name,
+            error=error_text,
+            minutes=timeout_cooldown_minutes,
+        )
     elif (empty_ok or True) and (not error) and (links_found <= 0):
         # A healthy Jobs source is allowed to have no NEW vacancies in a cycle.
         # Treating that as a failure would eventually cool down quiet sources and
@@ -1002,8 +1029,14 @@ def _fallback_feed_urls(source_url, feed_url=None):
 async def _fetch_text_async(session, url):
     started = time.perf_counter()
     try:
-        log_event("fetch_start", url=url, method="aiohttp-source")
-        async with session.get(url, headers=HEADERS, timeout=ASYNC_FETCH_TIMEOUT_SECONDS) as response:
+        timeout_seconds = _source_fetch_timeout_seconds(url)
+        log_event(
+            "fetch_start",
+            url=url,
+            method="aiohttp-source",
+            timeout_seconds=timeout_seconds,
+        )
+        async with session.get(url, headers=HEADERS, timeout=timeout_seconds) as response:
             text = await response.text(errors="ignore")
             if response.status >= 400:
                 error = f"http {response.status}"
