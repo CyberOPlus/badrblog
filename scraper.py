@@ -437,7 +437,10 @@ COMMON_FEED_SUFFIXES = (
 ASYNC_SOURCE_FETCH_CONCURRENCY = 8
 ASYNC_FETCH_TIMEOUT_SECONDS = SOURCE_TIMEOUT_SECONDS
 ANAPEC_MIN_FETCH_TIMEOUT_SECONDS = 12.0
+EMPLOI_PUBLIC_MIN_FETCH_TIMEOUT_SECONDS = 10.0
 ANAPEC_HOSTS = {"anapec.org", "www.anapec.org", "anapec.ma", "www.anapec.ma"}
+EMPLOI_PUBLIC_HOSTS = {"emploi-public.ma", "www.emploi-public.ma"}
+CRITICAL_OFFICIAL_JOB_HOSTS = ANAPEC_HOSTS | EMPLOI_PUBLIC_HOSTS
 
 
 def _is_anapec_url(url):
@@ -453,6 +456,9 @@ def _source_fetch_timeout_seconds(url):
         configured = 6.0
     if _is_anapec_url(url):
         return max(configured, ANAPEC_MIN_FETCH_TIMEOUT_SECONDS)
+    hostname = (urlparse(str(url or "")).hostname or "").casefold()
+    if hostname in EMPLOI_PUBLIC_HOSTS:
+        return max(configured, EMPLOI_PUBLIC_MIN_FETCH_TIMEOUT_SECONDS)
     return configured
 
 
@@ -569,7 +575,7 @@ def _filter_healthy_sources(sources):
         cooled_down, cooldown_until = is_source_cooled_down(base_url)
         if cooled_down:
             hostname = (urlparse(str(base_url or "")).hostname or "").casefold()
-            if hostname in {"anapec.org", "www.anapec.org", "anapec.ma", "www.anapec.ma"}:
+            if hostname in CRITICAL_OFFICIAL_JOB_HOSTS:
                 record = source_health_record(base_url)
                 last_error = str(record.get("last_error") or "").casefold()
                 failed_at = _parse_datetime_to_utc(record.get("last_failure_at"))
@@ -613,7 +619,7 @@ def _record_source_result(base_url, source_name, error, links_found, empty_ok=Fa
         # protection for every other source.
         timeout_cooldown_minutes = (
             5
-            if hostname in {"anapec.org", "www.anapec.org", "anapec.ma", "www.anapec.ma"}
+            if hostname in CRITICAL_OFFICIAL_JOB_HOSTS
             else 30
         )
         record_source_cooldown(
