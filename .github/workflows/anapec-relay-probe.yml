@@ -30,7 +30,7 @@ jobs:
                 -o "$body" -w "%{http_code}" "$relay" || true
             )"
             chars="$(wc -c < "$body" | tr -d ' ')"
-            offers="$(grep -Eo 'bloc_offre_home/[0-9]+' "$body" | sort -u | wc -l | tr -d ' ')"
+            offers="$((grep -Eo 'bloc_offre_home/[0-9]+' "$body" || true) | sort -u | wc -l | tr -d ' ')"
             echo "relay_http=$code chars=$chars official_offer_refs=$offers"
             head -c 320 "$body" | tr '\n' ' ' || true
             echo
