@@ -2,7 +2,7 @@
 
 This repository publishes verified job opportunities to Blogger and follows each successful article with a Facebook Page post. General technology/news ingestion, translation, category rotation and local-file publishing have been removed.
 
-- Official publication time must prove a job is at most **12 hours old**, including a final check immediately before a new live Blogger post.
+- Official publication time must prove a job is at most **24 hours old**, including a final check immediately before a new live Blogger post. Jobs at **12 hours or less** receive freshness priority.
 - Fresh cyber security, IT, developer and internship/student opportunities receive priority. Other valid jobs remain eligible.
 - Durable source identities, canonical URLs, job identity and campaign memory prevent rediscovery and duplicate publication.
 - Official PDF pages become sequential images inside the article. Work resumes across bounded passes until all documents/pages finish; original download links remain visible.
