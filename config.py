@@ -316,7 +316,16 @@ OPENROUTER_APP_NAME = os.getenv("OPENROUTER_APP_NAME", "Blogger Automation Bot")
 
 # Additional independent providers used by Jobs auto-failover.
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
-GROQ_MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-20b").strip()
+DEFAULT_GROQ_MODELS = [
+    "openai/gpt-oss-20b",
+    "openai/gpt-oss-120b",
+    "qwen/qwen3.8-27b",
+]
+GROQ_MODEL = os.getenv("GROQ_MODEL", DEFAULT_GROQ_MODELS[0]).strip()
+_configured_groq_models = _env_csv("GROQ_MODELS")
+GROQ_MODELS = _configured_groq_models or DEFAULT_GROQ_MODELS[:]
+if GROQ_MODEL and GROQ_MODEL not in GROQ_MODELS:
+    GROQ_MODELS.insert(0, GROQ_MODEL)
 GROQ_API_URL = os.getenv(
     "GROQ_API_URL",
     "https://api.groq.com/openai/v1/chat/completions",
