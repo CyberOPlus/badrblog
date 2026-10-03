@@ -201,7 +201,7 @@ FACEBOOK_GRAPH_API_URL = (
 # Independent safety rails: a bad env value or urgent override must not flood a Page.
 WHATSAPP_CHANNEL_URL = os.getenv(
     "WHATSAPP_CHANNEL_URL",
-    "https://whatsapp.com/channel/0029Vb7MdMfBVJl1kmmV4T0e",
+    "https://whatsapp.com/channel/0029VaDv5d05vKADlup5761h",
 ).strip()
 # Repository identity, not an environment-selectable news mode.
 JOBS_MODE = True
