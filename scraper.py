@@ -2746,26 +2746,54 @@ async def _collect_article_links_for_source_async(
             "credit_du_maroc_jobs": _parse_credit_du_maroc_job_links,
             "cih_jobs": _parse_cih_job_links,
         }[extractor_mode]
-        links, error, status_code, discovery_meta = await _collect_paginated_html_links_async(
-            session,
-            source_url,
-            parser,
-            known_ids=known_ids,
-            page_size=per_source_limit,
-            max_pages=max_pages,
-            seen_streak_stop=seen_streak_stop,
-            max_items=max_items,
-            start_url=(
-                resume_state.get("url")
-                if resume_state.get("kind") == "html"
-                else None
-            ),
-        )
+
+        discovery_urls = [source_url]
+        if extractor_mode == "anapec_jobs":
+            # ANAPEC's public offers live on the job-seeker search route. Keep
+            # the Arabic route and portal root as official fallbacks because
+            # the landing page can intermittently redirect or time out from
+            # cloud runners even while the public vacancy route is reachable.
+            discovery_urls.extend([
+                "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all",
+                "https://www.anapec.org/sigec-app-rv/ar/chercheurs/resultat_recherche/tout:all",
+                "https://www.anapec.org/sigec-app-rv/",
+            ])
+
+        links, error, status_code, discovery_meta = [], "", None, {}
+        tried_listing_urls = []
+        for attempt_index, discovery_url in enumerate(dict.fromkeys(discovery_urls)):
+            tried_listing_urls.append(discovery_url)
+            links, error, status_code, discovery_meta = await _collect_paginated_html_links_async(
+                session,
+                discovery_url,
+                parser,
+                known_ids=known_ids,
+                page_size=per_source_limit,
+                max_pages=max_pages,
+                seen_streak_stop=seen_streak_stop,
+                max_items=max_items,
+                start_url=(
+                    resume_state.get("url")
+                    if attempt_index == 0 and resume_state.get("kind") == "html"
+                    else None
+                ),
+            )
+            # parse_anapec_links treats a login/redesign page as an error and
+            # accepts an empty result only when the page explicitly says there
+            # are no offers, so a clean HTTP 200 is authoritative.
+            if links or (not error and status_code == 200):
+                break
+
         return [_link_to_article_dict(link, source_url) for link in links], error, status_code, {
             "normal_links_found": len(links),
             "feed_links_found": 0,
-            "method_used": extractor_mode,
+            "method_used": (
+                extractor_mode
+                if links or (not error and status_code == 200)
+                else f"failed:{extractor_mode}"
+            ),
             "tried_feed_urls": [],
+            "tried_listing_urls": tried_listing_urls,
             "discovery_meta": discovery_meta,
             "discovery_resume": (
                 {"kind": "html", "url": discovery_meta.get("resume_url")}

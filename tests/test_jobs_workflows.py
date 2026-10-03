@@ -51,7 +51,7 @@ class JobsWorkflowTests(unittest.TestCase):
         self.assertNotIn("Continue production cycle directly", text)
         self.assertNotIn("run: sleep 120", text)
         self.assertIn('"JOBS_FACEBOOK_FOLLOW_ARTICLE": "true"', text)
-        self.assertIn('"JOBS_MAX_PUBLISH_AGE_HOURS": "12"', text)
+        self.assertIn('"JOBS_MAX_PUBLISH_AGE_HOURS": "24"', text)
         self.assertIn('"AI_TOTAL_TIME_BUDGET_SECONDS": "300"', text)
         self.assertIn('"GEMINI_TIMEOUT_SECONDS": "90"', text)
         self.assertIn('"OPENROUTER_TIMEOUT_SECONDS": "90"', text)
@@ -138,7 +138,7 @@ class JobsWorkflowTests(unittest.TestCase):
     def test_example_environment_and_facebook_styles_are_jobs_only(self):
         env_text = Path("env.example").read_text(encoding="utf-8")
         self.assertIn("JOBS_MODE=true", env_text)
-        self.assertIn("JOBS_MAX_PUBLISH_AGE_HOURS=12", env_text)
+        self.assertIn("JOBS_MAX_PUBLISH_AGE_HOURS=24", env_text)
         self.assertIn("JOBS_DISCOVERY_SEEN_MEMORY=5000", env_text)
         self.assertIn("JOBS_FACEBOOK_MIN_INTERVAL_MINUTES=5", env_text)
         for retired in (
@@ -164,7 +164,7 @@ class JobsWorkflowTests(unittest.TestCase):
                    FAST_NEWS_MODE="true", CATEGORY_ROTATION_MODE="true")
         code = "import config; print(config.JOBS_MODE, config.ARTICLE_QUEUE_PATH.name, config.JOBS_FACEBOOK_FOLLOW_ARTICLE, config.JOBS_FACEBOOK_MIN_INTERVAL_MINUTES, config.JOBS_MAX_PUBLISH_AGE_HOURS)"
         result = subprocess.check_output([sys.executable, "-c", code], env=env, text=True)
-        self.assertEqual(result.strip(), "True jobs_article_queue.json True 5 12")
+        self.assertEqual(result.strip(), "True jobs_article_queue.json True 5 24")
 
     def test_default_entrypoint_runs_jobs_cycle_once(self):
         with patch.object(sys, "argv", ["main.py"]), \

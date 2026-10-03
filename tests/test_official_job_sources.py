@@ -45,6 +45,37 @@ class OfficialJobSourcesTests(unittest.TestCase):
         self.assertEqual(error, "TimeoutError")
         self.assertFalse(details["empty_ok"])
 
+    def test_anapec_discovery_retries_official_search_routes(self):
+        candidate = {
+            "title": "Développeur informatique",
+            "url": "https://www.anapec.org/sigec-app-rv/fr/entreprises/bloc_offre_home/1152572/resultat_recherche",
+            "ats_provider": "anapec",
+            "ats_reference": "1152572",
+        }
+        with patch.object(
+            scraper,
+            "_collect_paginated_html_links_async",
+            side_effect=[
+                ([], "TimeoutError", None, {}),
+                ([candidate], "", 200, {"pages_scanned": 1}),
+            ],
+        ) as collect:
+            rows, error, status, details = asyncio.run(
+                scraper._collect_article_links_for_source_async(
+                    None,
+                    "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all",
+                    extractor_type="anapec_jobs",
+                )
+            )
+        self.assertEqual(error, "")
+        self.assertEqual(status, 200)
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["ats_reference"], "1152572")
+        tried = details["tried_listing_urls"]
+        self.assertEqual(tried[0], "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all")
+        self.assertEqual(tried[1], "https://www.anapec.org/sigec-app-rv/ar/chercheurs/resultat_recherche/tout:all")
+        self.assertEqual(collect.call_count, 2)
+
     def test_smartrecruiters_follows_pagination_even_when_first_page_is_known(self):
         source = "https://api.smartrecruiters.com/v1/companies/ALTEN/postings?country=ma"
         job = lambda number: {"id":str(number),"name":"Software developer","releasedDate":"2026-10-03T08:00:00Z","location":{"country":"ma","city":"Rabat"}}
