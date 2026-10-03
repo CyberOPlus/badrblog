@@ -1,0 +1,50 @@
+name: ANAPEC Runner Probe
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/anapec-runner-probe.yml"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Probe ANAPEC routes from GitHub runner
+        shell: bash
+        run: |
+          set +e
+          echo "=== DNS ==="
+          getent ahosts www.anapec.org | head -20 || true
+          getent ahosts anapec.org | head -20 || true
+          getent ahosts www.anapec.ma | head -20 || true
+
+          probe() {
+            url="$1"
+            echo
+            echo "=== $url ==="
+            rm -f /tmp/anapec-body /tmp/anapec-headers
+            start=$(date +%s)
+            code=$(curl -4 --http1.1 -L -sS \
+              --connect-timeout 4 --max-time 10 \
+              -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/140 Safari/537.36" \
+              -H "Accept-Language: fr-FR,fr;q=0.9,ar;q=0.8" \
+              -D /tmp/anapec-headers -o /tmp/anapec-body \
+              -w "%{http_code}" "$url")
+            rc=$?
+            elapsed=$(($(date +%s)-start))
+            echo "curl_rc=$rc http_code=$code elapsed_s=$elapsed bytes=$(wc -c </tmp/anapec-body 2>/dev/null || echo 0)"
+            sed -n '1,20p' /tmp/anapec-headers 2>/dev/null || true
+            head -c 240 /tmp/anapec-body 2>/dev/null | tr '\n' ' ' || true
+            echo
+          }
+
+          probe "https://www.anapec.org/sigec-app-rv/chercheurs/resultat_recherche/tout:all"
+          probe "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all"
+          probe "https://www.anapec.org/sigec-app-rv/ar/chercheurs/resultat_recherche/tout:all"
+          probe "https://www.anapec.org/sigec-app-rv/"
+          probe "http://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all"
+          probe "https://anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all"
+          probe "https://www.anapec.ma/"
+          probe "https://anapec.ma/"
