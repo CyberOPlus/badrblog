@@ -1259,7 +1259,7 @@ def _jobs_facebook_blueprint(article, blogger_url):
     raw_caption = str(article.get("facebook_post_text") or "").strip()
     source = str(article.get("facebook_post_source") or "").strip().lower()
 
-    if source not in {"social_ai", "deterministic"} or not raw_caption:
+    if source != "social_ai" or not raw_caption:
         memory = _load_style_memory()
         social_article = dict(article)
         social_article["_facebook_recent_hooks"] = list(memory.get("recent_hooks", []))[-12:]
@@ -1269,9 +1269,7 @@ def _jobs_facebook_blueprint(article, blogger_url):
         if not raw_caption:
             raise RuntimeError("Social copy generator returned an empty Jobs Facebook post.")
         article["facebook_post_text"] = raw_caption
-        article["facebook_post_source"] = (
-            "deterministic" if social_result.get("fallback") else "social_ai"
-        )
+        article["facebook_post_source"] = "social_ai"
         article["facebook_ai_provider_used"] = str(social_result.get("provider") or "")
         article["facebook_ai_attempts"] = int(social_result.get("attempts") or 1)
         article["facebook_ai_generated_at"] = _now_iso()
