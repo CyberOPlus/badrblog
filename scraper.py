@@ -598,17 +598,18 @@ def _fetch_anapec_text_sync(url):
     # Python requests has repeatedly stalled against ANAPEC from GitHub-hosted
     # runners. Prefer libcurl there; keep requests as a fallback and as the
     # normal transport outside Actions.
+    curl_error = ""
     if on_github_actions and shutil.which("curl"):
-        text, error, status = _fetch_anapec_with_curl_sync(url, timeout_seconds)
-        if not error:
-            return text, "", status
-        if error == "CurlConnectTimeout":
+        curl_text, curl_error, curl_status = _fetch_anapec_with_curl_sync(url, timeout_seconds)
+        if not curl_error:
+            return curl_text, "", curl_status
+        if curl_error == "CurlConnectTimeout":
             # libcurl already proved that this GitHub runner cannot establish
             # the TCP connection to ANAPEC. Requests would use the same runner
             # egress and only repeat the same connect timeout.
-            return "", "TimeoutError", status
-        if not _is_anapec_transport_failure(error):
-            return "", error, status
+            return "", "TimeoutError", curl_status
+        if not _is_anapec_transport_failure(curl_error):
+            return "", curl_error, curl_status
 
     started = time.perf_counter()
     headers = dict(HEADERS)
