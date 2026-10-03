@@ -103,6 +103,23 @@ class OfficialJobSourcesTests(unittest.TestCase):
         self.assertEqual(status, 200)
         requests_get.assert_called_once()
 
+    def test_anapec_actions_connect_timeout_does_not_repeat_with_requests(self):
+        with patch.dict(scraper.os.environ, {"GITHUB_ACTIONS": "true"}, clear=False), \
+             patch.object(scraper.shutil, "which", return_value="/usr/bin/curl"), \
+             patch.object(
+                 scraper,
+                 "_fetch_anapec_with_curl_sync",
+                 return_value=("", "CurlConnectTimeout", None),
+             ), \
+             patch.object(scraper.requests, "get") as requests_get:
+            text, error, status = scraper._fetch_anapec_text_sync(
+                "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all"
+            )
+        self.assertEqual(text, "")
+        self.assertEqual(error, "TimeoutError")
+        self.assertIsNone(status)
+        requests_get.assert_not_called()
+
     def test_emploi_public_uses_critical_source_timeout_profile(self):
         timeout = scraper._source_fetch_timeout_seconds(
             "https://www.emploi-public.ma/ar/liste-des-concours"
