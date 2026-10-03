@@ -1950,7 +1950,7 @@ class JobsRuntimeTests(unittest.TestCase):
         now = datetime.now(timezone.utc)
         rows = [
             {"title": "Old Job", "url": "https://example.com/job/old",
-             "job_published_at": (now - timedelta(hours=13)).isoformat()},
+             "job_published_at": (now - timedelta(hours=25)).isoformat()},
             {"title": "Fresh Job", "url": "https://example.com/job/fresh",
              "source_published_at": (now - timedelta(hours=1)).isoformat()},
             {"title": "Undated Job", "url": "https://example.com/job/undated"},
