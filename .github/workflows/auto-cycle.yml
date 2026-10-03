@@ -73,10 +73,43 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Install scanned-PDF OCR support
+      - name: Install scanned-PDF OCR support when needed
         timeout-minutes: 4
         continue-on-error: true
         run: |
+          NEED_OCR="$(python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path("jobs_article_queue.json")
+          try:
+              payload = json.loads(path.read_text(encoding="utf-8"))
+          except Exception:
+              payload = {}
+
+          need = False
+          for article in payload.get("articles") or []:
+              if not isinstance(article, dict) or article.get("archived"):
+                  continue
+              if str(article.get("status") or "").strip().lower() in {"published", "skipped"}:
+                  continue
+              documents = article.get("job_document_links") or []
+              if not documents:
+                  continue
+              if (
+                  article.get("job_document_text_read_complete") is not True
+                  or article.get("job_document_ocr_unavailable") is True
+                  or int(article.get("job_document_unread_pages") or 0) > 0
+              ):
+                  need = True
+                  break
+          print("true" if need else "false")
+          PY
+          )"
+          if [ "$NEED_OCR" != "true" ]; then
+            echo "No active queued job currently needs scanned-PDF OCR; skipping system OCR install."
+            exit 0
+          fi
           if ! command -v tesseract >/dev/null 2>&1 \
              || ! tesseract --list-langs 2>/dev/null | grep -qx 'fra' \
              || ! tesseract --list-langs 2>/dev/null | grep -qx 'ara'; then
