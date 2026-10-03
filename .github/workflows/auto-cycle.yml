@@ -1,4 +1,5 @@
 name: Jobs Auto Cycle
+# ANAPEC dual-transport deployment marker.
 # ANAPEC same-host timeout short-circuit deployment marker.
 # Immediate neutral-route ANAPEC probe marker.
 # Neutral ANAPEC route deployment marker.
@@ -103,6 +104,9 @@ jobs:
             main.py scraper.py article_ai_processor.py article_draft_publisher.py \
             facebook_publisher.py quality_gate.py verified_fact_manifest.py
           python -m unittest \
+            tests.test_official_job_sources.OfficialJobSourcesTests.test_anapec_actions_prefers_curl_transport \
+            tests.test_official_job_sources.OfficialJobSourcesTests.test_anapec_actions_curl_timeout_falls_back_to_requests \
+            tests.test_official_job_sources.OfficialJobSourcesTests.test_anapec_combined_transport_failure_stops_after_first_route \
             tests.test_jobs_core.JobsCoreTests.test_generic_tuple_discovery_identity_is_supported \
             tests.test_jobs_core.JobsCoreTests.test_discovery_seen_streak_stops_after_known_run \
             tests.test_jobs_core.JobsCoreTests.test_low_ranking_score_does_not_block_verified_job \
