@@ -9,6 +9,14 @@
       "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
       "until": 1791046019.6529164
     },
+    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
+      "failed_at": "2026-10-03T16:42:34",
+      "key_id": "fb4fab4ba1",
+      "model": "openai/gpt-oss-20b",
+      "provider": "groq",
+      "reason": "groq returned an empty response.",
+      "until": 1791046058.969493
+    },
     "mistral:mistral-small-latest:8feed32495": {
       "failed_at": "2026-10-03T16:03:27",
       "key_id": "8feed32495",
@@ -406,20 +414,7 @@
     }
   },
   "fastest_success_model": "groq:openai/gpt-oss-20b",
-  "global_circuit": {
-    "category": "cooldown",
-    "fingerprint": "0bfbbde687f6e2ee0b50",
-    "opened_at": "2026-10-03T16:36:18",
-    "providers": [
-      "cloudflare",
-      "gemini",
-      "groq",
-      "mistral",
-      "openrouter"
-    ],
-    "reason": "all configured AI providers are unavailable or cooling down",
-    "until": 1791045968.5076025
-  },
+  "global_circuit": {},
   "provider_circuits": {
     "cloudflare": {
       "category": "quota",
@@ -436,14 +431,6 @@
       "provider": "gemini",
       "reason": "504 The request timed out. Please try again.",
       "until": 1791050506.433505
-    },
-    "groq": {
-      "category": "empty",
-      "fingerprint": "7fc25b239b1f7d4ff3a5",
-      "opened_at": "2026-10-03T16:36:08",
-      "provider": "groq",
-      "reason": "groq returned an empty response.",
-      "until": 1791045968.5076025
     },
     "mistral": {
       "category": "quota",
@@ -503,11 +490,20 @@
       "successes": 49,
       "total_success_time": 904.6365
     },
+    "groq:openai/gpt-oss-120b:fb4fab4ba1": {
+      "avg_time": 5.2165,
+      "key_id": "fb4fab4ba1",
+      "last_success_at": "2026-10-03T16:42:45",
+      "model": "openai/gpt-oss-120b",
+      "provider": "groq",
+      "successes": 2,
+      "total_success_time": 10.433
+    },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
       "avg_time": 2.726,
-      "failures": 11,
+      "failures": 12,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-03T16:36:08",
+      "last_failure_at": "2026-10-03T16:42:34",
       "last_success_at": "2026-10-03T16:35:10",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
