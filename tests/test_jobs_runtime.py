@@ -5087,7 +5087,8 @@ class JobsRuntimeTests(unittest.TestCase):
 
         self.assertTrue(result["changed"])
         self.assertEqual(result["visual_publish_failures_released"], 1)
-        self.assertEqual(row["status"], "selected")
+        self.assertEqual(row["status"], "ready")
+        self.assertNotIn("selected_at", row)
         self.assertEqual(row["publish_status"], "visual_optional_ready")
         self.assertTrue(row["visual_content_reuse_required"])
         self.assertNotIn("candidate_retry_after", row)
