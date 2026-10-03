@@ -246,6 +246,19 @@
           "source_note": "Official Inetum SmartRecruiters public API filtered to Morocco; preserve releasedDate and enrich only the matching posting ID."
         },
         {
+          "name": "Bosch Morocco",
+          "base_url": "https://api.smartrecruiters.com/v1/companies/BoschGroup/postings?country=ma",
+          "enabled": true,
+          "fetch_limit_per_run": 20,
+          "extractor_type": "smartrecruiters_api",
+          "source_priority": "A+",
+          "official_source": true,
+          "source_country": "MA",
+          "source_eligibility": "morocco",
+          "strict_source_path": false,
+          "source_note": "Official Bosch SmartRecruiters public API filtered to Morocco. Bosch states that its applications are processed through SmartRecruiters; preserve releasedDate and enrich only the matching posting ID."
+        },
+        {
           "name": "ANAPEC — offres nationales",
           "base_url": "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all",
           "enabled": true,
