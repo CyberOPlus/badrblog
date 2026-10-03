@@ -865,10 +865,28 @@ def _prune_ai_memory(now=None):
             and opened_at > 0
             and opened_at + (10 * 60) <= now
         )
+        groq_alternate_ready = False
+        if (
+            provider == "groq"
+            and category == "empty"
+            and _has_real_key(GROQ_API_KEY, "")
+        ):
+            for model_name in _models(GROQ_MODELS, GROQ_MODEL):
+                candidate = {
+                    "provider": "groq",
+                    "api_key": GROQ_API_KEY,
+                    "model": model_name,
+                }
+                if _cooldown_entry_until(
+                    cooldowns.get(_candidate_id(candidate))
+                ) <= now:
+                    groq_alternate_ready = True
+                    break
         if (
             _cooldown_entry_until(entry) <= now
             or legacy_format_expired
             or stale_empty_expired
+            or groq_alternate_ready
         ):
             circuits.pop(provider, None)
             changed = True
