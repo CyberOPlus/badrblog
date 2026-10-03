@@ -1,5 +1,4 @@
 name: Jobs Auto Cycle
-# Cross-runner ANAPEC dispatch deployment marker.
 # Immediate ANAPEC hostname failover probe marker.
 # ANAPEC hostname failover deployment marker.
 # Immediate ANAPEC dual-transport probe marker.
@@ -613,21 +612,6 @@ jobs:
         # State has already been saved. Make a real external blocker visible
         # without preventing the independent successor/watchdog from retrying.
         run: python delivery_monitor.py --cached
-
-      - name: Dispatch ANAPEC cross-runner probe
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        continue-on-error: true
-        uses: actions/github-script@v8
-        with:
-          script: |
-            const { owner, repo } = context.repo;
-            await github.rest.actions.createWorkflowDispatch({
-              owner,
-              repo,
-              workflow_id: "anapec-network-probe.yml",
-              ref: "main",
-            });
-            core.info("Dispatched one ANAPEC cross-runner probe.");
 
       - name: Continue Jobs auto-cycle
         if: always() && github.ref == 'refs/heads/main'
