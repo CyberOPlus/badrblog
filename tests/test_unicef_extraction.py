@@ -79,7 +79,7 @@ class UnicefExtractionTests(unittest.TestCase):
         self.assertTrue(fresh["passed"], fresh["reasons"])
         stale = job_core.score_job(row, now=datetime(2026, 10, 3, 10, tzinfo=timezone.utc))
         self.assertFalse(stale["passed"])
-        self.assertIn("job is older than 12 hours", stale["reasons"])
+        self.assertIn("job is older than 24 hours", stale["reasons"])
 
     def test_national_only_or_unspecified_roles_still_fail_eligibility(self):
         for title in (
