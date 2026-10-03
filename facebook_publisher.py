@@ -419,10 +419,31 @@ def _sync_jobs_facebook_queue(queue, now=None):
             ):
                 queued += 1
                 changed = True
-        elif current == "failed" and _facebook_retry_ready(article):
-            if _mark_facebook_pending(article, now=now, reason="retry_ready"):
+        elif current == "failed":
+            # Failures created by the retired strict-logo policy are local
+            # visual-policy failures, not Facebook API failures. Re-open them
+            # immediately so the employer-name fallback can be rendered.
+            logo_only_failure = (
+                "verified employer logo" in str(article.get("facebook_error") or "").casefold()
+                or "employer logo unavailable" in str(article.get("facebook_error") or "").casefold()
+            )
+            if logo_only_failure:
+                _clear_facebook_failure_state(article)
+                article["facebook_status"] = "facebook_pending"
+                article["facebook_queue_reason"] = "logo_fallback_policy_repair"
+                article["facebook_queued_at"] = article.get("facebook_queued_at") or _now_iso()
+                article.pop("facebook_logo_refresh_error", None)
                 queued += 1
                 changed = True
+                log_event(
+                    "facebook_logo_policy_failure_released",
+                    article_id=article.get("id"),
+                    company=article.get("job_company"),
+                )
+            elif _facebook_retry_ready(article):
+                if _mark_facebook_pending(article, now=now, reason="retry_ready"):
+                    queued += 1
+                    changed = True
 
     if changed:
         save_article_queue(queue)
@@ -1713,18 +1734,19 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
 
     _repair_job_facebook_application_semantics(article)
     logo = _refresh_job_logo_before_facebook(article)
+    # A verified logo is preferred, but its absence is no longer a publication
+    # gate. The image renderer receives an empty logo URL and safely draws the
+    # real employer name instead; no invented logo and no text-only post.
     if not (
         logo.get("company_logo_verified")
         and str(logo.get("company_logo_url") or "").strip()
     ):
-        # Do not consume a Facebook slot with a text-only or employer-name
-        # fallback. Keep the real Blogger job in the retryable social queue.
-        return _failure_result(
-            queue,
-            article,
-            article.get("facebook_logo_refresh_error")
-            or "Verified employer logo unavailable for Jobs Facebook visual.",
-            extra={"facebook_logo_refresh_status": article.get("facebook_logo_refresh_status", "")},
+        article["facebook_logo_refresh_status"] = "employer_text_fallback"
+        article.pop("facebook_logo_refresh_error", None)
+        log_event(
+            "facebook_job_logo_fallback_allowed",
+            article_id=article.get("id"),
+            company=article.get("job_company"),
         )
 
     selection = choose_job_template(article, JOB_VISUAL_STATE_PATH)
@@ -1787,7 +1809,7 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         article["facebook_image_status"] = "posted" if image_result.get("ok") else "failed_text_only"
         article["facebook_image_path"] = image_result.get("path", "")
         article["facebook_image_url"] = image_result.get("url", "")
-        article["facebook_image_used_fallback"] = False
+        article["facebook_image_used_fallback"] = bool(image_result.get("used_fallback"))
         if image_result.get("error"):
             article["facebook_image_error"] = image_result.get("error", "")[:300]
         else:
