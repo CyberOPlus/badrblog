@@ -37,6 +37,24 @@ class OfficialJobSourcesTests(unittest.TestCase):
         self.assertEqual(node["datePosted"], "2026-10-03")
         self.assertNotIn("hiringOrganization", node)
 
+    def test_anapec_uses_longer_fetch_timeout_without_slowing_other_sources(self):
+        anapec_timeout = scraper._source_fetch_timeout_seconds(
+            "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all"
+        )
+        normal_timeout = scraper._source_fetch_timeout_seconds("https://example.com/jobs")
+        self.assertGreaterEqual(anapec_timeout, 12.0)
+        self.assertEqual(normal_timeout, max(1.0, float(scraper.ASYNC_FETCH_TIMEOUT_SECONDS or 1)))
+
+    def test_anapec_timeout_cooldown_retries_sooner_than_generic_sources(self):
+        with patch.object(scraper, "record_source_cooldown") as cooldown:
+            scraper._record_source_result(
+                "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all",
+                "ANAPEC — offres nationales",
+                "TimeoutError",
+                0,
+            )
+        self.assertEqual(cooldown.call_args.kwargs["minutes"], 10)
+
     def test_anapec_async_timeout_is_failure_not_zero_jobs_success(self):
         with patch.object(scraper, "_fetch_text_async", return_value=("", "TimeoutError", None)):
             rows, error, status, details = asyncio.run(scraper._collect_article_links_for_source_async(
