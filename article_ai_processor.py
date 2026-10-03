@@ -933,7 +933,19 @@ def _put_candidate_on_cooldown(candidate, error):
     stats["failures"] = int(stats.get("failures", 0)) + 1
     stats["last_failure_at"] = _now_iso()
     _save_ai_memory(memory)
-    _open_provider_circuit(candidate.get("provider"), error)
+    model_local_failure = (
+        _is_empty_provider_response(error)
+        or _is_provider_model_capacity_error(error)
+    )
+    if model_local_failure:
+        log_event(
+            "ai_model_local_cooldown",
+            provider=candidate.get("provider"),
+            model=candidate.get("model"),
+            reason=_safe_error_reason(error),
+        )
+    else:
+        _open_provider_circuit(candidate.get("provider"), error)
     log_event(
         "ai_candidate_cooldown",
         provider=candidate.get("provider"),
@@ -3226,6 +3238,16 @@ def _generate_with_provider_name(provider, prompt, context=None):
                         model=candidate.get("model"),
                         reason=_safe_error_reason(error),
                     )
+                    if index < len(active_allowed) - 1:
+                        log_event(
+                            "ai_same_provider_model_switch",
+                            article_id=getattr(context, "article_id", ""),
+                            provider=provider,
+                            from_model=candidate.get("model"),
+                            to_model=active_allowed[index + 1].get("model"),
+                            reason="capacity",
+                        )
+                        break
                     raise AIProviderFallbackNeeded(
                         f"{provider} model capacity failed: {_safe_error_reason(error)}"
                     ) from error
@@ -3245,7 +3267,8 @@ def _generate_with_provider_name(provider, prompt, context=None):
                     )
                     time.sleep(min(timeout_retry_count, 2))
                     continue
-                if _is_empty_provider_response(error):
+                empty_response = _is_empty_provider_response(error)
+                if empty_response:
                     log_event(
                         "ai_provider_empty_response",
                         provider=provider,
@@ -3253,6 +3276,16 @@ def _generate_with_provider_name(provider, prompt, context=None):
                         article_id=getattr(context, "article_id", ""),
                     )
                 _put_candidate_on_cooldown(candidate, error)
+                if empty_response and index < len(active_allowed) - 1:
+                    log_event(
+                        "ai_same_provider_model_switch",
+                        article_id=getattr(context, "article_id", ""),
+                        provider=provider,
+                        from_model=candidate.get("model"),
+                        to_model=active_allowed[index + 1].get("model"),
+                        reason="empty_response",
+                    )
+                    break
                 raise AIProviderFallbackNeeded(
                     f"{provider} provider failed: {_safe_error_reason(error)}"
                 ) from error
