@@ -888,6 +888,14 @@ def score_job(article, now=None):
     publication_age_hours = freshness["age_hours"]
     fresh = bool(freshness["fresh"])
     points[f"fresh_under_{JOBS_MAX_PUBLISH_AGE_HOURS}h"] = 15 if fresh else 0
+    # Exact timestamps <=12h are preferred, while verified jobs remain
+    # publishable up to the 24h safety ceiling. Date-only records never invent
+    # an hour just to gain this priority bonus.
+    points["fresh_under_12h_priority"] = (
+        10
+        if fresh and publication_age_hours is not None and publication_age_hours <= 12
+        else 0
+    )
     points["preferred_tech_or_student"] = 10 if job_focus_priority(article) > 0 else 0
 
     priority = str(article.get("source_priority") or "").strip().lower()
