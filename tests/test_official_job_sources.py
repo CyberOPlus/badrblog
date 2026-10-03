@@ -1,6 +1,7 @@
 import asyncio
 import json
 import unittest
+from datetime import datetime, timedelta, timezone
 from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
@@ -53,7 +54,22 @@ class OfficialJobSourcesTests(unittest.TestCase):
                 "TimeoutError",
                 0,
             )
-        self.assertEqual(cooldown.call_args.kwargs["minutes"], 10)
+        self.assertEqual(cooldown.call_args.kwargs["minutes"], 5)
+
+    def test_legacy_anapec_timeout_cooldown_is_capped_at_five_minutes(self):
+        source = {
+            "name": "ANAPEC — offres nationales",
+            "base_url": "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all",
+        }
+        old_failure = (datetime.now(timezone.utc) - timedelta(minutes=6)).isoformat()
+        with patch.object(scraper, "is_source_cooled_down", return_value=(True, "2099-01-01T00:00:00Z")), \
+             patch.object(scraper, "source_health_record", return_value={
+                 "last_error": "head refresh: TimeoutError",
+                 "last_failure_at": old_failure,
+             }):
+            healthy, skipped = scraper._filter_healthy_sources([source])
+        self.assertEqual(healthy, [source])
+        self.assertEqual(skipped, [])
 
     def test_anapec_async_timeout_is_failure_not_zero_jobs_success(self):
         with patch.object(scraper, "_fetch_text_async", return_value=("", "TimeoutError", None)):
