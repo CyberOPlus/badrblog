@@ -5535,6 +5535,99 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(comments, [])
 
 
+    def test_legacy_verified_logo_failure_is_reopened_immediately_for_fallback(self):
+        article = {
+            "id": "logo-policy-failure",
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/p/logo-policy-failure.html",
+            "facebook_status": "failed",
+            "facebook_error": "Verified employer logo is still unavailable after late refresh.",
+            "facebook_failure_count": 1,
+            "facebook_retry_after_epoch": 9999999999,
+            "facebook_retry_delay_seconds": 1800,
+            "job_notice_type": "vacancy",
+            "job_company": "Example Company",
+        }
+        queue = {"articles": [article]}
+        with patch.object(
+            facebook,
+            "_recover_jobs_facebook_queue_from_memory",
+            return_value={"recovered": 0, "skipped_terminal": 0},
+        ), patch.object(facebook, "_persist_jobs_social_state"), \
+             patch.object(facebook, "save_article_queue") as save:
+            stats = facebook._sync_jobs_facebook_queue(
+                queue,
+                now=datetime(2026, 10, 3, 16, 5, tzinfo=timezone.utc),
+            )
+
+        self.assertEqual(stats["queued"], 1)
+        self.assertEqual(article["facebook_status"], "facebook_pending")
+        self.assertEqual(article["facebook_queue_reason"], "logo_fallback_policy_repair")
+        self.assertNotIn("facebook_error", article)
+        self.assertNotIn("facebook_retry_after_epoch", article)
+        self.assertNotIn("facebook_retry_delay_seconds", article)
+        save.assert_called_once()
+
+    def test_missing_verified_logo_flows_through_facebook_with_image_fallback(self):
+        article = {
+            "id": "facebook-logo-fallback",
+            "url": "https://example.com/jobs/42",
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/p/facebook-logo-fallback.html",
+            "facebook_status": "facebook_pending",
+            "job_notice_type": "vacancy",
+            "job_company": "Example Company",
+            "seo_title": "فرصة توظيف مهندس نظم لدى Example Company",
+        }
+        queue = {"articles": [article]}
+        blueprint = {
+            "caption": "فرصة جديدة لمهندس نظم.\n\nالتفاصيل في أول تعليق.\n\n#CyberoPlus #وظائف_المغرب",
+            "hashtags": ["#CyberoPlus", "#وظائف_المغرب"],
+            "hook": "فرصة جديدة لمهندس نظم.",
+            "cta": "التفاصيل في أول تعليق.",
+            "fingerprint": "fallback-card",
+            "style": "jobs",
+            "structure": "jobs_ai",
+        }
+        image_result = {
+            "ok": True,
+            "path": "fallback.jpg",
+            "url": "",
+            "used_fallback": True,
+        }
+        with patch.object(facebook, "FACEBOOK_AUTO_POST", True), \
+             patch.object(facebook, "FACEBOOK_PAGE_ID", "page"), \
+             patch.object(facebook, "FACEBOOK_PAGE_ACCESS_TOKEN", "token"), \
+             patch.object(facebook, "_sync_jobs_facebook_queue"), \
+             patch.object(facebook, "load_article_queue", return_value=queue), \
+             patch.object(facebook, "_target_article", return_value=article), \
+             patch.object(facebook, "_job_facebook_expired", return_value=False), \
+             patch.object(facebook, "_has_blogger_live_publish", return_value=True), \
+             patch.object(facebook, "_repair_job_facebook_application_semantics"), \
+             patch.object(facebook, "_refresh_job_logo_before_facebook", return_value={}), \
+             patch.object(facebook, "choose_job_template", return_value={"key": "new", "reason": "test", "pinned": True}), \
+             patch.object(facebook, "_prepare_facebook_post", return_value=blueprint), \
+             patch.object(facebook, "_publish_facebook_post", return_value=("page_post_1", "photo", image_result)), \
+             patch.object(facebook, "_post_first_comment", return_value="comment_1"), \
+             patch.object(facebook, "_persist_jobs_social_state"), \
+             patch.object(facebook, "save_article_queue"), \
+             patch.object(facebook, "_remember_caption_pattern"), \
+             patch.object(facebook, "archive_published_queue_article"):
+            result = facebook.post_one_article_to_facebook(
+                target_article_id=article["id"],
+                respect_limits=False,
+            )
+
+        self.assertTrue(result["posted"])
+        self.assertTrue(result["comment_posted"])
+        self.assertEqual(article["facebook_status"], "posted")
+        self.assertEqual(article["facebook_post_id"], "page_post_1")
+        self.assertEqual(article["facebook_comment_id"], "comment_1")
+        self.assertTrue(article["facebook_image_used_fallback"])
+        self.assertEqual(article["facebook_logo_refresh_status"], "employer_text_fallback")
+
     def test_jobs_never_publish_text_only_when_card_render_fails(self):
         article = {
             "id": "job-image-required",
