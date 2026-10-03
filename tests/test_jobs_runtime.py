@@ -4606,6 +4606,47 @@ class JobsRuntimeTests(unittest.TestCase):
         )
 
 
+    def test_ai_empty_response_backoff_is_bounded_for_fast_reprobe(self):
+        self.assertEqual(
+            ai._fingerprint_backoff_seconds("provider", "empty", 1),
+            2 * 60,
+        )
+        self.assertEqual(
+            ai._fingerprint_backoff_seconds("provider", "empty", 4),
+            10 * 60,
+        )
+        self.assertEqual(
+            ai._fingerprint_backoff_seconds("provider", "empty", 20),
+            10 * 60,
+        )
+
+    def test_prune_releases_stale_empty_provider_circuit(self):
+        memory = ai._empty_ai_memory()
+        memory["provider_circuits"]["groq"] = {
+            "until": 5000,
+            "category": "empty",
+            "fingerprint": "empty-fp",
+            "opened_at": "1970-01-01T00:01:40+00:00",
+        }
+        memory["global_circuit"] = {
+            "until": 5000,
+            "providers": ["groq"],
+            "category": "cooldown",
+            "fingerprint": "global-fp",
+        }
+        with (
+            patch.object(ai, "_AI_MEMORY_CACHE", memory),
+            patch.object(ai, "_save_ai_memory"),
+            patch.object(ai.time, "time", return_value=800),
+        ):
+            ai._prune_ai_memory(now=800)
+            remaining = ai._global_circuit_remaining()
+
+        self.assertNotIn("groq", memory["provider_circuits"])
+        self.assertEqual(remaining, 0.0)
+        self.assertEqual(memory["global_circuit"], {})
+
+
     def test_job_score_accepts_naive_scheduler_datetime(self):
         article = {
             "official_source": True,
