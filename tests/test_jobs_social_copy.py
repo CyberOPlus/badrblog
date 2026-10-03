@@ -32,8 +32,7 @@ class JobsSocialCopyTests(unittest.TestCase):
             "🎓 تحمل شهادة الماستر أو ما يعادلها؟ هذه المباراة بسوس ماسة قد تهمك.\n\n"
             "💼 غرفة التجارة والصناعة والخدمات تعلن عن منصب متصرف من الدرجة الثالثة.\n\n"
             "⏳ آخر أجل للترشيح: 20 أكتوبر 2026.\n\n"
-            "👇 راجع الشروط والوثائق وخطوات التسجيل وإرسال الملف في أول تعليق.\n\n"
-            "#CyberoPlus #مباريات_التوظيف"
+            "👇 راجع الشروط والوثائق وخطوات التسجيل وإرسال الملف في أول تعليق."
         )
 
     def test_arabic_caption_passes_generation_and_publisher_with_first_comment_link(self):
@@ -46,10 +45,7 @@ class JobsSocialCopyTests(unittest.TestCase):
             )
 
         generate.assert_called_once()
-        self.assertEqual(
-            blueprint["hashtags"],
-            ["#CyberoPlus", "#مباريات_التوظيف"],
-        )
+        self.assertEqual(blueprint["hashtags"], [])
         self.assertIn("أول تعليق", blueprint["cta"])
         self.assertNotIn("http", blueprint["caption"])
         self.assertTrue(all(
@@ -64,14 +60,11 @@ class JobsSocialCopyTests(unittest.TestCase):
         prompt = generate.call_args.args[0]
         self.assertIn("منصب واحد", prompt)
         self.assertIn("التسجيل الإلكتروني", prompt)
-        self.assertIn("#CyberoPlus #مباريات_التوظيف", prompt)
+        self.assertIn("Do not use hashtags anywhere", prompt)
 
     def test_hashtag_stuffing_is_repaired_before_delivery(self):
         old = json.dumps({
-            "facebook_post_text": self.caption.replace(
-                "#CyberoPlus #مباريات_التوظيف",
-                "#CyberoPlus #مباريات_التوظيف #وظائف #المغرب",
-            )
+            "facebook_post_text": self.caption + "\n\n#وظائف #المغرب #مباريات_التوظيف"
         }, ensure_ascii=False)
         new = json.dumps({"facebook_post_text": self.caption}, ensure_ascii=False)
         with patch.object(
@@ -84,7 +77,7 @@ class JobsSocialCopyTests(unittest.TestCase):
         self.assertEqual(result["attempts"], 2)
         self.assertNotIn("fallback", result)
         self.assertEqual(result["facebook_post_text"], self.caption)
-        self.assertIn("exactly #CyberoPlus", generate.call_args.args[0])
+        self.assertIn("must not contain hashtags", generate.call_args.args[0])
 
     def test_arabic_only_retry_repairs_the_rejected_copy_without_reexposing_url(self):
         rejected_caption = self.caption.replace(
@@ -144,11 +137,8 @@ class JobsSocialCopyTests(unittest.TestCase):
             )
         generate.assert_not_called()
         self.assertEqual(first["caption"], second["caption"])
-        self.assertEqual(
-            first["hashtags"],
-            ["#CyberoPlus", "#مباريات_التوظيف"],
-        )
-        self.assertNotIn("#وظائف ", first["caption"])
+        self.assertEqual(first["hashtags"], [])
+        self.assertNotIn("#", first["caption"])
 
     def test_foreign_words_and_unreadable_block_are_rejected(self):
         for invalid in (
@@ -163,22 +153,21 @@ class JobsSocialCopyTests(unittest.TestCase):
 
     def test_notice_type_controls_hashtag_and_first_comment(self):
         expected = {
-            "vacancy": ("#وظائف_المغرب", "التفاصيل وشروط وطريقة التقديم"),
-            "competition": ("#مباريات_التوظيف", "شروط المباراة والوثائق"),
-            "candidate_list": ("#لوائح_المترشحين", "لائحة المترشحين"),
-            "results": ("#نتائج_المباريات", "النتائج والتفاصيل"),
-            "final_results": ("#النتائج_النهائية", "النتائج النهائية"),
-            "update": ("#مستجدات_التوظيف", "تفاصيل المستجد"),
+            "vacancy": "التفاصيل وشروط وطريقة التقديم",
+            "competition": "شروط المباراة والوثائق",
+            "candidate_list": "لائحة المترشحين",
+            "results": "النتائج والتفاصيل",
+            "final_results": "النتائج النهائية",
+            "update": "تفاصيل المستجد",
         }
-        for stage, (hashtag, comment_label) in expected.items():
+        for stage, comment_label in expected.items():
             with self.subTest(stage=stage):
                 article = dict(self.article, job_notice_type=stage)
                 formatted = facebook._format_jobs_facebook_caption(
                     self.caption, article=article
                 )
-                self.assertTrue(
-                    formatted.endswith(f"#CyberoPlus {hashtag}")
-                )
+                self.assertNotIn("#", formatted)
+                self.assertIn("أول تعليق", formatted.split("\n\n")[-1])
                 comment = facebook._first_comment_text(
                     article["blogger_post_url"], article=article
                 )
@@ -194,9 +183,8 @@ class JobsSocialCopyTests(unittest.TestCase):
         )
         formatted = facebook._format_jobs_facebook_caption(raw, article=article)
         self.assertEqual(formatted.split("\n\n")[0], raw.split("\n\n")[0])
-        self.assertTrue(
-            formatted.endswith("#CyberoPlus #نتائج_المباريات")
-        )
+        self.assertNotIn("#", formatted)
+        self.assertIn("أول تعليق", formatted.split("\n\n")[-1])
         self.assertNotIn("شروط التقديم", formatted)
         self.assertNotIn("#نتائج ", formatted)
 
@@ -217,9 +205,8 @@ class JobsSocialCopyTests(unittest.TestCase):
         caption = social_ai._deterministic_jobs_facebook_post(self.article)
         self.assertEqual(caption.count("20 أكتوبر 2026"), 1)
         self.assertNotIn("عدد المناصب المؤكد: 0", caption)
-        self.assertTrue(
-            caption.endswith("#CyberoPlus #مباريات_التوظيف")
-        )
+        self.assertNotIn("#", caption)
+        self.assertIn("أول تعليق", caption.split("\n\n")[-1])
         self.assertNotIn("الوثائق", caption)
 
     def test_fallback_keeps_notice_stage_without_reopening_applications(self):
@@ -235,12 +222,8 @@ class JobsSocialCopyTests(unittest.TestCase):
                 self.assertNotIn("قبل الترشيح", caption)
                 self.assertNotIn("فرصة توظيف", caption)
                 self.assertIn(social_ai._NOTICE_STAGE_LABELS[stage], caption)
-                self.assertTrue(
-                    caption.endswith(
-                        "#CyberoPlus "
-                        + social_ai.jobs_contextual_hashtag(stage)
-                    )
-                )
+                self.assertNotIn("#", caption)
+                self.assertIn("أول تعليق", caption.split("\n\n")[-1])
 
     def test_arabic_fallback_preserves_numeric_facts_without_guessing_foreign_names(self):
         article = dict(
