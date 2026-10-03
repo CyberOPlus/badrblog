@@ -57,6 +57,40 @@ class DeliveryReliabilityTests(unittest.TestCase):
         self.assertEqual(result["state"], "no_fresh_candidate")
         self.assertFalse(result["hourly_target_met"])
 
+    def test_anapec_timeout_cooldown_is_reported_as_source_degraded(self):
+        payload = {
+            "sources": {
+                "https://www.anapec.org/jobs": {
+                    "source_name": "ANAPEC — offres nationales",
+                    "failure_count": 10,
+                    "last_error": "TimeoutError",
+                    "cooldown_until": "2026-10-03T10:30:00Z",
+                }
+            }
+        }
+        with TemporaryDirectory() as temp, \
+             patch.object(monitor, "SOURCE_HEALTH_PATH", Path(temp)/"source_health.json"):
+            monitor.SOURCE_HEALTH_PATH.write_text(json.dumps(payload), encoding="utf-8")
+            result = monitor.probe_sources(now=datetime(2026, 10, 3, 10, tzinfo=timezone.utc))
+        self.assertEqual(result["status"], "degraded")
+        self.assertEqual(result["active_issues"][0]["category"], "network_timeout")
+        self.assertIn("ANAPEC", result["action"])
+
+    def test_source_degradation_is_visible_without_becoming_blocking_state(self):
+        result = self.status(
+            [],
+            services={
+                "facebook": {"status": "ok"},
+                "ai": {"status": "ok"},
+                "sources": {
+                    "status": "degraded",
+                    "action": "ANAPEC is unreachable from GitHub-hosted runners.",
+                },
+            },
+        )
+        self.assertEqual(result["state"], "source_degraded")
+        self.assertNotIn(result["state"], monitor.BLOCKING_STATES)
+
     def test_waiting_facebook_article_is_a_stall_not_an_empty_source_pool(self):
         result = self.status([{"status": "published", "facebook_status": "failed",
                                "facebook_queued_at": "2026-10-03T08:30:00Z"}])
@@ -169,6 +203,19 @@ class DeliveryReliabilityTests(unittest.TestCase):
             monitor.run_monitor()
         facebook.assert_not_called()
         probe.assert_not_called()
+
+    def test_source_health_is_refreshed_even_when_external_service_checks_are_cached(self):
+        recent = datetime.now(timezone.utc).isoformat()
+        state = {"services_checked_at": recent, "services": {"facebook": {"status": "ok"}, "ai": {"status": "ok"}}}
+        with TemporaryDirectory() as temp, \
+             patch.object(monitor, "HEALTH_PATH", Path(temp)/"health.json"), \
+             patch.object(monitor, "_read_health", return_value=state), \
+             patch.object(monitor, "load_article_queue", return_value={"articles": []}), \
+             patch.object(monitor, "load_job_state", return_value={}), \
+             patch.object(monitor, "probe_sources", return_value={"status": "ok", "active_issues": [], "action": "ok"}) as source_probe:
+            result = monitor.run_monitor()
+        source_probe.assert_called_once()
+        self.assertEqual(result["services"]["sources"]["status"], "ok")
 
     def test_failure_scope_and_independent_social_failure_survive_checkpoint(self):
         result = {"completed": True, "scheduled_facebook": {"failed": 1},
