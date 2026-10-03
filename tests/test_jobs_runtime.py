@@ -5562,6 +5562,50 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertNotIn("facebook_error", article)
         self.assertEqual([row["id"] for row in pending], ["renderer-retry"])
 
+    def test_facebook_ai_wait_wakes_early_when_global_circuit_recovers(self):
+        article = {
+            "id": "ai-wait-recovered",
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/p/ai-wait.html",
+            "facebook_status": "facebook_pending",
+            "facebook_retry_after_epoch": 9999999999,
+            "facebook_ai_deferred_at": "2026-10-03T16:20:00",
+            "facebook_ai_deferred_reason": (
+                "global AI circuit open until 2026-10-03T16:41:55+00:00"
+            ),
+        }
+        with patch.object(
+            facebook,
+            "ai_circuit_status",
+            return_value={"global_open": False},
+        ):
+            self.assertTrue(
+                facebook._facebook_retry_ready(article, now_epoch=1000)
+            )
+
+    def test_facebook_ai_wait_keeps_cooldown_while_global_circuit_is_open(self):
+        article = {
+            "id": "ai-wait-open",
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/p/ai-wait-open.html",
+            "facebook_status": "facebook_pending",
+            "facebook_retry_after_epoch": 9999999999,
+            "facebook_ai_deferred_at": "2026-10-03T16:20:00",
+            "facebook_ai_deferred_reason": (
+                "global AI circuit open until 2026-10-03T16:41:55+00:00"
+            ),
+        }
+        with patch.object(
+            facebook,
+            "ai_circuit_status",
+            return_value={"global_open": True},
+        ):
+            self.assertFalse(
+                facebook._facebook_retry_ready(article, now_epoch=1000)
+            )
+
     def test_facebook_failed_backfill_respects_retry_cooldown(self):
         article = {
             "id": "cooldown",
