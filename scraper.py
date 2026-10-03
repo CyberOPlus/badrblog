@@ -2903,14 +2903,14 @@ async def _collect_article_links_for_source_async(
 
         discovery_urls = [source_url]
         if extractor_mode == "anapec_jobs":
-            # ANAPEC's public offers live on the job-seeker search route. Keep
-            # the Arabic route and portal root as official fallbacks because
-            # the landing page can intermittently redirect or time out from
-            # cloud runners even while the public vacancy route is reachable.
-            discovery_urls.extend([
-                "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all",
+            # Keep multiple official search-route variants. The legacy/current
+            # portal has exposed both language-prefixed and neutral routes over
+            # time, while cloud runners can time out selectively on one path.
+            discovery_urls = [
+                "https://www.anapec.org/sigec-app-rv/chercheurs/resultat_recherche/tout:all",
+                source_url,
                 "https://www.anapec.org/sigec-app-rv/ar/chercheurs/resultat_recherche/tout:all",
-            ])
+            ]
 
         links, error, status_code, discovery_meta = [], "", None, {}
         tried_listing_urls = []
