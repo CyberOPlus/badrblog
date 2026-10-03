@@ -3616,10 +3616,6 @@ async def _discover_latest_article_links_async(enabled_sources, persist_state=Tr
             source.get("extractor_type", "auto"),
             resume_state,
         )
-        resume_state = _sanitize_discovery_resume(
-            source.get("extractor_type", "auto"),
-            resume_state,
-        )
 
         print(f"\n[{index}] Checking {source_name}")
         async with semaphore:
