@@ -29,7 +29,7 @@ class JobsWorkflowTests(unittest.TestCase):
         self.assertIn("cancel-in-progress: false", text)
         self.assertIn("timeout-minutes: 30", text)
         self.assertIn("timeout-minutes: 20", text)
-        self.assertIn('"MAX_SOURCES_PER_RUN": "20"', text)
+        self.assertIn('"MAX_SOURCES_PER_RUN": "24"', text)
         self.assertIn('"MAX_POSTS_PER_RUN": "1"', text)
         self.assertIn('"MAX_ARTICLES_PER_RUN": "1"', text)
         self.assertIn('"SAFE_CYCLE_MAX_ARTICLES": "1"', text)
