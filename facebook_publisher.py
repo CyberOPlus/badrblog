@@ -44,7 +44,7 @@ from job_core import (
     record_job_social_state,
 )
 from article_ai_processor import ai_circuit_status
-from social_ai_processor import generate_jobs_facebook_post, jobs_contextual_hashtag
+from social_ai_processor import generate_jobs_facebook_post
 JOBS_CAPTION_STYLE = "jobs"
 
 FORBIDDEN_CAPTION_PHRASES = (
@@ -1498,27 +1498,18 @@ def _validate_facebook_caption(
     first_line = plain_lines[0] if plain_lines else ""
     if len(first_line) < 18 or first_line.startswith("#"):
         raise RuntimeError("Facebook caption hook is too weak.")
-    if not plain_lines or plain_lines[-1] != f"#CyberoPlus {expected_contextual}":
-        raise RuntimeError("Jobs Facebook hashtags must be the final line.")
-    if len(plain_lines) < 2 or "أول تعليق" not in plain_lines[-2]:
+    if not plain_lines or "أول تعليق" not in plain_lines[-1]:
         raise RuntimeError(
-            "Facebook first-comment CTA must be immediately before hashtags."
+            "Facebook first-comment CTA must be the final line."
         )
 
-    body_without_hashtags = re.sub(
-        r"#[\w\u0600-\u06FF_]+",
-        "",
-        plain_caption,
-        flags=re.UNICODE,
-    )
-    arabic_chars = len(re.findall(r"[\u0600-\u06FF]", body_without_hashtags))
+    arabic_chars = len(re.findall(r"[\u0600-\u06FF]", plain_caption))
     if arabic_chars < 40:
         raise RuntimeError("Facebook caption is not Arabic enough.")
 
-    latin_chars = len(re.findall(r"[A-Za-zÀ-ÖØ-öø-ÿ]", body_without_hashtags))
-    if latin_chars > max(80, int(arabic_chars * 0.60)):
+    if re.search(r"[A-Za-zÀ-ÖØ-öø-ÿ]", plain_caption):
         raise RuntimeError(
-            "Jobs Facebook caption must remain Arabic-first even with foreign terms."
+            "Jobs Facebook caption must be written entirely in Arabic."
         )
 
     minimum_length = 80 if allow_simple else 120
