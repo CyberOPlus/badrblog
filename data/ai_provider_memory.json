@@ -1,6 +1,39 @@
 {
   "avg_time": 2.4403,
-  "cooldowns": {},
+  "cooldowns": {
+    "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
+      "failed_at": "2026-10-03T16:01:56",
+      "key_id": "be6dab2cd8",
+      "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "provider": "cloudflare",
+      "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
+      "until": 1791046019.6529164
+    },
+    "gemini:gemini-2.5-flash:64f603a8c0": {
+      "failed_at": "2026-10-03T16:01:46",
+      "key_id": "64f603a8c0",
+      "model": "gemini-2.5-flash",
+      "provider": "gemini",
+      "reason": "504 The request timed out. Please try again.",
+      "until": 1791043907.0920067
+    },
+    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
+      "failed_at": "2026-10-03T16:01:55",
+      "key_id": "fb4fab4ba1",
+      "model": "openai/gpt-oss-20b",
+      "provider": "groq",
+      "reason": "groq returned an empty response.",
+      "until": 1791043620.4351056
+    },
+    "mistral:mistral-small-latest:8feed32495": {
+      "failed_at": "2026-10-03T16:03:27",
+      "key_id": "8feed32495",
+      "model": "mistral-small-latest",
+      "provider": "mistral",
+      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
+      "until": 1791046108.4782994
+    }
+  },
   "failure_fingerprints": {
     "0bfbbde687f6e2ee0b50": {
       "category": "cooldown",
@@ -15,13 +48,13 @@
     },
     "16f0cdcebb62d34cab0f": {
       "category": "quota",
-      "count": 6,
+      "count": 7,
       "first_seen_at": "2026-10-01T14:53:22",
-      "last_seen_at": "2026-10-02T21:02:49",
-      "last_seen_epoch": 1790974969.6635451,
+      "last_seen_at": "2026-10-03T16:03:27",
+      "last_seen_epoch": 1791043407.0354373,
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
-      "retry_until": 1790996569.6635451,
+      "retry_until": 1791065007.0354373,
       "scope": "provider"
     },
     "21d4f95aef0b3e555bda": {
@@ -158,13 +191,13 @@
     },
     "7a7105af81ae98f13b89": {
       "category": "quota",
-      "count": 1,
+      "count": 2,
       "first_seen_at": "2026-10-02T20:48:02",
-      "last_seen_at": "2026-10-02T20:48:02",
-      "last_seen_epoch": 1790974082.8886864,
+      "last_seen_at": "2026-10-03T16:01:56",
+      "last_seen_epoch": 1791043316.1844947,
       "provider": "cloudflare",
       "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
-      "retry_until": 1790976782.8886864,
+      "retry_until": 1791048716.1844947,
       "scope": "provider"
     },
     "7cd7c210360ee67a0f9e": {
@@ -180,13 +213,13 @@
     },
     "7fc25b239b1f7d4ff3a5": {
       "category": "empty",
-      "count": 3,
+      "count": 4,
       "first_seen_at": "2026-10-02T14:39:19",
-      "last_seen_at": "2026-10-02T21:01:19",
-      "last_seen_epoch": 1790974879.3553703,
+      "last_seen_at": "2026-10-03T16:01:55",
+      "last_seen_epoch": 1791043315.838931,
       "provider": "groq",
       "reason": "groq returned an empty response.",
-      "retry_until": 1790976079.3553703,
+      "retry_until": 1791045715.838931,
       "scope": "provider"
     },
     "86f72c111e032e2b604a": {
@@ -312,13 +345,13 @@
     },
     "d15c8a5d2460c1216a2b": {
       "category": "outage",
-      "count": 4,
+      "count": 5,
       "first_seen_at": "2026-10-01T11:18:41",
-      "last_seen_at": "2026-10-01T17:46:57",
-      "last_seen_epoch": 1790876817.0002236,
+      "last_seen_at": "2026-10-03T16:01:46",
+      "last_seen_epoch": 1791043306.433505,
       "provider": "gemini",
       "reason": "504 The request timed out. Please try again.",
-      "retry_until": 1790881617.0002236,
+      "retry_until": 1791050506.433505,
       "scope": "provider"
     },
     "d5fb2927c9b6d54af2f8": {
@@ -390,7 +423,40 @@
   },
   "fastest_success_model": "groq:openai/gpt-oss-20b",
   "global_circuit": {},
-  "provider_circuits": {},
+  "provider_circuits": {
+    "cloudflare": {
+      "category": "quota",
+      "fingerprint": "7a7105af81ae98f13b89",
+      "opened_at": "2026-10-03T16:01:56",
+      "provider": "cloudflare",
+      "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
+      "until": 1791048716.1844947
+    },
+    "gemini": {
+      "category": "outage",
+      "fingerprint": "d15c8a5d2460c1216a2b",
+      "opened_at": "2026-10-03T16:01:46",
+      "provider": "gemini",
+      "reason": "504 The request timed out. Please try again.",
+      "until": 1791050506.433505
+    },
+    "groq": {
+      "category": "empty",
+      "fingerprint": "7fc25b239b1f7d4ff3a5",
+      "opened_at": "2026-10-03T16:01:55",
+      "provider": "groq",
+      "reason": "groq returned an empty response.",
+      "until": 1791045715.838931
+    },
+    "mistral": {
+      "category": "quota",
+      "fingerprint": "16f0cdcebb62d34cab0f",
+      "opened_at": "2026-10-03T16:03:27",
+      "provider": "mistral",
+      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
+      "until": 1791065007.0354373
+    }
+  },
   "stats": {
     "cloudflare:@cf/meta/llama-3.1-8b-instruct-fp8:be6dab2cd8": {
       "failures": 1,
@@ -412,9 +478,9 @@
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
       "avg_time": 10.5039,
-      "failures": 1,
+      "failures": 2,
       "key_id": "be6dab2cd8",
-      "last_failure_at": "2026-10-02T20:48:02",
+      "last_failure_at": "2026-10-03T16:01:56",
       "last_success_at": "2026-10-02T20:45:34",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
@@ -423,9 +489,9 @@
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 18.8323,
-      "failures": 10,
+      "failures": 11,
       "key_id": "64f603a8c0",
-      "last_failure_at": "2026-10-02T21:01:15",
+      "last_failure_at": "2026-10-03T16:01:46",
       "last_success_at": "2026-10-03T15:52:54",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
@@ -434,9 +500,9 @@
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
       "avg_time": 2.9674,
-      "failures": 9,
+      "failures": 10,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-02T21:01:19",
+      "last_failure_at": "2026-10-03T16:01:55",
       "last_success_at": "2026-10-03T15:53:02",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
@@ -444,22 +510,22 @@
       "total_success_time": 29.6735
     },
     "mistral:mistral-small-latest:8feed32495": {
-      "failures": 6,
+      "failures": 7,
       "key_id": "8feed32495",
-      "last_failure_at": "2026-10-02T21:02:49",
+      "last_failure_at": "2026-10-03T16:03:27",
       "model": "mistral-small-latest",
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 35.1583,
+      "avg_time": 36.5105,
       "failures": 16,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-02T21:02:49",
-      "last_success_at": "2026-10-03T15:53:03",
+      "last_success_at": "2026-10-03T16:03:26",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 13,
-      "total_success_time": 457.0575
+      "successes": 15,
+      "total_success_time": 547.6575
     }
   }
 }
