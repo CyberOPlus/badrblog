@@ -2015,6 +2015,8 @@ def record_job_social_state(article, now=None):
         "facebook_comment_id": str(article.get("facebook_comment_id") or ""),
         "facebook_queued_at": str(article.get("facebook_queued_at") or ""),
         "facebook_retry_after_epoch": article.get("facebook_retry_after_epoch") or 0,
+        "facebook_ai_deferred_at": str(article.get("facebook_ai_deferred_at") or ""),
+        "facebook_ai_deferred_reason": str(article.get("facebook_ai_deferred_reason") or "")[:500],
         "facebook_comment_retry_after_epoch": article.get("facebook_comment_retry_after_epoch") or 0,
         "facebook_delivery_uncertain_at": str(article.get("facebook_delivery_uncertain_at") or ""),
         "facebook_attempt_caption": str(article.get("facebook_attempt_caption") or ""),
