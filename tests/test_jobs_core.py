@@ -1900,14 +1900,14 @@ class JobsCoreTests(unittest.TestCase):
         self.assertGreater(result["publication_age_hours"], 12)
         self.assertIn("job is older than 12 hours", result["reasons"])
 
-    def test_job_without_verified_publication_time_is_rejected(self):
+    def test_job_without_verified_publication_time_waits_for_evidence(self):
         now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
         result = job_core.score_job(
             sample_job(job_published_at="", source_published_at=""),
             now=now,
         )
         self.assertFalse(result["passed"])
-        self.assertEqual(result["status"], "reject")
+        self.assertEqual(result["status"], "queue")
         self.assertIn("publication time is not verified", result["reasons"])
 
     def test_job_at_exact_twelve_hour_boundary_is_allowed(self):

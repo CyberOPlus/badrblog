@@ -297,7 +297,7 @@ def run_fetch_only():
     zero_link_sources = [
         source
         for source in source_results
-        if source.get("status") != "failed"
+        if source.get("status") == "success"
         and source.get("links_found", 0) == 0
         and not source.get("empty_ok")
     ]
@@ -2120,12 +2120,11 @@ def run_safe_cycle_only():
     print("\n[1/7] fetch")
     fetch_stats = _run_timed_jobs_stage("fetch", stage_timings, run_fetch_only)
     source_warnings_count = len(fetch_stats.get("failed_sources") or [])
-    zero_link_warnings_count = len(fetch_stats.get("zero_link_sources") or [])
-    source_warnings_count += zero_link_warnings_count
+    quiet_sources_count = len(fetch_stats.get("zero_link_sources") or [])
     if source_warnings_count:
         print(f"Source warnings recorded: {source_warnings_count}")
-    if zero_link_warnings_count:
-        print(f"Zero-link source warnings recorded: {zero_link_warnings_count}")
+    if quiet_sources_count:
+        print(f"Healthy sources without new Jobs: {quiet_sources_count}")
     cleanup_stats = _run_timed_jobs_stage(
         "cleanup",
         stage_timings,

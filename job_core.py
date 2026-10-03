@@ -949,9 +949,7 @@ def score_job(article, now=None):
     hard_gate_passed = not reasons
     permanent_hard_failure = bool(
         expired
-        or not freshness["verified"]
-        or freshness["future"]
-        or not freshness["fresh"]
+        or (freshness["verified"] and (freshness["future"] or not freshness["fresh"]))
         or not _public_http(source_url)
         or normalized_title in {
             "jobs", "job", "careers", "career", "recruitment", "recrutement",
@@ -1560,6 +1558,8 @@ def _mark_identity_pending(article, decision, now=None):
 
 def prepare_job_candidate(article, now=None):
     quality = score_job(article, now=now)
+    if "publication time is not verified" not in quality["reasons"]:
+        article.pop("publication_evidence_refresh_pending", None)
     article["job_score"] = quality["score"]
     article["job_rank_score"] = quality.get("ranking_score", quality["score"])
     article["score"] = quality["score"]
@@ -1656,6 +1656,8 @@ def _defer_quality_candidate(article, quality, now=None):
         if str(reason or "").strip()
     })
     reason_text = "; ".join(reasons) or "verified quality evidence incomplete"
+    if "publication time is not verified" in reasons:
+        article["publication_evidence_refresh_pending"] = True
     fingerprint = hashlib.sha256(reason_text.encode("utf-8")).hexdigest()[:16]
 
     previous_fingerprint = str(article.get("job_quality_wait_fingerprint") or "")

@@ -1618,7 +1618,11 @@ def enrich_ready_articles(force=False):
                     article["freshness_rejected_at"] = datetime.now(timezone.utc).isoformat()
                     continue
 
-        if article.get("content_fetch_status") == "success" and not force:
+        if (
+            article.get("content_fetch_status") == "success"
+            and not force
+            and not article.get("publication_evidence_refresh_pending")
+        ):
             existing_text = article.get("full_article_text") or article.get("content_full") or article.get("content_preview", "")
             existing_words = _word_count(existing_text)
             if (

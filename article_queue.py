@@ -114,6 +114,7 @@ def repair_runtime_queue_state(now=None, selected_stale_minutes=30):
         "expired_retry_fields_cleared": 0,
         "selected_released": 0,
         "unicef_details_requeued": 0,
+        "publication_evidence_requeued": 0,
         "articles_touched": 0,
     }
 
@@ -147,6 +148,21 @@ def repair_runtime_queue_state(now=None, selected_stale_minutes=30):
             or article.get("blogger_post_id")
             or article.get("blogger_draft_id")
         )
+        if (
+            not published
+            and article.get("status") == "skipped"
+            and str(article.get("skip_reason") or "").strip() == "publication time is not verified"
+            and not article.get("publication_evidence_repair_version")
+            and not is_candidate_in_recent_failure(article, now=current)
+        ):
+            # Repair the old terminal skip once. The selector still requires a
+            # verified fresh date, and repeated missing evidence backs off.
+            article["status"] = "ready"
+            article["publication_evidence_repair_version"] = 1
+            article["publication_evidence_refresh_pending"] = True
+            article.pop("skip_reason", None)
+            stats["publication_evidence_requeued"] += 1
+            touched = True
         if (
             not published
             and article.get("status") == "skipped"

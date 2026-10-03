@@ -199,6 +199,9 @@ def _number_of_positions(text):
 
 
 MONTH_NAME_TO_NUMBER = {
+    "jan": 1, "feb": 2, "mar": 3, "apr": 4,
+    "jun": 6, "jul": 7, "aug": 8, "sep": 9, "sept": 9,
+    "oct": 10, "nov": 11, "dec": 12,
     "janvier": 1, "january": 1, "يناير": 1,
     "février": 2, "fevrier": 2, "february": 2, "فبراير": 2,
     "mars": 3, "march": 3, "مارس": 3,
@@ -302,6 +305,21 @@ def _labelled_date_details(text, label_pattern):
         normalized = _iso_date(year_value, month_number, day_value) if month_number else ""
         raw = " ".join(x for x in (day_value, month_name, year_value, clock or "") if x)
         return normalized or raw, raw
+
+    # Official ATS pages can label month-first dates, e.g. Capgemini's
+    # "Posted on: Sep 7, 2026". Require the posting label; an unlabelled footer
+    # year, expiry date or discovery time must never prove publication freshness.
+    month_first = re.search(
+        rf"(?i){label_pattern}\s*:?\s*"
+        r"([A-Za-z]{3,9})\.?\s+(\d{1,2}),?\s+(\d{4})\b",
+        value,
+    )
+    if month_first:
+        month_name, day_value, year_value = month_first.groups()
+        month_number = MONTH_NAME_TO_NUMBER.get(month_name.casefold())
+        normalized = _iso_date(year_value, month_number, day_value) if month_number else ""
+        if normalized:
+            return normalized, f"{month_name} {day_value}, {year_value}"
     return "", ""
 
 
@@ -315,7 +333,7 @@ def _exam_date_details_from_text(text):
 def _publication_date_details_from_text(text):
     return _labelled_date_details(
         text,
-        r"(?:تاريخ\s+النشر|date\s+de\s+publication|published\s+on|publication\s+date)",
+        r"(?:تاريخ\s+النشر|date\s+de\s+publication|published\s+on|publication\s+date|posted\s+on|date\s+posted)",
     )
 
 

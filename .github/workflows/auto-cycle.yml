@@ -22,11 +22,10 @@ on:
         default: false
 
 concurrency:
-  # Normal self-dispatch/watchdog runs never cancel the active worker. A workflow
-  # code push is an explicit production upgrade, so it replaces a stuck/old worker
-  # and starts the repaired workflow immediately.
+  # Let the active worker finish publishing and persist its state. All triggers,
+  # including upgrades, share the same lock; the successor checks out latest main.
   group: jobs-production-refs/heads/main
-  cancel-in-progress: ${{ github.event_name == 'push' }}
+  cancel-in-progress: false
 
 env:
   JOBS_RUNTIME_PERSIST_BY_WORKFLOW: "true"
