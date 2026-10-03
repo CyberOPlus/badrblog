@@ -110,6 +110,7 @@ jobs:
           python -m unittest \
             tests.test_official_job_sources.OfficialJobSourcesTests.test_anapec_actions_prefers_curl_transport \
             tests.test_official_job_sources.OfficialJobSourcesTests.test_anapec_actions_curl_timeout_falls_back_to_requests \
+            tests.test_official_job_sources.OfficialJobSourcesTests.test_anapec_actions_connect_timeout_does_not_repeat_with_requests \
             tests.test_official_job_sources.OfficialJobSourcesTests.test_anapec_transport_failure_fails_over_to_other_official_host \
             tests.test_official_job_sources.OfficialJobSourcesTests.test_anapec_transport_failures_stop_after_both_official_hosts \
             tests.test_jobs_core.JobsCoreTests.test_generic_tuple_discovery_identity_is_supported \
