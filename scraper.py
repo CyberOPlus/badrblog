@@ -665,7 +665,9 @@ def _fetch_anapec_text_sync(url):
         )
         if not curl_error:
             return curl_text, "", curl_status
-        error = f"{error}; curl:{curl_error}"
+        error = f"requests:{error}; curl:{curl_error}"
+    elif on_github_actions and curl_error:
+        error = f"curl:{curl_error}; requests:{error}"
 
     return "", error, None
 
@@ -3068,12 +3070,20 @@ async def _collect_article_links_for_source_async(
                 "https://www.anapec.org/sigec-app-rv/chercheurs/resultat_recherche/tout:all",
                 source_url,
                 "https://www.anapec.org/sigec-app-rv/ar/chercheurs/resultat_recherche/tout:all",
+                "https://www.anapec.ma/sigec-app-rv/chercheurs/resultat_recherche/tout:all",
+                "https://www.anapec.ma/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all",
+                "https://www.anapec.ma/sigec-app-rv/ar/chercheurs/resultat_recherche/tout:all",
             ]
 
         links, error, status_code, discovery_meta = [], "", None, {}
         tried_listing_urls = []
         anapec_transport_failures = 0
-        for attempt_index, discovery_url in enumerate(dict.fromkeys(discovery_urls)):
+        failed_transport_hosts = set()
+        unique_discovery_urls = list(dict.fromkeys(discovery_urls))
+        for attempt_index, discovery_url in enumerate(unique_discovery_urls):
+            discovery_host = (urlparse(discovery_url).hostname or "").casefold()
+            if extractor_mode == "anapec_jobs" and discovery_host in failed_transport_hosts:
+                continue
             tried_listing_urls.append(discovery_url)
             links, error, status_code, discovery_meta = await _collect_paginated_html_links_async(
                 session,
@@ -3097,14 +3107,24 @@ async def _collect_article_links_for_source_async(
                 break
             if extractor_mode == "anapec_jobs" and _is_anapec_transport_failure(error):
                 anapec_transport_failures += 1
-                # A transport failure now means both independent transports
-                # (libcurl + requests on Actions) failed for the same host.
-                # Trying language variants after that only burns cycle time.
-                # Keep ANAPEC enabled and retry after source-health backoff.
-                if anapec_transport_failures >= 1:
+                failed_transport_hosts.add(discovery_host)
+                # A transport failure means both independent transports failed
+                # for this hostname. Skip its language variants, but allow one
+                # probe of the other official ANAPEC hostname (.org <-> .ma).
+                remaining_host = next(
+                    (
+                        (urlparse(candidate).hostname or "").casefold()
+                        for candidate in unique_discovery_urls[attempt_index + 1:]
+                        if (urlparse(candidate).hostname or "").casefold()
+                        not in failed_transport_hosts
+                    ),
+                    "",
+                )
+                if not remaining_host:
                     log_event(
                         "anapec_route_probe_short_circuit",
                         attempts=len(tried_listing_urls),
+                        failed_hosts=",".join(sorted(failed_transport_hosts)),
                         error=error,
                     )
                     break
@@ -3120,6 +3140,7 @@ async def _collect_article_links_for_source_async(
             "tried_feed_urls": [],
             "tried_listing_urls": tried_listing_urls,
             "transport_failures": anapec_transport_failures,
+            "failed_transport_hosts": sorted(failed_transport_hosts),
             "discovery_meta": discovery_meta,
             "discovery_resume": (
                 {"kind": "html", "url": discovery_meta.get("resume_url")}
