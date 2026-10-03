@@ -392,6 +392,53 @@ class JobVisualTests(unittest.TestCase):
         )
         self.assertEqual(article["facebook_logo_refresh_status"], "verified")
 
+    def test_jobs_facebook_late_logo_refresh_uses_employer_text_fallback(self):
+        article = {
+            "id": "job-no-facebook-logo",
+            "job_company": "Unknown Employer",
+            "source_name": "Unknown Employer",
+            "ai_input_package": {},
+        }
+        with (
+            patch.object(
+                facebook_publisher,
+                "verified_company_logo",
+                return_value={
+                    "company_logo_url": "",
+                    "company_logo_verified": False,
+                },
+            ),
+            patch.object(
+                facebook_publisher,
+                "refresh_company_logo",
+                return_value={
+                    "company_logo_url": "",
+                    "company_logo_verified": False,
+                },
+            ) as refresh,
+        ):
+            result = facebook_publisher._refresh_job_logo_before_facebook(article)
+
+        refresh.assert_called_once_with(article)
+        self.assertFalse(result.get("company_logo_verified"))
+        self.assertEqual(
+            article["facebook_logo_refresh_status"],
+            "employer_text_fallback",
+        )
+        self.assertNotIn("facebook_logo_refresh_error", article)
+
+    def test_legacy_missing_logo_failure_gets_local_visual_retry_treatment(self):
+        self.assertTrue(
+            facebook_publisher._is_jobs_image_generation_failure(
+                "Verified employer logo is still unavailable after late refresh."
+            )
+        )
+        self.assertTrue(
+            facebook_publisher._is_jobs_image_generation_failure(
+                "Verified employer logo unavailable for Jobs Facebook visual."
+            )
+        )
+
     def test_jobs_facebook_late_logo_refresh_skips_network_when_already_verified(self):
         article = {
             "id": "job-logo-ready",
