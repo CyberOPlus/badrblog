@@ -448,6 +448,24 @@ def _is_anapec_url(url):
     return hostname in ANAPEC_HOSTS
 
 
+def _is_anapec_transport_failure(error):
+    """Identify same-host network failures where probing every language route is wasteful."""
+    text = str(error or "").casefold()
+    return any(
+        token in text
+        for token in (
+            "timeout",
+            "timed out",
+            "connection",
+            "connect",
+            "clientconnector",
+            "dns",
+            "ssl",
+            "network",
+        )
+    )
+
+
 def _source_fetch_timeout_seconds(url):
     """Give the slower ANAPEC portal extra time without slowing other sources."""
     try:
@@ -2914,6 +2932,7 @@ async def _collect_article_links_for_source_async(
 
         links, error, status_code, discovery_meta = [], "", None, {}
         tried_listing_urls = []
+        anapec_transport_failures = 0
         for attempt_index, discovery_url in enumerate(dict.fromkeys(discovery_urls)):
             tried_listing_urls.append(discovery_url)
             links, error, status_code, discovery_meta = await _collect_paginated_html_links_async(
@@ -2936,6 +2955,20 @@ async def _collect_article_links_for_source_async(
             # are no offers, so a clean HTTP 200 is authoritative.
             if links or (not error and status_code == 200):
                 break
+            if extractor_mode == "anapec_jobs" and _is_anapec_transport_failure(error):
+                anapec_transport_failures += 1
+                # Neutral/FR/AR are routes on the same ANAPEC host. If two
+                # different routes both fail at the transport layer, a third
+                # 12-second probe is overwhelmingly likely to repeat the same
+                # runner-to-host failure. Keep ANAPEC enabled, record failure,
+                # and let source-health backoff retry it on a later cycle.
+                if anapec_transport_failures >= 2:
+                    log_event(
+                        "anapec_route_probe_short_circuit",
+                        attempts=len(tried_listing_urls),
+                        error=error,
+                    )
+                    break
 
         return [_link_to_article_dict(link, source_url) for link in links], error, status_code, {
             "normal_links_found": len(links),
@@ -2947,6 +2980,7 @@ async def _collect_article_links_for_source_async(
             ),
             "tried_feed_urls": [],
             "tried_listing_urls": tried_listing_urls,
+            "transport_failures": anapec_transport_failures,
             "discovery_meta": discovery_meta,
             "discovery_resume": (
                 {"kind": "html", "url": discovery_meta.get("resume_url")}
