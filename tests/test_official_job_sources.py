@@ -65,6 +65,22 @@ class OfficialJobSourcesTests(unittest.TestCase):
         self.assertEqual(status, 200)
         session.get.assert_not_called()
 
+    def test_emploi_public_uses_critical_source_timeout_profile(self):
+        timeout = scraper._source_fetch_timeout_seconds(
+            "https://www.emploi-public.ma/ar/liste-des-concours"
+        )
+        self.assertGreaterEqual(timeout, 10.0)
+
+    def test_emploi_public_timeout_cooldown_is_five_minutes(self):
+        with patch.object(scraper, "record_source_cooldown") as cooldown:
+            scraper._record_source_result(
+                "https://www.emploi-public.ma/ar/liste-des-concours",
+                "Emploi-Public",
+                "TimeoutError",
+                0,
+            )
+        self.assertEqual(cooldown.call_args.kwargs["minutes"], 5)
+
     def test_anapec_uses_longer_fetch_timeout_without_slowing_other_sources(self):
         anapec_timeout = scraper._source_fetch_timeout_seconds(
             "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all"
