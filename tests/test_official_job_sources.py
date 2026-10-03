@@ -90,7 +90,10 @@ class OfficialJobSourcesTests(unittest.TestCase):
         self.assertEqual(normal_timeout, max(1.0, float(scraper.ASYNC_FETCH_TIMEOUT_SECONDS or 1)))
 
     def test_anapec_timeout_cooldown_retries_sooner_than_generic_sources(self):
-        with patch.object(scraper, "record_source_cooldown") as cooldown:
+        # Keep this unit test independent from the repository's persisted
+        # production source-health failure count.
+        with patch.object(scraper, "source_health_record", return_value={"failure_count": 0}), \
+             patch.object(scraper, "record_source_cooldown") as cooldown:
             scraper._record_source_result(
                 "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all",
                 "ANAPEC — offres nationales",
