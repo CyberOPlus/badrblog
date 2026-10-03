@@ -439,6 +439,49 @@ class JobVisualTests(unittest.TestCase):
             )
         )
 
+    def test_jobs_facebook_provider_cooldown_is_deferred_not_failed(self):
+        error = (
+            "Facebook social AI failed after 3 attempts: "
+            "Global AI circuit open until 2026-10-03T16:41:55+00:00"
+        )
+        article = {
+            "id": "job-social-ai-wait",
+            "facebook_status": "failed",
+            "facebook_error": error,
+            "facebook_failure_count": 3,
+            "facebook_last_failure_at": "2026-10-03T16:28:24",
+        }
+        queue = {"articles": [article]}
+
+        self.assertTrue(
+            facebook_publisher._is_jobs_social_provider_wait(error)
+        )
+        with (
+            patch.object(facebook_publisher.time, "time", return_value=1791044900),
+            patch.object(
+                facebook_publisher,
+                "_persist_jobs_social_state",
+            ) as persist,
+            patch.object(
+                facebook_publisher,
+                "save_article_queue",
+            ) as save,
+        ):
+            result = facebook_publisher._defer_jobs_social_provider_wait(
+                queue,
+                article,
+                error,
+            )
+
+        self.assertTrue(result["deferred"])
+        self.assertTrue(result["provider_wait"])
+        self.assertEqual(article["facebook_status"], "facebook_pending")
+        self.assertNotIn("facebook_error", article)
+        self.assertNotIn("facebook_failure_count", article)
+        self.assertGreater(article["facebook_retry_after_epoch"], 1791044900)
+        persist.assert_called_once_with(article)
+        save.assert_called_once_with(queue)
+
     def test_jobs_facebook_late_logo_refresh_skips_network_when_already_verified(self):
         article = {
             "id": "job-logo-ready",
