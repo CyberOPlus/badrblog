@@ -1,4 +1,5 @@
 name: Jobs Auto Cycle
+# ANAPEC same-host timeout short-circuit deployment marker.
 # Immediate neutral-route ANAPEC probe marker.
 # Neutral ANAPEC route deployment marker.
 # Progressive critical-source backoff deployment marker.
@@ -110,6 +111,8 @@ jobs:
             tests.test_jobs_runtime.JobsRuntimeTests.test_ai_retry_backoff_preflight_makes_no_provider_call \
             tests.test_jobs_runtime.JobsRuntimeTests.test_document_render_retry_updates_same_blogger_post_without_ai \
             tests.test_jobs_runtime.JobsRuntimeTests.test_pending_facebook_runs_even_when_article_ai_fails \
+            tests.test_official_job_sources.OfficialJobSourcesTests.test_anapec_discovery_retries_official_search_routes \
+            tests.test_official_job_sources.OfficialJobSourcesTests.test_anapec_repeated_transport_timeouts_stop_before_third_route \
             -q
 
       - name: Create runtime secrets and Jobs env
