@@ -1252,9 +1252,6 @@ def _format_jobs_facebook_caption(raw_caption, article=None):
         if len(paragraphs) > 1 and emoji_count < 2:
             paragraphs[1] = "💼 " + paragraphs[1]
 
-    notice_type = str((article or {}).get("job_notice_type") or "vacancy").strip().lower()
-    hashtag_line = f"#CyberoPlus {jobs_contextual_hashtag(notice_type)}"
-    paragraphs.append(hashtag_line)
     return "\n\n".join(paragraphs).strip()
 
 def _jobs_facebook_blueprint(article, blogger_url):
@@ -1480,16 +1477,14 @@ def _validate_facebook_caption(
     if re.search(r"^\s*[-*]\s+", plain_caption, flags=re.MULTILINE):
         raise RuntimeError("Facebook caption contains markdown bullets.")
 
-    notice_type = str((article or {}).get("job_notice_type") or "vacancy").strip().lower()
-    expected_contextual = jobs_contextual_hashtag(notice_type)
     hashtags = re.findall(
         r"#[\w\u0600-\u06FF_]+",
         plain_caption,
         flags=re.UNICODE,
     )
-    if hashtags != ["#CyberoPlus", expected_contextual]:
+    if hashtags:
         raise RuntimeError(
-            "Jobs Facebook caption must contain exactly the brand and notice hashtags."
+            "Jobs Facebook caption must not contain hashtags."
         )
 
     if blogger_url and plain_caption.count("أول تعليق") != 1:
