@@ -131,6 +131,31 @@ class DeliveryReliabilityTests(unittest.TestCase):
             "2026-10-03T10:30:00+00:00",
         )
 
+    def test_closed_ai_circuit_clears_stale_cooldown_health(self):
+        with patch.object(monitor, "load_article_queue", return_value={"articles": []}), \
+             patch.object(monitor, "load_job_state", return_value={}):
+            result = monitor.delivery_status(
+                now=datetime(2026, 10, 3, 10, tzinfo=timezone.utc),
+                services={
+                    "facebook": {"status": "ok"},
+                    "ai": {
+                        "status": "cooldown",
+                        "retry_after": "2026-10-03T10:30:00+00:00",
+                        "category": "cooldown",
+                        "providers": {
+                            "groq": {"status": "ok"},
+                            "mistral": {"status": "quota"},
+                        },
+                    },
+                },
+                ai_circuit={"global_open": False},
+            )
+
+        self.assertEqual(result["services"]["ai"]["status"], "ok")
+        self.assertNotIn("retry_after", result["services"]["ai"])
+        self.assertNotIn("category", result["services"]["ai"])
+        self.assertNotEqual(result["state"], "waiting_provider")
+
     def test_service_checks_are_cached_between_cycles(self):
         recent = datetime.now(timezone.utc).isoformat()
         state = {"services_checked_at": recent, "services": {"facebook": {"status": "ok"}, "ai": {"status": "ok"}}}
