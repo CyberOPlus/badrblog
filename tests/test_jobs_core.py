@@ -308,7 +308,7 @@ class JobsCoreTests(unittest.TestCase):
             ats_reference="ICM-584854",
         )
         slug = job_core.desired_slug(row, campaign_id="opaque-campaign")
-        self.assertIn("orange-business-consultant-cyber-securite", slug)
+        self.assertEqual(slug, "orange-business-consultant-cyber-securite")
         self.assertNotRegex(slug, r"\\d")
         self.assertRegex(slug, r"^[a-z-]+$")
 
