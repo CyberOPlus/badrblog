@@ -766,16 +766,15 @@ def _generate_job_facebook_image(
     FACEBOOK_IMAGE_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     try:
-        if not str(image_url or "").strip():
-            raise RuntimeError("verified employer logo is required for Jobs Facebook images")
         base, selected_template_key = _load_job_template(template_key=template_key)
+        # Prefer the verified employer logo, but never block a valid job when
+        # it is unavailable. The renderer already has a safe employer-name
+        # fallback that keeps the same template and never invents a logo.
         logo_layout = _draw_job_logo_or_fallback(
             base,
             image_url,
-            "",
+            employer_name,
         )
-        if not logo_layout.get("loaded"):
-            raise RuntimeError("verified employer logo could not be rendered for Facebook")
         title_layout = _draw_job_title(
             base,
             title,
@@ -872,31 +871,72 @@ def generate_job_article_cover(
                 f"article template is too small: {width}x{height}; use at least 800x450"
             )
 
-        # The Blogger cover must use the exact verified employer logo. Never
-        # replace it with employer-name text. The loader retries patiently before
-        # the article is allowed to publish.
-        if not str(image_url or "").strip():
-            raise RuntimeError("verified employer logo is required for Jobs article covers")
-        logo = _load_job_logo(image_url)
-        if logo is None:
-            raise RuntimeError("verified employer logo could not be loaded for article cover")
-        logo = _prepare_article_job_logo(
-            logo,
-            (int(width * 0.40), int(height * 0.18)),
-        )
-        if logo is None:
-            raise RuntimeError("verified employer logo could not be prepared for article cover")
+        # Prefer a verified employer logo. If it is missing/unloadable, render
+        # the employer name as a neutral mark instead of inventing a logo or
+        # blocking publication.
+        logo_loaded = False
+        logo = None
+        if str(image_url or "").strip():
+            logo = _load_job_logo(image_url)
+            if logo is not None:
+                logo = _prepare_article_job_logo(
+                    logo,
+                    (int(width * 0.40), int(height * 0.18)),
+                )
 
-        logo_loaded = True
-        logo_center_x = int(width * 0.50)
-        logo_center_y = int(height * 0.32)
-        base.alpha_composite(
-            logo,
-            (
-                logo_center_x - logo.width // 2,
-                logo_center_y - logo.height // 2,
-            ),
-        )
+        if logo is not None:
+            logo_loaded = True
+            logo_center_x = int(width * 0.50)
+            logo_center_y = int(height * 0.32)
+            base.alpha_composite(
+                logo,
+                (
+                    logo_center_x - logo.width // 2,
+                    logo_center_y - logo.height // 2,
+                ),
+            )
+        elif str(employer_name or "").strip():
+            mark_draw = ImageDraw.Draw(base)
+            max_mark_width = int(width * 0.58)
+            mark_center_x = int(width * 0.50)
+            mark_top = int(height * 0.22)
+            mark_height = int(height * 0.18)
+            mark_lines = []
+            mark_font = _font(max(28, int(width * 0.038)))
+            mark_line_height = max(34, int(width * 0.046))
+            for size in range(max(34, int(width * 0.044)), max(22, int(width * 0.026)) - 1, -2):
+                candidate_font = _font(size)
+                candidate_lines = _wrap_job_title(
+                    str(employer_name).strip(),
+                    mark_draw,
+                    candidate_font,
+                    max_mark_width,
+                    max_lines=2,
+                )
+                candidate_height = len(candidate_lines) * int(size * 1.18)
+                if candidate_lines and candidate_height <= mark_height:
+                    mark_font = candidate_font
+                    mark_lines = candidate_lines
+                    mark_line_height = int(size * 1.18)
+                    break
+            if not mark_lines:
+                mark_lines = _wrap_job_title(
+                    str(employer_name).strip(),
+                    mark_draw,
+                    mark_font,
+                    max_mark_width,
+                    max_lines=2,
+                )
+            mark_y = mark_top + max(0, (mark_height - len(mark_lines) * mark_line_height) // 2)
+            for line in mark_lines:
+                _draw_text(
+                    mark_draw,
+                    (mark_center_x, mark_y + mark_line_height // 2),
+                    line,
+                    mark_font,
+                    (42, 42, 42, 255),
+                )
+                mark_y += mark_line_height
 
         # Title: lower-middle. Dynamic size handles short/medium/long Arabic,
         # French and mixed titles without touching footer/edge branding.
@@ -966,8 +1006,8 @@ def generate_job_article_cover(
             "error": "",
             "width": width,
             "height": height,
-            "logo_loaded": True,
-            "used_fallback": False,
+            "logo_loaded": logo_loaded,
+            "used_fallback": not logo_loaded,
         }
     except Exception as error:
         log_event("job_article_cover_generation_failed", error=error.__class__.__name__)
