@@ -38,6 +38,33 @@ class OfficialJobSourcesTests(unittest.TestCase):
         self.assertEqual(node["datePosted"], "2026-10-03")
         self.assertNotIn("hiringOrganization", node)
 
+    def test_anapec_requests_transport_returns_official_html(self):
+        response = Mock(status_code=200, text="<html><body>Aucune offre disponible</body></html>")
+        with patch.object(scraper.requests, "get", return_value=response) as get:
+            text, error, status = scraper._fetch_anapec_text_sync(
+                "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all"
+            )
+        self.assertIn("Aucune offre", text)
+        self.assertEqual(error, "")
+        self.assertEqual(status, 200)
+        self.assertEqual(get.call_args.kwargs["timeout"][1], 12.0)
+        self.assertTrue(get.call_args.kwargs["allow_redirects"])
+
+    def test_anapec_async_fetch_uses_requests_transport_not_aiohttp(self):
+        response = Mock(status_code=200, text="<html>Aucune offre disponible</html>")
+        session = Mock()
+        with patch.object(scraper.requests, "get", return_value=response):
+            text, error, status = asyncio.run(
+                scraper._fetch_text_async(
+                    session,
+                    "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all",
+                )
+            )
+        self.assertIn("Aucune offre", text)
+        self.assertEqual(error, "")
+        self.assertEqual(status, 200)
+        session.get.assert_not_called()
+
     def test_anapec_uses_longer_fetch_timeout_without_slowing_other_sources(self):
         anapec_timeout = scraper._source_fetch_timeout_seconds(
             "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all"
