@@ -9,14 +9,6 @@
       "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
       "until": 1791046019.6529164
     },
-    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "failed_at": "2026-10-03T16:36:08",
-      "key_id": "fb4fab4ba1",
-      "model": "openai/gpt-oss-20b",
-      "provider": "groq",
-      "reason": "groq returned an empty response.",
-      "until": 1791045669.1461966
-    },
     "mistral:mistral-small-latest:8feed32495": {
       "failed_at": "2026-10-03T16:03:27",
       "key_id": "8feed32495",
@@ -24,14 +16,6 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1791046108.4782994
-    },
-    "openrouter:openrouter/free:1af698c9b3": {
-      "failed_at": "2026-10-03T16:36:18",
-      "key_id": "1af698c9b3",
-      "model": "openrouter/free",
-      "provider": "openrouter",
-      "reason": "OpenRouter returned an empty response.",
-      "until": 1791045680.8560827
     }
   },
   "failure_fingerprints": {
