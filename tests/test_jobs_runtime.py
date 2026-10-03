@@ -4713,6 +4713,37 @@ class JobsRuntimeTests(unittest.TestCase):
 
         self.assertNotIn("groq", memory["provider_circuits"])
 
+    def test_groq_empty_circuit_releases_when_sibling_model_is_ready(self):
+        with (
+            patch.object(ai, "GROQ_API_KEY", "groq-test-key"),
+            patch.object(ai, "GROQ_MODEL", "model-a"),
+            patch.object(ai, "GROQ_MODELS", ["model-a", "model-b"]),
+        ):
+            failed_candidate = {
+                "provider": "groq",
+                "api_key": "groq-test-key",
+                "model": "model-a",
+            }
+            memory = ai._empty_ai_memory()
+            memory["cooldowns"][ai._candidate_id(failed_candidate)] = {
+                "until": 5000,
+                "provider": "groq",
+                "model": "model-a",
+            }
+            memory["provider_circuits"]["groq"] = {
+                "until": 5000,
+                "category": "empty",
+                "fingerprint": "empty-fp",
+                "opened_at": "1970-01-01T00:15:00+00:00",
+            }
+            with (
+                patch.object(ai, "_AI_MEMORY_CACHE", memory),
+                patch.object(ai, "_save_ai_memory"),
+            ):
+                ai._prune_ai_memory(now=1000)
+
+        self.assertNotIn("groq", memory["provider_circuits"])
+
     def test_ai_empty_response_backoff_is_bounded_for_fast_reprobe(self):
         self.assertEqual(
             ai._fingerprint_backoff_seconds("provider", "empty", 1),
