@@ -237,12 +237,50 @@ class OfficialJobSourcesTests(unittest.TestCase):
         self.assertEqual(tried[1], "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all")
         self.assertEqual(collect.call_count, 2)
 
-    def test_anapec_combined_transport_failure_stops_after_first_route(self):
+    def test_anapec_transport_failure_fails_over_to_other_official_host(self):
+        candidate = {
+            "title": "Technicien systèmes",
+            "url": "https://www.anapec.ma/sigec-app-rv/fr/entreprises/bloc_offre_home/1152999/resultat_recherche",
+            "ats_provider": "anapec",
+            "ats_reference": "1152999",
+        }
         with patch.object(
             scraper,
             "_collect_paginated_html_links_async",
             side_effect=[
-                ([], "TimeoutError", None, {}),
+                ([], "curl:TimeoutError; requests:TimeoutError", None, {}),
+                ([candidate], "", 200, {"pages_scanned": 1}),
+            ],
+        ) as collect:
+            rows, error, status, details = asyncio.run(
+                scraper._collect_article_links_for_source_async(
+                    None,
+                    "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all",
+                    extractor_type="anapec_jobs",
+                )
+            )
+        self.assertEqual(error, "")
+        self.assertEqual(status, 200)
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["ats_reference"], "1152999")
+        self.assertEqual(collect.call_count, 2)
+        self.assertEqual(
+            details["tried_listing_urls"],
+            [
+                "https://www.anapec.org/sigec-app-rv/chercheurs/resultat_recherche/tout:all",
+                "https://www.anapec.ma/sigec-app-rv/chercheurs/resultat_recherche/tout:all",
+            ],
+        )
+        self.assertEqual(details["transport_failures"], 1)
+        self.assertEqual(details["failed_transport_hosts"], ["www.anapec.org"])
+
+    def test_anapec_transport_failures_stop_after_both_official_hosts(self):
+        with patch.object(
+            scraper,
+            "_collect_paginated_html_links_async",
+            side_effect=[
+                ([], "curl:TimeoutError; requests:TimeoutError", None, {}),
+                ([], "curl:TimeoutError; requests:TimeoutError", None, {}),
             ],
         ) as collect:
             rows, error, status, details = asyncio.run(
@@ -253,11 +291,21 @@ class OfficialJobSourcesTests(unittest.TestCase):
                 )
             )
         self.assertEqual(rows, [])
-        self.assertEqual(error, "TimeoutError")
+        self.assertIn("TimeoutError", error)
         self.assertIsNone(status)
-        self.assertEqual(collect.call_count, 1)
-        self.assertEqual(len(details["tried_listing_urls"]), 1)
-        self.assertEqual(details["transport_failures"], 1)
+        self.assertEqual(collect.call_count, 2)
+        self.assertEqual(
+            details["tried_listing_urls"],
+            [
+                "https://www.anapec.org/sigec-app-rv/chercheurs/resultat_recherche/tout:all",
+                "https://www.anapec.ma/sigec-app-rv/chercheurs/resultat_recherche/tout:all",
+            ],
+        )
+        self.assertEqual(details["transport_failures"], 2)
+        self.assertEqual(
+            details["failed_transport_hosts"],
+            ["www.anapec.ma", "www.anapec.org"],
+        )
 
     def test_smartrecruiters_follows_pagination_even_when_first_page_is_known(self):
         source = "https://api.smartrecruiters.com/v1/companies/ALTEN/postings?country=ma"
