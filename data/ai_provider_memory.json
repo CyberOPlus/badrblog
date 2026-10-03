@@ -2,20 +2,12 @@
   "avg_time": 2.4403,
   "cooldowns": {
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "failed_at": "2026-10-03T16:42:34",
+      "failed_at": "2026-10-03T16:48:10",
       "key_id": "fb4fab4ba1",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
       "reason": "groq returned an empty response.",
-      "until": 1791046058.969493
-    },
-    "mistral:mistral-small-latest:8feed32495": {
-      "failed_at": "2026-10-03T16:03:27",
-      "key_id": "8feed32495",
-      "model": "mistral-small-latest",
-      "provider": "mistral",
-      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
-      "until": 1791046108.4782994
+      "until": 1791046395.5050664
     }
   },
   "failure_fingerprints": {
@@ -475,19 +467,19 @@
       "total_success_time": 904.6365
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
-      "avg_time": 5.2165,
+      "avg_time": 4.898,
       "key_id": "fb4fab4ba1",
-      "last_success_at": "2026-10-03T16:42:45",
+      "last_success_at": "2026-10-03T16:48:15",
       "model": "openai/gpt-oss-120b",
       "provider": "groq",
-      "successes": 2,
-      "total_success_time": 10.433
+      "successes": 3,
+      "total_success_time": 14.6939
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
       "avg_time": 2.726,
-      "failures": 12,
+      "failures": 13,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-03T16:42:34",
+      "last_failure_at": "2026-10-03T16:48:10",
       "last_success_at": "2026-10-03T16:35:10",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
