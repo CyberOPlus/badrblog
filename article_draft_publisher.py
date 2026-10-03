@@ -760,30 +760,23 @@ def _prepare_job_article_cover(article):
 
     if not logo_url:
         _clear_optional_job_cover(article, package)
+        resolution_status = "employer_text_fallback"
         article["article_logo_used"] = False
-        article["article_cover_fallback_used"] = False
-        article["logo_resolution_status"] = "verified_logo_retry_required"
-        article["job_article_cover_status"] = "missing_verified_logo_retry_required"
-        article["visual_readiness_status"] = "required_logo_retry"
-        article["logo_visual_retry_count"] = int(article.get("logo_visual_retry_count") or 0) + 1
-        article["logo_visual_retry_pending"] = True
-        article["logo_visual_retry_after"] = _document_render_retry_at(minutes=1)
-        article["logo_visual_error"] = "verified employer logo is not available yet"
+        article["article_cover_fallback_used"] = True
+        article["logo_resolution_status"] = resolution_status
+        article["visual_readiness_status"] = "fallback_rendering"
         package["article_logo_used"] = False
-        package["article_cover_fallback_used"] = False
-        package["logo_resolution_status"] = "verified_logo_retry_required"
-        package["job_article_cover_status"] = "missing_verified_logo_retry_required"
+        package["article_cover_fallback_used"] = True
+        package["logo_resolution_status"] = resolution_status
         log_event(
-            "job_article_cover_waiting_for_verified_logo",
+            "job_article_cover_using_employer_text_fallback",
             article_id=article.get("id"),
             company=employer,
-            retry_after=article.get("logo_visual_retry_after", ""),
         )
-        return ""
-
-    resolution_status = "verified"
-    article["logo_resolution_status"] = resolution_status
-    package["logo_resolution_status"] = resolution_status
+    else:
+        resolution_status = "verified"
+        article["logo_resolution_status"] = resolution_status
+        package["logo_resolution_status"] = resolution_status
 
     cover_key = _job_cover_key(article)
     output_path = JOB_ARTICLE_COVER_DIR / f"{cover_key}.jpg"
