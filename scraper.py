@@ -567,6 +567,37 @@ def _order_sources_for_fast_run(sources):
     )
 
 
+def _critical_timeout_cooldown_minutes(base_url, record=None):
+    """Escalate probes for persistently unreachable official sources without disabling them."""
+    hostname = (urlparse(str(base_url or "")).hostname or "").casefold()
+    record = record if isinstance(record, dict) else source_health_record(base_url)
+    failures = max(0, int(record.get("failure_count") or 0))
+    if hostname in ANAPEC_HOSTS:
+        if failures >= 5:
+            return 30
+        if failures >= 2:
+            return 15
+        return 5
+    if hostname in EMPLOI_PUBLIC_HOSTS:
+        if failures >= 5:
+            return 15
+        if failures >= 2:
+            return 10
+        return 5
+    return 30
+
+
+def _sanitize_discovery_resume(extractor_type, resume_state):
+    """Discard legacy ANAPEC cursors that point at the portal root instead of a vacancy listing."""
+    state = dict(resume_state or {}) if isinstance(resume_state, dict) else {}
+    if str(extractor_type or "").casefold() != "anapec_jobs":
+        return state
+    resume_url = str(state.get("url") or "").strip()
+    if resume_url and "/chercheurs/resultat_recherche/" not in resume_url:
+        return {}
+    return state
+
+
 def _filter_healthy_sources(sources):
     healthy = []
     skipped = []
@@ -579,13 +610,15 @@ def _filter_healthy_sources(sources):
                 record = source_health_record(base_url)
                 last_error = str(record.get("last_error") or "").casefold()
                 failed_at = _parse_datetime_to_utc(record.get("last_failure_at"))
-                # Older runtime state may still carry the previous 30-minute
-                # timeout cooldown. Cap ANAPEC timeout recovery at five minutes
-                # so the newly longer fetch deadline can be exercised quickly.
+                expected_minutes = _critical_timeout_cooldown_minutes(base_url, record)
+                # Cap only legacy/oversized cooldowns. Repeated failures now
+                # deliberately back off longer so a dead official endpoint
+                # cannot slow the hot publishing cycle every few minutes.
                 if (
                     "timeout" in last_error
                     and failed_at is not None
-                    and datetime.now(timezone.utc) >= failed_at + timedelta(minutes=5)
+                    and datetime.now(timezone.utc)
+                    >= failed_at + timedelta(minutes=expected_minutes)
                 ):
                     cooled_down = False
                     cooldown_until = ""
@@ -618,7 +651,7 @@ def _record_source_result(base_url, source_name, error, links_found, empty_ok=Fa
         # sooner after transient timeouts while keeping the normal 30-minute
         # protection for every other source.
         timeout_cooldown_minutes = (
-            5
+            _critical_timeout_cooldown_minutes(base_url)
             if hostname in CRITICAL_OFFICIAL_JOB_HOSTS
             else 30
         )
@@ -3384,6 +3417,14 @@ async def _discover_latest_article_links_async(enabled_sources, persist_state=Tr
         resume_state = source_crawl.get("job_discovery_resume") or {}
         if not isinstance(resume_state, dict):
             resume_state = {}
+        resume_state = _sanitize_discovery_resume(
+            source.get("extractor_type", "auto"),
+            resume_state,
+        )
+        resume_state = _sanitize_discovery_resume(
+            source.get("extractor_type", "auto"),
+            resume_state,
+        )
 
         print(f"\n[{index}] Checking {source_name}")
         async with semaphore:
