@@ -43,6 +43,7 @@ from job_core import (
     list_active_job_campaign_records,
     record_job_social_state,
 )
+from article_ai_processor import ai_circuit_status
 from social_ai_processor import generate_jobs_facebook_post, jobs_contextual_hashtag
 JOBS_CAPTION_STYLE = "jobs"
 
@@ -176,6 +177,21 @@ def _facebook_retry_ready(article, now_epoch=None):
     now_value = float(now_epoch if now_epoch is not None else time.time())
     if retry_after <= now_value:
         return True
+
+    # Provider-wait deferrals are allowed to wake early as soon as any AI
+    # provider becomes usable again. This does not bypass Facebook pacing or
+    # Graph/API backoff; it only avoids sleeping until an obsolete AI-circuit
+    # timestamp after the global circuit has already recovered.
+    if (
+        article.get("facebook_ai_deferred_at")
+        or _is_jobs_social_provider_wait(article.get("facebook_ai_deferred_reason"))
+    ):
+        try:
+            circuit = ai_circuit_status()
+        except Exception:
+            circuit = {"global_open": True}
+        if not circuit.get("global_open"):
+            return True
 
     # Rendering happens locally before any Graph request. Older queue entries may
     # carry the former 30m/1h exponential delay, which only postpones a fix that
@@ -413,6 +429,8 @@ def _recover_jobs_facebook_queue_from_memory(queue, now=None, max_age_days=30):
             "facebook_comment_id": facebook_comment_id,
             "facebook_queued_at": record.get("facebook_queued_at") or record.get("updated_at") or _now_iso(),
             "facebook_retry_after_epoch": record.get("facebook_retry_after_epoch") or 0,
+            "facebook_ai_deferred_at": record.get("facebook_ai_deferred_at", ""),
+            "facebook_ai_deferred_reason": record.get("facebook_ai_deferred_reason", ""),
             "facebook_comment_retry_after_epoch": record.get("facebook_comment_retry_after_epoch") or 0,
             "facebook_delivery_uncertain_at": record.get("facebook_delivery_uncertain_at", ""),
             "facebook_attempt_caption": record.get("facebook_attempt_caption", ""),
@@ -1572,6 +1590,8 @@ def _clear_facebook_failure_state(article):
         "facebook_last_failure_at",
         "facebook_retry_after_epoch",
         "facebook_retry_delay_seconds",
+        "facebook_ai_deferred_at",
+        "facebook_ai_deferred_reason",
     ):
         article.pop(key, None)
 
