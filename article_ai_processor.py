@@ -371,8 +371,10 @@ def _fingerprint_backoff_seconds(scope, category, count):
         base = 10 * 60
         cap = 2 * 3600
     elif category == "empty":
-        base = 5 * 60
-        cap = 60 * 60
+        # An empty response is normally transient/model-specific, not an
+        # outage. Probe again soon while still rotating to other providers.
+        base = 2 * 60
+        cap = 10 * 60
     elif category == "format":
         base = 15 * 60
         cap = 60 * 60
@@ -843,13 +845,30 @@ def _prune_ai_memory(now=None):
     circuits = memory.setdefault("provider_circuits", {})
     for provider, entry in list(circuits.items()):
         opened_at = _iso_retry_until((entry or {}).get("opened_at")) if isinstance(entry, dict) else 0.0
+        category = (
+            str(entry.get("category") or "").strip().lower()
+            if isinstance(entry, dict)
+            else ""
+        )
         legacy_format_expired = (
-            isinstance(entry, dict)
-            and str(entry.get("category") or "").strip().lower() == "format"
+            category == "format"
             and opened_at > 0
             and opened_at + (10 * 60) <= now
         )
-        if _cooldown_entry_until(entry) <= now or legacy_format_expired:
+        # Empty model responses are transient and cheap to probe again. Older
+        # state may contain exponentially extended empty-response circuits
+        # (40-60 minutes), which unnecessarily freezes all AI work when that
+        # provider could already be healthy again.
+        stale_empty_expired = (
+            category == "empty"
+            and opened_at > 0
+            and opened_at + (10 * 60) <= now
+        )
+        if (
+            _cooldown_entry_until(entry) <= now
+            or legacy_format_expired
+            or stale_empty_expired
+        ):
             circuits.pop(provider, None)
             changed = True
 
