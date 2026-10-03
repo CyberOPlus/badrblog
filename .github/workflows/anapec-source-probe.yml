@@ -1,0 +1,57 @@
+name: Verify official ANAPEC source
+on:
+  push:
+    branches: ["diagnostics/jobs-access-20261003"]
+    paths: [".github/workflows/anapec-source-probe.yml"]
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: pip install requests beautifulsoup4
+      - name: Fetch public official listings without credentials or publishing
+        run: |
+          python - <<'PY'
+          import concurrent.futures, json, gzip, base64, socket, time
+          import requests
+          from bs4 import BeautifulSoup
+          urls = ["https://anapec.ma/","http://www.anapec.ma/","https://anapec.org/sigec-app-rv/","https://www.anapec.org/sigec-app-rv/chercheurs/resultat_recherche/","http://www.anapec.org/sigec-app-rv/chercheurs/resultat_recherche/","https://shorturl.at/RxxXc","https://shorturl.at/H5FLm","https://api.smartrecruiters.com/v1/companies/SQLI1/postings?country=ma&limit=5","https://api.smartrecruiters.com/v1/companies/Devoteam/postings?country=ma&limit=5"]
+          def check(url):
+              started = time.monotonic()
+              try:
+                  response = requests.get(url, timeout=(15, 20),
+                      headers={"User-Agent":"Mozilla/5.0 (compatible; JobsSourceCheck/1.0)"})
+                  result = {"url":url,"final_url":response.url,"status":response.status_code,
+                            "seconds":round(time.monotonic()-started,2),"length":len(response.content)}
+                  if response.status_code == 200 and "json" in response.headers.get("content-type",""):
+                      data = response.json()
+                      result["totalFound"] = data.get("totalFound")
+                      result["detail_url"] = (data.get("content") or [{}])[0].get("ref")
+                      result["jobs"] = [{"id":r.get("id"),"name":r.get("name"),
+                          "releasedDate":r.get("releasedDate"),"ref":r.get("ref"),
+                          "location":r.get("location")} for r in data.get("content",[])]
+                  elif response.status_code == 200:
+                      soup = BeautifulSoup(response.text,"html.parser")
+                      result["title"] = soup.title.get_text(" ",strip=True) if soup.title else ""
+                      result["links"] = [{"url":a.get("href"),"title":a.get_text(" ",strip=True)[:160]}
+                          for a in soup.find_all("a",href=True) if any(k in a["href"].lower()
+                          for k in ("offre","sigec","emploi","job","recherch"))][:80]
+                      result["frames"] = [a.get("src") for a in soup.find_all("iframe",src=True)]
+                      for node in soup.find_all(["script","style"]): node.decompose()
+                      for node in soup.find_all("input"):
+                          if node.get("type","").lower()=="password" or any(k in node.get("name","").lower()
+                                  for k in ("token","csrf","password")):
+                              node["value"] = "[redacted]"
+                      result["html_gzip_base64"] = base64.b64encode(gzip.compress(str(soup).encode())).decode()
+                  return result
+              except Exception as exc:
+                  return {"url":url,"error_type":type(exc).__name__,"seconds":round(time.monotonic()-started,2)}
+          with concurrent.futures.ThreadPoolExecutor(max_workers=5) as pool:
+              for result in pool.map(check,urls):
+                  print("OFFICIAL_SOURCE_RESULT "+json.dumps(result,ensure_ascii=True),flush=True)
+          PY
