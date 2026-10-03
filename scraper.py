@@ -437,6 +437,12 @@ COMMON_FEED_SUFFIXES = (
 ASYNC_SOURCE_FETCH_CONCURRENCY = 8
 ASYNC_FETCH_TIMEOUT_SECONDS = SOURCE_TIMEOUT_SECONDS
 ANAPEC_MIN_FETCH_TIMEOUT_SECONDS = 12.0
+ANAPEC_HOSTS = {"anapec.org", "www.anapec.org", "anapec.ma", "www.anapec.ma"}
+
+
+def _is_anapec_url(url):
+    hostname = (urlparse(str(url or "")).hostname or "").casefold()
+    return hostname in ANAPEC_HOSTS
 
 
 def _source_fetch_timeout_seconds(url):
@@ -445,10 +451,59 @@ def _source_fetch_timeout_seconds(url):
         configured = max(1.0, float(ASYNC_FETCH_TIMEOUT_SECONDS or 1))
     except (TypeError, ValueError):
         configured = 6.0
-    hostname = (urlparse(str(url or "")).hostname or "").casefold()
-    if hostname in {"anapec.org", "www.anapec.org", "anapec.ma", "www.anapec.ma"}:
+    if _is_anapec_url(url):
         return max(configured, ANAPEC_MIN_FETCH_TIMEOUT_SECONDS)
     return configured
+
+
+def _fetch_anapec_text_sync(url):
+    """Use Requests for ANAPEC because aiohttp repeatedly stalls on Actions runners."""
+    started = time.perf_counter()
+    timeout_seconds = _source_fetch_timeout_seconds(url)
+    headers = dict(HEADERS)
+    headers.setdefault("Accept-Language", "fr-FR,fr;q=0.9,ar;q=0.8")
+    headers["Connection"] = "close"
+    try:
+        response = requests.get(
+            url,
+            headers=headers,
+            timeout=(5, timeout_seconds),
+            allow_redirects=True,
+        )
+        status = int(response.status_code or 0)
+        if status >= 400:
+            error = f"http {status}"
+            log_event(
+                "fetch_end",
+                url=url,
+                method="requests-anapec",
+                status=status,
+                error=error,
+                elapsed_ms=elapsed_ms(started),
+            )
+            return "", error, status
+        text = response.text or ""
+        log_event(
+            "fetch_end",
+            url=url,
+            method="requests-anapec",
+            status=status,
+            chars=len(text),
+            elapsed_ms=elapsed_ms(started),
+        )
+        return text, "", status
+    except requests.Timeout:
+        error = "TimeoutError"
+    except requests.RequestException as exc:
+        error = type(exc).__name__
+    log_event(
+        "fetch_end",
+        url=url,
+        method="requests-anapec",
+        error=error,
+        elapsed_ms=elapsed_ms(started),
+    )
+    return "", error, None
 
 SOURCE_PRIORITY_HINTS = (
     "the hacker news",
@@ -1044,6 +1099,16 @@ def _fallback_feed_urls(source_url, feed_url=None):
 
 
 async def _fetch_text_async(session, url):
+    if _is_anapec_url(url):
+        timeout_seconds = _source_fetch_timeout_seconds(url)
+        log_event(
+            "fetch_start",
+            url=url,
+            method="requests-anapec",
+            timeout_seconds=timeout_seconds,
+        )
+        return await asyncio.to_thread(_fetch_anapec_text_sync, url)
+
     started = time.perf_counter()
     try:
         timeout_seconds = _source_fetch_timeout_seconds(url)
@@ -2806,7 +2871,6 @@ async def _collect_article_links_for_source_async(
             discovery_urls.extend([
                 "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all",
                 "https://www.anapec.org/sigec-app-rv/ar/chercheurs/resultat_recherche/tout:all",
-                "https://www.anapec.org/sigec-app-rv/",
             ])
 
         links, error, status_code, discovery_meta = [], "", None, {}
@@ -3340,7 +3404,20 @@ async def _discover_latest_article_links_async(enabled_sources, persist_state=Tr
                     )
                     head_resume = (head_details or {}).get("discovery_resume") or {}
 
-                    if head_resume and not head_error:
+                    if head_error:
+                        # A failed head refresh is strong evidence that the same
+                        # host/backlog request will fail again in this cycle.
+                        # Preserve the cursor and retry on the next cycle instead
+                        # of doubling network delay and source load.
+                        links = head_links
+                        error = head_error
+                        status_code = head_status
+                        details = dict(head_details or {})
+                        details["head_refresh_links_found"] = len(head_links)
+                        details["head_refresh_error"] = head_error
+                        details["backlog_resume_deferred"] = True
+                        details["discovery_resume"] = dict(resume_state)
+                    elif head_resume:
                         # A large fresh burst itself exceeded this run's budget.
                         # Rebase onto that burst before older backlog work.
                         links = head_links
@@ -3664,7 +3741,16 @@ def discover_latest_article_links(sources, persist_state=True):
                 )
                 head_resume = (head_details or {}).get("discovery_resume") or {}
 
-                if head_resume and not head_error:
+                if head_error:
+                    links = head_links
+                    error = head_error
+                    status_code = head_status
+                    details = dict(head_details or {})
+                    details["head_refresh_links_found"] = len(head_links)
+                    details["head_refresh_error"] = head_error
+                    details["backlog_resume_deferred"] = True
+                    details["discovery_resume"] = dict(resume_state)
+                elif head_resume:
                     links = head_links
                     error = ""
                     status_code = head_status
