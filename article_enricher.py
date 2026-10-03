@@ -18,6 +18,7 @@ from urllib.parse import (
 
 import requests
 from bs4 import BeautifulSoup
+from official_job_sources import anapec_detail_html, smartrecruiters_detail_html
 
 from article_queue import is_candidate_in_recent_failure, load_article_queue, save_article_queue
 from config import (
@@ -835,6 +836,13 @@ def _fetch_html_with_requests(url):
 
 
 def _apply_enrichment_from_html(article, html, url):
+    try:
+        if article.get("ats_provider") == "anapec":
+            html = anapec_detail_html(html, article, url)
+        elif article.get("ats_provider") == "smartrecruiters":
+            html = smartrecruiters_detail_html(html, article, url)
+    except (ValueError, TypeError, AttributeError):
+        return False, "official posting detail could not be verified"
     soup = BeautifulSoup(html, "html.parser")
     job_source_soup = (BeautifulSoup(html, "html.parser"))
     vacancy = unicef_job_content(job_source_soup, url)
@@ -1428,7 +1436,7 @@ def _job_cached_enrichment_is_sufficient(article, existing_words):
     if existing_words < 40:
         return False
     provider = str(article.get("ats_provider") or "").strip().casefold()
-    if provider not in {"phenom", "csod", "workday", "etalent"}:
+    if provider not in {"phenom", "csod", "workday", "etalent", "anapec", "smartrecruiters"}:
         return False
     return bool(
         article.get("job_application_url")
