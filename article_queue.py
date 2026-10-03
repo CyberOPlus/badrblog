@@ -204,8 +204,12 @@ def repair_runtime_queue_state(now=None, selected_stale_minutes=30):
             )
         )
         if old_logo_block:
-            article["status"] = "selected"
-            article["selected_at"] = current.isoformat(timespec="seconds")
+            # Put repaired rows back into the normal selector. Marking every
+            # repaired job selected at once strands all but the one processed
+            # by the current single-worker cycle.
+            article["status"] = "ready"
+            article.pop("selected_at", None)
+            article.pop("selection_reason", None)
             article["publish_status"] = "visual_optional_ready"
             article["visual_content_reuse_required"] = True
             article["logo_resolution_status"] = (
