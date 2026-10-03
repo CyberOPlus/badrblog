@@ -3315,6 +3315,53 @@ class JobsRuntimeTests(unittest.TestCase):
             ai._cooldown_seconds_for_error(ai.AIProviderEmptyResponse("empty response")),
         )
 
+    def test_empty_model_cooldown_does_not_open_whole_provider_circuit(self):
+        memory = ai._empty_ai_memory()
+        candidate = {
+            "provider": "groq",
+            "model": "model-a",
+            "api_key": "secret",
+        }
+        with (
+            patch.object(ai, "_AI_MEMORY_CACHE", memory),
+            patch.object(ai, "_AI_COOLDOWNS", {}),
+            patch.object(ai.time, "time", return_value=1000),
+            patch.object(ai.random, "uniform", return_value=0),
+            patch.object(ai, "_save_ai_memory"),
+        ):
+            ai._put_candidate_on_cooldown(
+                candidate,
+                ai.AIProviderEmptyResponse("groq returned an empty response."),
+            )
+
+        self.assertNotIn("groq", memory["provider_circuits"])
+        self.assertIn(ai._candidate_id(candidate), memory["cooldowns"])
+
+    def test_same_provider_tries_next_model_after_empty_response(self):
+        candidates = [
+            {"provider": "groq", "model": "model-a", "api_key": "secret"},
+            {"provider": "groq", "model": "model-b", "api_key": "secret"},
+        ]
+        with (
+            patch.object(ai, "_global_circuit_remaining", return_value=0),
+            patch.object(ai, "_provider_circuit_remaining", return_value=0),
+            patch.object(ai, "_provider_candidates", return_value=candidates),
+            patch.object(ai, "_cooldown_remaining", return_value=0),
+            patch.object(
+                ai,
+                "_generate_with_candidate",
+                side_effect=[
+                    ai.AIProviderEmptyResponse("empty response"),
+                    ("ok", "groq:model-b"),
+                ],
+            ) as generate,
+            patch.object(ai, "_put_candidate_on_cooldown"),
+        ):
+            result = ai._generate_with_provider_name("groq", "prompt")
+
+        self.assertEqual(result, ("ok", "groq:model-b"))
+        self.assertEqual(generate.call_count, 2)
+
     def test_jobs_slug_is_english_and_digit_free(self):
         slug = ai._normalize_job_english_slug(
             "Orange Business Cybersecurity Consultant Casablanca 2026"
