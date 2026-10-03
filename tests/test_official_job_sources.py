@@ -116,7 +116,7 @@ class OfficialJobSourcesTests(unittest.TestCase):
                 "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all"
             )
         self.assertEqual(text, "")
-        self.assertEqual(error, "TimeoutError")
+        self.assertEqual(error, "GitHubRunnerConnectTimeout")
         self.assertIsNone(status)
         requests_get.assert_not_called()
 
