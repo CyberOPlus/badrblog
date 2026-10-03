@@ -432,6 +432,7 @@ def _sync_jobs_facebook_queue(queue, now=None):
                 article["facebook_status"] = "facebook_pending"
                 article["facebook_queue_reason"] = "logo_fallback_policy_repair"
                 article["facebook_queued_at"] = article.get("facebook_queued_at") or _now_iso()
+                article.pop("facebook_error", None)
                 article.pop("facebook_logo_refresh_error", None)
                 queued += 1
                 changed = True
