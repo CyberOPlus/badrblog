@@ -243,7 +243,7 @@
           "source_country": "MA",
           "source_eligibility": "morocco",
           "strict_source_path": false,
-          "source_note": "Official ANAPEC job-seeker vacancy search route. Runtime retries the Arabic official search route when the primary route times out or redirects; ANAPEC uses a dedicated Requests transport on GitHub Actions because aiohttp repeatedly stalls against this portal. Publication dates must come from the same official offer card/detail header; never infer them from discovery time or a start date."
+          "source_note": "Official ANAPEC job-seeker vacancy search route. Runtime retries the Arabic official search route when the primary route times out or redirects; ANAPEC uses a dedicated Requests transport on GitHub Actions because aiohttp repeatedly stalls against this portal. Repeated network timeouts use progressive probe backoff so ANAPEC remains enabled without slowing every production cycle. Publication dates must come from the same official offer card/detail header; never infer them from discovery time or a start date."
         }
       ]
     },
