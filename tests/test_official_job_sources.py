@@ -114,6 +114,32 @@ class OfficialJobSourcesTests(unittest.TestCase):
         self.assertEqual(healthy, [source])
         self.assertEqual(skipped, [])
 
+    def test_anapec_repeated_timeouts_back_off_without_disabling_source(self):
+        source = "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all"
+        self.assertEqual(scraper._critical_timeout_cooldown_minutes(source, {"failure_count": 0}), 5)
+        self.assertEqual(scraper._critical_timeout_cooldown_minutes(source, {"failure_count": 2}), 15)
+        self.assertEqual(scraper._critical_timeout_cooldown_minutes(source, {"failure_count": 6}), 30)
+
+    def test_emploi_public_timeout_backoff_is_bounded(self):
+        source = "https://www.emploi-public.ma/ar/liste"
+        self.assertEqual(scraper._critical_timeout_cooldown_minutes(source, {"failure_count": 0}), 5)
+        self.assertEqual(scraper._critical_timeout_cooldown_minutes(source, {"failure_count": 2}), 10)
+        self.assertEqual(scraper._critical_timeout_cooldown_minutes(source, {"failure_count": 7}), 15)
+
+    def test_anapec_legacy_root_resume_is_discarded(self):
+        self.assertEqual(
+            scraper._sanitize_discovery_resume(
+                "anapec_jobs",
+                {"kind": "html", "url": "https://www.anapec.org/sigec-app-rv/"},
+            ),
+            {},
+        )
+        valid = {
+            "kind": "html",
+            "url": "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all",
+        }
+        self.assertEqual(scraper._sanitize_discovery_resume("anapec_jobs", valid), valid)
+
     def test_anapec_async_timeout_is_failure_not_zero_jobs_success(self):
         with patch.object(scraper, "_fetch_text_async", return_value=("", "TimeoutError", None)):
             rows, error, status, details = asyncio.run(scraper._collect_article_links_for_source_async(
