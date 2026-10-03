@@ -537,13 +537,17 @@ def _fetch_anapec_with_curl_sync(url, timeout_seconds):
         return "", error, None
 
     if result.returncode != 0:
-        error = "TimeoutError" if result.returncode == 28 else f"CurlExit{result.returncode}"
+        stderr = str(result.stderr or "")
+        if result.returncode == 28 and "failed to connect" in stderr.casefold():
+            error = "CurlConnectTimeout"
+        else:
+            error = "TimeoutError" if result.returncode == 28 else f"CurlExit{result.returncode}"
         log_event(
             "fetch_end",
             url=url,
             method="curl-anapec",
             error=error,
-            stderr=(result.stderr or "")[:120],
+            stderr=stderr[:120],
             elapsed_ms=elapsed_ms(started),
         )
         return "", error, None
@@ -598,6 +602,11 @@ def _fetch_anapec_text_sync(url):
         text, error, status = _fetch_anapec_with_curl_sync(url, timeout_seconds)
         if not error:
             return text, "", status
+        if error == "CurlConnectTimeout":
+            # libcurl already proved that this GitHub runner cannot establish
+            # the TCP connection to ANAPEC. Requests would use the same runner
+            # egress and only repeat the same connect timeout.
+            return "", "TimeoutError", status
         if not _is_anapec_transport_failure(error):
             return "", error, status
 
