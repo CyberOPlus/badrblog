@@ -52,6 +52,8 @@ class JobsWorkflowTests(unittest.TestCase):
         self.assertNotIn("run: sleep 120", text)
         self.assertIn('"JOBS_FACEBOOK_FOLLOW_ARTICLE": "true"', text)
         self.assertIn('"JOBS_MAX_PUBLISH_AGE_HOURS": "24"', text)
+        self.assertIn("Install scanned-PDF OCR support when needed", text)
+        self.assertIn("No active queued job currently needs scanned-PDF OCR", text)
         self.assertIn('"AI_TOTAL_TIME_BUDGET_SECONDS": "300"', text)
         self.assertIn('"GEMINI_TIMEOUT_SECONDS": "90"', text)
         self.assertIn('"OPENROUTER_TIMEOUT_SECONDS": "90"', text)
