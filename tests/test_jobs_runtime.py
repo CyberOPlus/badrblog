@@ -5060,6 +5060,37 @@ class JobsRuntimeTests(unittest.TestCase):
         save.assert_called_once()
 
 
+    def test_runtime_repair_immediately_releases_old_logo_publish_block(self):
+        now = datetime(2026, 10, 3, 15, 55, tzinfo=timezone.utc)
+        row = {
+            "id": "logo-blocked",
+            "status": "ready",
+            "publish_status": "failed",
+            "ai_status": "completed",
+            "ai_quality_status": "passed",
+            "final_html": "<p>مقال موثق عن الوظيفة وشروطها وطريقة التقديم.</p>",
+            "job_article_cover_status": "missing_verified_logo_retry_required",
+            "publish_error": "Publish blocked: job article cover is not ready",
+            "candidate_failure_stage": "publish",
+            "candidate_failure_reason": "Publish blocked: job article cover is not ready",
+            "candidate_retry_after": "2026-10-03T16:10:00Z",
+        }
+        queue = {"articles": [row]}
+        with patch.object(article_queue, "load_article_queue", return_value=queue), \
+             patch.object(article_queue, "save_article_queue") as save:
+            result = article_queue.repair_runtime_queue_state(now=now)
+
+        self.assertTrue(result["changed"])
+        self.assertEqual(result["visual_publish_failures_released"], 1)
+        self.assertEqual(row["status"], "selected")
+        self.assertEqual(row["publish_status"], "visual_optional_ready")
+        self.assertTrue(row["visual_content_reuse_required"])
+        self.assertNotIn("candidate_retry_after", row)
+        self.assertNotIn("candidate_failure_stage", row)
+        self.assertNotIn("candidate_failure_reason", row)
+        self.assertNotIn("publish_error", row)
+        save.assert_called_once()
+
     def test_retry_uses_job_validation_and_excludes_attempted_ids(self):
         first, second = {"id": "failed"}, {"id": "verified", "status": "ready"}
         queue = {"articles": [first, second]}
