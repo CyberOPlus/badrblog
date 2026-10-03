@@ -23,13 +23,13 @@ jobs:
           urls = [
               "https://anapec.ma/", "https://www.anapec.ma/",
               "https://www.anapec.org/sigec-app-rv/",
-              "http://www.anapec.org/sigec-app-rv/",
+              "http://www.anapec.org/sigec-app-rv/", "http://anapec.org/sigec-app-rv/", "http://anapec.ma/",
               "https://api.smartrecruiters.com/v1/companies/ALTEN/postings?country=ma&limit=5",
           ]
           def check(url):
               started = time.monotonic()
               try:
-                  response = requests.get(url, timeout=(8, 15),
+                  response = requests.get(url, timeout=(15, 20),
                       headers={"User-Agent":"Mozilla/5.0 (compatible; JobsSourceCheck/1.0)"})
                   result = {"url":url,"final_url":response.url,"status":response.status_code,
                             "seconds":round(time.monotonic()-started,2),"length":len(response.content)}
