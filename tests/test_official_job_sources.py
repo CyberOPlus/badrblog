@@ -40,7 +40,8 @@ class OfficialJobSourcesTests(unittest.TestCase):
 
     def test_anapec_requests_transport_returns_official_html(self):
         response = Mock(status_code=200, text="<html><body>Aucune offre disponible</body></html>")
-        with patch.object(scraper.requests, "get", return_value=response) as get:
+        with patch.dict(scraper.os.environ, {"GITHUB_ACTIONS": ""}, clear=False), \
+             patch.object(scraper.requests, "get", return_value=response) as get:
             text, error, status = scraper._fetch_anapec_text_sync(
                 "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all"
             )
@@ -53,7 +54,8 @@ class OfficialJobSourcesTests(unittest.TestCase):
     def test_anapec_async_fetch_uses_requests_transport_not_aiohttp(self):
         response = Mock(status_code=200, text="<html>Aucune offre disponible</html>")
         session = Mock()
-        with patch.object(scraper.requests, "get", return_value=response):
+        with patch.dict(scraper.os.environ, {"GITHUB_ACTIONS": ""}, clear=False), \
+             patch.object(scraper.requests, "get", return_value=response):
             text, error, status = asyncio.run(
                 scraper._fetch_text_async(
                     session,
@@ -64,6 +66,42 @@ class OfficialJobSourcesTests(unittest.TestCase):
         self.assertEqual(error, "")
         self.assertEqual(status, 200)
         session.get.assert_not_called()
+
+    def test_anapec_actions_prefers_curl_transport(self):
+        with patch.dict(scraper.os.environ, {"GITHUB_ACTIONS": "true"}, clear=False), \
+             patch.object(scraper.shutil, "which", return_value="/usr/bin/curl"), \
+             patch.object(
+                 scraper,
+                 "_fetch_anapec_with_curl_sync",
+                 return_value=("<html>Aucune offre disponible</html>", "", 200),
+             ) as curl_fetch, \
+             patch.object(scraper.requests, "get") as requests_get:
+            text, error, status = scraper._fetch_anapec_text_sync(
+                "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all"
+            )
+        self.assertIn("Aucune offre", text)
+        self.assertEqual(error, "")
+        self.assertEqual(status, 200)
+        curl_fetch.assert_called_once()
+        requests_get.assert_not_called()
+
+    def test_anapec_actions_curl_timeout_falls_back_to_requests(self):
+        response = Mock(status_code=200, text="<html>Aucune offre disponible</html>")
+        with patch.dict(scraper.os.environ, {"GITHUB_ACTIONS": "true"}, clear=False), \
+             patch.object(scraper.shutil, "which", return_value="/usr/bin/curl"), \
+             patch.object(
+                 scraper,
+                 "_fetch_anapec_with_curl_sync",
+                 return_value=("", "TimeoutError", None),
+             ), \
+             patch.object(scraper.requests, "get", return_value=response) as requests_get:
+            text, error, status = scraper._fetch_anapec_text_sync(
+                "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all"
+            )
+        self.assertIn("Aucune offre", text)
+        self.assertEqual(error, "")
+        self.assertEqual(status, 200)
+        requests_get.assert_called_once()
 
     def test_emploi_public_uses_critical_source_timeout_profile(self):
         timeout = scraper._source_fetch_timeout_seconds(
@@ -162,7 +200,7 @@ class OfficialJobSourcesTests(unittest.TestCase):
             scraper,
             "_collect_paginated_html_links_async",
             side_effect=[
-                ([], "TimeoutError", None, {}),
+                ([], "ANAPEC listing contains no recognized official offer links", 200, {}),
                 ([candidate], "", 200, {"pages_scanned": 1}),
             ],
         ) as collect:
@@ -182,12 +220,11 @@ class OfficialJobSourcesTests(unittest.TestCase):
         self.assertEqual(tried[1], "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all")
         self.assertEqual(collect.call_count, 2)
 
-    def test_anapec_repeated_transport_timeouts_stop_before_third_route(self):
+    def test_anapec_combined_transport_failure_stops_after_first_route(self):
         with patch.object(
             scraper,
             "_collect_paginated_html_links_async",
             side_effect=[
-                ([], "TimeoutError", None, {}),
                 ([], "TimeoutError", None, {}),
             ],
         ) as collect:
@@ -201,9 +238,9 @@ class OfficialJobSourcesTests(unittest.TestCase):
         self.assertEqual(rows, [])
         self.assertEqual(error, "TimeoutError")
         self.assertIsNone(status)
-        self.assertEqual(collect.call_count, 2)
-        self.assertEqual(len(details["tried_listing_urls"]), 2)
-        self.assertEqual(details["transport_failures"], 2)
+        self.assertEqual(collect.call_count, 1)
+        self.assertEqual(len(details["tried_listing_urls"]), 1)
+        self.assertEqual(details["transport_failures"], 1)
 
     def test_smartrecruiters_follows_pagination_even_when_first_page_is_known(self):
         source = "https://api.smartrecruiters.com/v1/companies/ALTEN/postings?country=ma"
