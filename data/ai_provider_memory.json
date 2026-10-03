@@ -24,18 +24,26 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1791046108.4782994
+    },
+    "openrouter:openrouter/free:1af698c9b3": {
+      "failed_at": "2026-10-03T16:09:27",
+      "key_id": "1af698c9b3",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1791044069.2783287
     }
   },
   "failure_fingerprints": {
     "0bfbbde687f6e2ee0b50": {
       "category": "cooldown",
-      "count": 2,
+      "count": 3,
       "first_seen_at": "2026-10-02T15:41:54",
-      "last_seen_at": "2026-10-02T21:02:49",
-      "last_seen_epoch": 1790974969.6670709,
+      "last_seen_at": "2026-10-03T16:09:27",
+      "last_seen_epoch": 1791043767.702826,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "all configured AI providers are unavailable or cooling down",
-      "retry_until": 1790976769.6670709,
+      "retry_until": 1791047367.702826,
       "scope": "global"
     },
     "16f0cdcebb62d34cab0f": {
@@ -172,13 +180,13 @@
     },
     "6a52ff2ce198a0896fe8": {
       "category": "empty",
-      "count": 9,
+      "count": 10,
       "first_seen_at": "2026-10-01T14:46:11",
-      "last_seen_at": "2026-10-02T16:43:13",
-      "last_seen_epoch": 1790959393.1182873,
+      "last_seen_at": "2026-10-03T16:09:27",
+      "last_seen_epoch": 1791043767.6991372,
       "provider": "openrouter",
       "reason": "OpenRouter returned an empty response.",
-      "retry_until": 1790962993.1182873,
+      "retry_until": 1791047367.6991372,
       "scope": "provider"
     },
     "7a7105af81ae98f13b89": {
@@ -414,7 +422,20 @@
     }
   },
   "fastest_success_model": "groq:openai/gpt-oss-20b",
-  "global_circuit": {},
+  "global_circuit": {
+    "category": "cooldown",
+    "fingerprint": "0bfbbde687f6e2ee0b50",
+    "opened_at": "2026-10-03T16:09:27",
+    "providers": [
+      "cloudflare",
+      "gemini",
+      "groq",
+      "mistral",
+      "openrouter"
+    ],
+    "reason": "all configured AI providers are unavailable or cooling down",
+    "until": 1791045715.838931
+  },
   "provider_circuits": {
     "cloudflare": {
       "category": "quota",
@@ -447,6 +468,14 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1791065007.0354373
+    },
+    "openrouter": {
+      "category": "empty",
+      "fingerprint": "6a52ff2ce198a0896fe8",
+      "opened_at": "2026-10-03T16:09:27",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1791047367.6991372
     }
   },
   "stats": {
@@ -510,9 +539,9 @@
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 36.5105,
-      "failures": 16,
+      "failures": 17,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-02T21:02:49",
+      "last_failure_at": "2026-10-03T16:09:27",
       "last_success_at": "2026-10-03T16:03:26",
       "model": "openrouter/free",
       "provider": "openrouter",
