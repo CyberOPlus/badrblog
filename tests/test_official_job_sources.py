@@ -175,8 +175,8 @@ class OfficialJobSourcesTests(unittest.TestCase):
         self.assertEqual(len(rows), 1)
         self.assertEqual(rows[0]["ats_reference"], "1152572")
         tried = details["tried_listing_urls"]
-        self.assertEqual(tried[0], "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all")
-        self.assertEqual(tried[1], "https://www.anapec.org/sigec-app-rv/ar/chercheurs/resultat_recherche/tout:all")
+        self.assertEqual(tried[0], "https://www.anapec.org/sigec-app-rv/chercheurs/resultat_recherche/tout:all")
+        self.assertEqual(tried[1], "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all")
         self.assertEqual(collect.call_count, 2)
 
     def test_smartrecruiters_follows_pagination_even_when_first_page_is_known(self):
