@@ -1,0 +1,61 @@
+{
+  "updated_at": "2026-10-03T14:52:28.675938+00:00",
+  "state": "no_fresh_candidate",
+  "action": "Hourly target missed: no fresh candidate in the queue; audit discovery and source coverage.",
+  "hourly_target_met": false,
+  "target_minutes": 60,
+  "last_facebook_posted_at": "2026-10-02T21:25:14",
+  "last_facebook_post_id": "103026497833721_1085778427150555",
+  "minutes_since_facebook": 1047.2,
+  "last_blogger_publish_at": "2026-10-02T20:26:00.862957+00:00",
+  "fresh_candidate_count": 0,
+  "facebook_pending_count": 0,
+  "oldest_facebook_pending_minutes": 0,
+  "oldest_ready_candidate_minutes": 0,
+  "pending_first_comments": 0,
+  "services": {
+    "facebook": {
+      "status": "ok",
+      "check": "page_token_read",
+      "action": "Page/token lookup succeeded; publish permission is confirmed only by an actual delivery."
+    },
+    "ai": {
+      "status": "ok",
+      "providers": {
+        "gemini": {
+          "status": "ok",
+          "secret_names": [
+            "GEMINI_API_KEY"
+          ]
+        },
+        "groq": {
+          "status": "ok",
+          "secret_names": [
+            "GROQ_API_KEY"
+          ]
+        },
+        "cloudflare": {
+          "status": "quota",
+          "secret_names": [
+            "CLOUDFLARE_API_TOKEN",
+            "CLOUDFLARE_ACCOUNT_ID"
+          ]
+        },
+        "openrouter": {
+          "status": "ok",
+          "secret_names": [
+            "OPENROUTER_API_KEY"
+          ]
+        },
+        "mistral": {
+          "status": "quota",
+          "secret_names": [
+            "MISTRAL_API_KEY"
+          ]
+        }
+      },
+      "action": "At least one provider generated a response."
+    }
+  },
+  "services_checked_at": "2026-10-03T14:52:28.675924+00:00"
+}
