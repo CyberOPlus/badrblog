@@ -174,6 +174,26 @@ def delivery_status(now=None, services=None, ai_circuit=None):
             ),
         })
         services["ai"] = ai_service
+    elif (services.get("ai") or {}).get("status") == "cooldown":
+        # The previous health snapshot may contain the overlay from a circuit
+        # that has since recovered. Do not keep reporting waiting_provider after
+        # the shared circuit is closed. Recover the base probe status from its
+        # provider rows without making another API request.
+        services = dict(services or {})
+        ai_service = dict(services.get("ai") or {})
+        provider_rows = ai_service.get("providers") or {}
+        if any(
+            isinstance(row, dict) and row.get("status") == "ok"
+            for row in provider_rows.values()
+        ):
+            ai_service["status"] = "ok"
+            ai_service["action"] = "At least one provider is available; automatic AI generation can continue."
+        else:
+            ai_service["status"] = "unavailable"
+            ai_service["action"] = "No AI provider is currently confirmed available."
+        ai_service.pop("retry_after", None)
+        ai_service.pop("category", None)
+        services["ai"] = ai_service
     articles = load_article_queue().get("articles", [])
     posts = [row for row in articles if row.get("facebook_post_id")]
     latest = max(posts, key=lambda row: _date(row.get("facebook_posted_at")) or
