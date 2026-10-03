@@ -192,6 +192,19 @@
           "source_eligibility": "morocco",
           "strict_source_path": false,
           "source_note": "Official CIH Bank careers listing; adapter accepts only /<id>_offre-emploi-<slug>.html vacancies, captures official listing dates, and follows numeric page pagination."
+        },
+        {
+          "name": "ALTEN Maroc",
+          "base_url": "https://www.alten.ma/rejoignez-nous/",
+          "enabled": true,
+          "fetch_limit_per_run": 12,
+          "extractor_type": "alten_jobs",
+          "source_priority": "A+",
+          "official_source": true,
+          "source_country": "MA",
+          "source_eligibility": "morocco",
+          "strict_source_path": false,
+          "source_note": "Official ALTEN Morocco vacancy cards; preserve official listing dates, accept only /jobs/<id>-<slug> details, and keep the existing freshness/identity/quality gates."
         }
       ]
     },

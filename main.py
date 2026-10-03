@@ -74,6 +74,7 @@ from scraper import discover_latest_article_links, persist_discovery_state
 from runtime_state import record_source_cooldown, reset_job_discovery_state
 from source_validator import check_sources_config
 from production_logging import html_word_count, log_event
+from delivery_monitor import delivery_status
 from job_core import load_job_state, record_job_publish, select_best_job_from_queue, job_status_snapshot, maintain_job_memory
 from jobs_adaptive_controller import record_cycle_result as record_jobs_cycle_result
 
@@ -625,6 +626,10 @@ def _append_auto_cycle_run_log(record):
         "blogger_post_url": record.get("blogger_post_url", ""),
         "facebook_status": record.get("facebook_status", ""),
         "warning": record.get("warning", ""),
+        "failure_scope": record.get("failure_scope", ""),
+        "failure_fingerprint": record.get("failure_fingerprint", ""),
+        "retry_after": record.get("retry_after", ""),
+        "facebook_queue_failures": record.get("facebook_queue_failures", 0),
         "skip_reason": record.get("skip_reason") or record.get("stopped_reason", ""),
         "stopped_reason": record.get("stopped_reason", ""),
         "execution_seconds": record.get("execution_seconds", 0),
@@ -665,6 +670,8 @@ def _auto_cycle_record_from_result(run_id, started_at, result, error=None):
     fetch = (result or {}).get("fetch") or {}
     draft_action = (result or {}).get("draft_action", "")
     facebook_error = facebook.get("error") if facebook and not facebook.get("posted") else ""
+    queue_failures = int(((result or {}).get("scheduled_facebook") or {}).get("failed") or 0)
+    facebook_warning = facebook_error or (f"Facebook queue delivery failed for {queue_failures} item(s)." if queue_failures else "")
     blogger_succeeded = draft_action in {"created", "updated"}
     stopped_reason = "" if blogger_succeeded else str(
         error or (result or {}).get("reason") or draft.get("error") or ""
@@ -697,7 +704,8 @@ def _auto_cycle_record_from_result(run_id, started_at, result, error=None):
         "published_url": published_url,
         "blogger_post_url": published_url,
         "facebook_status": article.get("facebook_status") or (facebook.get("article") or {}).get("facebook_status", ""),
-        "warning": facebook_error if blogger_succeeded and facebook_error else "",
+        "warning": facebook_warning,
+        "facebook_queue_failures": queue_failures,
         "failure_scope": (result or {}).get("failure_scope") or ((result or {}).get("ai") or {}).get("failure_scope", ""),
         "failure_fingerprint": (result or {}).get("failure_fingerprint") or ((result or {}).get("ai") or {}).get("failure_fingerprint", ""),
         "retry_after": (result or {}).get("retry_after") or ((result or {}).get("ai") or {}).get("retry_after", ""),
@@ -719,6 +727,7 @@ RUNTIME_STATE_PATHS = (
     Path("data/job_memory"),
     Path("data/job_visual_state.json"),
     Path("data/jobs_adaptive_state.json"),
+    Path("data/delivery_health.json"),
     Path("data/job_queue_archive"),
 )
 
@@ -930,6 +939,7 @@ def run_health_only():
         and len(recent_records) >= 2
         and (publish_age_minutes is None or publish_age_minutes >= 30)
     )
+    delivery = delivery_status(now=now)
 
     if external_auth_problem:
         health_state = "external_auth_problem"
@@ -937,6 +947,8 @@ def run_health_only():
         health_state = "waiting_provider"
     elif stale_selected or stalled_publish:
         health_state = "stuck"
+    elif delivery.get("state") != "healthy":
+        health_state = delivery["state"]
     elif active_articles and not ready_now:
         health_state = "waiting_candidate"
     else:
@@ -966,6 +978,9 @@ def run_health_only():
     print(f"Last success time:   {last_success.get('finished_at', '') if last_success else ''}")
     print(f"Last failure reason: {last_failure.get('stopped_reason', '') if last_failure else ''}")
     print(f"Last Blogger publish:{job_state.get('last_publish_at', '')}")
+    print(f"Last Facebook post:  {delivery.get('last_facebook_posted_at', '')}")
+    print(f"Facebook hourly goal:{'met' if delivery.get('hourly_target_met') else 'missed'}")
+    print(f"Delivery action:     {delivery.get('action', '')}")
     print(f"Active queue count:  {active_count}")
     print(f"Ready now count:     {len(ready_now)}")
     print(f"Waiting candidate:   {waiting_candidate_count}")
@@ -991,6 +1006,7 @@ def run_health_only():
         "archived_count": archived_count,
         "queue_counts": dict(status_counts),
         "ai_circuit": circuit,
+        "facebook_delivery": delivery,
     }
 
 def run_24h_status_only():

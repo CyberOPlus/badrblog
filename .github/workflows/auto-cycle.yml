@@ -300,6 +300,14 @@ jobs:
           print(json.dumps(job_status_snapshot(), ensure_ascii=False, indent=2, default=str))
           PY
 
+      - name: Delivery diagnostics
+        if: always()
+        # Hourly service probes are cached across runs. No diagnostic creates
+        # a Facebook post or substitutes for the verified publishing pipeline.
+        continue-on-error: true
+        timeout-minutes: 3
+        run: python delivery_monitor.py
+
       - name: Health summary
         if: always()
         run: python main.py health
@@ -347,6 +355,7 @@ jobs:
             "data/job_memory"
             "data/job_visual_state.json"
             "data/jobs_adaptive_state.json"
+            "data/delivery_health.json"
             "data/job_queue_archive"
             "data/crawl_state.json"
             "data/ai_provider_memory.json"
@@ -570,6 +579,7 @@ jobs:
             data/job_memory
             data/job_visual_state.json
             data/jobs_adaptive_state.json
+            data/delivery_health.json
             data/job_queue_archive
             data/crawl_state.json
             data/ai_provider_memory.json
@@ -578,6 +588,12 @@ jobs:
             data/source_health.json
             data/automation_heartbeat.json
             logs/auto_cycle_runs.jsonl
+
+      - name: Report delivery blockers
+        if: always()
+        # State has already been saved. Make a real external blocker visible
+        # without preventing the independent successor/watchdog from retrying.
+        run: python delivery_monitor.py --cached
 
       - name: Continue Jobs auto-cycle
         if: always() && github.ref == 'refs/heads/main'

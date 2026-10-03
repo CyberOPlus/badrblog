@@ -1203,7 +1203,7 @@ class JobsCoreTests(unittest.TestCase):
 
         known = {
             f"url:https://tenant.wd5.myworkdayjobs.com/site/job/{index}"
-            for index in range(1, 9)
+            for index in range(1, 21)
         }
         session = FakeSession()
         links, error, status, meta = asyncio.run(

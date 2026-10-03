@@ -170,7 +170,10 @@ def _filter_new_discovery_links(
     seen_streak_stop=None,
     max_items=None,
     initial_seen_streak=0,
+    finish_page=False,
 ):
+    # Listings can mix pinned/old vacancies with new ones. Paginated adapters
+    # inspect the complete downloaded page before deciding to stop pagination.
     known = known_ids if isinstance(known_ids, set) else set(known_ids or ())
     seen_streak_stop = max(
         1,
@@ -193,7 +196,7 @@ def _filter_new_discovery_links(
         scanned += 1
         if identity in known:
             consecutive_seen += 1
-            if consecutive_seen >= seen_streak_stop:
+            if consecutive_seen >= seen_streak_stop and not finish_page:
                 stop_reason = "seen_streak"
                 break
             continue
@@ -204,6 +207,9 @@ def _filter_new_discovery_links(
         if len(selected) >= max_items:
             stop_reason = "max_items"
             break
+
+    if finish_page and not stop_reason and consecutive_seen >= seen_streak_stop:
+        stop_reason = "seen_streak"
 
     return selected, {
         "scanned": scanned,
@@ -1103,6 +1109,7 @@ async def _collect_paginated_html_links_async(
             # this full page so a resume cursor can safely start at next page.
             max_items=max(max_items + len(page_links), len(page_links) + 1),
             initial_seen_streak=seen_streak,
+            finish_page=True,
         )
         seen_streak = int(meta.get("seen_streak") or 0)
         collected.extend(new_links)
@@ -1212,6 +1219,7 @@ def _collect_paginated_html_links_sync(
             seen_streak_stop=effective_seen_streak_stop,
             max_items=max(max_items + len(page_links), len(page_links) + 1),
             initial_seen_streak=seen_streak,
+            finish_page=True,
         )
         seen_streak = int(meta.get("seen_streak") or 0)
         collected.extend(new_links)
@@ -1390,6 +1398,7 @@ async def _collect_workday_links_async(
             seen_streak_stop=effective_seen_streak_stop,
             max_items=max(max_items + len(page_links), len(page_links) + 1),
             initial_seen_streak=seen_streak,
+            finish_page=True,
         )
         seen_streak = int(meta.get("seen_streak") or 0)
         links.extend(new_links)
@@ -1587,6 +1596,48 @@ async def _collect_emploi_public_links_async(session, source_url, per_source_lim
     if not links:
         return [], "Emploi-Public listing exposed no competition detail links", status_code or 200
     return links, "", status_code or 200
+
+
+def _parse_alten_job_links(html_text, source_url, per_source_limit=None):
+    """Read vacancy cards and their dates from the official ALTEN Morocco site."""
+    soup = _get_soup_from_document(html_text, source_url)
+    if not soup:
+        return []
+    links, seen = [], set()
+    limit = max(1, int(per_source_limit or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE))
+    for anchor in soup.find_all("a", href=True):
+        url = urljoin(source_url, str(anchor.get("href") or "").strip())
+        parsed = urlparse(url)
+        if (parsed.hostname or "").removeprefix("www.") != "alten.ma":
+            continue
+        match = re.fullmatch(r"/jobs/(\d{8,})-[^/]+/?", parsed.path)
+        title = _normalize_text(anchor.get_text(" ", strip=True))
+        if not match or len(title) < 8 or url in seen:
+            continue
+        row = {"title": title, "url": url, "ats_provider": "alten",
+               "ats_reference": match.group(1), "job_company": "ALTEN MAROC"}
+        # Use only a card that contains this single vacancy; never borrow a
+        # neighbouring card's posting date or turn discovery time into one.
+        for parent in list(anchor.parents)[:6]:
+            job_anchors = [a for a in parent.find_all("a", href=True)
+                           if re.search(r"/jobs/\d{8,}-", str(a.get("href") or ""))]
+            if len({a.get("href") for a in job_anchors}) > 1:
+                break
+            date_match = re.search(r"\b(\d{2})/(\d{2})/(\d{4})\b",
+                                   parent.get_text(" ", strip=True))
+            if date_match:
+                day, month, year = map(int, date_match.groups())
+                try:
+                    row["source_published_at"] = datetime(year, month, day).date().isoformat()
+                    row["published_at_source"] = "official_listing"
+                except ValueError:
+                    pass
+                break
+        links.append(row)
+        seen.add(url)
+        if len(links) >= limit:
+            break
+    return links
 
 
 def _parse_inwi_job_links(html_text, source_url, per_source_limit=None):
@@ -2158,6 +2209,7 @@ async def _collect_phenom_links_async(
             seen_streak_stop=effective_seen_streak_stop,
             max_items=max(max_items + len(page_links), len(page_links) + 1),
             initial_seen_streak=seen_streak,
+            finish_page=True,
         )
         seen_streak = int(meta.get("seen_streak") or 0)
         collected.extend(new_links)
@@ -2399,6 +2451,7 @@ async def _collect_csod_links_async(
             seen_streak_stop=effective_seen_streak_stop,
             max_items=max(max_items + len(page_links), len(page_links) + 1),
             initial_seen_streak=seen_streak,
+            finish_page=True,
         )
         seen_streak = int(meta.get("seen_streak") or 0)
         links.extend(new_links)
@@ -2605,8 +2658,9 @@ async def _collect_article_links_for_source_async(
             ),
         }
 
-    if extractor_mode in {"inwi_jobs", "credit_du_maroc_jobs", "cih_jobs"}:
+    if extractor_mode in {"inwi_jobs", "credit_du_maroc_jobs", "cih_jobs", "alten_jobs"}:
         parser = {
+            "alten_jobs": _parse_alten_job_links,
             "inwi_jobs": _parse_inwi_job_links,
             "credit_du_maroc_jobs": _parse_credit_du_maroc_job_links,
             "cih_jobs": _parse_cih_job_links,
@@ -2865,8 +2919,9 @@ def _collect_article_links_for_source(
 
     extractor_mode = str(extractor_type or "").lower()
     resume_state = resume_state if isinstance(resume_state, dict) else {}
-    if extractor_mode in {'emploi_public', 'capgemini_jobs', 'etalent', 'ats_listing', 'inwi_jobs', 'credit_du_maroc_jobs', 'cih_jobs'}:
+    if extractor_mode in {'emploi_public', 'capgemini_jobs', 'etalent', 'ats_listing', 'inwi_jobs', 'credit_du_maroc_jobs', 'cih_jobs', 'alten_jobs'}:
         parser = {
+            "alten_jobs": _parse_alten_job_links,
             "emploi_public": _parse_emploi_public_links,
             "capgemini_jobs": _parse_capgemini_job_links,
             "etalent": _parse_etalent_links,
@@ -2910,6 +2965,7 @@ def _collect_article_links_for_source(
                 "inwi_jobs",
                 "credit_du_maroc_jobs",
                 "cih_jobs",
+                "alten_jobs",
             } and not links and not error,
         }
 
