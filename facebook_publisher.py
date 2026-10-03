@@ -113,6 +113,61 @@ def _is_jobs_social_generation_failure(error):
     )
 
 
+def _is_jobs_social_provider_wait(error):
+    """Provider cooldown/outage is a defer condition, not a Facebook failure."""
+    text = re.sub(r"\s+", " ", str(error or "").casefold()).strip()
+    return (
+        "global ai circuit open until" in text
+        or "all configured ai providers are unavailable or cooling down" in text
+    )
+
+
+def _jobs_social_provider_retry_epoch(error, now_epoch=None):
+    now_value = int(now_epoch if now_epoch is not None else time.time())
+    text = str(error or "")
+    match = re.search(
+        r"global ai circuit open until\s+([0-9]{4}-[0-9]{2}-[0-9]{2}t[0-9:.+-]+)",
+        text,
+        flags=re.IGNORECASE,
+    )
+    if match:
+        try:
+            retry_at = datetime.fromisoformat(match.group(1).replace("Z", "+00:00"))
+            if retry_at.tzinfo is None:
+                retry_at = retry_at.replace(tzinfo=timezone.utc)
+            return max(now_value + 30, int(retry_at.timestamp()))
+        except (TypeError, ValueError):
+            pass
+    return now_value + max(5 * 60, int(JOBS_FACEBOOK_MIN_INTERVAL_MINUTES) * 60)
+
+
+def _defer_jobs_social_provider_wait(queue, article, error):
+    """Keep a published job queued while every social-AI provider is cooling down."""
+    now_epoch = int(time.time())
+    retry_epoch = _jobs_social_provider_retry_epoch(error, now_epoch=now_epoch)
+    article["facebook_status"] = "facebook_pending"
+    article["facebook_ai_deferred_at"] = _now_iso()
+    article["facebook_ai_deferred_reason"] = str(error)[:500]
+    article["facebook_retry_after_epoch"] = retry_epoch
+    article["facebook_retry_delay_seconds"] = max(30, retry_epoch - now_epoch)
+    article.pop("facebook_error", None)
+    article.pop("facebook_failure_count", None)
+    article.pop("facebook_last_failure_at", None)
+    _persist_jobs_social_state(article)
+    save_article_queue(queue)
+    log_event(
+        "facebook_social_ai_deferred",
+        article_id=article.get("id"),
+        retry_after_epoch=retry_epoch,
+        reason="provider_wait",
+    )
+    return _deferred_result(
+        article,
+        "Social AI providers are temporarily unavailable; Facebook item remains queued.",
+        extra={"retry_after_epoch": retry_epoch, "provider_wait": True},
+    )
+
+
 def _facebook_retry_ready(article, now_epoch=None):
     try:
         retry_after = float(article.get("facebook_retry_after_epoch") or 0)
@@ -1920,6 +1975,8 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         }
 
     except Exception as error:
+        if _is_jobs_social_provider_wait(error):
+            return _defer_jobs_social_provider_wait(queue, article, error)
         _apply_failure(article, error)
         if "caption_pattern" in locals():
             _remember_caption_pattern(
