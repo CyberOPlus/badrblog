@@ -295,6 +295,9 @@ def run_fetch_only():
     failed_sources = [
         source for source in source_results if source.get("status") == "failed"
     ]
+    cooldown_sources = [
+        source for source in source_results if source.get("status") == "cooldown"
+    ]
     zero_link_sources = [
         source
         for source in source_results
@@ -340,6 +343,12 @@ def run_fetch_only():
             f"({source.get('base_url', '')}): {source.get('error', '')}; "
             f"links found: {source.get('links_found', 0)}"
         )
+    print(f"Sources cooling down:     {len(cooldown_sources)}")
+    for source in cooldown_sources:
+        print(
+            f"  - {source.get('source_name', '')}: "
+            f"{source.get('cooldown_until', '') or source.get('error', '')}"
+        )
     print(f"Sources with 0 links:     {len(zero_link_sources)}")
     for source in zero_link_sources:
         print(
@@ -355,6 +364,7 @@ def run_fetch_only():
         "first_valid_url": articles[0].get("url", "") if articles else "",
         "articles_found_by_category": dict(found_by_category),
         "failed_sources": failed_sources,
+        "cooldown_sources": cooldown_sources,
         "zero_link_sources": zero_link_sources,
         "reason": discovery.get("reason", ""),
         **category_context,
@@ -630,6 +640,8 @@ def _append_auto_cycle_run_log(record):
         "failure_fingerprint": record.get("failure_fingerprint", ""),
         "retry_after": record.get("retry_after", ""),
         "facebook_queue_failures": record.get("facebook_queue_failures", 0),
+        "source_failures": record.get("source_failures", ""),
+        "source_cooldowns": record.get("source_cooldowns", ""),
         "skip_reason": record.get("skip_reason") or record.get("stopped_reason", ""),
         "stopped_reason": record.get("stopped_reason", ""),
         "execution_seconds": record.get("execution_seconds", 0),
@@ -683,6 +695,16 @@ def _auto_cycle_record_from_result(run_id, started_at, result, error=None):
 
     category = fetch.get("selected_category") or article.get("suggested_category", "")
     published_url = article.get("blogger_post_url") or article.get("blogger_draft_url") or ""
+    source_failures = "; ".join(
+        f"{source.get('source_name', '')}:{source.get('error', '')}"
+        for source in (fetch.get("failed_sources") or [])[:5]
+        if isinstance(source, dict)
+    )
+    source_cooldowns = "; ".join(
+        f"{source.get('source_name', '')}:{source.get('cooldown_until', '') or source.get('error', '')}"
+        for source in (fetch.get("cooldown_sources") or [])[:5]
+        if isinstance(source, dict)
+    )
 
     return {
         "run_id": run_id,
@@ -706,6 +728,8 @@ def _auto_cycle_record_from_result(run_id, started_at, result, error=None):
         "facebook_status": article.get("facebook_status") or (facebook.get("article") or {}).get("facebook_status", ""),
         "warning": facebook_warning,
         "facebook_queue_failures": queue_failures,
+        "source_failures": source_failures,
+        "source_cooldowns": source_cooldowns,
         "failure_scope": (result or {}).get("failure_scope") or ((result or {}).get("ai") or {}).get("failure_scope", ""),
         "failure_fingerprint": (result or {}).get("failure_fingerprint") or ((result or {}).get("ai") or {}).get("failure_fingerprint", ""),
         "retry_after": (result or {}).get("retry_after") or ((result or {}).get("ai") or {}).get("retry_after", ""),
