@@ -1,0 +1,127 @@
+name: ANAPEC Cloudflare Probe
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/anapec-cloudflare-probe.yml"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      WORKER_NAME: cyberoplus-anapec-probe
+    steps:
+      - name: Validate Cloudflare credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo "::error::Missing CLOUDFLARE_API_TOKEN"; exit 1; }
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "::error::Missing CLOUDFLARE_ACCOUNT_ID"; exit 1; }
+          echo "::add-mask::$CLOUDFLARE_API_TOKEN"
+          echo "::add-mask::$CLOUDFLARE_ACCOUNT_ID"
+
+      - name: Create fixed-target probe Worker
+        shell: bash
+        run: |
+          cat > /tmp/anapec-probe-worker.mjs <<'JS'
+          const TARGETS = [
+            "https://www.anapec.org/sigec-app-rv/chercheurs/resultat_recherche/tout:all",
+            "https://www.anapec.ma/sigec-app-rv/chercheurs/resultat_recherche/tout:all",
+          ];
+
+          async function probe(url) {
+            const started = Date.now();
+            try {
+              const response = await fetch(url, {
+                method: "GET",
+                redirect: "follow",
+                headers: {
+                  "User-Agent": "Mozilla/5.0 (compatible; CyberoPlusJobs/1.0; +https://www.cyberoplus.com/)",
+                  "Accept": "text/html,application/xhtml+xml",
+                  "Accept-Language": "fr-FR,fr;q=0.9,ar;q=0.8",
+                },
+              });
+              const body = await response.arrayBuffer();
+              return {
+                url,
+                ok: response.ok,
+                status: response.status,
+                chars: body.byteLength,
+                final_url: response.url,
+                elapsed_ms: Date.now() - started,
+              };
+            } catch (error) {
+              return {
+                url,
+                ok: false,
+                status: 0,
+                chars: 0,
+                elapsed_ms: Date.now() - started,
+                error: String(error && error.message ? error.message : error).slice(0, 180),
+              };
+            }
+          }
+
+          export default {
+            async fetch(request) {
+              const url = new URL(request.url);
+              if (url.pathname !== "/probe") {
+                return new Response("not found", { status: 404 });
+              }
+              const results = await Promise.all(TARGETS.map(probe));
+              return Response.json({ results });
+            },
+          };
+          JS
+
+      - name: Deploy temporary Worker
+        shell: bash
+        run: |
+          set -euo pipefail
+          npx -y wrangler@4 deploy /tmp/anapec-probe-worker.mjs \
+            --name "$WORKER_NAME" \
+            --compatibility-date 2026-10-03 \
+            --no-bundle
+
+      - name: Probe ANAPEC through Cloudflare
+        shell: bash
+        run: |
+          set -euo pipefail
+          SUBDOMAIN="$(
+            curl -fsS \
+              -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+              -H "Content-Type: application/json" \
+              "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/subdomain" \
+            | python -c 'import json,sys; data=json.load(sys.stdin); print((data.get("result") or {}).get("subdomain") or "")'
+          )"
+          test -n "$SUBDOMAIN" || { echo "::error::Cloudflare Workers subdomain is unavailable"; exit 1; }
+          PROBE_URL="https://$WORKER_NAME.$SUBDOMAIN.workers.dev/probe"
+          echo "Cloudflare probe endpoint resolved."
+          curl -fsS --max-time 25 "$PROBE_URL" | tee /tmp/anapec-cloudflare-result.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path("/tmp/anapec-cloudflare-result.json").read_text())
+          rows = data.get("results") or []
+          if not rows:
+              raise SystemExit("No ANAPEC probe results returned")
+          for row in rows:
+              print(
+                  f"{row.get('url')} status={row.get('status')} "
+                  f"chars={row.get('chars')} elapsed_ms={row.get('elapsed_ms')} "
+                  f"ok={row.get('ok')} error={row.get('error','')}"
+              )
+          if not any(row.get("ok") and int(row.get("chars") or 0) > 0 for row in rows):
+              raise SystemExit("Cloudflare could not reach either official ANAPEC endpoint")
+          PY
+
+      - name: Delete temporary Worker
+        if: always()
+        continue-on-error: true
+        shell: bash
+        run: |
+          npx -y wrangler@4 delete --name "$WORKER_NAME" --force
