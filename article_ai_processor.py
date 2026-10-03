@@ -984,6 +984,27 @@ def _record_candidate_success(candidate, elapsed_seconds=None):
         # Clear any provider-wide circuit opened by a sibling model failure;
         # failed model-specific cooldowns remain intact.
         memory.setdefault("provider_circuits", {}).pop(provider, None)
+
+        # If the global circuit was waiting for this provider, a real success
+        # is definitive recovery evidence. Release it immediately instead of
+        # waiting for the previous global retry timestamp.
+        global_entry = (
+            memory.get("global_circuit")
+            if isinstance(memory.get("global_circuit"), dict)
+            else {}
+        )
+        global_providers = {
+            str(value or "").strip().lower()
+            for value in (global_entry.get("providers") or [])
+            if str(value or "").strip()
+        }
+        if provider in global_providers:
+            memory["global_circuit"] = {}
+            log_event(
+                "ai_global_circuit_released_provider_success",
+                provider=provider,
+                model=candidate.get("model"),
+            )
     stats = memory.setdefault("stats", {}).setdefault(candidate_id, {})
     stats["provider"] = candidate.get("provider")
     stats["model"] = candidate.get("model")
