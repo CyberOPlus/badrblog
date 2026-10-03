@@ -605,9 +605,9 @@ def _fetch_anapec_text_sync(url):
             return curl_text, "", curl_status
         if curl_error == "CurlConnectTimeout":
             # libcurl already proved that this GitHub runner cannot establish
-            # the TCP connection to ANAPEC. Requests would use the same runner
-            # egress and only repeat the same connect timeout.
-            return "", "TimeoutError", curl_status
+            # the TCP connection to ANAPEC. Preserve that exact blocker in
+            # durable source health instead of collapsing it to a generic timeout.
+            return "", "GitHubRunnerConnectTimeout", curl_status
         if not _is_anapec_transport_failure(curl_error):
             return "", curl_error, curl_status
 
