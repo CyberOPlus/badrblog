@@ -59,6 +59,7 @@ from runtime_state import (
     record_source_failure,
     record_source_success,
     source_crawl_record,
+    source_health_record,
     update_source_crawl,
 )
 
@@ -512,6 +513,22 @@ def _filter_healthy_sources(sources):
         base_url = source.get("base_url", "").strip()
         cooled_down, cooldown_until = is_source_cooled_down(base_url)
         if cooled_down:
+            hostname = (urlparse(str(base_url or "")).hostname or "").casefold()
+            if hostname in {"anapec.org", "www.anapec.org", "anapec.ma", "www.anapec.ma"}:
+                record = source_health_record(base_url)
+                last_error = str(record.get("last_error") or "").casefold()
+                failed_at = _parse_datetime_to_utc(record.get("last_failure_at"))
+                # Older runtime state may still carry the previous 30-minute
+                # timeout cooldown. Cap ANAPEC timeout recovery at five minutes
+                # so the newly longer fetch deadline can be exercised quickly.
+                if (
+                    "timeout" in last_error
+                    and failed_at is not None
+                    and datetime.now(timezone.utc) >= failed_at + timedelta(minutes=5)
+                ):
+                    cooled_down = False
+                    cooldown_until = ""
+        if cooled_down:
             skipped.append(
                 {
                     "source_name": source.get("name", base_url),
@@ -540,7 +557,7 @@ def _record_source_result(base_url, source_name, error, links_found, empty_ok=Fa
         # sooner after transient timeouts while keeping the normal 30-minute
         # protection for every other source.
         timeout_cooldown_minutes = (
-            10
+            5
             if hostname in {"anapec.org", "www.anapec.org", "anapec.ma", "www.anapec.ma"}
             else 30
         )
