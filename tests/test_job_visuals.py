@@ -500,7 +500,7 @@ class JobVisualTests(unittest.TestCase):
             with Image.open(result["path"]) as image:
                 self.assertEqual(image.size, (1200, 675))
 
-    def test_job_visuals_refuse_missing_verified_logo(self):
+    def test_job_visuals_use_employer_name_when_verified_logo_is_missing(self):
         with tempfile.TemporaryDirectory() as temp:
             temp = Path(temp)
             template = temp / "template.png"
@@ -513,8 +513,10 @@ class JobVisualTests(unittest.TestCase):
                 employer_name="Example Company",
                 template_path=template,
             )
-            self.assertFalse(article_result["ok"])
-            self.assertIn("verified employer logo", article_result.get("error", ""))
+            self.assertTrue(article_result["ok"], article_result.get("error"))
+            self.assertFalse(article_result["logo_loaded"])
+            self.assertTrue(article_result["used_fallback"])
+            self.assertTrue(Path(article_result["path"]).exists())
 
             facebook_result = visuals._generate_job_facebook_image(
                 "وظيفة اختبار",
@@ -523,10 +525,12 @@ class JobVisualTests(unittest.TestCase):
                 employer_name="Example Company",
                 template_key=visual_policy.JOB_TEMPLATE_KEYS[0],
             )
-            self.assertFalse(facebook_result["ok"])
-            self.assertIn("verified employer logo", facebook_result.get("error", ""))
+            self.assertTrue(facebook_result["ok"], facebook_result.get("error"))
+            self.assertTrue(facebook_result["used_fallback"])
+            self.assertEqual(facebook_result["logo_kind"], "employer_text")
+            self.assertTrue(Path(facebook_result["path"]).exists())
 
-    def test_missing_verified_logo_defers_article_until_required_cover_is_ready(self):
+    def test_missing_verified_logo_prepares_fallback_cover_without_waiting(self):
         article = {
             "id": "job-no-logo",
             "job_title": "مهندس نظم",
@@ -552,26 +556,32 @@ class JobVisualTests(unittest.TestCase):
                     "company_logo_verified": False,
                 },
             ),
+            patch.object(
+                article_draft_publisher,
+                "generate_job_article_cover",
+                return_value={
+                    "ok": True,
+                    "logo_loaded": False,
+                    "used_fallback": True,
+                    "width": 1200,
+                    "height": 675,
+                },
+            ),
+            patch.object(
+                article_draft_publisher,
+                "_persist_generated_job_cover",
+                return_value=True,
+            ),
         ):
             cover = article_draft_publisher._prepare_job_article_cover(article)
 
-        self.assertEqual(cover, "")
-        self.assertEqual(
-            article["logo_resolution_status"],
-            "verified_logo_retry_required",
-        )
-        self.assertEqual(
-            article["job_article_cover_status"],
-            "missing_verified_logo_retry_required",
-        )
+        self.assertTrue(cover)
+        self.assertEqual(article["logo_resolution_status"], "employer_text_fallback")
+        self.assertEqual(article["job_article_cover_status"], "ready")
         self.assertFalse(article["article_logo_used"])
-        self.assertFalse(article["article_cover_fallback_used"])
-        self.assertTrue(article["logo_visual_retry_pending"])
-        self.assertTrue(article["logo_visual_retry_after"])
-        self.assertEqual(
-            article_draft_publisher._publish_quality_error(article, [article]),
-            "job article cover is not ready",
-        )
+        self.assertTrue(article["article_cover_fallback_used"])
+        self.assertNotIn("logo_visual_retry_pending", article)
+        self.assertNotIn("logo_visual_retry_after", article)
         self.assertNotIn("publish_block_reason", article)
 
     def test_verified_logo_render_failure_defers_article_without_raising(self):

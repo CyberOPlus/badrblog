@@ -115,6 +115,7 @@ def repair_runtime_queue_state(now=None, selected_stale_minutes=30):
         "selected_released": 0,
         "unicef_details_requeued": 0,
         "publication_evidence_requeued": 0,
+        "visual_publish_failures_released": 0,
         "articles_touched": 0,
     }
 
@@ -180,6 +181,51 @@ def repair_runtime_queue_state(now=None, selected_stale_minutes=30):
             article.pop("content_fetch_error", None)
             stats["unicef_details_requeued"] += 1
             touched = True
+        visual_failure_text = " ".join(
+            str(article.get(field) or "")
+            for field in (
+                "publish_error",
+                "publish_blocked_reason",
+                "candidate_failure_reason",
+                "logo_visual_error",
+            )
+        ).casefold()
+        old_logo_block = (
+            not published
+            and article.get("ai_status") == "completed"
+            and bool(article.get("final_html"))
+            and (
+                "job article cover is not ready" in visual_failure_text
+                or "verified employer logo" in visual_failure_text
+                or str(article.get("job_article_cover_status") or "") in {
+                    "missing_verified_logo_retry_required",
+                    "render_retry_required",
+                }
+            )
+        )
+        if old_logo_block:
+            article["status"] = "selected"
+            article["selected_at"] = current.isoformat(timespec="seconds")
+            article["publish_status"] = "visual_optional_ready"
+            article["visual_content_reuse_required"] = True
+            article["logo_resolution_status"] = (
+                article.get("logo_resolution_status") or "unavailable_optional"
+            )
+            for field in (
+                "candidate_retry_after",
+                "candidate_failure_stage",
+                "candidate_failure_reason",
+                "candidate_failure_fingerprint",
+                "candidate_failure_repeat_count",
+                "candidate_failure_backoff_minutes",
+                "candidate_failed_at",
+                "publish_error",
+                "publish_blocked_reason",
+            ):
+                article.pop(field, None)
+            stats["visual_publish_failures_released"] += 1
+            touched = True
+
         if article.get("status") == "selected" and not published:
             selected_at = _as_utc(_parse_iso(article.get("selected_at")))
             stale = (
