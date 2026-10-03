@@ -19,6 +19,7 @@ from job_core import job_publication_freshness, load_job_state
 from state_io import atomic_write_json
 
 HEALTH_PATH = BASE_DIR / "data" / "delivery_health.json"
+SOURCE_HEALTH_PATH = BASE_DIR / "data" / "source_health.json"
 TARGET_MINUTES = 60
 BLOCKING_STATES = {"facebook_external_problem", "waiting_provider",
                    "facebook_stalled", "facebook_delivery_uncertain",
@@ -75,6 +76,65 @@ def _date(value):
 def _age(value, now):
     dt = _date(value)
     return max(0.0, (now - dt).total_seconds() / 60) if dt else None
+
+
+def probe_sources(now=None):
+    """Surface active source-level blockers without making the whole publisher fail."""
+    now = now or datetime.now(timezone.utc)
+    try:
+        payload = json.loads(SOURCE_HEALTH_PATH.read_text(encoding="utf-8"))
+    except (OSError, ValueError, TypeError):
+        payload = {}
+    rows = []
+    for _, record in (payload.get("sources") or {}).items():
+        if not isinstance(record, dict):
+            continue
+        retry_at = _date(record.get("cooldown_until"))
+        if not retry_at or retry_at <= now:
+            continue
+        name = str(record.get("source_name") or "").strip()
+        error = str(record.get("last_error") or "").strip()
+        lowered = f"{name} {error}".casefold()
+        category = (
+            "network_timeout"
+            if "timeout" in lowered
+            else "http_block"
+            if any(token in lowered for token in ("http 401", "http 403", "forbidden", "unauthorized"))
+            else "source_error"
+        )
+        rows.append({
+            "source_name": name,
+            "failure_count": int(record.get("failure_count") or 0),
+            "category": category,
+            "retry_after": record.get("cooldown_until", ""),
+        })
+    rows.sort(key=lambda row: (-row.get("failure_count", 0), row.get("source_name", "")))
+    anapec_blocked = any(
+        "anapec" in str(row.get("source_name") or "").casefold()
+        and row.get("category") == "network_timeout"
+        and int(row.get("failure_count") or 0) >= 3
+        for row in rows
+    )
+    if anapec_blocked:
+        return {
+            "status": "degraded",
+            "active_issues": rows,
+            "action": (
+                "ANAPEC is unreachable from GitHub-hosted runners; automatic probing "
+                "continues after source cooldown while other official sources keep running."
+            ),
+        }
+    if rows:
+        return {
+            "status": "warning",
+            "active_issues": rows,
+            "action": "One or more sources are cooling down after transient fetch failures.",
+        }
+    return {
+        "status": "ok",
+        "active_issues": [],
+        "action": "No active source cooldowns are currently blocking discovery.",
+    }
 
 
 def probe_facebook():
@@ -226,6 +286,11 @@ def delivery_status(now=None, services=None, ai_circuit=None):
         state, action = "facebook_comment_pending", "Retry missing first comments containing application/article links."
     elif oldest_candidate >= TARGET_MINUTES:
         state, action = "candidate_stalled", "A verified ready job has waited at least one hour before Facebook; inspect the publisher's blocking reason."
+    elif (services.get("sources") or {}).get("status") == "degraded":
+        state, action = "source_degraded", services["sources"].get(
+            "action",
+            "A critical source is externally unreachable; other sources continue.",
+        )
     elif not target_met and not fresh and not pending:
         state, action = "no_fresh_candidate", "Hourly target missed: no fresh candidate in the queue; audit discovery and source coverage."
     else:
@@ -254,6 +319,8 @@ def run_monitor(force=False):
         checked_at = datetime.now(timezone.utc).isoformat()
     else:
         checked_at = previous.get("services_checked_at", "")
+    services = dict(services or {})
+    services["sources"] = probe_sources(now=now)
     report = delivery_status(
         services=services,
         ai_circuit=_runtime_ai_circuit_status(),
@@ -277,8 +344,11 @@ def emit_report(report):
             for name, row in report.get("services", {}).get("ai", {}).get("providers", {}).items():
                 handle.write(f"- AI `{name}`: `{row.get('status')}`\n")
             handle.write(f"- Facebook token/read check: `{report.get('services', {}).get('facebook', {}).get('status')}`\n")
+            handle.write(f"- Sources: `{report.get('services', {}).get('sources', {}).get('status', 'unknown')}`\n")
     if report.get("state") in BLOCKING_STATES:
         print("::error::" + report.get("action", "Delivery blocker needs attention."))
+    elif report.get("state") == "source_degraded":
+        print("::warning::" + report.get("action", "A critical source is degraded."))
     elif not report.get("hourly_target_met"):
         print("::warning::" + report.get("action", "Hourly Facebook target missed."))
 
