@@ -468,6 +468,22 @@ def _sync_jobs_facebook_queue(queue, now=None):
                 changed = True
             continue
 
+        # Repair legacy/current rows that were incorrectly marked failed only
+        # because every social-AI provider was in a temporary circuit cooldown.
+        # Keep them pending and sleep exactly until the provider retry window.
+        if (
+            current == "failed"
+            and _is_jobs_social_provider_wait(article.get("facebook_error"))
+        ):
+            _defer_jobs_social_provider_wait(
+                queue,
+                article,
+                article.get("facebook_error") or "Social AI provider wait",
+            )
+            queued += 1
+            changed = True
+            continue
+
         if current == "facebook_expired":
             revived += 1
 
