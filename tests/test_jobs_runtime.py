@@ -5380,9 +5380,8 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIn("آخر أجل للترشيح هو 18 أكتوبر 2026.", formatted)
         self.assertIn("للمزيد من التفاصيل حول المهام، الشروط المطلوبة، وكيفية التقديم،", formatted)
         self.assertIn("\n\n⏳ آخر أجل للترشيح هو 18 أكتوبر 2026.\n\n", formatted)
-        self.assertTrue(
-            formatted.endswith("#CyberoPlus #مباريات_التوظيف")
-        )
+        self.assertNotIn("#", formatted)
+        self.assertIn("أول تعليق", formatted.split("\n\n")[-1])
         self.assertIn("يرجى الاطلاع على أول تعليق.", formatted)
         self.assertTrue(any(
             line.startswith("👇 ") and "يرجى الاطلاع على أول تعليق." in line
