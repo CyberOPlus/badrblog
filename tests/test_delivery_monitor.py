@@ -113,9 +113,28 @@ class DeliveryReliabilityTests(unittest.TestCase):
     def test_fresh_ready_candidate_waiting_over_hour_is_reported(self):
         result = self.status([{"status": "ready", "official_source": True,
                                "job_published_at": "2026-10-03",
-                               "discovered_at": "2026-10-03T08:30:00Z"}])
+                               "discovered_at": "2026-10-03T08:30:00Z",
+                               "content_fetch_status": "success",
+                               "job_quality_status": "publish",
+                               "job_quality_reasons": [],
+                               "job_hard_gate_passed": True}])
         self.assertEqual(result["state"], "candidate_stalled")
         self.assertEqual(result["oldest_ready_candidate_minutes"], 90)
+        self.assertEqual(result["verified_ready_candidate_count"], 1)
+        self.assertEqual(result["unverified_ready_candidate_count"], 0)
+
+    def test_unverified_ready_candidate_is_not_a_delivery_stall(self):
+        result = self.status([{"status": "ready", "official_source": True,
+                               "job_published_at": "2026-10-03",
+                               "discovered_at": "2026-10-03T08:30:00Z",
+                               "content_fetch_status": "success",
+                               "job_quality_status": "queue",
+                               "job_quality_reasons": ["eligibility must be verified"],
+                               "job_hard_gate_passed": False}])
+        self.assertEqual(result["state"], "no_verified_candidate")
+        self.assertEqual(result["oldest_ready_candidate_minutes"], 0)
+        self.assertEqual(result["verified_ready_candidate_count"], 0)
+        self.assertEqual(result["unverified_ready_candidate_count"], 1)
 
     def test_expired_facebook_token_is_actionable_without_a_test_post(self):
         response = Mock(status_code=400)
