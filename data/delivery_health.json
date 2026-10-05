@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-10-05T12:19:31.960580+00:00",
+  "updated_at": "2026-10-05T12:20:20.866471+00:00",
   "state": "candidate_stalled",
   "action": "A verified ready job has waited at least one hour before Facebook; inspect the publisher's blocking reason.",
   "hourly_target_met": false,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-05T09:16:18",
   "last_facebook_post_id": "103026497833721_1087922196936178",
-  "minutes_since_facebook": 183.2,
+  "minutes_since_facebook": 184.0,
   "last_blogger_publish_at": "2026-10-05T09:16:23.145388+00:00",
   "fresh_candidate_count": 9,
   "facebook_pending_count": 0,
   "oldest_facebook_pending_minutes": 0,
-  "oldest_ready_candidate_minutes": 285.3,
+  "oldest_ready_candidate_minutes": 286.1,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -70,6 +70,12 @@
           "failure_count": 1,
           "category": "http_block",
           "retry_after": "2026-10-05T12:42:32Z"
+        },
+        {
+          "source_name": "Emploi-Public — établissements publics",
+          "failure_count": 1,
+          "category": "network_timeout",
+          "retry_after": "2026-10-05T12:25:19Z"
         }
       ],
       "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
