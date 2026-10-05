@@ -8,6 +8,14 @@
       "provider": "gemini",
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "until": 1791215651.128535
+    },
+    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
+      "failed_at": "2026-10-05T15:11:14",
+      "key_id": "fb4fab4ba1",
+      "model": "openai/gpt-oss-20b",
+      "provider": "groq",
+      "reason": "groq returned an empty response.",
+      "until": 1791213375.322916
     }
   },
   "failure_fingerprints": {
@@ -514,19 +522,19 @@
       "total_success_time": 1095.6492
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
-      "avg_time": 5.4232,
+      "avg_time": 4.8378,
       "key_id": "fb4fab4ba1",
-      "last_success_at": "2026-10-05T14:29:45",
+      "last_success_at": "2026-10-05T15:11:36",
       "model": "openai/gpt-oss-120b",
       "provider": "groq",
-      "successes": 6,
-      "total_success_time": 32.5392
+      "successes": 8,
+      "total_success_time": 38.7023
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
       "avg_time": 0.9339,
-      "failures": 18,
+      "failures": 19,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-05T14:35:16",
+      "last_failure_at": "2026-10-05T15:11:14",
       "last_success_at": "2026-10-05T15:09:12",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
