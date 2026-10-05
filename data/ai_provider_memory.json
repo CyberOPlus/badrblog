@@ -1,5 +1,5 @@
 {
-  "avg_time": 0.6206,
+  "avg_time": 0.5573,
   "cooldowns": {
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "failed_at": "2026-10-05T15:09:10",
@@ -18,12 +18,12 @@
       "until": 1791217171.1316848
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "failed_at": "2026-10-05T15:31:34",
+      "failed_at": "2026-10-05T15:37:28",
       "key_id": "fb4fab4ba1",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
       "reason": "groq returned an empty response.",
-      "until": 1791214596.9523087
+      "until": 1791214949.7573502
     }
   },
   "failure_fingerprints": {
@@ -560,24 +560,24 @@
       "total_success_time": 68.2574
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.0592,
-      "failures": 22,
+      "avg_time": 1.0965,
+      "failures": 23,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-05T15:31:34",
-      "last_success_at": "2026-10-05T15:25:54",
+      "last_failure_at": "2026-10-05T15:37:28",
+      "last_success_at": "2026-10-05T15:37:24",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 64,
-      "total_success_time": 67.7866
+      "successes": 65,
+      "total_success_time": 71.2712
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
-      "avg_time": 0.6206,
+      "avg_time": 0.5573,
       "key_id": "fb4fab4ba1",
-      "last_success_at": "2026-10-05T15:34:27",
+      "last_success_at": "2026-10-05T15:37:28",
       "model": "qwen/qwen3.8-27b",
       "provider": "groq",
-      "successes": 1,
-      "total_success_time": 0.6206
+      "successes": 2,
+      "total_success_time": 1.1145
     },
     "mistral:mistral-small-latest:8feed32495": {
       "failures": 8,
