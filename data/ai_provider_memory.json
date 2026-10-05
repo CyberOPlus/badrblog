@@ -1,6 +1,14 @@
 {
   "avg_time": 0.8198,
   "cooldowns": {
+    "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
+      "failed_at": "2026-10-05T14:53:45",
+      "key_id": "be6dab2cd8",
+      "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "provider": "cloudflare",
+      "reason": "('Connection aborted.', Timeout('AI provider wall-clock timeout after 60s'))",
+      "until": 1791212626.6866305
+    },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "failed_at": "2026-10-05T14:29:38",
       "key_id": "64f603a8c0",
@@ -26,12 +34,12 @@
       "until": 1791212589.9511127
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "failed_at": "2026-10-05T14:46:35",
+      "failed_at": "2026-10-05T14:54:23",
       "key_id": "1af698c9b3",
       "model": "openrouter/free",
       "provider": "openrouter",
       "reason": "OpenRouter returned an empty response.",
-      "until": 1791211898.4719927
+      "until": 1791212365.639834
     }
   },
   "failure_fingerprints": {
@@ -257,13 +265,13 @@
     },
     "9bf50cd92a6721e56451": {
       "category": "timeout",
-      "count": 1,
+      "count": 2,
       "first_seen_at": "2026-10-05T14:39:07",
-      "last_seen_at": "2026-10-05T14:39:07",
-      "last_seen_epoch": 1791211147.5839033,
+      "last_seen_at": "2026-10-05T14:53:45",
+      "last_seen_epoch": 1791212025.1973445,
       "provider": "cloudflare",
       "reason": "('Connection aborted.', Timeout('AI provider wall-clock timeout after 60s'))",
-      "retry_until": 1791211747.5839033,
+      "retry_until": 1791213225.1973445,
       "scope": "provider"
     },
     "9c566984111dbf1278c7": {
@@ -446,6 +454,14 @@
   "fastest_success_model": "groq:openai/gpt-oss-20b",
   "global_circuit": {},
   "provider_circuits": {
+    "cloudflare": {
+      "category": "timeout",
+      "fingerprint": "9bf50cd92a6721e56451",
+      "opened_at": "2026-10-05T14:53:45",
+      "provider": "cloudflare",
+      "reason": "('Connection aborted.', Timeout('AI provider wall-clock timeout after 60s'))",
+      "until": 1791213225.1973445
+    },
     "gemini": {
       "category": "quota",
       "fingerprint": "9b8ec695d1ca9e549f46",
@@ -491,15 +507,15 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 7.7803,
-      "failures": 3,
+      "avg_time": 7.7927,
+      "failures": 4,
       "key_id": "be6dab2cd8",
-      "last_failure_at": "2026-10-05T14:39:07",
-      "last_success_at": "2026-10-05T14:37:58",
+      "last_failure_at": "2026-10-05T14:53:45",
+      "last_success_at": "2026-10-05T14:52:45",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 131,
-      "total_success_time": 1019.2156
+      "successes": 133,
+      "total_success_time": 1036.4353
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 11.0626,
@@ -541,9 +557,9 @@
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 11.7574,
-      "failures": 20,
+      "failures": 21,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-05T14:46:35",
+      "last_failure_at": "2026-10-05T14:54:23",
       "last_success_at": "2026-10-05T14:46:07",
       "model": "openrouter/free",
       "provider": "openrouter",
