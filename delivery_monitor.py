@@ -268,10 +268,20 @@ def delivery_status(now=None, services=None, ai_circuit=None):
     fresh = [row for row in articles if not row.get("archived") and
              row.get("status") not in {"published", "skipped"} and
              job_publication_freshness(row, now=now).get("fresh")]
+    fresh_ready = [row for row in fresh if row.get("status") == "ready"]
+    # A queue status alone does not make a job publishable. Mirror the
+    # publisher/watchdog hard gates so incomplete eligibility evidence cannot
+    # produce a false one-hour delivery blocker.
+    verified_ready = [
+        row for row in fresh_ready
+        if row.get("content_fetch_status") == "success"
+        and row.get("job_quality_status") == "publish"
+        and not (row.get("job_quality_reasons") or [])
+        and row.get("job_hard_gate_passed") is True
+    ]
     pending_ages = [_age(row.get("facebook_queued_at") or row.get("published_at"), now) for row in pending]
     oldest_pending = max((age for age in pending_ages if age is not None), default=0)
-    candidate_ages = [_age(row.get("discovered_at"), now) for row in fresh
-                      if row.get("status") == "ready"]
+    candidate_ages = [_age(row.get("discovered_at"), now) for row in verified_ready]
     oldest_candidate = max((age for age in candidate_ages if age is not None), default=0)
     target_met = facebook_age is not None and facebook_age <= TARGET_MINUTES
     if services.get("facebook", {}).get("status") not in {None, "ok"}:
@@ -291,8 +301,17 @@ def delivery_status(now=None, services=None, ai_circuit=None):
             "action",
             "A critical source is externally unreachable; other sources continue.",
         )
-    elif not target_met and not fresh and not pending:
-        state, action = "no_fresh_candidate", "Hourly target missed: no fresh candidate in the queue; audit discovery and source coverage."
+    elif not target_met and not verified_ready and not pending:
+        if fresh_ready:
+            state, action = (
+                "no_verified_candidate",
+                "Hourly target missed: fresh ready queue items exist, but none has completed all publication verification gates.",
+            )
+        else:
+            state, action = (
+                "no_fresh_candidate",
+                "Hourly target missed: no fresh candidate in the queue; audit discovery and source coverage.",
+            )
     else:
         state, action = "healthy", "Independent queues continue; each verified fresh job follows Blogger to Facebook."
     return {"updated_at": now.isoformat(), "state": state, "action": action,
@@ -301,7 +320,10 @@ def delivery_status(now=None, services=None, ai_circuit=None):
             "last_facebook_post_id": latest.get("facebook_post_id", ""),
             "minutes_since_facebook": round(facebook_age, 1) if facebook_age is not None else None,
             "last_blogger_publish_at": load_job_state().get("last_publish_at", ""),
-            "fresh_candidate_count": len(fresh), "facebook_pending_count": len(pending),
+            "fresh_candidate_count": len(fresh),
+            "verified_ready_candidate_count": len(verified_ready),
+            "unverified_ready_candidate_count": len(fresh_ready) - len(verified_ready),
+            "facebook_pending_count": len(pending),
             "oldest_facebook_pending_minutes": round(oldest_pending, 1),
             "oldest_ready_candidate_minutes": round(oldest_candidate, 1),
             "pending_first_comments": len(comments), "services": services}
