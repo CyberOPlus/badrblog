@@ -1,22 +1,6 @@
 {
   "avg_time": 0.8198,
   "cooldowns": {
-    "gemini:gemini-2.5-flash:64f603a8c0": {
-      "failed_at": "2026-10-05T14:01:13",
-      "key_id": "64f603a8c0",
-      "model": "gemini-2.5-flash",
-      "provider": "gemini",
-      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1791211577.2743032
-    },
-    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "failed_at": "2026-10-05T14:16:07",
-      "key_id": "fb4fab4ba1",
-      "model": "openai/gpt-oss-20b",
-      "provider": "groq",
-      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "until": 1791212470.8561566
-    },
     "mistral:mistral-small-latest:8feed32495": {
       "failed_at": "2026-10-05T14:18:07",
       "key_id": "8feed32495",
@@ -416,22 +400,6 @@
   "fastest_success_model": "groq:openai/gpt-oss-20b",
   "global_circuit": {},
   "provider_circuits": {
-    "gemini": {
-      "category": "quota",
-      "fingerprint": "9b8ec695d1ca9e549f46",
-      "opened_at": "2026-10-05T14:01:13",
-      "provider": "gemini",
-      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1791230473.8548937
-    },
-    "groq": {
-      "category": "quota",
-      "fingerprint": "4b929cc3ad78785ed806",
-      "opened_at": "2026-10-05T14:16:07",
-      "provider": "groq",
-      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "until": 1791231367.7298832
-    },
     "mistral": {
       "category": "quota",
       "fingerprint": "16f0cdcebb62d34cab0f",
@@ -461,26 +429,26 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 7.5544,
+      "avg_time": 7.501,
       "failures": 2,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-03T16:01:56",
-      "last_success_at": "2026-10-05T14:18:22",
+      "last_success_at": "2026-10-05T14:25:51",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 125,
-      "total_success_time": 944.2964
+      "successes": 126,
+      "total_success_time": 945.1276
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 10.7989,
+      "avg_time": 10.6922,
       "failures": 12,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-10-05T14:01:13",
-      "last_success_at": "2026-10-05T13:25:38",
+      "last_success_at": "2026-10-05T14:25:49",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 96,
-      "total_success_time": 1036.6981
+      "successes": 97,
+      "total_success_time": 1037.1402
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
       "avg_time": 5.8698,
@@ -492,15 +460,15 @@
       "total_success_time": 29.3491
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 0.9027,
+      "avg_time": 0.8973,
       "failures": 16,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-05T14:16:07",
-      "last_success_at": "2026-10-05T14:16:07",
+      "last_success_at": "2026-10-05T14:25:50",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 57,
-      "total_success_time": 51.4519
+      "successes": 58,
+      "total_success_time": 52.0432
     },
     "mistral:mistral-small-latest:8feed32495": {
       "failures": 8,
@@ -510,15 +478,15 @@
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 11.3105,
+      "avg_time": 11.1582,
       "failures": 19,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-05T14:18:07",
-      "last_success_at": "2026-10-05T13:25:42",
+      "last_success_at": "2026-10-05T14:25:53",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 58,
-      "total_success_time": 656.0108
+      "successes": 59,
+      "total_success_time": 658.3351
     }
   }
 }
