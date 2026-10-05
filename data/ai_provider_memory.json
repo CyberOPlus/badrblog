@@ -1,6 +1,14 @@
 {
   "avg_time": 0.8198,
   "cooldowns": {
+    "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
+      "failed_at": "2026-10-05T14:39:07",
+      "key_id": "be6dab2cd8",
+      "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "provider": "cloudflare",
+      "reason": "('Connection aborted.', Timeout('AI provider wall-clock timeout after 60s'))",
+      "until": 1791211747.6691604
+    },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "failed_at": "2026-10-05T14:29:38",
       "key_id": "64f603a8c0",
@@ -247,6 +255,17 @@
       "retry_until": 1791232178.3281517,
       "scope": "provider"
     },
+    "9bf50cd92a6721e56451": {
+      "category": "timeout",
+      "count": 1,
+      "first_seen_at": "2026-10-05T14:39:07",
+      "last_seen_at": "2026-10-05T14:39:07",
+      "last_seen_epoch": 1791211147.5839033,
+      "provider": "cloudflare",
+      "reason": "('Connection aborted.', Timeout('AI provider wall-clock timeout after 60s'))",
+      "retry_until": 1791211747.5839033,
+      "scope": "provider"
+    },
     "9c566984111dbf1278c7": {
       "category": "quota",
       "count": 2,
@@ -427,6 +446,14 @@
   "fastest_success_model": "groq:openai/gpt-oss-20b",
   "global_circuit": {},
   "provider_circuits": {
+    "cloudflare": {
+      "category": "timeout",
+      "fingerprint": "9bf50cd92a6721e56451",
+      "opened_at": "2026-10-05T14:39:07",
+      "provider": "cloudflare",
+      "reason": "('Connection aborted.', Timeout('AI provider wall-clock timeout after 60s'))",
+      "until": 1791211747.5839033
+    },
     "gemini": {
       "category": "quota",
       "fingerprint": "9b8ec695d1ca9e549f46",
@@ -472,15 +499,15 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 7.7301,
-      "failures": 2,
+      "avg_time": 7.7803,
+      "failures": 3,
       "key_id": "be6dab2cd8",
-      "last_failure_at": "2026-10-03T16:01:56",
-      "last_success_at": "2026-10-05T14:36:43",
+      "last_failure_at": "2026-10-05T14:39:07",
+      "last_success_at": "2026-10-05T14:37:58",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 130,
-      "total_success_time": 1004.9077
+      "successes": 131,
+      "total_success_time": 1019.2156
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 11.0626,
@@ -521,15 +548,15 @@
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 11.4271,
+      "avg_time": 11.3704,
       "failures": 19,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-05T14:18:07",
-      "last_success_at": "2026-10-05T14:36:33",
+      "last_success_at": "2026-10-05T14:39:15",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 60,
-      "total_success_time": 685.6258
+      "successes": 61,
+      "total_success_time": 693.5917
     }
   }
 }
