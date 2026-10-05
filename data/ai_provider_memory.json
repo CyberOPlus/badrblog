@@ -1,6 +1,14 @@
 {
   "avg_time": 0.5573,
   "cooldowns": {
+    "gemini:gemini-2.5-flash:64f603a8c0": {
+      "failed_at": "2026-10-05T18:01:59",
+      "key_id": "64f603a8c0",
+      "model": "gemini-2.5-flash",
+      "provider": "gemini",
+      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "until": 1791226021.0224633
+    },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
       "failed_at": "2026-10-05T17:18:19",
       "key_id": "fb4fab4ba1",
@@ -266,13 +274,13 @@
     },
     "9b8ec695d1ca9e549f46": {
       "category": "quota",
-      "count": 9,
+      "count": 10,
       "first_seen_at": "2026-09-30T23:21:59",
-      "last_seen_at": "2026-10-05T15:09:10",
-      "last_seen_epoch": 1791212950.734417,
+      "last_seen_at": "2026-10-05T18:01:59",
+      "last_seen_epoch": 1791223319.6040084,
       "provider": "gemini",
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "retry_until": 1791234550.734417,
+      "retry_until": 1791244919.6040084,
       "scope": "provider"
     },
     "9bf50cd92a6721e56451": {
@@ -488,6 +496,14 @@
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
   "global_circuit": {},
   "provider_circuits": {
+    "gemini": {
+      "category": "quota",
+      "fingerprint": "9b8ec695d1ca9e549f46",
+      "opened_at": "2026-10-05T18:01:59",
+      "provider": "gemini",
+      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "until": 1791244919.6040084
+    },
     "groq": {
       "category": "quota",
       "fingerprint": "4b929cc3ad78785ed806",
@@ -525,21 +541,21 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 7.2167,
+      "avg_time": 7.1989,
       "failures": 5,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-05T15:24:14",
-      "last_success_at": "2026-10-05T17:56:15",
+      "last_success_at": "2026-10-05T18:02:18",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 177,
-      "total_success_time": 1277.3546
+      "successes": 180,
+      "total_success_time": 1295.8094
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 10.855,
-      "failures": 15,
+      "failures": 16,
       "key_id": "64f603a8c0",
-      "last_failure_at": "2026-10-05T17:12:32",
+      "last_failure_at": "2026-10-05T18:01:59",
       "last_success_at": "2026-10-05T17:10:08",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
