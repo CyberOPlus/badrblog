@@ -25,14 +25,6 @@
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_de",
       "until": 1791304373.3832576
     },
-    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "failed_at": "2026-10-06T15:47:44",
-      "key_id": "fb4fab4ba1",
-      "model": "openai/gpt-oss-20b",
-      "provider": "groq",
-      "reason": "groq returned an empty response.",
-      "until": 1791301967.84211
-    },
     "openrouter:openrouter/free:1af698c9b3": {
       "failed_at": "2026-10-06T15:48:30",
       "key_id": "1af698c9b3",
@@ -320,13 +312,13 @@
     },
     "82ce5d050ecd9659a30b": {
       "category": "cooldown",
-      "count": 36,
+      "count": 38,
       "first_seen_at": "2026-10-05T15:01:11",
-      "last_seen_at": "2026-10-06T15:52:14",
-      "last_seen_epoch": 1791301934.1452253,
+      "last_seen_at": "2026-10-06T15:53:12",
+      "last_seen_epoch": 1791301992.8776205,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "openrouter candidates are cooling down",
-      "retry_until": 1791309134.1452253,
+      "retry_until": 1791309192.8776205,
       "scope": "global"
     },
     "86f72c111e032e2b604a": {
