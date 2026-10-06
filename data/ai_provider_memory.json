@@ -1,14 +1,6 @@
 {
   "avg_time": 0.5573,
   "cooldowns": {
-    "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "failed_at": "2026-10-06T18:22:13",
-      "key_id": "be6dab2cd8",
-      "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-      "provider": "cloudflare",
-      "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
-      "until": 1791313634.771372
-    },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "failed_at": "2026-10-06T18:24:01",
       "key_id": "64f603a8c0",
@@ -334,13 +326,13 @@
     },
     "83df4c959826d93b6e0b": {
       "category": "cooldown",
-      "count": 12,
+      "count": 14,
       "first_seen_at": "2026-10-06T19:01:08",
-      "last_seen_at": "2026-10-06T19:06:51",
-      "last_seen_epoch": 1791313611.3529851,
+      "last_seen_at": "2026-10-06T19:07:47",
+      "last_seen_epoch": 1791313667.3407168,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "gemini candidates are cooling down",
-      "retry_until": 1791320811.3529851,
+      "retry_until": 1791320867.3407168,
       "scope": "global"
     },
     "86f72c111e032e2b604a": {
