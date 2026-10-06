@@ -376,6 +376,17 @@
       "retry_until": 1790867678.3187847,
       "scope": "provider"
     },
+    "c04c85e4a0e92cf391af": {
+      "category": "quality",
+      "count": 1,
+      "first_seen_at": "2026-10-06T15:38:34",
+      "last_seen_at": "2026-10-06T15:38:34",
+      "last_seen_epoch": 1791301114.8947406,
+      "provider": "cloudflare",
+      "reason": "Jobs output contradicts high-confidence manifest positions",
+      "retry_until": 1791301414.8947406,
+      "scope": "quality"
+    },
     "c10c0e8ef2bd27adc53f": {
       "category": "article_input",
       "count": 3,
@@ -577,15 +588,15 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 6.3611,
+      "avg_time": 6.4483,
       "failures": 7,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-06T12:14:08",
-      "last_success_at": "2026-10-06T15:35:15",
+      "last_success_at": "2026-10-06T15:38:34",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 263,
-      "total_success_time": 1672.9816
+      "successes": 266,
+      "total_success_time": 1715.2409
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 11.0546,
