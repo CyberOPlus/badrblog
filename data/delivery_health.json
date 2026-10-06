@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-10-06T10:39:34.107905+00:00",
-  "state": "source_degraded",
-  "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running.",
+  "updated_at": "2026-10-06T10:53:53.429372+00:00",
+  "state": "healthy",
+  "action": "Independent queues continue; each verified fresh job follows Blogger to Facebook.",
   "hourly_target_met": true,
   "target_minutes": 60,
-  "last_facebook_posted_at": "2026-10-06T10:34:52",
-  "last_facebook_post_id": "103026497833721_1088851750176556",
-  "minutes_since_facebook": 4.7,
-  "last_blogger_publish_at": "2026-10-06T10:34:58.569713+00:00",
-  "fresh_candidate_count": 15,
-  "verified_ready_candidate_count": 2,
+  "last_facebook_posted_at": "2026-10-06T10:53:47",
+  "last_facebook_post_id": "103026497833721_1088863560175375",
+  "minutes_since_facebook": 0.1,
+  "last_blogger_publish_at": "2026-10-06T10:53:52.449801+00:00",
+  "fresh_candidate_count": 14,
+  "verified_ready_candidate_count": 1,
   "unverified_ready_candidate_count": 13,
   "facebook_pending_count": 0,
   "oldest_facebook_pending_minutes": 0,
-  "oldest_ready_candidate_minutes": 10.6,
+  "oldest_ready_candidate_minutes": 24.9,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -59,16 +59,9 @@
       "action": "At least one provider generated a response."
     },
     "sources": {
-      "status": "degraded",
-      "active_issues": [
-        {
-          "source_name": "ANAPEC — offres nationales",
-          "failure_count": 124,
-          "category": "network_timeout",
-          "retry_after": "2026-10-06T10:46:16Z"
-        }
-      ],
-      "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
+      "status": "ok",
+      "active_issues": [],
+      "action": "No active source cooldowns are currently blocking discovery."
     }
   },
   "services_checked_at": "2026-10-06T10:39:34.107383+00:00"
