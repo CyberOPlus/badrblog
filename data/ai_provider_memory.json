@@ -40,6 +40,22 @@
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_deman",
       "until": 1791287784.015158
+    },
+    "mistral:mistral-small-latest:8feed32495": {
+      "failed_at": "2026-10-06T11:17:28",
+      "key_id": "8feed32495",
+      "model": "mistral-small-latest",
+      "provider": "mistral",
+      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
+      "until": 1791288152.1912098
+    },
+    "openrouter:openrouter/free:1af698c9b3": {
+      "failed_at": "2026-10-06T11:17:28",
+      "key_id": "1af698c9b3",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1791285750.7716658
     }
   },
   "failure_fingerprints": {
@@ -56,13 +72,13 @@
     },
     "16f0cdcebb62d34cab0f": {
       "category": "quota",
-      "count": 8,
+      "count": 9,
       "first_seen_at": "2026-10-01T14:53:22",
-      "last_seen_at": "2026-10-05T14:18:07",
-      "last_seen_epoch": 1791209887.9646232,
+      "last_seen_at": "2026-10-06T11:17:28",
+      "last_seen_epoch": 1791285448.6331415,
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
-      "retry_until": 1791231487.9646232,
+      "retry_until": 1791307048.6331415,
       "scope": "provider"
     },
     "21d4f95aef0b3e555bda": {
@@ -554,6 +570,14 @@
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_deman",
       "until": 1791287783.0045612
+    },
+    "mistral": {
+      "category": "quota",
+      "fingerprint": "16f0cdcebb62d34cab0f",
+      "opened_at": "2026-10-06T11:17:28",
+      "provider": "mistral",
+      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
+      "until": 1791307048.6331415
     }
   },
   "stats": {
@@ -631,17 +655,17 @@
       "total_success_time": 4.1793
     },
     "mistral:mistral-small-latest:8feed32495": {
-      "failures": 8,
+      "failures": 9,
       "key_id": "8feed32495",
-      "last_failure_at": "2026-10-05T14:18:07",
+      "last_failure_at": "2026-10-06T11:17:28",
       "model": "mistral-small-latest",
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 11.0274,
-      "failures": 25,
+      "failures": 26,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-05T16:19:54",
+      "last_failure_at": "2026-10-06T11:17:28",
       "last_success_at": "2026-10-06T11:12:56",
       "model": "openrouter/free",
       "provider": "openrouter",
