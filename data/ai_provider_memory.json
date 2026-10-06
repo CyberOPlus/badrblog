@@ -8,6 +8,14 @@
       "provider": "gemini",
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "until": 1791323361.7580984
+    },
+    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
+      "failed_at": "2026-10-06T21:44:38",
+      "key_id": "fb4fab4ba1",
+      "model": "openai/gpt-oss-20b",
+      "provider": "groq",
+      "reason": "groq returned an empty response.",
+      "until": 1791323380.035601
     }
   },
   "failure_fingerprints": {
@@ -230,6 +238,17 @@
       "reason": "html_content ended before a tag was closed",
       "retry_until": 1790971623.4201622,
       "scope": "provider"
+    },
+    "5ee766b270ba1b842ccd": {
+      "category": "quality",
+      "count": 1,
+      "first_seen_at": "2026-10-06T21:44:44",
+      "last_seen_at": "2026-10-06T21:44:44",
+      "last_seen_epoch": 1791323084.4917872,
+      "provider": "groq",
+      "reason": "manifest fact missing from Jobs output: detail=https://careers.capgemini.com/job/Stagiaire-Marketing-&-Communications/1444882433/",
+      "retry_until": 1791323384.4917872,
+      "scope": "quality"
     },
     "601f42aeb7164c70a244": {
       "category": "quality",
@@ -676,14 +695,6 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1791330647.7799573
-    },
-    "openrouter": {
-      "category": "quota",
-      "fingerprint": "c1621a21dd27f0d1d208",
-      "opened_at": "2026-10-06T20:14:33",
-      "provider": "openrouter",
-      "reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "until": 1791323073.764798
     }
   },
   "stats": {
@@ -728,26 +739,26 @@
       "total_success_time": 1560.1265
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
-      "avg_time": 4.0043,
+      "avg_time": 3.9257,
       "failures": 6,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-06T19:11:21",
-      "last_success_at": "2026-10-06T19:11:21",
+      "last_success_at": "2026-10-06T21:44:44",
       "model": "openai/gpt-oss-120b",
       "provider": "groq",
-      "successes": 30,
-      "total_success_time": 120.1289
+      "successes": 32,
+      "total_success_time": 125.6232
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.397,
-      "failures": 48,
+      "avg_time": 1.4031,
+      "failures": 49,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-06T20:47:53",
-      "last_success_at": "2026-10-06T21:04:22",
+      "last_failure_at": "2026-10-06T21:44:38",
+      "last_success_at": "2026-10-06T21:44:34",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 142,
-      "total_success_time": 198.3785
+      "successes": 143,
+      "total_success_time": 200.641
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.1807,
