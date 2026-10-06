@@ -9,6 +9,14 @@
       "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
       "until": 1791291550.4910269
     },
+    "gemini:gemini-2.5-flash:64f603a8c0": {
+      "failed_at": "2026-10-06T12:49:23",
+      "key_id": "64f603a8c0",
+      "model": "gemini-2.5-flash",
+      "provider": "gemini",
+      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "until": 1791293665.1806283
+    },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
       "failed_at": "2026-10-06T12:47:25",
       "key_id": "fb4fab4ba1",
@@ -285,13 +293,13 @@
     },
     "9b8ec695d1ca9e549f46": {
       "category": "quota",
-      "count": 13,
+      "count": 14,
       "first_seen_at": "2026-09-30T23:21:59",
-      "last_seen_at": "2026-10-06T12:23:29",
-      "last_seen_epoch": 1791289409.1852777,
+      "last_seen_at": "2026-10-06T12:49:23",
+      "last_seen_epoch": 1791290963.9998353,
       "provider": "gemini",
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "retry_until": 1791311009.1852777,
+      "retry_until": 1791312563.9998353,
       "scope": "provider"
     },
     "9bf50cd92a6721e56451": {
@@ -526,6 +534,14 @@
       "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
       "until": 1791299648.5534236
     },
+    "gemini": {
+      "category": "quota",
+      "fingerprint": "9b8ec695d1ca9e549f46",
+      "opened_at": "2026-10-06T12:49:24",
+      "provider": "gemini",
+      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "until": 1791312563.9998353
+    },
     "mistral": {
       "category": "quota",
       "fingerprint": "16f0cdcebb62d34cab0f",
@@ -567,9 +583,9 @@
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 11.1312,
-      "failures": 19,
+      "failures": 20,
       "key_id": "64f603a8c0",
-      "last_failure_at": "2026-10-06T12:23:29",
+      "last_failure_at": "2026-10-06T12:49:23",
       "last_success_at": "2026-10-06T12:48:24",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
@@ -588,15 +604,15 @@
       "total_success_time": 101.0005
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.1329,
+      "avg_time": 1.1435,
       "failures": 29,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-06T12:34:16",
-      "last_success_at": "2026-10-06T12:48:25",
+      "last_success_at": "2026-10-06T12:49:52",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 96,
-      "total_success_time": 108.7626
+      "successes": 98,
+      "total_success_time": 112.0678
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 0.8359,
