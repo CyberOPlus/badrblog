@@ -426,6 +426,17 @@
       "retry_until": 1791301414.8947406,
       "scope": "quality"
     },
+    "c06dfec78988d6c26db2": {
+      "category": "format",
+      "count": 1,
+      "first_seen_at": "2026-10-06T18:54:40",
+      "last_seen_at": "2026-10-06T18:54:40",
+      "last_seen_epoch": 1791312880.3404787,
+      "provider": "groq:openai/gpt-oss-20b",
+      "reason": "AI article response returned incomplete JSON.",
+      "retry_until": 1791313780.3404787,
+      "scope": "provider"
+    },
     "c10c0e8ef2bd27adc53f": {
       "category": "article_input",
       "count": 3,
@@ -534,6 +545,17 @@
       "provider": "cloudflare",
       "reason": "AI article response is missing required field(s): title, description, slug, html_content, notice_type",
       "retry_until": 1790868112.6864583,
+      "scope": "quality"
+    },
+    "ec5b9bfc178e802e98dc": {
+      "category": "quality",
+      "count": 1,
+      "first_seen_at": "2026-10-06T18:54:40",
+      "last_seen_at": "2026-10-06T18:54:40",
+      "last_seen_epoch": 1791312880.342141,
+      "provider": "groq",
+      "reason": "AI article response returned incomplete JSON.",
+      "retry_until": 1791313180.342141,
       "scope": "quality"
     },
     "f01b7df2f1f831c39000": {
@@ -684,15 +706,15 @@
       "total_success_time": 115.3362
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.2934,
+      "avg_time": 1.3186,
       "failures": 42,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-06T18:08:03",
-      "last_success_at": "2026-10-06T18:29:31",
+      "last_success_at": "2026-10-06T18:54:40",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 125,
-      "total_success_time": 161.6769
+      "successes": 126,
+      "total_success_time": 166.1415
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.1807,
