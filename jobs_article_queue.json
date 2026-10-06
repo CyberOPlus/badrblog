@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-06T21:32:16",
+  "updated_at": "2026-10-06T21:35:03",
   "articles": [
     {
       "id": "a6432a68f27e4c35",
@@ -33832,7 +33832,7 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-06T15:34:19",
-      "status": "selected",
+      "status": "ready",
       "score": 70,
       "priority": "high",
       "source_links_removed_count": 10,
@@ -33990,8 +33990,6 @@
       "job_identity_final": false,
       "job_urgent_override": false,
       "job_publish_immediately": false,
-      "selected_at": "2026-10-06T21:04:23",
-      "selection_reason": "jobs quality 70/100; identity=new; urgency=normal",
       "identity_evidence_document_fingerprint": "",
       "job_document_text_download_failures": 0,
       "identity_evidence_detail_checked": true,
@@ -34301,7 +34299,9 @@
       "candidate_failure_count": 6,
       "ai_retry_pending": true,
       "ai_previous_failure_scope": "quality",
-      "ai_retry_after": "2026-10-06T21:44:22+00:00"
+      "ai_retry_after": "2026-10-06T21:44:22+00:00",
+      "selection_recovered_at": "2026-10-06T21:35:03+00:00",
+      "selection_recovery_reason": "stale_selected_without_active_worker"
     },
     {
       "id": "a61baa7715e28adf",
