@@ -478,16 +478,7 @@
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
   "global_circuit": {},
-  "provider_circuits": {
-    "mistral": {
-      "category": "quota",
-      "fingerprint": "16f0cdcebb62d34cab0f",
-      "opened_at": "2026-10-05T14:18:07",
-      "provider": "mistral",
-      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
-      "until": 1791231487.9646232
-    }
-  },
+  "provider_circuits": {},
   "stats": {
     "cloudflare:@cf/meta/llama-3.1-8b-instruct-fp8:be6dab2cd8": {
       "failures": 1,
@@ -508,15 +499,15 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 7.0717,
+      "avg_time": 7.0383,
       "failures": 5,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-05T15:24:14",
-      "last_success_at": "2026-10-05T19:11:35",
+      "last_success_at": "2026-10-06T01:34:03",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 185,
-      "total_success_time": 1308.2593
+      "successes": 186,
+      "total_success_time": 1309.1292
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 10.7552,
@@ -541,15 +532,15 @@
       "total_success_time": 68.2574
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.1218,
+      "avg_time": 1.1114,
       "failures": 25,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-05T17:18:19",
-      "last_success_at": "2026-10-05T19:11:34",
+      "last_success_at": "2026-10-06T01:34:03",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 74,
-      "total_success_time": 83.012
+      "successes": 75,
+      "total_success_time": 83.3555
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 0.5573,
@@ -568,15 +559,15 @@
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 11.9917,
+      "avg_time": 11.8393,
       "failures": 25,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-05T16:19:54",
-      "last_success_at": "2026-10-05T19:11:38",
+      "last_success_at": "2026-10-06T01:34:05",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 70,
-      "total_success_time": 839.422
+      "successes": 71,
+      "total_success_time": 840.5897
     }
   }
 }
