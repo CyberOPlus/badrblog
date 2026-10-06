@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-10-06T15:56:38.533865+00:00",
+  "updated_at": "2026-10-06T15:57:45.542701+00:00",
   "state": "waiting_provider",
   "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
   "hourly_target_met": false,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-06T12:55:18",
   "last_facebook_post_id": "103026497833721_1088946606833737",
-  "minutes_since_facebook": 181.3,
+  "minutes_since_facebook": 182.5,
   "last_blogger_publish_at": "2026-10-06T12:50:07.263333+00:00",
   "fresh_candidate_count": 21,
   "verified_ready_candidate_count": 2,
   "unverified_ready_candidate_count": 18,
   "facebook_pending_count": 0,
   "oldest_facebook_pending_minutes": 0,
-  "oldest_ready_candidate_minutes": 22.3,
+  "oldest_ready_candidate_minutes": 23.4,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -74,12 +74,6 @@
           "failure_count": 1,
           "category": "network_timeout",
           "retry_after": "2026-10-06T15:58:11Z"
-        },
-        {
-          "source_name": "Emploi-Public — établissements publics",
-          "failure_count": 1,
-          "category": "network_timeout",
-          "retry_after": "2026-10-06T15:57:13Z"
         }
       ],
       "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
