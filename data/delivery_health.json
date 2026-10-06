@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-10-06T22:27:56.545429+00:00",
-  "state": "waiting_provider",
-  "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
+  "updated_at": "2026-10-06T22:28:55.210939+00:00",
+  "state": "candidate_stalled",
+  "action": "A verified ready job has waited at least one hour before Facebook; inspect the publisher's blocking reason.",
   "hourly_target_met": false,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-06T18:29:38",
   "last_facebook_post_id": "103026497833721_1089179406810457",
-  "minutes_since_facebook": 238.3,
+  "minutes_since_facebook": 239.3,
   "last_blogger_publish_at": "2026-10-06T18:24:31.486611+00:00",
   "fresh_candidate_count": 22,
   "verified_ready_candidate_count": 1,
   "unverified_ready_candidate_count": 20,
   "facebook_pending_count": 0,
   "oldest_facebook_pending_minutes": 0,
-  "oldest_ready_candidate_minutes": 487.2,
+  "oldest_ready_candidate_minutes": 488.2,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -22,10 +22,10 @@
       "action": "Page/token lookup succeeded; publish permission is confirmed only by an actual delivery."
     },
     "ai": {
-      "status": "cooldown",
+      "status": "ok",
       "providers": {
         "gemini": {
-          "status": "ok",
+          "status": "quota",
           "secret_names": [
             "GEMINI_API_KEY"
           ]
@@ -56,9 +56,7 @@
           ]
         }
       },
-      "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
-      "retry_after": "2026-10-06T23:50:47+00:00",
-      "category": "quota"
+      "action": "At least one provider generated a response."
     },
     "sources": {
       "status": "degraded",
@@ -73,5 +71,5 @@
       "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
     }
   },
-  "services_checked_at": "2026-10-06T22:06:29.118858+00:00"
+  "services_checked_at": "2026-10-06T22:28:55.210395+00:00"
 }
