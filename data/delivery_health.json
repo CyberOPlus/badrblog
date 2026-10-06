@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-10-06T12:47:26.490336+00:00",
-  "state": "waiting_provider",
-  "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
+  "updated_at": "2026-10-06T12:48:26.109788+00:00",
+  "state": "source_degraded",
+  "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running.",
   "hourly_target_met": true,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-06T12:40:27",
   "last_facebook_post_id": "103026497833721_1088936636834734",
-  "minutes_since_facebook": 7.0,
+  "minutes_since_facebook": 8.0,
   "last_blogger_publish_at": "2026-10-06T12:36:17.706961+00:00",
-  "fresh_candidate_count": 15,
+  "fresh_candidate_count": 16,
   "verified_ready_candidate_count": 0,
-  "unverified_ready_candidate_count": 14,
+  "unverified_ready_candidate_count": 15,
   "facebook_pending_count": 1,
-  "oldest_facebook_pending_minutes": 51.6,
+  "oldest_facebook_pending_minutes": 52.6,
   "oldest_ready_candidate_minutes": 0,
   "pending_first_comments": 0,
   "services": {
@@ -22,7 +22,7 @@
       "action": "Page/token lookup succeeded; publish permission is confirmed only by an actual delivery."
     },
     "ai": {
-      "status": "cooldown",
+      "status": "ok",
       "providers": {
         "gemini": {
           "status": "ok",
@@ -44,7 +44,7 @@
           ]
         },
         "openrouter": {
-          "status": "empty",
+          "status": "ok",
           "secret_names": [
             "OPENROUTER_API_KEY"
           ]
@@ -56,9 +56,7 @@
           ]
         }
       },
-      "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
-      "retry_after": "2026-10-06T14:15:38+00:00",
-      "category": "quota"
+      "action": "At least one provider generated a response."
     },
     "sources": {
       "status": "degraded",
@@ -73,5 +71,5 @@
       "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
     }
   },
-  "services_checked_at": "2026-10-06T12:17:00.320891+00:00"
+  "services_checked_at": "2026-10-06T12:48:26.109269+00:00"
 }
