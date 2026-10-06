@@ -24,6 +24,22 @@
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_de",
       "until": 1791304373.3832576
+    },
+    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
+      "failed_at": "2026-10-06T16:18:48",
+      "key_id": "fb4fab4ba1",
+      "model": "openai/gpt-oss-20b",
+      "provider": "groq",
+      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
+      "until": 1791306228.0760746
+    },
+    "openrouter:openrouter/free:1af698c9b3": {
+      "failed_at": "2026-10-06T16:19:04",
+      "key_id": "1af698c9b3",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1791303846.0849822
     }
   },
   "failure_fingerprints": {
@@ -150,13 +166,13 @@
     },
     "4b929cc3ad78785ed806": {
       "category": "quota",
-      "count": 16,
+      "count": 17,
       "first_seen_at": "2026-09-30T23:22:02",
-      "last_seen_at": "2026-10-06T16:03:27",
-      "last_seen_epoch": 1791302607.0280876,
+      "last_seen_at": "2026-10-06T16:18:48",
+      "last_seen_epoch": 1791303528.0569346,
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "retry_until": 1791324207.0280876,
+      "retry_until": 1791325128.0569346,
       "scope": "provider"
     },
     "4de9bce2b1f2bf21e522": {
@@ -546,10 +562,10 @@
     },
     "f69ff66465ee70a5a639": {
       "category": "empty",
-      "count": 14,
+      "count": 16,
       "first_seen_at": "2026-10-01T22:00:14",
-      "last_seen_at": "2026-10-06T16:04:03",
-      "last_seen_epoch": 1791302643.93158,
+      "last_seen_at": "2026-10-06T16:19:04",
+      "last_seen_epoch": 1791303544.9362664,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "openrouter provider failed: OpenRouter returned an empty response.",
       "retry_until": 1791307048.6331415,
@@ -585,6 +601,14 @@
       "provider": "gemini",
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "until": 1791323260.3712647
+    },
+    "groq": {
+      "category": "quota",
+      "fingerprint": "4b929cc3ad78785ed806",
+      "opened_at": "2026-10-06T16:18:48",
+      "provider": "groq",
+      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
+      "until": 1791325128.0569346
     },
     "mistral": {
       "category": "quota",
@@ -648,15 +672,15 @@
       "total_success_time": 105.7668
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.1718,
-      "failures": 34,
+      "avg_time": 1.194,
+      "failures": 35,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-06T16:03:27",
-      "last_success_at": "2026-10-06T16:17:47",
+      "last_failure_at": "2026-10-06T16:18:48",
+      "last_success_at": "2026-10-06T16:18:47",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 109,
-      "total_success_time": 127.7231
+      "successes": 110,
+      "total_success_time": 131.3414
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 0.8359,
@@ -678,9 +702,9 @@
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 11.4349,
-      "failures": 37,
+      "failures": 38,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-06T16:11:08",
+      "last_failure_at": "2026-10-06T16:19:04",
       "last_success_at": "2026-10-06T16:17:51",
       "model": "openrouter/free",
       "provider": "openrouter",
