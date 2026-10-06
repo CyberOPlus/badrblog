@@ -32,6 +32,14 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1791288152.1912098
+    },
+    "openrouter:openrouter/free:1af698c9b3": {
+      "failed_at": "2026-10-06T11:36:11",
+      "key_id": "1af698c9b3",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1791286874.4287543
     }
   },
   "failure_fingerprints": {
@@ -638,15 +646,15 @@
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 11.4078,
-      "failures": 26,
+      "avg_time": 11.6724,
+      "failures": 27,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-06T11:17:28",
-      "last_success_at": "2026-10-06T11:23:51",
+      "last_failure_at": "2026-10-06T11:36:11",
+      "last_success_at": "2026-10-06T11:35:24",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 81,
-      "total_success_time": 924.0305
+      "successes": 82,
+      "total_success_time": 957.1345
     }
   }
 }
