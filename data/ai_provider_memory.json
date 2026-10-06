@@ -16,18 +16,26 @@
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
       "until": 1791308103.308824
+    },
+    "openrouter:openrouter/free:1af698c9b3": {
+      "failed_at": "2026-10-06T17:02:17",
+      "key_id": "1af698c9b3",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+      "until": 1791306738.8019493
     }
   },
   "failure_fingerprints": {
     "0bfbbde687f6e2ee0b50": {
       "category": "cooldown",
-      "count": 6,
+      "count": 7,
       "first_seen_at": "2026-10-02T15:41:54",
-      "last_seen_at": "2026-10-06T12:15:38",
-      "last_seen_epoch": 1791288938.564115,
+      "last_seen_at": "2026-10-06T17:02:17",
+      "last_seen_epoch": 1791306137.1496077,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "all configured AI providers are unavailable or cooling down",
-      "retry_until": 1791296138.564115,
+      "retry_until": 1791313337.1496077,
       "scope": "global"
     },
     "16f0cdcebb62d34cab0f": {
@@ -351,13 +359,13 @@
     },
     "9cd5bdcb42034dceea88": {
       "category": "timeout",
-      "count": 12,
+      "count": 13,
       "first_seen_at": "2026-10-01T20:10:12",
-      "last_seen_at": "2026-10-06T16:11:08",
-      "last_seen_epoch": 1791303068.3929124,
+      "last_seen_at": "2026-10-06T17:02:17",
+      "last_seen_epoch": 1791306137.1433086,
       "provider": "openrouter",
       "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
-      "retry_until": 1791310268.3929124,
+      "retry_until": 1791313337.1433086,
       "scope": "provider"
     },
     "a337cb8c4c90a13d6d08": {
@@ -582,7 +590,20 @@
     }
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
-  "global_circuit": {},
+  "global_circuit": {
+    "category": "cooldown",
+    "fingerprint": "0bfbbde687f6e2ee0b50",
+    "opened_at": "2026-10-06T17:02:17",
+    "providers": [
+      "cloudflare",
+      "gemini",
+      "groq",
+      "mistral",
+      "openrouter"
+    ],
+    "reason": "all configured AI providers are unavailable or cooling down",
+    "until": 1791307048.6331415
+  },
   "provider_circuits": {
     "cloudflare": {
       "category": "quota",
@@ -615,6 +636,14 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1791307048.6331415
+    },
+    "openrouter": {
+      "category": "timeout",
+      "fingerprint": "9cd5bdcb42034dceea88",
+      "opened_at": "2026-10-06T17:02:17",
+      "provider": "openrouter",
+      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+      "until": 1791313337.1433086
     }
   },
   "stats": {
@@ -699,15 +728,15 @@
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 13.1458,
-      "failures": 39,
+      "avg_time": 13.7849,
+      "failures": 40,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-06T16:34:24",
-      "last_success_at": "2026-10-06T16:50:37",
+      "last_failure_at": "2026-10-06T17:02:17",
+      "last_success_at": "2026-10-06T17:00:47",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 102,
-      "total_success_time": 1340.8742
+      "successes": 104,
+      "total_success_time": 1433.6274
     }
   }
 }
