@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-10-06T16:16:50.070773+00:00",
-  "state": "waiting_provider",
-  "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
+  "updated_at": "2026-10-06T16:17:51.751497+00:00",
+  "state": "source_degraded",
+  "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running.",
   "hourly_target_met": false,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-06T12:55:18",
   "last_facebook_post_id": "103026497833721_1088946606833737",
-  "minutes_since_facebook": 201.5,
+  "minutes_since_facebook": 202.6,
   "last_blogger_publish_at": "2026-10-06T12:50:07.263333+00:00",
   "fresh_candidate_count": 24,
   "verified_ready_candidate_count": 4,
   "unverified_ready_candidate_count": 19,
   "facebook_pending_count": 0,
   "oldest_facebook_pending_minutes": 0,
-  "oldest_ready_candidate_minutes": 42.5,
+  "oldest_ready_candidate_minutes": 43.5,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -22,7 +22,7 @@
       "action": "Page/token lookup succeeded; publish permission is confirmed only by an actual delivery."
     },
     "ai": {
-      "status": "cooldown",
+      "status": "ok",
       "providers": {
         "gemini": {
           "status": "quota",
@@ -56,9 +56,7 @@
           ]
         }
       },
-      "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
-      "retry_after": "2026-10-06T17:17:28+00:00",
-      "category": "timeout"
+      "action": "At least one provider generated a response."
     },
     "sources": {
       "status": "degraded",
@@ -73,5 +71,5 @@
       "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
     }
   },
-  "services_checked_at": "2026-10-06T16:02:32.715948+00:00"
+  "services_checked_at": "2026-10-06T16:17:51.750999+00:00"
 }
