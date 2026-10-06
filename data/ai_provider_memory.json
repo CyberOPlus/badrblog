@@ -1,6 +1,15 @@
 {
   "avg_time": 0.5573,
-  "cooldowns": {},
+  "cooldowns": {
+    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
+      "failed_at": "2026-10-06T17:39:08",
+      "key_id": "fb4fab4ba1",
+      "model": "openai/gpt-oss-20b",
+      "provider": "groq",
+      "reason": "groq returned an empty response.",
+      "until": 1791308650.536682
+    }
+  },
   "failure_fingerprints": {
     "0bfbbde687f6e2ee0b50": {
       "category": "cooldown",
@@ -634,21 +643,21 @@
       "total_success_time": 1480.966
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
-      "avg_time": 3.9897,
+      "avg_time": 3.9771,
       "failures": 5,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-06T17:08:04",
-      "last_success_at": "2026-10-06T17:06:48",
+      "last_success_at": "2026-10-06T17:39:12",
       "model": "openai/gpt-oss-120b",
       "provider": "groq",
-      "successes": 28,
-      "total_success_time": 111.7108
+      "successes": 29,
+      "total_success_time": 115.3362
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
       "avg_time": 1.2425,
-      "failures": 38,
+      "failures": 39,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-06T17:06:42",
+      "last_failure_at": "2026-10-06T17:39:08",
       "last_success_at": "2026-10-06T17:23:47",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
