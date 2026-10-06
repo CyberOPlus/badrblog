@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-06T12:11:51",
+  "updated_at": "2026-10-06T12:13:11",
   "articles": [
     {
       "id": "a6432a68f27e4c35",
@@ -22369,8 +22369,7 @@
       "candidate_failure_fingerprint": "e376992490dc4248",
       "candidate_failure_repeat_count": 8,
       "candidate_failure_backoff_minutes": 120,
-      "candidate_failed_at": "2026-10-06T10:12:24+00:00",
-      "candidate_retry_after": "2026-10-06T12:12:24+00:00"
+      "candidate_failed_at": "2026-10-06T10:12:24+00:00"
     },
     {
       "id": "4c093539e36d4c23",
@@ -23502,8 +23501,7 @@
       "candidate_failure_fingerprint": "e376992490dc4248",
       "candidate_failure_repeat_count": 5,
       "candidate_failure_backoff_minutes": 120,
-      "candidate_failed_at": "2026-10-06T10:12:24+00:00",
-      "candidate_retry_after": "2026-10-06T12:12:24+00:00"
+      "candidate_failed_at": "2026-10-06T10:12:24+00:00"
     },
     {
       "id": "ffef5cabe0c10c4d",
@@ -23672,8 +23670,7 @@
       "candidate_failure_fingerprint": "e376992490dc4248",
       "candidate_failure_repeat_count": 5,
       "candidate_failure_backoff_minutes": 120,
-      "candidate_failed_at": "2026-10-06T10:12:24+00:00",
-      "candidate_retry_after": "2026-10-06T12:12:24+00:00"
+      "candidate_failed_at": "2026-10-06T10:12:24+00:00"
     },
     {
       "id": "8ef8c2b54a0780ff",
@@ -30356,17 +30353,22 @@
       "blogger_post_url": "https://cyberopluss.blogspot.com/2026/10/inetum-service-delivery-manager-results.html",
       "published_at": "2026-10-06T11:43:25",
       "publish_status": "published",
-      "facebook_status": "facebook_pending",
+      "facebook_status": "failed",
       "facebook_queued_at": "2026-10-06T11:43:25",
       "facebook_queue_reason": "retry_ready",
       "jobposting_schema_status": "disabled_embedded_jsonld",
       "google_indexing_status": "disabled",
       "live_update_status": "created_new",
-      "facebook_logo_refresh_attempted_at": "2026-10-06T12:04:29",
+      "facebook_logo_refresh_attempted_at": "2026-10-06T12:13:01",
       "facebook_logo_refresh_status": "employer_text_fallback",
       "facebook_template_key": "alert",
       "facebook_template_file": "job-alert-blue.png",
-      "facebook_template_reason": "employment-notice:results"
+      "facebook_template_reason": "employment-notice:results",
+      "facebook_error": "Facebook social AI failed after 3 attempts: Facebook social copy must contain \"أول تعليق\" once",
+      "facebook_failure_count": 1,
+      "facebook_last_failure_at": "2026-10-06T12:13:11",
+      "facebook_retry_after_epoch": 1791289091,
+      "facebook_retry_delay_seconds": 300
     },
     {
       "id": "5215fdfb8eac0153",
