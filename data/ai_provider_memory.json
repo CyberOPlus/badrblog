@@ -90,6 +90,17 @@
       "retry_until": 1790971623.4218078,
       "scope": "global"
     },
+    "4733bfc9fd4308092f81": {
+      "category": "quality",
+      "count": 1,
+      "first_seen_at": "2026-10-06T15:35:15",
+      "last_seen_at": "2026-10-06T15:35:15",
+      "last_seen_epoch": 1791300915.913946,
+      "provider": "cloudflare",
+      "reason": "manifest fact missing from Jobs output: detail=https://careers.capgemini.com/job/Stagiaire-Marketing-&-Communications/1444882433/",
+      "retry_until": 1791301215.913946,
+      "scope": "quality"
+    },
     "474c0c3bf0cefaa18fa3": {
       "category": "quota",
       "count": 3,
@@ -103,13 +114,13 @@
     },
     "4b27f0e6f34e06eef2e2": {
       "category": "format",
-      "count": 2,
+      "count": 3,
       "first_seen_at": "2026-10-06T14:46:44",
-      "last_seen_at": "2026-10-06T14:57:42",
-      "last_seen_epoch": 1791298662.988745,
+      "last_seen_at": "2026-10-06T15:35:02",
+      "last_seen_epoch": 1791300902.311403,
       "provider": "openrouter:nvidia/nemotron-3.5-content-safety:free",
       "reason": "AI article response returned incomplete JSON.",
-      "retry_until": 1791300462.988745,
+      "retry_until": 1791304502.311403,
       "scope": "provider"
     },
     "4b929cc3ad78785ed806": {
@@ -535,6 +546,15 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1791307048.6331415
+    },
+    "openrouter": {
+      "category": "format",
+      "fingerprint": "4b27f0e6f34e06eef2e2",
+      "model": "nvidia/nemotron-3.5-content-safety:free",
+      "opened_at": "2026-10-06T15:35:02",
+      "provider": "openrouter",
+      "reason": "AI article response returned incomplete JSON.",
+      "until": 1791302702.3126976
     }
   },
   "stats": {
@@ -557,15 +577,15 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 6.2669,
+      "avg_time": 6.3611,
       "failures": 7,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-06T12:14:08",
-      "last_success_at": "2026-10-06T12:13:11",
+      "last_success_at": "2026-10-06T15:35:15",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 259,
-      "total_success_time": 1623.13
+      "successes": 263,
+      "total_success_time": 1672.9816
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 11.0546,
@@ -619,15 +639,15 @@
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 11.7628,
+      "avg_time": 11.6683,
       "failures": 32,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-06T14:44:36",
-      "last_success_at": "2026-10-06T14:57:42",
+      "last_success_at": "2026-10-06T15:35:02",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 91,
-      "total_success_time": 1070.4149
+      "successes": 92,
+      "total_success_time": 1073.4881
     }
   }
 }
