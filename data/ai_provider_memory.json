@@ -1,6 +1,14 @@
 {
   "avg_time": 0.5573,
   "cooldowns": {
+    "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
+      "failed_at": "2026-10-06T12:14:08",
+      "key_id": "be6dab2cd8",
+      "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "provider": "cloudflare",
+      "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
+      "until": 1791291550.4910269
+    },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "failed_at": "2026-10-06T11:43:18",
       "key_id": "64f603a8c0",
@@ -16,18 +24,26 @@
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
       "until": 1791289709.3350136
+    },
+    "openrouter:openrouter/free:1af698c9b3": {
+      "failed_at": "2026-10-06T12:15:38",
+      "key_id": "1af698c9b3",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+      "until": 1791289541.745537
     }
   },
   "failure_fingerprints": {
     "0bfbbde687f6e2ee0b50": {
       "category": "cooldown",
-      "count": 5,
+      "count": 6,
       "first_seen_at": "2026-10-02T15:41:54",
-      "last_seen_at": "2026-10-05T15:07:20",
-      "last_seen_epoch": 1791212840.8458147,
+      "last_seen_at": "2026-10-06T12:15:38",
+      "last_seen_epoch": 1791288938.564115,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "all configured AI providers are unavailable or cooling down",
-      "retry_until": 1791220040.8458147,
+      "retry_until": 1791296138.564115,
       "scope": "global"
     },
     "16f0cdcebb62d34cab0f": {
@@ -230,13 +246,13 @@
     },
     "7a7105af81ae98f13b89": {
       "category": "quota",
-      "count": 2,
+      "count": 3,
       "first_seen_at": "2026-10-02T20:48:02",
-      "last_seen_at": "2026-10-03T16:01:56",
-      "last_seen_epoch": 1791043316.1844947,
+      "last_seen_at": "2026-10-06T12:14:08",
+      "last_seen_epoch": 1791288848.5534236,
       "provider": "cloudflare",
       "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
-      "retry_until": 1791048716.1844947,
+      "retry_until": 1791299648.5534236,
       "scope": "provider"
     },
     "7cd7c210360ee67a0f9e": {
@@ -318,13 +334,13 @@
     },
     "9cd5bdcb42034dceea88": {
       "category": "timeout",
-      "count": 7,
+      "count": 8,
       "first_seen_at": "2026-10-01T20:10:12",
-      "last_seen_at": "2026-10-05T16:19:54",
-      "last_seen_epoch": 1791217194.8580925,
+      "last_seen_at": "2026-10-06T12:15:38",
+      "last_seen_epoch": 1791288938.5603242,
       "provider": "openrouter",
       "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
-      "retry_until": 1791224394.8580925,
+      "retry_until": 1791296138.5603242,
       "scope": "provider"
     },
     "a337cb8c4c90a13d6d08": {
@@ -505,8 +521,29 @@
     }
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
-  "global_circuit": {},
+  "global_circuit": {
+    "category": "cooldown",
+    "fingerprint": "0bfbbde687f6e2ee0b50",
+    "opened_at": "2026-10-06T12:15:38",
+    "providers": [
+      "cloudflare",
+      "gemini",
+      "groq",
+      "mistral",
+      "openrouter"
+    ],
+    "reason": "all configured AI providers are unavailable or cooling down",
+    "until": 1791296138.5603242
+  },
   "provider_circuits": {
+    "cloudflare": {
+      "category": "quota",
+      "fingerprint": "7a7105af81ae98f13b89",
+      "opened_at": "2026-10-06T12:14:08",
+      "provider": "cloudflare",
+      "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
+      "until": 1791299648.5534236
+    },
     "gemini": {
       "category": "quota",
       "fingerprint": "9b8ec695d1ca9e549f46",
@@ -530,6 +567,14 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1791307048.6331415
+    },
+    "openrouter": {
+      "category": "timeout",
+      "fingerprint": "9cd5bdcb42034dceea88",
+      "opened_at": "2026-10-06T12:15:38",
+      "provider": "openrouter",
+      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+      "until": 1791296138.5603242
     }
   },
   "stats": {
@@ -553,9 +598,9 @@
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
       "avg_time": 6.2669,
-      "failures": 6,
+      "failures": 7,
       "key_id": "be6dab2cd8",
-      "last_failure_at": "2026-10-06T11:12:37",
+      "last_failure_at": "2026-10-06T12:14:08",
       "last_success_at": "2026-10-06T12:13:11",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
@@ -615,9 +660,9 @@
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 11.6497,
-      "failures": 27,
+      "failures": 28,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-06T11:36:11",
+      "last_failure_at": "2026-10-06T12:15:38",
       "last_success_at": "2026-10-06T11:40:02",
       "model": "openrouter/free",
       "provider": "openrouter",
