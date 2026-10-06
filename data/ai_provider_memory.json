@@ -1,14 +1,6 @@
 {
   "avg_time": 0.5573,
   "cooldowns": {
-    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "failed_at": "2026-10-06T17:50:47",
-      "key_id": "fb4fab4ba1",
-      "model": "openai/gpt-oss-20b",
-      "provider": "groq",
-      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "until": 1791311750.2864368
-    },
     "mistral:mistral-small-latest:8feed32495": {
       "failed_at": "2026-10-06T17:50:47",
       "key_id": "8feed32495",
@@ -582,45 +574,8 @@
     }
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
-  "global_circuit": {
-    "category": "quota",
-    "fingerprint": "c265fd8cf1cd8b0b0d01",
-    "opened_at": "2026-10-06T17:50:47",
-    "providers": [
-      "cloudflare",
-      "gemini",
-      "groq",
-      "mistral",
-      "openrouter"
-    ],
-    "reason": "mistral provider failed: mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_c",
-    "until": 1791313337.1433086
-  },
+  "global_circuit": {},
   "provider_circuits": {
-    "cloudflare": {
-      "category": "quota",
-      "fingerprint": "7a7105af81ae98f13b89",
-      "opened_at": "2026-10-06T15:44:44",
-      "provider": "cloudflare",
-      "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
-      "until": 1791323084.2801232
-    },
-    "gemini": {
-      "category": "quota",
-      "fingerprint": "9b8ec695d1ca9e549f46",
-      "opened_at": "2026-10-06T16:49:30",
-      "provider": "gemini",
-      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1791326970.8546562
-    },
-    "groq": {
-      "category": "quota",
-      "fingerprint": "4b929cc3ad78785ed806",
-      "opened_at": "2026-10-06T17:50:47",
-      "provider": "groq",
-      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "until": 1791330647.5688365
-    },
     "mistral": {
       "category": "quota",
       "fingerprint": "16f0cdcebb62d34cab0f",
@@ -658,26 +613,26 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 6.505,
+      "avg_time": 6.4836,
       "failures": 8,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-06T15:44:44",
-      "last_success_at": "2026-10-06T15:41:07",
+      "last_success_at": "2026-10-06T17:51:49",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 269,
-      "total_success_time": 1749.8531
+      "successes": 270,
+      "total_success_time": 1750.5705
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 10.9701,
+      "avg_time": 10.8945,
       "failures": 23,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-10-06T16:49:30",
-      "last_success_at": "2026-10-06T16:48:24",
+      "last_success_at": "2026-10-06T17:51:48",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 135,
-      "total_success_time": 1480.966
+      "successes": 136,
+      "total_success_time": 1481.6476
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
       "avg_time": 3.9771,
@@ -691,15 +646,15 @@
       "total_success_time": 115.3362
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.2565,
+      "avg_time": 1.2485,
       "failures": 40,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-06T17:50:47",
-      "last_success_at": "2026-10-06T17:50:47",
+      "last_success_at": "2026-10-06T17:51:48",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 117,
-      "total_success_time": 147.0137
+      "successes": 118,
+      "total_success_time": 147.3246
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.1807,
