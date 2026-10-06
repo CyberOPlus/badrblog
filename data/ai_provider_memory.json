@@ -24,6 +24,14 @@
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
       "until": 1791315918.5842085
+    },
+    "openrouter:openrouter/free:1af698c9b3": {
+      "failed_at": "2026-10-06T19:02:51",
+      "key_id": "1af698c9b3",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
+      "until": 1791316074.7464662
     }
   },
   "failure_fingerprints": {
@@ -390,6 +398,17 @@
       "retry_until": 1791313337.1433086,
       "scope": "provider"
     },
+    "9d792929c1f5c9fbd20c": {
+      "category": "quota",
+      "count": 2,
+      "first_seen_at": "2026-10-06T19:02:51",
+      "last_seen_at": "2026-10-06T19:02:51",
+      "last_seen_epoch": 1791313371.2915626,
+      "provider": "cloudflare,gemini,groq,mistral,openrouter",
+      "reason": "openrouter provider failed: OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model re",
+      "retry_until": 1791318771.2915626,
+      "scope": "global"
+    },
     "a337cb8c4c90a13d6d08": {
       "category": "article_input",
       "count": 2,
@@ -466,6 +485,17 @@
       "reason": "source/evidence problem: generic application portal is not a verified official channel for this competition",
       "retry_until": 1790821203.8307567,
       "scope": "article_input"
+    },
+    "c1621a21dd27f0d1d208": {
+      "category": "quota",
+      "count": 1,
+      "first_seen_at": "2026-10-06T19:02:51",
+      "last_seen_at": "2026-10-06T19:02:51",
+      "last_seen_epoch": 1791313371.2833314,
+      "provider": "openrouter",
+      "reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
+      "retry_until": 1791316071.2833314,
+      "scope": "provider"
     },
     "c265fd8cf1cd8b0b0d01": {
       "category": "quota",
@@ -672,12 +702,12 @@
       "until": 1791330647.7799573
     },
     "openrouter": {
-      "category": "timeout",
-      "fingerprint": "9cd5bdcb42034dceea88",
-      "opened_at": "2026-10-06T17:02:17",
+      "category": "quota",
+      "fingerprint": "c1621a21dd27f0d1d208",
+      "opened_at": "2026-10-06T19:02:51",
       "provider": "openrouter",
-      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
-      "until": 1791313337.1433086
+      "reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
+      "until": 1791316071.2833314
     }
   },
   "stats": {
@@ -763,9 +793,9 @@
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 13.7849,
-      "failures": 40,
+      "failures": 41,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-06T17:02:17",
+      "last_failure_at": "2026-10-06T19:02:51",
       "last_success_at": "2026-10-06T17:00:47",
       "model": "openrouter/free",
       "provider": "openrouter",
