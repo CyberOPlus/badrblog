@@ -1,14 +1,6 @@
 {
   "avg_time": 0.5573,
   "cooldowns": {
-    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "failed_at": "2026-10-06T20:14:33",
-      "key_id": "fb4fab4ba1",
-      "model": "openai/gpt-oss-20b",
-      "provider": "groq",
-      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "until": 1791320375.9696124
-    },
     "openrouter:openrouter/free:1af698c9b3": {
       "failed_at": "2026-10-06T20:14:33",
       "key_id": "1af698c9b3",
@@ -659,20 +651,7 @@
     }
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
-  "global_circuit": {
-    "category": "quota",
-    "fingerprint": "9d792929c1f5c9fbd20c",
-    "opened_at": "2026-10-06T20:14:33",
-    "providers": [
-      "cloudflare",
-      "gemini",
-      "groq",
-      "mistral",
-      "openrouter"
-    ],
-    "reason": "openrouter provider failed: OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model re",
-    "until": 1791323073.764798
-  },
+  "global_circuit": {},
   "provider_circuits": {
     "cloudflare": {
       "category": "quota",
@@ -689,14 +668,6 @@
       "provider": "gemini",
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "until": 1791335355.2555594
-    },
-    "groq": {
-      "category": "quota",
-      "fingerprint": "4b929cc3ad78785ed806",
-      "opened_at": "2026-10-06T20:14:33",
-      "provider": "groq",
-      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "until": 1791339273.369282
     },
     "mistral": {
       "category": "quota",
@@ -768,15 +739,15 @@
       "total_success_time": 120.1289
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.3794,
+      "avg_time": 1.373,
       "failures": 45,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-06T20:14:33",
-      "last_success_at": "2026-10-06T20:14:32",
+      "last_success_at": "2026-10-06T20:15:27",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 134,
-      "total_success_time": 184.8388
+      "successes": 135,
+      "total_success_time": 185.3608
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.1807,
