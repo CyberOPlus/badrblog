@@ -8,6 +8,14 @@
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
       "until": 1791333149.3588963
+    },
+    "mistral:mistral-small-latest:8feed32495": {
+      "failed_at": "2026-10-06T23:51:40",
+      "key_id": "8feed32495",
+      "model": "mistral-small-latest",
+      "provider": "mistral",
+      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
+      "until": 1791333403.6653192
     }
   },
   "failure_fingerprints": {
@@ -24,13 +32,13 @@
     },
     "16f0cdcebb62d34cab0f": {
       "category": "quota",
-      "count": 10,
+      "count": 11,
       "first_seen_at": "2026-10-01T14:53:22",
-      "last_seen_at": "2026-10-06T17:50:47",
-      "last_seen_epoch": 1791309047.7799573,
+      "last_seen_at": "2026-10-06T23:51:40",
+      "last_seen_epoch": 1791330700.8558388,
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
-      "retry_until": 1791330647.7799573,
+      "retry_until": 1791352300.8558388,
       "scope": "provider"
     },
     "21d4f95aef0b3e555bda": {
@@ -486,13 +494,13 @@
     },
     "c265fd8cf1cd8b0b0d01": {
       "category": "quota",
-      "count": 3,
+      "count": 4,
       "first_seen_at": "2026-10-01T19:49:57",
-      "last_seen_at": "2026-10-06T17:50:47",
-      "last_seen_epoch": 1791309047.7829154,
+      "last_seen_at": "2026-10-06T23:51:40",
+      "last_seen_epoch": 1791330700.8597555,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "mistral provider failed: mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_c",
-      "retry_until": 1791319847.7829154,
+      "retry_until": 1791352300.8597555,
       "scope": "global"
     },
     "ca084dd149ce5a4dee5c": {
@@ -664,8 +672,8 @@
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
   "global_circuit": {
     "category": "quota",
-    "fingerprint": "9c566984111dbf1278c7",
-    "opened_at": "2026-10-06T23:47:26",
+    "fingerprint": "c265fd8cf1cd8b0b0d01",
+    "opened_at": "2026-10-06T23:51:40",
     "providers": [
       "cloudflare",
       "gemini",
@@ -673,8 +681,8 @@
       "mistral",
       "openrouter"
     ],
-    "reason": "groq provider failed: groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y",
-    "until": 1791330647.7799573
+    "reason": "mistral provider failed: mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_c",
+    "until": 1791332533.0822592
   },
   "provider_circuits": {
     "cloudflare": {
@@ -704,10 +712,10 @@
     "mistral": {
       "category": "quota",
       "fingerprint": "16f0cdcebb62d34cab0f",
-      "opened_at": "2026-10-06T17:50:47",
+      "opened_at": "2026-10-06T23:51:40",
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
-      "until": 1791330647.7799573
+      "until": 1791352300.8558388
     },
     "openrouter": {
       "category": "quota",
@@ -793,9 +801,9 @@
       "total_success_time": 7.0841
     },
     "mistral:mistral-small-latest:8feed32495": {
-      "failures": 10,
+      "failures": 11,
       "key_id": "8feed32495",
-      "last_failure_at": "2026-10-06T17:50:47",
+      "last_failure_at": "2026-10-06T23:51:40",
       "model": "mistral-small-latest",
       "provider": "mistral"
     },
