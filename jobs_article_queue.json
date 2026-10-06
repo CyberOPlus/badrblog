@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-06T14:28:53",
+  "updated_at": "2026-10-06T14:29:50",
   "articles": [
     {
       "id": "a6432a68f27e4c35",
@@ -33965,19 +33965,19 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "109b9740c85400a0f331",
+      "job_campaign_id": "82b12edd8a24a624d918",
       "seo_slug": "unicef-im-officer-cp-aor-no-ta-months",
       "desired_slug": "unicef-im-officer-cp-aor-no-ta-months",
       "job_quality_wait_fingerprint": "e376992490dc4248",
-      "job_quality_wait_count": 2,
+      "job_quality_wait_count": 3,
       "candidate_failure_stage": "quality-evidence",
       "candidate_failure_reason": "eligibility must be verified",
       "candidate_failure_fingerprint": "e376992490dc4248",
-      "candidate_failure_repeat_count": 2,
-      "candidate_failure_backoff_minutes": 20,
-      "candidate_failed_at": "2026-10-06T14:09:49+00:00",
+      "candidate_failure_repeat_count": 3,
+      "candidate_failure_backoff_minutes": 40,
+      "candidate_failed_at": "2026-10-06T14:29:49+00:00",
       "job_link_binding_repaired_at": "2026-10-06T14:00:10",
-      "candidate_retry_after": "2026-10-06T14:29:49+00:00"
+      "candidate_retry_after": "2026-10-06T15:09:49+00:00"
     },
     {
       "id": "239a9a72c52510b0",
@@ -34108,13 +34108,13 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "d01b3bdac19dd4958894",
+      "job_campaign_id": "1ae37d0e8c691fb272fa",
       "seo_slug": "jamaa-mhmd-alawl-wjda-mbaryat-altwzyf-almqymyn-lfayda",
       "desired_slug": "jamaa-mhmd-alawl-wjda-mbaryat-altwzyf-almqymyn-lfayda",
       "job_identity_final": false,
       "job_urgent_override": false,
       "job_publish_immediately": false,
-      "selected_at": "2026-10-06T14:28:20",
+      "selected_at": "2026-10-06T14:29:49",
       "selection_reason": "jobs quality 80/100; identity=new; urgency=elevated",
       "job_document_texts": [
         {
@@ -34150,7 +34150,7 @@
       "identity_evidence_tables_checked": true,
       "identity_evidence_documents_checked": true,
       "identity_evidence_stage_status": "complete",
-      "identity_evidence_stage_checked_at": "2026-10-06T14:28:20+00:00",
+      "identity_evidence_stage_checked_at": "2026-10-06T14:29:50+00:00",
       "identity_evidence_signature": "acd8db11cb0ff40707117035",
       "identity_evidence_strength": 10,
       "identity_evidence_comparison_strength": 5,
@@ -34321,7 +34321,7 @@
         }
       },
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-10-06T14:28:20",
+      "processing_prepared_at": "2026-10-06T14:29:50",
       "ai_input_package": {
         "title": "مباريات التوظيف : المقيمين لفائدة كلية الطب والصيدلة وطب الاسنان بوجدة",
         "url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/df7975ff-b146-4dd3-832d-7df84c0bd847",
@@ -34584,19 +34584,19 @@
       },
       "ai_quality_last_error": "Jobs output contradicts high-confidence manifest positions",
       "ai_quality_repairs_used": 1,
-      "ai_provider_last_error": "openrouter provider failed: OpenRouter returned an empty response.",
+      "ai_provider_last_error": "openrouter candidates are cooling down",
       "ai_status": "failed",
-      "ai_error": "openrouter provider failed: OpenRouter returned an empty response.",
+      "ai_error": "openrouter candidates are cooling down",
       "ai_retry_pending": true,
-      "ai_retry_reason": "openrouter provider failed: OpenRouter returned an empty response.",
+      "ai_retry_reason": "openrouter candidates are cooling down",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 32.86,
+      "ai_total_time_seconds": 0.0,
       "ai_failure_scope": "global_outage",
-      "ai_failure_fingerprint": "f69ff66465ee70a5a639",
-      "ai_failure_category": "empty",
+      "ai_failure_fingerprint": "82ce5d050ecd9659a30b",
+      "ai_failure_category": "cooldown",
       "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 3
+      "ai_quality_attempts": 1
     }
   ],
   "notifications": {}
