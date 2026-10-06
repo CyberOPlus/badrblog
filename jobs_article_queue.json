@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-06T18:27:44",
+  "updated_at": "2026-10-06T18:28:36",
   "articles": [
     {
       "id": "a6432a68f27e4c35",
@@ -36179,9 +36179,9 @@
       "full_article_text_chars": 389,
       "content_preview": "خيارات الوصول المرئي الإدارة المنظمة الوكالة الحضرية لكلميم واد نون آخر أجل لإيداع الترشيحات 23 أكتوبر 2026 - 16:30 تاريخ النشر 6 أكتوبر 2026 معلومات عن المباراة اسم المنصب : تقني متخصص في الطبوغرافيا هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
       "content_preview_chars": 389,
-      "content_fetched_at": "2026-10-06T18:27:44",
+      "content_fetched_at": "2026-10-06T18:28:36",
       "enrichment_status": "weak",
-      "content_fetch_status": "success",
+      "content_fetch_status": "failed",
       "job_score": 70,
       "job_rank_score": 70,
       "job_quality_status": "publish",
@@ -36631,7 +36631,7 @@
       "internal_links_inserted_count": 0,
       "external_trusted_links_inserted_count": 0,
       "internal_cache_saved": false,
-      "candidate_failure_count": 5,
+      "candidate_failure_count": 6,
       "ai_quality_last_error": "Jobs article contains an external URL not present in verified application/document evidence",
       "ai_quality_repairs_used": 1,
       "pre_publish_quality": {
@@ -36649,12 +36649,15 @@
       "ai_retry_origin": "pre_publish_quality",
       "ai_retry_reason": "manifest fact missing from Jobs output: experience=- ., iai). --,",
       "ai_retry_provider": "cloudflare",
-      "candidate_failure_stage": "publish",
-      "candidate_failure_reason": "Publish blocked: manifest fact missing from Jobs output: experience=- ., iai). --,",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))",
       "candidate_failure_fingerprint": "5bf73a269fe839e88fca",
       "candidate_failure_repeat_count": 1,
       "candidate_failure_backoff_minutes": 15,
-      "candidate_failed_at": "2026-10-06T18:08:15"
+      "candidate_failed_at": "2026-10-06T18:28:36",
+      "content_fetch_error": "('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))",
+      "candidate_retry_after": "2026-10-07T02:28:36Z",
+      "candidate_retry_backoff_minutes": 480
     },
     {
       "id": "c971f6aa50e63f32",
