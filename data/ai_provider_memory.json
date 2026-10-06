@@ -1,14 +1,6 @@
 {
   "avg_time": 0.5573,
   "cooldowns": {
-    "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "failed_at": "2026-10-06T11:12:37",
-      "key_id": "be6dab2cd8",
-      "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-      "provider": "cloudflare",
-      "reason": "('Connection aborted.', Timeout('AI provider wall-clock timeout after 60s'))",
-      "until": 1791285761.3220694
-    },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "failed_at": "2026-10-06T10:46:45",
       "key_id": "64f603a8c0",
@@ -48,14 +40,6 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1791288152.1912098
-    },
-    "openrouter:openrouter/free:1af698c9b3": {
-      "failed_at": "2026-10-06T11:17:28",
-      "key_id": "1af698c9b3",
-      "model": "openrouter/free",
-      "provider": "openrouter",
-      "reason": "OpenRouter returned an empty response.",
-      "until": 1791285750.7716658
     }
   },
   "failure_fingerprints": {
@@ -662,15 +646,15 @@
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 11.0274,
+      "avg_time": 11.4078,
       "failures": 26,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-06T11:17:28",
-      "last_success_at": "2026-10-06T11:12:56",
+      "last_success_at": "2026-10-06T11:23:51",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 80,
-      "total_success_time": 882.1925
+      "successes": 81,
+      "total_success_time": 924.0305
     }
   }
 }
