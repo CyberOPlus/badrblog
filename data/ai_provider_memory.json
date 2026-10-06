@@ -9,22 +9,6 @@
       "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
       "until": 1791291550.4910269
     },
-    "gemini:gemini-2.5-flash:64f603a8c0": {
-      "failed_at": "2026-10-06T11:43:18",
-      "key_id": "64f603a8c0",
-      "model": "gemini-2.5-flash",
-      "provider": "gemini",
-      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1791289699.2028213
-    },
-    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "failed_at": "2026-10-06T11:43:28",
-      "key_id": "fb4fab4ba1",
-      "model": "openai/gpt-oss-20b",
-      "provider": "groq",
-      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "until": 1791289709.3350136
-    },
     "openrouter:openrouter/free:1af698c9b3": {
       "failed_at": "2026-10-06T12:15:38",
       "key_id": "1af698c9b3",
@@ -521,20 +505,7 @@
     }
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
-  "global_circuit": {
-    "category": "cooldown",
-    "fingerprint": "0bfbbde687f6e2ee0b50",
-    "opened_at": "2026-10-06T12:15:38",
-    "providers": [
-      "cloudflare",
-      "gemini",
-      "groq",
-      "mistral",
-      "openrouter"
-    ],
-    "reason": "all configured AI providers are unavailable or cooling down",
-    "until": 1791296138.5603242
-  },
+  "global_circuit": {},
   "provider_circuits": {
     "cloudflare": {
       "category": "quota",
@@ -543,22 +514,6 @@
       "provider": "cloudflare",
       "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
       "until": 1791299648.5534236
-    },
-    "gemini": {
-      "category": "quota",
-      "fingerprint": "9b8ec695d1ca9e549f46",
-      "opened_at": "2026-10-06T11:43:18",
-      "provider": "gemini",
-      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1791308598.5827215
-    },
-    "groq": {
-      "category": "quota",
-      "fingerprint": "4b929cc3ad78785ed806",
-      "opened_at": "2026-10-06T11:43:28",
-      "provider": "groq",
-      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "until": 1791308608.19378
     },
     "mistral": {
       "category": "quota",
@@ -608,15 +563,15 @@
       "total_success_time": 1623.13
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 11.3059,
+      "avg_time": 11.2226,
       "failures": 18,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-10-06T11:43:18",
-      "last_success_at": "2026-10-06T11:42:05",
+      "last_success_at": "2026-10-06T12:16:57",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 128,
-      "total_success_time": 1447.1509
+      "successes": 129,
+      "total_success_time": 1447.7153
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
       "avg_time": 4.2665,
@@ -630,15 +585,15 @@
       "total_success_time": 85.3298
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.0786,
+      "avg_time": 1.0693,
       "failures": 28,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-06T11:43:28",
-      "last_success_at": "2026-10-06T11:43:28",
+      "last_success_at": "2026-10-06T12:16:57",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 90,
-      "total_success_time": 97.0698
+      "successes": 91,
+      "total_success_time": 97.3072
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 0.8359,
