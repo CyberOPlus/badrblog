@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-10-06T23:46:33.992032+00:00",
-  "state": "candidate_stalled",
-  "action": "A verified ready job has waited at least one hour before Facebook; inspect the publisher's blocking reason.",
+  "updated_at": "2026-10-06T23:47:27.713738+00:00",
+  "state": "waiting_provider",
+  "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
   "hourly_target_met": false,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-06T18:29:38",
   "last_facebook_post_id": "103026497833721_1089179406810457",
-  "minutes_since_facebook": 316.9,
+  "minutes_since_facebook": 317.8,
   "last_blogger_publish_at": "2026-10-06T18:24:31.486611+00:00",
   "fresh_candidate_count": 22,
-  "verified_ready_candidate_count": 1,
+  "verified_ready_candidate_count": 0,
   "unverified_ready_candidate_count": 20,
   "facebook_pending_count": 0,
   "oldest_facebook_pending_minutes": 0,
-  "oldest_ready_candidate_minutes": 565.8,
+  "oldest_ready_candidate_minutes": 0,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -22,7 +22,7 @@
       "action": "Page/token lookup succeeded; publish permission is confirmed only by an actual delivery."
     },
     "ai": {
-      "status": "ok",
+      "status": "cooldown",
       "providers": {
         "gemini": {
           "status": "quota",
@@ -56,16 +56,18 @@
           ]
         }
       },
-      "action": "At least one provider generated a response."
+      "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
+      "retry_after": "2026-10-06T23:50:47+00:00",
+      "category": "quota"
     },
     "sources": {
       "status": "degraded",
       "active_issues": [
         {
           "source_name": "ANAPEC — offres nationales",
-          "failure_count": 149,
+          "failure_count": 150,
           "category": "network_timeout",
-          "retry_after": "2026-10-06T23:47:07Z"
+          "retry_after": "2026-10-07T00:17:25Z"
         },
         {
           "source_name": "CIH Bank",
