@@ -32,14 +32,6 @@
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
       "until": 1791306228.0760746
-    },
-    "openrouter:openrouter/free:1af698c9b3": {
-      "failed_at": "2026-10-06T16:19:04",
-      "key_id": "1af698c9b3",
-      "model": "openrouter/free",
-      "provider": "openrouter",
-      "reason": "OpenRouter returned an empty response.",
-      "until": 1791303846.0849822
     }
   },
   "failure_fingerprints": {
@@ -155,13 +147,13 @@
     },
     "4b27f0e6f34e06eef2e2": {
       "category": "format",
-      "count": 3,
+      "count": 4,
       "first_seen_at": "2026-10-06T14:46:44",
-      "last_seen_at": "2026-10-06T15:35:02",
-      "last_seen_epoch": 1791300902.311403,
+      "last_seen_at": "2026-10-06T16:26:26",
+      "last_seen_epoch": 1791303986.2763338,
       "provider": "openrouter:nvidia/nemotron-3.5-content-safety:free",
       "reason": "AI article response returned incomplete JSON.",
-      "retry_until": 1791304502.311403,
+      "retry_until": 1791307586.2763338,
       "scope": "provider"
     },
     "4b929cc3ad78785ed806": {
@@ -474,13 +466,13 @@
     },
     "d15a24ae84ad2cd36273": {
       "category": "quality",
-      "count": 3,
+      "count": 6,
       "first_seen_at": "2026-10-05T15:05:50",
-      "last_seen_at": "2026-10-06T14:57:42",
-      "last_seen_epoch": 1791298662.9906728,
+      "last_seen_at": "2026-10-06T16:26:26",
+      "last_seen_epoch": 1791303986.279569,
       "provider": "openrouter",
       "reason": "AI article response returned incomplete JSON.",
-      "retry_until": 1791299862.9906728,
+      "retry_until": 1791307586.279569,
       "scope": "quality"
     },
     "d15c8a5d2460c1216a2b": {
@@ -527,6 +519,17 @@
       "retry_until": 1790878940.2604225,
       "scope": "provider"
     },
+    "e4fc2992872bd5123809": {
+      "category": "format",
+      "count": 1,
+      "first_seen_at": "2026-10-06T16:24:53",
+      "last_seen_at": "2026-10-06T16:24:53",
+      "last_seen_epoch": 1791303893.2208045,
+      "provider": "openrouter:nvidia/nemotron-3-super-120b-a12b:free",
+      "reason": "AI article response returned incomplete JSON.",
+      "retry_until": 1791304793.2208045,
+      "scope": "provider"
+    },
     "e54adca08768c8b77065": {
       "category": "quality",
       "count": 2,
@@ -540,13 +543,13 @@
     },
     "f2abe1685a5d0626fa39": {
       "category": "format",
-      "count": 1,
+      "count": 2,
       "first_seen_at": "2026-10-05T17:20:10",
-      "last_seen_at": "2026-10-05T17:20:10",
-      "last_seen_epoch": 1791220810.3950224,
+      "last_seen_at": "2026-10-06T16:26:23",
+      "last_seen_epoch": 1791303983.5049257,
       "provider": "openrouter:nvidia/nemotron-3.5-lightning:free",
       "reason": "AI article response returned incomplete JSON.",
-      "retry_until": 1791221710.3950224,
+      "retry_until": 1791305783.5049257,
       "scope": "provider"
     },
     "f6112ccbbf5b7da19378": {
@@ -571,6 +574,17 @@
       "retry_until": 1791307048.6331415,
       "scope": "global"
     },
+    "f8d83b9dc799f3657708": {
+      "category": "cooldown",
+      "count": 1,
+      "first_seen_at": "2026-10-06T16:27:53",
+      "last_seen_at": "2026-10-06T16:27:53",
+      "last_seen_epoch": 1791304073.8709795,
+      "provider": "cloudflare,gemini,groq,mistral,openrouter",
+      "reason": "all configured AI providers are cooling down",
+      "retry_until": 1791305786.277919,
+      "scope": "global"
+    },
     "fde6cf46cadeff71bc26": {
       "category": "quota",
       "count": 1,
@@ -584,7 +598,20 @@
     }
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
-  "global_circuit": {},
+  "global_circuit": {
+    "category": "cooldown",
+    "fingerprint": "f8d83b9dc799f3657708",
+    "opened_at": "2026-10-06T16:27:53",
+    "providers": [
+      "cloudflare",
+      "gemini",
+      "groq",
+      "mistral",
+      "openrouter"
+    ],
+    "reason": "all configured AI providers are cooling down",
+    "until": 1791305786.277919
+  },
   "provider_circuits": {
     "cloudflare": {
       "category": "quota",
@@ -617,6 +644,15 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1791307048.6331415
+    },
+    "openrouter": {
+      "category": "format",
+      "fingerprint": "4b27f0e6f34e06eef2e2",
+      "model": "nvidia/nemotron-3.5-content-safety:free",
+      "opened_at": "2026-10-06T16:26:26",
+      "provider": "openrouter",
+      "reason": "AI article response returned incomplete JSON.",
+      "until": 1791305786.277919
     }
   },
   "stats": {
@@ -701,15 +737,15 @@
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 11.4349,
+      "avg_time": 12.3817,
       "failures": 38,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-06T16:19:04",
-      "last_success_at": "2026-10-06T16:17:51",
+      "last_success_at": "2026-10-06T16:26:26",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 95,
-      "total_success_time": 1086.3177
+      "successes": 98,
+      "total_success_time": 1213.4093
     }
   }
 }

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-06T16:23:09",
+  "updated_at": "2026-10-06T16:27:53",
   "articles": [
     {
       "id": "a6432a68f27e4c35",
@@ -33208,7 +33208,7 @@
       "job_remote": false,
       "job_number_of_positions": 44,
       "discovered_at": "2026-10-06T14:20:46",
-      "status": "selected",
+      "status": "ready",
       "score": 80,
       "priority": "high",
       "source_links_removed_count": 69,
@@ -33295,13 +33295,13 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "a1bca646ce5ec55ed77f",
+      "job_campaign_id": "867c9b7791e5f58fbbd3",
       "seo_slug": "jamaa-mhmd-alawl-wjda-mbaryat-altwzyf-almqymyn-lfayda",
       "desired_slug": "jamaa-mhmd-alawl-wjda-mbaryat-altwzyf-almqymyn-lfayda",
       "job_identity_final": false,
       "job_urgent_override": false,
       "job_publish_immediately": false,
-      "selected_at": "2026-10-06T16:23:08",
+      "selected_at": "2026-10-06T16:24:17",
       "selection_reason": "jobs quality 80/100; identity=new; urgency=elevated",
       "job_document_texts": [
         {
@@ -33337,7 +33337,7 @@
       "identity_evidence_tables_checked": true,
       "identity_evidence_documents_checked": true,
       "identity_evidence_stage_status": "complete",
-      "identity_evidence_stage_checked_at": "2026-10-06T16:23:09+00:00",
+      "identity_evidence_stage_checked_at": "2026-10-06T16:24:17+00:00",
       "identity_evidence_signature": "acd8db11cb0ff40707117035",
       "identity_evidence_strength": 10,
       "identity_evidence_comparison_strength": 5,
@@ -33508,7 +33508,7 @@
         }
       },
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-10-06T16:23:09",
+      "processing_prepared_at": "2026-10-06T16:24:17",
       "ai_input_package": {
         "title": "مباريات التوظيف : المقيمين لفائدة كلية الطب والصيدلة وطب الاسنان بوجدة",
         "url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/df7975ff-b146-4dd3-832d-7df84c0bd847",
@@ -33771,26 +33771,28 @@
       },
       "ai_quality_last_error": "Jobs output contradicts high-confidence manifest positions",
       "ai_quality_repairs_used": 1,
-      "ai_provider_last_error": "openrouter candidates are cooling down",
+      "ai_provider_last_error": "AI article response returned incomplete JSON.",
       "ai_status": "failed",
-      "ai_error": "openrouter candidates are cooling down",
-      "ai_retry_reason": "openrouter candidates are cooling down",
-      "ai_rotation_exhausted": true,
+      "ai_error": "AI article response returned incomplete JSON.",
+      "ai_retry_reason": "AI article response returned incomplete JSON.",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 0.0,
-      "ai_failure_scope": "global_outage",
-      "ai_failure_fingerprint": "82ce5d050ecd9659a30b",
-      "ai_failure_category": "cooldown",
-      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_total_time_seconds": 35.94,
+      "ai_failure_scope": "quality",
+      "ai_failure_fingerprint": "d15a24ae84ad2cd36273",
+      "ai_failure_category": "quality",
+      "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 1,
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "Jobs output contradicts high-confidence manifest positions",
-      "candidate_failure_fingerprint": "dba95e9aed3dada4ac28",
+      "candidate_failure_reason": "AI article response returned incomplete JSON.",
+      "candidate_failure_fingerprint": "4c4b22c467e28e1c7d1c",
       "candidate_failure_repeat_count": 1,
-      "candidate_failure_backoff_minutes": 5,
-      "candidate_failed_at": "2026-10-06T15:38:35",
-      "candidate_failure_count": 3,
-      "ai_retry_pending": true
+      "candidate_failure_backoff_minutes": 40,
+      "candidate_failed_at": "2026-10-06T16:24:53",
+      "candidate_failure_count": 4,
+      "ai_retry_pending": true,
+      "ai_retry_after": "2026-10-06T17:04:53+00:00",
+      "candidate_retry_after": "2026-10-06T17:04:53Z"
     },
     {
       "id": "4afc987edfad4078",
@@ -34296,13 +34298,13 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "6a5aba0c3be501b7e6cc",
+      "job_campaign_id": "7235784c4ee134148ca8",
       "seo_slug": "capgemini-morocco-stagiaire-marketing-communications",
       "desired_slug": "capgemini-morocco-stagiaire-marketing-communications",
       "job_identity_final": false,
       "job_urgent_override": false,
       "job_publish_immediately": false,
-      "selected_at": "2026-10-06T15:40:32",
+      "selected_at": "2026-10-06T16:24:53",
       "selection_reason": "jobs quality 70/100; identity=new; urgency=normal",
       "identity_evidence_document_fingerprint": "",
       "job_document_text_download_failures": 0,
@@ -34310,7 +34312,7 @@
       "identity_evidence_tables_checked": true,
       "identity_evidence_documents_checked": true,
       "identity_evidence_stage_status": "complete",
-      "identity_evidence_stage_checked_at": "2026-10-06T15:40:32+00:00",
+      "identity_evidence_stage_checked_at": "2026-10-06T16:24:53+00:00",
       "identity_evidence_signature": "2d2ce187b0dc53b56c85d13a",
       "identity_evidence_strength": 6,
       "identity_evidence_comparison_strength": 2,
@@ -34377,7 +34379,7 @@
         }
       },
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-10-06T15:40:32",
+      "processing_prepared_at": "2026-10-06T16:24:53",
       "ai_input_package": {
         "title": "Stagiaire Marketing & Communications",
         "url": "https://careers.capgemini.com/job/Stagiaire-Marketing-&-Communications/1444882433/",
@@ -34594,23 +34596,26 @@
       "ai_quality_repairs_used": 2,
       "ai_provider_last_error": "AI article response returned incomplete JSON.",
       "ai_status": "failed",
-      "ai_error": "manifest fact missing from Jobs output: detail=https://careers.capgemini.com/job/Stagiaire-Marketing-&-Communications/1444882433/",
-      "ai_retry_reason": "manifest fact missing from Jobs output: detail=https://careers.capgemini.com/job/Stagiaire-Marketing-&-Communications/1444882433/",
+      "ai_error": "AI article response returned incomplete JSON.",
+      "ai_retry_reason": "AI article response returned incomplete JSON.",
       "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 34.69,
+      "ai_total_time_seconds": 89.46,
       "ai_failure_scope": "quality",
-      "ai_failure_fingerprint": "4733bfc9fd4308092f81",
+      "ai_failure_fingerprint": "d15a24ae84ad2cd36273",
       "ai_failure_category": "quality",
       "ai_quality_status": "failed_after_retries",
-      "ai_quality_attempts": 3,
+      "ai_quality_attempts": 1,
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "manifest fact missing from Jobs output: detail=https://careers.capgemini.com/job/Stagiaire-Marketing-&-Communications/1444882433/",
-      "candidate_failure_fingerprint": "00c4dc9fed905ecbbc2d",
-      "candidate_failure_repeat_count": 2,
-      "candidate_failure_backoff_minutes": 20,
-      "candidate_failed_at": "2026-10-06T15:41:07",
-      "candidate_failure_count": 2
+      "candidate_failure_reason": "AI article response returned incomplete JSON.",
+      "candidate_failure_fingerprint": "4c4b22c467e28e1c7d1c",
+      "candidate_failure_repeat_count": 1,
+      "candidate_failure_backoff_minutes": 60,
+      "candidate_failed_at": "2026-10-06T16:26:23",
+      "candidate_failure_count": 3,
+      "ai_retry_pending": true,
+      "ai_retry_after": "2026-10-06T17:26:23+00:00",
+      "candidate_retry_after": "2026-10-06T17:26:23Z"
     },
     {
       "id": "a61baa7715e28adf",
@@ -34805,14 +34810,14 @@
       "job_country": "MA",
       "job_deadline": "2026-10-20",
       "job_published_at": "2026-10-06",
-      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/d184ead2-2468-43a2-9697-03c37ccb2c78",
-      "job_application_link_kind": "official_job_page",
+      "job_application_url": "https://www.emploi-public.ma",
+      "job_application_link_kind": "official_application_channel",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-06T15:44:39",
-      "status": "ready",
+      "status": "selected",
       "score": 80,
       "priority": "high",
       "source_links_removed_count": 98,
@@ -34832,8 +34837,8 @@
       "job_notice_type": "competition",
       "job_notice_type_source": "source",
       "job_published_at_display": "6 أكتوبر 2026",
-      "job_application_is_specific": true,
-      "job_application_is_official_channel": false,
+      "job_application_is_specific": false,
+      "job_application_is_official_channel": true,
       "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/d184ead2-2468-43a2-9697-03c37ccb2c78",
       "job_action_links": [
         {
@@ -34841,6 +34846,12 @@
           "label": "قرار فتح المباراة",
           "kind": "document",
           "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma",
+          "label": "منصة الترشيح الرسمية",
+          "kind": "apply",
+          "context": "official_pdf"
         }
       ],
       "job_document_links": [
@@ -34893,12 +34904,452 @@
       },
       "job_identity_action": "new_campaign",
       "job_identity_reason": "different external reference",
-      "job_campaign_id": "891e878fed4bf8722f36",
+      "job_campaign_id": "f345230fa9caff3e8cb2",
       "seo_slug": "almrkz-alwtny-lltaqa-walalwm-waltqnyat-alnwwya-mbaryat-altwzyf",
       "desired_slug": "almrkz-alwtny-lltaqa-walalwm-waltqnyat-alnwwya-mbaryat-altwzyf",
       "job_identity_final": false,
       "job_urgent_override": false,
-      "job_publish_immediately": false
+      "job_publish_immediately": false,
+      "selected_at": "2026-10-06T16:26:27",
+      "job_document_texts": [
+        {
+          "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/d184ead2-2468-43a2-9697-03c37ccb2c78",
+          "document_label": "قرار فتح المباراة",
+          "page_number": 1,
+          "page_count": 4,
+          "text": "المغربية\nللطاقة الوطني Centre National de l'Energie, | | المركز\nد )0 النووية والتقنيات والعلوم des Sciences et des Techniques Nucléaires ظ\nNational Centre for Nuclear Energy, 3-9 | dCCo© اداه |18-01\nScience and Technology À HoOOE] À + OI EXEHI +LC!Ft] | RoyaumeduMaroc 42 المملكة\nSG/DRH/SGCF/206-26 CNESTEN CENM. Le 00 6 OCT 20 |\n|\nDECISION RELATIVE A L'ORGANISATION DU CONCOURS DE RECRUTEMENT\nD'UN INGENIEUR EN INFORMATIQUE AU SEIN DU CNESTEN |\nLe Directeur Général, |\n- Vu le Dahir N°1-03-195 du 16 Ramadan 1424 {11 Novembre 2003), portant\npromulgation de la loi n° 69-00 relative au contrôle financier de l'Etat sur les entreprises\npubliques et autres organismes :\n- VU le Dahir portant loi n° 1-85-98 du 11 Rabia | 1407 (14 Nov. 1986) relatif à la création\ndu Centre National de l'Energie des Sciences et des Techniques Nucléaires CNESTEN ;\n- VU la loi n° 12-97 complétant la loi n° 17-83 portant création du CNESTEN ;\n- Vu le statut régissant le personnel du CNESTEN tel qu'il a été complété, modifié et\namendé ;\n- VU la circulaire n° 24/2012 du 22 Octobre 2012 du Chef du Gouvernement relative aux\nprocédures de recrutement dans les établissements et entreprises publics ; |\n- Vu le décret N° 2.22.952, du 22 Rabia || 1444 [17 Novembre 2022) portant nomination\nde M. HAMID MARAH, Directeur Général du CNESTEN ;\n- Vu la procédure de recrutement interne ef externe du CNESTEN\nRéf : PGR/DS/DRH/002.\nDécide\nArticle 1:\nDans le cadre du renforcement de son capital humain et compte tenu des besoins de\nses services, le CNESTEN recrute par voie de concours, un ingénieur en informatique\ndisposant des qualifications suivantes :\nالمغثرب - الرباط 10001 الرئيسية الرباط 1382 البريد Q Q B.P. 1382 R.P. 10001 - Rabat - Maroc t صندوق\n+212537819750© ) +212531819750 رمثم 37 80 3277 1 +212537803277À)\n| |. عا: 001545260000008 - 1.F: 3332112 - R.C: 30861 -T.P : 25563553\nظ سار www.cnesten.org.ma"
+        },
+        {
+          "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/d184ead2-2468-43a2-9697-03c37ccb2c78",
+          "document_label": "قرار فتح المباراة",
+          "page_number": 2,
+          "page_count": 4,
+          "text": "1 11 1 1 121210101012 éésnsnnaiiagintnieicétmrraéhproniennsmmnmnsnmerte2 2 0 0 0 0 0 cusrséénéaiariniténéinrinnniiiieiitnieiiritntiittniieinntntiiteinititgiinnéepiéintitniienieinis pres rentam\n| Référence |SG/DTL/S5S1/17-2026 ou RS | |\nFENTE: 2\nهم | Poste: ar | Ingénieurname stone enممصت informatique. 21170821 /6 CHER mené mr - — me جو | |\n|| Nombre 01 رده 5 6 1| ||\n| ا ATP | UP ASE EEE | |\n| ٠ nm ’ 0 ١ 4 0 | | | Diplôme : Ingénieur d'état ou équivalent. | |\n| Niveau d'études : Bac 5.ل ل FRS 121111100100111 و لا \"1|\n| Profil : : a a ل en) | Spécialité : Sécurité des systèmes d'information, Cyber Sécurité, Génie |\n| logiciel ou similaire. | ك 0 م7“1 اميت\n| Expérience | Minimum 2 ans d'expérience dans le domaine. |\n- Assurer la gestion, l'administration et le suivi des projets d'évolution et\nd'intégration du système d'information et des applicatifs du Centre ;\n- Contribuer au déploiement de la politique de cyber-sécurité ef au suivi de\n| la mise en œuvre des actions de protection, de détection et de\n| prévention des menaces informatiques ;\n| - Assurer Une veille technologique et proposer des solutions susceptibles\n| d'améliorer la performance et l'efficacité des processus du Centre ; |\n| - Veiller au respect de la réglementation, procédures, normes, référentiels\napplicables aux activités informatiques.\nLes 005010015 doivent remplir les conditions suivantes :\n٠ Etre de nationalité marocaine ;\n|\n|\n٠ Etre âgé de 18 ans au moins et de 45 ans au plus à la date limite du dépôt du dossier |\n|\nde candidature ; |\n|\n| ٠ Etre titulaire d'un diplôme dans les spécialités sus-indiquées : |\n| ٠ Avoir le profil demandé.\nArticle 2:\n|\nLes candidatures doivent obligatoirement être transmises par voie électronique sur le\nportail « emploi-public », à travers le lien « https://depot.emploi-public.ma/ », au plus tard\nle 2 0 OCT. 20% à 16h00.\nToute candidature incomplète ou envoyée via un autre canal que le portail précité, sera\nsystématiquement écartée. 2\n1 سام ا ل ل ل ا\n:00ات ت” ساس )—_—_———O<çOŒOUOU_O"
+        },
+        {
+          "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/d184ead2-2468-43a2-9697-03c37ccb2c78",
+          "document_label": "قرار فتح المباراة",
+          "page_number": 3,
+          "page_count": 4,
+          "text": "Article3 :\nAU dépôt des dossiers de candidatures électroniques, il faut impérativement joindre les\ndocuments suivants :\n١٠ Demande de participation au concours adressée au Directeur Général du\nCNESTEN :\n2. Curriculum vitae [CV] actualisé :\n3. Copie scannée de l'original de la Carte Nationale d'identité Electronique CNIE\n(Recto-Verso) :\n4. Copie scannée du diplôme reconnu par l'Etat, accompagnée, le cas échéant,\nd'une copie scannée de l'arrêté d'équivalence pour les diplômes délivrés par les\nUniversités et établissements privés ou étrangers :\n5. Copies scannées de tous les documents justifiant l'expérience exigée.\nArticle 4 :\n00 Le processus de concours comprend Une présélection sur dossier, Un concours écrit SUIVI\n000 d'un entretien oral et en cas de besoin une mise en situation au sein du CNESTEN.\n2 __ Aricle 5\nla liste des candidats présélectionnés pour passer les épreuves écrites et orales sera\n.affichée sur le site www.emploi-public.ma et sera considérée comme convocaïion au\nOS SE .: ا\n. .concours écrit et oral relatifs à cet appel à la candidature.\n__ Aricleé:\n00 10 0016,le lieu ef les modalités de déroulement du concours écrit et oral seront\nCommuniqués ultérieurement. Les résultats de toutes les étapes de sélection seront\n3 affichés sur le site www.emploi-public.ma.\n… Alissue des épreuvesécrites et orales du concours, la liste des candidats admis ainsi que\n0 eux figurant dans laliste d'attente, classés par ordre de mérite, sera publiée sur le portail\n| www.emploi-public.ma)et le site web du CNESTEN (www.cnesten.org.ma).\n1\n| ة ل ءا ا 7"
+        },
+        {
+          "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/d184ead2-2468-43a2-9697-03c37ccb2c78",
+          "document_label": "قرار فتح المباراة",
+          "page_number": 4,
+          "page_count": 4,
+          "text": "ااا ا ذأ س س س س\nAtlicle 8:\nLe recrutement des candidats admis n'est jugé définitif, que sous réserve d'approbation\nde leurs dossiers administratifs par les services compétents et confirmation de leur\naptitude physique par le médecin de travail du Centre.\nTout candidat ne vérifiant pas les conditions susmentionnées, sera systématiquement |\nremplacé (selon l'ordre de mérite) par un autre candidat inscrit sur la liste d'attente\nremplissant les mêmes conditions.\nM.Ai ns\nÀ sect CESTEN\n0 4"
+        }
+      ],
+      "job_document_text_pages": 4,
+      "job_document_text_chars": 5954,
+      "job_document_text_download_failures": 0,
+      "job_document_text_read_complete": true,
+      "job_document_text_truncated": false,
+      "job_document_text_attempted_documents": 1,
+      "job_document_ocr_attempts": 4,
+      "job_document_ocr_pages": 4,
+      "job_document_ocr_failures": 0,
+      "job_document_ocr_unavailable": false,
+      "job_document_unread_pages": 0,
+      "identity_evidence_document_fingerprint": "https://emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/d184ead2-2468-43a2-9697-03c37ccb2c78",
+      "job_application_source": "official_pdf",
+      "job_notice_status": "",
+      "identity_evidence_detail_checked": true,
+      "identity_evidence_tables_checked": true,
+      "identity_evidence_documents_checked": true,
+      "identity_evidence_stage_status": "complete",
+      "identity_evidence_stage_checked_at": "2026-10-06T16:27:53+00:00",
+      "identity_evidence_signature": "51bb5bf24488f9298662cb70",
+      "identity_evidence_strength": 9,
+      "identity_evidence_comparison_strength": 4,
+      "identity_evidence_categories": [
+        "reference",
+        "deadline",
+        "pdf_text",
+        "documents"
+      ],
+      "identity_evidence_reference": "d184ead2 2468 43a2 9697 03c37ccb2c78",
+      "identity_evidence_deadline": "2026-10-20",
+      "identity_evidence_positions": 0,
+      "verified_fact_manifest": {
+        "version": 2,
+        "policy": {
+          "blocking_confidence": [
+            "high"
+          ],
+          "non_high_behavior": "warning",
+          "raw_table_rows_are_not_blocking": true,
+          "heuristic_regex_facts_are_not_blocking": true
+        },
+        "facts": {
+          "deadline": [
+            {
+              "value": "2026-10-20",
+              "source": "official_detail_page",
+              "confidence": "high",
+              "blocking": true,
+              "required_in_output": true,
+              "aliases": [
+                "20 أكتوبر 2026"
+              ],
+              "meta": {}
+            }
+          ],
+          "exam_date": [
+            {
+              "value": "2026-10-26",
+              "source": "extracted_field",
+              "confidence": "medium",
+              "blocking": false,
+              "required_in_output": true,
+              "aliases": [
+                "26 أكتوبر 2026"
+              ],
+              "meta": {}
+            }
+          ],
+          "notice_type": [
+            {
+              "value": "competition",
+              "source": "source",
+              "confidence": "high",
+              "blocking": false,
+              "required_in_output": false,
+              "aliases": [],
+              "meta": {}
+            }
+          ],
+          "application": [
+            {
+              "value": "https://www.emploi-public.ma",
+              "source": "verified_application_channel",
+              "confidence": "high",
+              "blocking": true,
+              "required_in_output": true,
+              "aliases": [],
+              "meta": {
+                "kind": "official_application_channel",
+                "notice_type": "competition"
+              }
+            }
+          ],
+          "detail": [
+            {
+              "value": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/d184ead2-2468-43a2-9697-03c37ccb2c78",
+              "source": "specific_notice_detail",
+              "confidence": "high",
+              "blocking": true,
+              "required_in_output": true,
+              "aliases": [],
+              "meta": {}
+            }
+          ],
+          "documents": [
+            {
+              "value": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/d184ead2-2468-43a2-9697-03c37ccb2c78",
+              "source": "official_notice_link",
+              "confidence": "high",
+              "blocking": true,
+              "required_in_output": true,
+              "aliases": [],
+              "meta": {
+                "label": "قرار فتح المباراة",
+                "kind": "document"
+              }
+            }
+          ],
+          "specialties": [
+            {
+              "value": ": a a ل en) | Spécialité : Sécurité des systèmes d'information, Cyber Sécurité, Génie |",
+              "source": "official_pdf",
+              "confidence": "high",
+              "blocking": true,
+              "required_in_output": true,
+              "aliases": [],
+              "meta": {
+                "kind": "specialty",
+                "explicit_label": "| Profil"
+              }
+            }
+          ],
+          "diploma": [
+            {
+              "value": "Ingénieur d'état ou équivalent. | |",
+              "source": "official_pdf",
+              "confidence": "high",
+              "blocking": true,
+              "required_in_output": true,
+              "aliases": [],
+              "meta": {
+                "kind": "diploma",
+                "explicit_label": "| ٠ nm ’ 0 ١ 4 0 | | | Diplôme"
+              }
+            }
+          ]
+        },
+        "warnings": [],
+        "summary": {
+          "high": 7,
+          "medium": 1,
+          "heuristic": 0
+        }
+      },
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-10-06T16:27:53",
+      "ai_input_package": {
+        "title": "مباريات التوظيف : مهندس في المعلوميات",
+        "url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/d184ead2-2468-43a2-9697-03c37ccb2c78",
+        "source_name": "Emploi-Public — établissements publics",
+        "official_source": true,
+        "job_official_source": true,
+        "suggested_category": "jobs-morocco",
+        "main_image": "",
+        "article_images": [],
+        "extra_article_images": [],
+        "meta_description": "",
+        "content_preview": "خيارات الوصول المرئي الإدارة المنظمة المركز الوطني للطاقة والعلوم والتقنيات النووية آخر أجل لإيداع الترشيحات 20 أكتوبر 2026 - 16:00 تاريخ النشر 6 أكتوبر 2026 معلومات عن المباراة تخصص : - الأمن الإلكتروني - هندسة البرمجيات - أمن الأنظمة المعلوماتية اسم المنصب : مهندس في المعلوميات نوع الإيداع : على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. مهندس في المعلوميات أستاذ محاضر من الدرجة أ - سُلمْ 11 تقني من الدرجة الثالثة - سُلمْ 9 متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة متصرف من الدرجة الثالثة - سُلمْ 10 إطار التسويق والتجارة ممرض من الدرجة الأولى - سُلمْ 10 تقني من الدرجة الرابعة - سُلمْ 8 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+        "content_preview_chars": 862,
+        "rss_summary": "",
+        "full_article_text": "خيارات الوصول المرئي الإدارة المنظمة المركز الوطني للطاقة والعلوم والتقنيات النووية آخر أجل لإيداع الترشيحات 20 أكتوبر 2026 - 16:00 تاريخ النشر 6 أكتوبر 2026 معلومات عن المباراة تخصص : - الأمن الإلكتروني - هندسة البرمجيات - أمن الأنظمة المعلوماتية اسم المنصب : مهندس في المعلوميات نوع الإيداع : على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. مهندس في المعلوميات أستاذ محاضر من الدرجة أ - سُلمْ 11 تقني من الدرجة الثالثة - سُلمْ 9 متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة متصرف من الدرجة الثالثة - سُلمْ 10 إطار التسويق والتجارة ممرض من الدرجة الأولى - سُلمْ 10 تقني من الدرجة الرابعة - سُلمْ 8 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+        "full_article_text_chars": 862,
+        "source_tables": [],
+        "source_tables_count": 0,
+        "source_tables_truncated": false,
+        "enrichment_status": "weak",
+        "source_url": "https://www.emploi-public.ma/ar/%D9%82%D8%A7%D8%A6%D9%85%D8%A9-%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA?corps=0&procedure=0&region=0&stat=etab_publics",
+        "trusted_references": [],
+        "related_posts": [],
+        "labels": [
+          "jobs",
+          "jobs-morocco"
+        ],
+        "job_title": "مباريات التوظيف : مهندس في المعلوميات",
+        "job_company": "المركز الوطني للطاقة والعلوم والتقنيات النووية",
+        "job_location": "",
+        "job_country": "MA",
+        "job_contract_type": "",
+        "job_salary": "",
+        "job_deadline": "2026-10-20",
+        "job_deadline_display": "20 أكتوبر 2026",
+        "job_exam_date": "2026-10-26",
+        "job_exam_date_display": "26 أكتوبر 2026",
+        "job_notice_type": "competition",
+        "job_notice_type_hint": "competition",
+        "job_notice_type_source": "source",
+        "job_notice_status": "",
+        "job_application_url": "https://www.emploi-public.ma",
+        "job_application_link_kind": "official_application_channel",
+        "job_application_is_specific": false,
+        "job_application_is_official_channel": true,
+        "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/d184ead2-2468-43a2-9697-03c37ccb2c78",
+        "job_action_links": [
+          {
+            "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/d184ead2-2468-43a2-9697-03c37ccb2c78",
+            "label": "قرار فتح المباراة",
+            "kind": "document",
+            "context": ""
+          },
+          {
+            "url": "https://www.emploi-public.ma",
+            "label": "منصة الترشيح الرسمية",
+            "kind": "apply",
+            "context": "official_pdf"
+          }
+        ],
+        "job_document_links": [
+          {
+            "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/d184ead2-2468-43a2-9697-03c37ccb2c78",
+            "label": "قرار فتح المباراة",
+            "kind": "document",
+            "context": ""
+          }
+        ],
+        "job_document_texts": [
+          {
+            "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/d184ead2-2468-43a2-9697-03c37ccb2c78",
+            "document_label": "قرار فتح المباراة",
+            "page_number": 1,
+            "page_count": 4,
+            "text": "المغربية\nللطاقة الوطني Centre National de l'Energie, | | المركز\nد )0 النووية والتقنيات والعلوم des Sciences et des Techniques Nucléaires ظ\nNational Centre for Nuclear Energy, 3-9 | dCCo© اداه |18-01\nScience and Technology À HoOOE] À + OI EXEHI +LC!Ft] | RoyaumeduMaroc 42 المملكة\nSG/DRH/SGCF/206-26 CNESTEN CENM. Le 00 6 OCT 20 |\n|\nDECISION RELATIVE A L'ORGANISATION DU CONCOURS DE RECRUTEMENT\nD'UN INGENIEUR EN INFORMATIQUE AU SEIN DU CNESTEN |\nLe Directeur Général, |\n- Vu le Dahir N°1-03-195 du 16 Ramadan 1424 {11 Novembre 2003), portant\npromulgation de la loi n° 69-00 relative au contrôle financier de l'Etat sur les entreprises\npubliques et autres organismes :\n- VU le Dahir portant loi n° 1-85-98 du 11 Rabia | 1407 (14 Nov. 1986) relatif à la création\ndu Centre National de l'Energie des Sciences et des Techniques Nucléaires CNESTEN ;\n- VU la loi n° 12-97 complétant la loi n° 17-83 portant création du CNESTEN ;\n- Vu le statut régissant le personnel du CNESTEN tel qu'il a été complété, modifié et\namendé ;\n- VU la circulaire n° 24/2012 du 22 Octobre 2012 du Chef du Gouvernement relative aux\nprocédures de recrutement dans les établissements et entreprises publics ; |\n- Vu le décret N° 2.22.952, du 22 Rabia || 1444 [17 Novembre 2022) portant nomination\nde M. HAMID MARAH, Directeur Général du CNESTEN ;\n- Vu la procédure de recrutement interne ef externe du CNESTEN\nRéf : PGR/DS/DRH/002.\nDécide\nArticle 1:\nDans le cadre du renforcement de son capital humain et compte tenu des besoins de\nses services, le CNESTEN recrute par voie de concours, un ingénieur en informatique\ndisposant des qualifications suivantes :\nالمغثرب - الرباط 10001 الرئيسية الرباط 1382 البريد Q Q B.P. 1382 R.P. 10001 - Rabat - Maroc t صندوق\n+212537819750© ) +212531819750 رمثم 37 80 3277 1 +212537803277À)\n| |. عا: 001545260000008 - 1.F: 3332112 - R.C: 30861 -T.P : 25563553\nظ سار www.cnesten.org.ma"
+          },
+          {
+            "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/d184ead2-2468-43a2-9697-03c37ccb2c78",
+            "document_label": "قرار فتح المباراة",
+            "page_number": 2,
+            "page_count": 4,
+            "text": "1 11 1 1 121210101012 éésnsnnaiiagintnieicétmrraéhproniennsmmnmnsnmerte2 2 0 0 0 0 0 cusrséénéaiariniténéinrinnniiiieiitnieiiritntiittniieinntntiiteinititgiinnéepiéintitniienieinis pres rentam\n| Référence |SG/DTL/S5S1/17-2026 ou RS | |\nFENTE: 2\nهم | Poste: ar | Ingénieurname stone enممصت informatique. 21170821 /6 CHER mené mr - — me جو | |\n|| Nombre 01 رده 5 6 1| ||\n| ا ATP | UP ASE EEE | |\n| ٠ nm ’ 0 ١ 4 0 | | | Diplôme : Ingénieur d'état ou équivalent. | |\n| Niveau d'études : Bac 5.ل ل FRS 121111100100111 و لا \"1|\n| Profil : : a a ل en) | Spécialité : Sécurité des systèmes d'information, Cyber Sécurité, Génie |\n| logiciel ou similaire. | ك 0 م7“1 اميت\n| Expérience | Minimum 2 ans d'expérience dans le domaine. |\n- Assurer la gestion, l'administration et le suivi des projets d'évolution et\nd'intégration du système d'information et des applicatifs du Centre ;\n- Contribuer au déploiement de la politique de cyber-sécurité ef au suivi de\n| la mise en œuvre des actions de protection, de détection et de\n| prévention des menaces informatiques ;\n| - Assurer Une veille technologique et proposer des solutions susceptibles\n| d'améliorer la performance et l'efficacité des processus du Centre ; |\n| - Veiller au respect de la réglementation, procédures, normes, référentiels\napplicables aux activités informatiques.\nLes 005010015 doivent remplir les conditions suivantes :\n٠ Etre de nationalité marocaine ;\n|\n|\n٠ Etre âgé de 18 ans au moins et de 45 ans au plus à la date limite du dépôt du dossier |\n|\nde candidature ; |\n|\n| ٠ Etre titulaire d'un diplôme dans les spécialités sus-indiquées : |\n| ٠ Avoir le profil demandé.\nArticle 2:\n|\nLes candidatures doivent obligatoirement être transmises par voie électronique sur le\nportail « emploi-public », à travers le lien « https://depot.emploi-public.ma/ », au plus tard\nle 2 0 OCT. 20% à 16h00.\nToute candidature incomplète ou envoyée via un autre canal que le portail précité, sera\nsystématiquement écartée. 2\n1 سام ا ل ل ل ا\n:00ات ت” ساس )—_—_———O<çOŒOUOU_O"
+          },
+          {
+            "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/d184ead2-2468-43a2-9697-03c37ccb2c78",
+            "document_label": "قرار فتح المباراة",
+            "page_number": 3,
+            "page_count": 4,
+            "text": "Article3 :\nAU dépôt des dossiers de candidatures électroniques, il faut impérativement joindre les\ndocuments suivants :\n١٠ Demande de participation au concours adressée au Directeur Général du\nCNESTEN :\n2. Curriculum vitae [CV] actualisé :\n3. Copie scannée de l'original de la Carte Nationale d'identité Electronique CNIE\n(Recto-Verso) :\n4. Copie scannée du diplôme reconnu par l'Etat, accompagnée, le cas échéant,\nd'une copie scannée de l'arrêté d'équivalence pour les diplômes délivrés par les\nUniversités et établissements privés ou étrangers :\n5. Copies scannées de tous les documents justifiant l'expérience exigée.\nArticle 4 :\n00 Le processus de concours comprend Une présélection sur dossier, Un concours écrit SUIVI\n000 d'un entretien oral et en cas de besoin une mise en situation au sein du CNESTEN.\n2 __ Aricle 5\nla liste des candidats présélectionnés pour passer les épreuves écrites et orales sera\n.affichée sur le site www.emploi-public.ma et sera considérée comme convocaïion au\nOS SE .: ا\n. .concours écrit et oral relatifs à cet appel à la candidature.\n__ Aricleé:\n00 10 0016,le lieu ef les modalités de déroulement du concours écrit et oral seront\nCommuniqués ultérieurement. Les résultats de toutes les étapes de sélection seront\n3 affichés sur le site www.emploi-public.ma.\n… Alissue des épreuvesécrites et orales du concours, la liste des candidats admis ainsi que\n0 eux figurant dans laliste d'attente, classés par ordre de mérite, sera publiée sur le portail\n| www.emploi-public.ma)et le site web du CNESTEN (www.cnesten.org.ma).\n1\n| ة ل ءا ا 7"
+          },
+          {
+            "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/d184ead2-2468-43a2-9697-03c37ccb2c78",
+            "document_label": "قرار فتح المباراة",
+            "page_number": 4,
+            "page_count": 4,
+            "text": "ااا ا ذأ س س س س\nAtlicle 8:\nLe recrutement des candidats admis n'est jugé définitif, que sous réserve d'approbation\nde leurs dossiers administratifs par les services compétents et confirmation de leur\naptitude physique par le médecin de travail du Centre.\nTout candidat ne vérifiant pas les conditions susmentionnées, sera systématiquement |\nremplacé (selon l'ordre de mérite) par un autre candidat inscrit sur la liste d'attente\nremplissant les mêmes conditions.\nM.Ai ns\nÀ sect CESTEN\n0 4"
+          }
+        ],
+        "job_document_text_pages": 4,
+        "job_document_text_chars": 5954,
+        "job_document_text_truncated": false,
+        "job_document_text_download_failures": 0,
+        "identity_evidence_stage_status": "complete",
+        "verified_fact_manifest": {
+          "version": 2,
+          "policy": {
+            "blocking_confidence": [
+              "high"
+            ],
+            "non_high_behavior": "warning",
+            "raw_table_rows_are_not_blocking": true,
+            "heuristic_regex_facts_are_not_blocking": true
+          },
+          "facts": {
+            "deadline": [
+              {
+                "value": "2026-10-20",
+                "source": "official_detail_page",
+                "confidence": "high",
+                "blocking": true,
+                "required_in_output": true,
+                "aliases": [
+                  "20 أكتوبر 2026"
+                ],
+                "meta": {}
+              }
+            ],
+            "exam_date": [
+              {
+                "value": "2026-10-26",
+                "source": "extracted_field",
+                "confidence": "medium",
+                "blocking": false,
+                "required_in_output": true,
+                "aliases": [
+                  "26 أكتوبر 2026"
+                ],
+                "meta": {}
+              }
+            ],
+            "notice_type": [
+              {
+                "value": "competition",
+                "source": "source",
+                "confidence": "high",
+                "blocking": false,
+                "required_in_output": false,
+                "aliases": [],
+                "meta": {}
+              }
+            ],
+            "application": [
+              {
+                "value": "https://www.emploi-public.ma",
+                "source": "verified_application_channel",
+                "confidence": "high",
+                "blocking": true,
+                "required_in_output": true,
+                "aliases": [],
+                "meta": {
+                  "kind": "official_application_channel",
+                  "notice_type": "competition"
+                }
+              }
+            ],
+            "detail": [
+              {
+                "value": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/d184ead2-2468-43a2-9697-03c37ccb2c78",
+                "source": "specific_notice_detail",
+                "confidence": "high",
+                "blocking": true,
+                "required_in_output": true,
+                "aliases": [],
+                "meta": {}
+              }
+            ],
+            "documents": [
+              {
+                "value": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/d184ead2-2468-43a2-9697-03c37ccb2c78",
+                "source": "official_notice_link",
+                "confidence": "high",
+                "blocking": true,
+                "required_in_output": true,
+                "aliases": [],
+                "meta": {
+                  "label": "قرار فتح المباراة",
+                  "kind": "document"
+                }
+              }
+            ],
+            "specialties": [
+              {
+                "value": ": a a ل en) | Spécialité : Sécurité des systèmes d'information, Cyber Sécurité, Génie |",
+                "source": "official_pdf",
+                "confidence": "high",
+                "blocking": true,
+                "required_in_output": true,
+                "aliases": [],
+                "meta": {
+                  "kind": "specialty",
+                  "explicit_label": "| Profil"
+                }
+              }
+            ],
+            "diploma": [
+              {
+                "value": "Ingénieur d'état ou équivalent. | |",
+                "source": "official_pdf",
+                "confidence": "high",
+                "blocking": true,
+                "required_in_output": true,
+                "aliases": [],
+                "meta": {
+                  "kind": "diploma",
+                  "explicit_label": "| ٠ nm ’ 0 ١ 4 0 | | | Diplôme"
+                }
+              }
+            ]
+          },
+          "warnings": [],
+          "summary": {
+            "high": 7,
+            "medium": 1,
+            "heuristic": 0
+          }
+        },
+        "job_number_of_positions": 0,
+        "job_diploma": "",
+        "job_experience": "",
+        "job_entry_level": false,
+        "job_remote": false,
+        "job_visa_sponsorship": false,
+        "job_eligibility": "morocco",
+        "job_score": 80,
+        "desired_slug": "almrkz-alwtny-lltaqa-walalwm-waltqnyat-alnwwya-mbaryat-altwzyf",
+        "company_logo_url": "https://www.emploi-public.ma/backoffice/files/images/administrations/logo-285.png",
+        "company_logo_verified": true,
+        "company_logo_confidence": 100,
+        "company_logo_source": "verified_registry",
+        "company_official_domain": ""
+      },
+      "ai_status": "failed",
+      "ai_error": "global AI circuit is open",
+      "ai_retry_pending": true,
+      "ai_retry_reason": "global AI circuit is open",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 0.0,
+      "ai_failure_scope": "global_outage",
+      "ai_failure_fingerprint": "f8d83b9dc799f3657708",
+      "ai_failure_category": "cooldown",
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 0
     },
     {
       "id": "df25d5f4b3b13bf0",
@@ -34950,7 +35401,7 @@
       "removed_source_links_count": 70,
       "fetched_title": "مباريات التوظيف : تقني متخصص في الهندسة المعمارية والتعمير",
       "meta_description": "",
-      "identity_evidence_invalidated_at": "2026-10-06T16:23:04+00:00",
+      "identity_evidence_invalidated_at": "2026-10-06T16:24:15+00:00",
       "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
       "source_tables": [],
       "source_tables_count": 0,
@@ -35012,7 +35463,7 @@
       "full_article_text_chars": 445,
       "content_preview": "خيارات الوصول المرئي تقني متخصص في الهندسة المعمارية والتعمير الإدارة المنظمة الوكالة الحضرية لكلميم واد نون آخر أجل لإيداع الترشيحات 23 أكتوبر 2026 - 16:30 تاريخ النشر 6 أكتوبر 2026 معلومات عن المباراة اسم المنصب : تقني متخصص في الهندسة المعمارية والتعمير هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
       "content_preview_chars": 445,
-      "content_fetched_at": "2026-10-06T16:23:04",
+      "content_fetched_at": "2026-10-06T16:24:16",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
       "job_score": 70,
@@ -35033,7 +35484,7 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "0d5a4bb2916176f6d2f4",
+      "job_campaign_id": "d166f3e5fec80f3f8300",
       "seo_slug": "alwkala-alhdrya-lklmym-wad-nwn-mbaryat-altwzyf-tqny",
       "desired_slug": "alwkala-alhdrya-lklmym-wad-nwn-mbaryat-altwzyf-tqny",
       "job_identity_final": false,
@@ -35241,7 +35692,7 @@
       "removed_source_links_count": 70,
       "fetched_title": "مباريات التوظيف : تقني متخصص في الطبوغرافيا",
       "meta_description": "",
-      "identity_evidence_invalidated_at": "2026-10-06T16:23:08+00:00",
+      "identity_evidence_invalidated_at": "2026-10-06T16:24:14+00:00",
       "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
       "source_tables": [],
       "source_tables_count": 0,
@@ -35303,7 +35754,7 @@
       "full_article_text_chars": 389,
       "content_preview": "خيارات الوصول المرئي الإدارة المنظمة الوكالة الحضرية لكلميم واد نون آخر أجل لإيداع الترشيحات 23 أكتوبر 2026 - 16:30 تاريخ النشر 6 أكتوبر 2026 معلومات عن المباراة اسم المنصب : تقني متخصص في الطبوغرافيا هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
       "content_preview_chars": 389,
-      "content_fetched_at": "2026-10-06T16:23:08",
+      "content_fetched_at": "2026-10-06T16:24:14",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
       "job_score": 70,
@@ -35324,12 +35775,389 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "5775a39b15fe0ebace9f",
+      "job_campaign_id": "b19c507b41463f06f1fa",
       "seo_slug": "alwkala-alhdrya-lklmym-wad-nwn-mbaryat-altwzyf-tqny",
       "desired_slug": "alwkala-alhdrya-lklmym-wad-nwn-mbaryat-altwzyf-tqny",
       "job_identity_final": false,
       "job_urgent_override": false,
       "job_publish_immediately": false
+    },
+    {
+      "id": "c971f6aa50e63f32",
+      "source_url_hash": "d6d51fa48a41315c",
+      "canonical_url": "https://api.smartrecruiters.com/v1/companies/ALTEN/postings/744000153815774",
+      "title_hash": "88ae090e6603b91f",
+      "topic_signature": "fb34e4844297c32ba813",
+      "title": "Consolideur TPC (Automotive Cost consolidation)",
+      "url": "https://api.smartrecruiters.com/v1/companies/ALTEN/postings/744000153815774",
+      "source_name": "ALTEN Maroc",
+      "source_url": "https://api.smartrecruiters.com/v1/companies/ALTEN/postings?country=ma",
+      "source_published_at": "2026-10-06T16:24:00.975Z",
+      "published_at_source": "official_ats",
+      "article_age_hours": null,
+      "rss_summary": "",
+      "freshness_source": "",
+      "freshness_window_hours": "",
+      "category_key": "jobs-morocco",
+      "category_name": "Jobs Morocco",
+      "category_label": "jobs-morocco",
+      "category_hint": "jobs-morocco",
+      "source_priority": "A+",
+      "official_source": true,
+      "source_country": "MA",
+      "source_eligibility": "morocco",
+      "source_remote": false,
+      "source_visa_sponsorship": false,
+      "ats_provider": "smartrecruiters",
+      "ats_reference": "744000153815774",
+      "ats_description": "",
+      "phenom_payload": {},
+      "job_company": "ALTEN",
+      "job_location": "Casablanca",
+      "job_country": "MA",
+      "job_deadline": "",
+      "job_published_at": "2026-10-06T16:24:00.975Z",
+      "job_application_url": "https://jobs.smartrecruiters.com/ALTEN/744000153815774-consolideur-tpc-automotive-cost-consolidation-",
+      "job_application_link_kind": "official_job_page",
+      "job_contract_type": "Full-time",
+      "job_salary": "",
+      "job_remote": false,
+      "job_number_of_positions": 0,
+      "discovered_at": "2026-10-06T16:24:12",
+      "status": "ready",
+      "score": 90,
+      "priority": "high",
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 0,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Consolideur TPC (Automotive Cost consolidation)",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-06T16:24:13+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "Consolideur TPC (Automotive Cost consolidation)",
+      "job_notice_type": "vacancy",
+      "job_notice_type_source": "heuristic",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://api.smartrecruiters.com/v1/companies/ALTEN/postings/744000153815774",
+      "job_action_links": [],
+      "job_document_links": [],
+      "job_entry_level": true,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_external_reference": "REF21099J",
+      "job_description": "Description de l'entreprise ALTEN Maroc , filiale du leader mondial du conseil en ingénierie et technologies, a été créée en 2008 et est aujourd’hui présente à Fès, Rabat, Tétouan et Casablanca . Aujourd’hui, l’entreprise compte plus de 2 200 collaborateurs et ambitionne de devenir un centre d’excellence avec 3 300 ALTENiens d’ici fin 2027 . Elle s’est positionnée comme un acteur stratégique dans l’accompagnement du développement professionnel des ingénieurs. Notre mission : Répondre aux ambitions technologiques de nos clients — de grandes entreprises internationales — dans les secteurs de l’automobile, du ferroviaire, de la R&D et de l’IT, des télécommunications et des médias. Rejoindre ALTEN Maroc, c’est intégrer un écosystème d’excellence et bénéficier : D’un parcours de carrière personnalisé et évolutif, D’une politique ambitieuse de développement des compétences, D’un environnement de travail stimulant, collaboratif et porteur de sens. Description du poste Le Consolideur TPC est responsable de la consolidation et du suivi des coûts de production tout au long du développement produit. Il analyse les évolutions des nomenclatures, pilote la cohérence des données économiques, réalise les analyses de coûts et contribue activement aux actions d’optimisation visant à améliorer la performance économique des projets. Consolider le coût total de production (TPC) durant les phases de développement projet. Assurer la mise à jour et la fiabilité des nomenclatures de coûts. Analyser les évolutions des nomenclatures produits et de la structure véhicule. Collecter, consolider et gérer les données de coûts provenant des achats, des métiers techniques et des coûts internes. Animer des revues de coûts avec les différentes parties prenantes. Produire des analyses économiques et des synthèses comparatives par rapport aux prévisions précédentes. Mettre à jour les outils et systèmes d’information dédiés à la gestion économique des matières. Réaliser des études technico-économiques transversales sur les produits et sous-systèmes. Participer aux workshops, task forces et actions de réduction des coûts. Mesurer et analyser les variations de prix entre différents bilans économiques. Garantir la robustesse, la qualité et la cohérence des consolidations TPC. Diplôme d’Ingénieur Bac+5 en Génie Industriel ou domaine équivalent. Première expérience ou profil débutant avec une forte appétence pour l’analyse économique et le pilotage des coûts. Expérience de 1 à 3 ans appréciée dans l’industrie automobile ou manufacturière. Connaissances générales de l’environnement automobile et du développement produit. Bonne compréhension des référentiels coûts et des mécanismes économiques industriels. Excellente maîtrise d’ Excel et PowerPoint . Solides compétences analytiques et mathématiques. Capacité à exploiter, consolider et synthétiser de grands volumes de données. Connaissance des nomenclatures produits (BOM) et des analyses de coûts. La connaissance du monde véhicule et des activités de consolidation constitue un atout. Maîtrise ou connaissance des processus TPC souhaitée. Sens de l’organisation et gestion des priorités. Excellentes capacités d’analyse et de synthèse. Esprit collaboratif et travail en équipe. Bon relationnel et capacité d’animation. Créativité et esprit d’initiative. Informations supplémentaires",
+      "company_logo_url": "",
+      "company_logo_verified": false,
+      "company_logo_confidence": 0,
+      "company_logo_source": "none",
+      "company_official_domain": "",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "Description de l'entreprise ALTEN Maroc , filiale du leader mondial du conseil en ingénierie et technologies, a été créée en 2008 et est aujourd’hui présente à Fès, Rabat, Tétouan et Casablanca . Aujourd’hui, l’entreprise compte plus de 2 200 collaborateurs et ambitionne de devenir un centre d’excellence avec 3 300 ALTENiens d’ici fin 2027 . Elle s’est positionnée comme un acteur stratégique dans l’accompagnement du développement professionnel des ingénieurs. Notre mission : Répondre aux ambitions technologiques de nos clients — de grandes entreprises internationales — dans les secteurs de l’automobile, du ferroviaire, de la R&D et de l’IT, des télécommunications et des médias. Rejoindre ALTEN Maroc, c’est intégrer un écosystème d’excellence et bénéficier : D’un parcours de carrière personnalisé et évolutif, D’une politique ambitieuse de développement des compétences, D’un environnement de travail stimulant, collaboratif et porteur de sens. Description du poste Le Consolideur TPC est responsable de la consolidation et du suivi des coûts de production tout au long du développement produit. Il analyse les évolutions des nomenclatures, pilote la cohérence des données économiques, réalise les analyses de coûts et contribue activement aux actions d’optimisation visant à améliorer la performance économique des projets. Consolider le coût total de production (TPC) durant les phases de développement projet. Assurer la mise à jour et la fiabilité des nomenclatures de coûts. Analyser les évolutions des nomenclatures produits et de la structure véhicule. Collecter, consolider et gérer les données de coûts provenant des achats, des métiers techniques et des coûts internes. Animer des revues de coûts avec les différentes parties prenantes. Produire des analyses économiques et des synthèses comparatives par rapport aux prévisions précédentes. Mettre à jour les outils et systèmes d’information dédiés à la gestion économique des matières. Réaliser des études technico-économiques transversales sur les produits et sous-systèmes. Participer aux workshops, task forces et actions de réduction des coûts. Mesurer et analyser les variations de prix entre différents bilans économiques. Garantir la robustesse, la qualité et la cohérence des consolidations TPC. Diplôme d’Ingénieur Bac+5 en Génie Industriel ou domaine équivalent. Première expérience ou profil débutant avec une forte appétence pour l’analyse économique et le pilotage des coûts. Expérience de 1 à 3 ans appréciée dans l’industrie automobile ou manufacturière. Connaissances générales de l’environnement automobile et du développement produit. Bonne compréhension des référentiels coûts et des mécanismes économiques industriels. Excellente maîtrise d’ Excel et PowerPoint . Solides compétences analytiques et mathématiques. Capacité à exploiter, consolider et synthétiser de grands volumes de données. Connaissance des nomenclatures produits (BOM) et des analyses de coûts. La connaissance du monde véhicule et des activités de consolidation constitue un atout. Maîtrise ou connaissance des processus TPC souhaitée. Sens de l’organisation et gestion des priorités. Excellentes capacités d’analyse et de synthèse. Esprit collaboratif et travail en équipe. Bon relationnel et capacité d’animation. Créativité et esprit d’initiative. Informations supplémentaires",
+      "full_article_text_chars": 3340,
+      "content_preview": "Description de l'entreprise ALTEN Maroc , filiale du leader mondial du conseil en ingénierie et technologies, a été créée en 2008 et est aujourd’hui présente à Fès, Rabat, Tétouan et Casablanca . Aujourd’hui, l’entreprise compte plus de 2 200 collaborateurs et ambitionne de devenir un centre d’excellence avec 3 300 ALTENiens d’ici fin 2027 . Elle s’est positionnée comme un acteur stratégique dans l’accompagnement du développement professionnel des ingénieurs. Notre mission : Répondre aux ambitions technologiques de nos clients — de grandes entreprises internationales — dans les secteurs de l’automobile, du ferroviaire, de la R&D et de l’IT, des télécommunications et des médias. Rejoindre ALTEN Maroc, c’est intégrer un écosystème d’excellence et bénéficier : D’un parcours de carrière personnalisé et évolutif, D’une politique ambitieuse de développement des compétences, D’un environnement de travail stimulant, collaboratif et porteur de sens. Description du poste Le Consolideur TPC est responsable de la consolidation et du suivi des coûts de production tout au long du développement produit. Il analyse les évolutions des nomenclatures, pilote la cohérence des données économiques, réalise les analyses de coûts et contribue activement aux actions d’optimisation visant à améliorer la performance économique des projets. Consolider le coût total de production (TPC) durant les phases de développement projet. Assurer la mise à jour et la fiabilité des nomenclatures de coûts. Analyser les évolutions des nomenclatures produits et de la structure véhicule. Collecter, consolider et gérer les données de coûts provenant des achats, des métiers techniques et des coûts internes. Animer des revues de coûts avec les différentes parties prenantes. Produire des analyses économiques et des synthèses comparatives par rapport aux prévisions précédentes. Mettre à jour les outils et systèmes d’information dédiés à la gestion économique des matières. Réaliser des études technico-économiques transversales sur les produits et sous-systèmes. Participer aux workshops, task forces et actions de réduction des coûts. Mesurer et analyser les variations de prix entre différents bilans économiques. Garantir la robustesse, la qualité et la cohérence des consolidations TPC. Diplôme d’Ingénieur Bac+5 en Génie Industriel ou domaine équivalent. Première expérience ou profil débutant avec une forte appétence pour l’analyse économique et le pilotage des coûts. Expérience de 1 à 3 ans appréciée dans l’industrie automobile ou manufacturière. Connaissances générales de l’environnement automobile et du développement produit. Bonne compréhension des référentiels coûts et des mécanismes économiques industriels. Excellente maîtrise d’ Excel et PowerPoint . Solides compétences analytiques et mathématiques. Capacité à exploiter, consolider et synthétiser de grands volumes de données. Connaissance des nomenclatures produits (BOM) et des analyses de coûts. La connaissance du monde véhicule et des activités de consolidation constitue un atout. Maîtrise ou connaissance des processus TPC souhaitée. Sens de l’organisation et gestion des priorités. Excellentes capacités d’analyse et de synthèse. Esprit collaboratif et travail en équipe. Bon relationnel et capacité d’animation. Créativité et esprit d’initiative. Informations supplémentaires",
+      "content_preview_chars": 3340,
+      "content_fetched_at": "2026-10-06T16:24:13",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success",
+      "job_score": 90,
+      "job_rank_score": 90,
+      "job_quality_status": "publish",
+      "job_quality_reasons": [],
+      "job_hard_gate_passed": true,
+      "job_hard_gate_reasons": [],
+      "labels": [
+        "jobs",
+        "jobs-morocco"
+      ],
+      "job_urgency": {
+        "level": "normal",
+        "publish_immediately": false,
+        "allow_daily_override": false,
+        "reason": ""
+      },
+      "job_identity_action": "new",
+      "job_identity_reason": "no existing campaign",
+      "job_campaign_id": "1ef9042e9b58642da5ad",
+      "seo_slug": "alten-consolideur-tpc-automotive-cost-consolidation",
+      "desired_slug": "alten-consolideur-tpc-automotive-cost-consolidation",
+      "job_identity_final": false,
+      "job_urgent_override": false,
+      "job_publish_immediately": false,
+      "selected_at": "2026-10-06T16:26:24",
+      "identity_evidence_document_fingerprint": "",
+      "job_document_text_download_failures": 0,
+      "identity_evidence_detail_checked": true,
+      "identity_evidence_tables_checked": true,
+      "identity_evidence_documents_checked": true,
+      "identity_evidence_stage_status": "complete",
+      "identity_evidence_stage_checked_at": "2026-10-06T16:26:24+00:00",
+      "identity_evidence_signature": "",
+      "identity_evidence_strength": 4,
+      "identity_evidence_comparison_strength": 0,
+      "identity_evidence_categories": [
+        "reference"
+      ],
+      "identity_evidence_reference": "ref21099j",
+      "identity_evidence_deadline": "",
+      "identity_evidence_positions": 0,
+      "verified_fact_manifest": {
+        "version": 2,
+        "policy": {
+          "blocking_confidence": [
+            "high"
+          ],
+          "non_high_behavior": "warning",
+          "raw_table_rows_are_not_blocking": true,
+          "heuristic_regex_facts_are_not_blocking": true
+        },
+        "facts": {
+          "contract_type": [
+            {
+              "value": "Full-time",
+              "source": "extracted_field",
+              "confidence": "medium",
+              "blocking": false,
+              "required_in_output": false,
+              "aliases": [],
+              "meta": {}
+            }
+          ],
+          "location": [
+            {
+              "value": "Casablanca",
+              "source": "official_detail_page",
+              "confidence": "high",
+              "blocking": false,
+              "required_in_output": false,
+              "aliases": [],
+              "meta": {}
+            }
+          ],
+          "notice_type": [
+            {
+              "value": "vacancy",
+              "source": "heuristic",
+              "confidence": "heuristic",
+              "blocking": false,
+              "required_in_output": false,
+              "aliases": [],
+              "meta": {}
+            }
+          ],
+          "application": [
+            {
+              "value": "https://jobs.smartrecruiters.com/ALTEN/744000153815774-consolideur-tpc-automotive-cost-consolidation-",
+              "source": "verified_application_channel",
+              "confidence": "high",
+              "blocking": false,
+              "required_in_output": false,
+              "aliases": [],
+              "meta": {
+                "kind": "official_job_page",
+                "notice_type": "vacancy"
+              }
+            }
+          ],
+          "detail": [
+            {
+              "value": "https://api.smartrecruiters.com/v1/companies/ALTEN/postings/744000153815774",
+              "source": "specific_notice_detail",
+              "confidence": "high",
+              "blocking": true,
+              "required_in_output": true,
+              "aliases": [],
+              "meta": {}
+            }
+          ]
+        },
+        "warnings": [],
+        "summary": {
+          "high": 3,
+          "medium": 1,
+          "heuristic": 1
+        }
+      },
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-10-06T16:26:24",
+      "ai_input_package": {
+        "title": "Consolideur TPC (Automotive Cost consolidation)",
+        "url": "https://api.smartrecruiters.com/v1/companies/ALTEN/postings/744000153815774",
+        "source_name": "ALTEN Maroc",
+        "official_source": true,
+        "job_official_source": true,
+        "suggested_category": "jobs-morocco",
+        "main_image": "",
+        "article_images": [],
+        "extra_article_images": [],
+        "meta_description": "",
+        "content_preview": "Description de l'entreprise ALTEN Maroc , filiale du leader mondial du conseil en ingénierie et technologies, a été créée en 2008 et est aujourd’hui présente à Fès, Rabat, Tétouan et Casablanca . Aujourd’hui, l’entreprise compte plus de 2 200 collaborateurs et ambitionne de devenir un centre d’excellence avec 3 300 ALTENiens d’ici fin 2027 . Elle s’est positionnée comme un acteur stratégique dans l’accompagnement du développement professionnel des ingénieurs. Notre mission : Répondre aux ambitions technologiques de nos clients — de grandes entreprises internationales — dans les secteurs de l’automobile, du ferroviaire, de la R&D et de l’IT, des télécommunications et des médias. Rejoindre ALTEN Maroc, c’est intégrer un écosystème d’excellence et bénéficier : D’un parcours de carrière personnalisé et évolutif, D’une politique ambitieuse de développement des compétences, D’un environnement de travail stimulant, collaboratif et porteur de sens. Description du poste Le Consolideur TPC est responsable de la consolidation et du suivi des coûts de production tout au long du développement produit. Il analyse les évolutions des nomenclatures, pilote la cohérence des données économiques, réalise les analyses de coûts et contribue activement aux actions d’optimisation visant à améliorer la performance économique des projets. Consolider le coût total de production (TPC) durant les phases de développement projet. Assurer la mise à jour et la fiabilité des nomenclatures de coûts. Analyser les évolutions des nomenclatures produits et de la structure véhicule. Collecter, consolider et gérer les données de coûts provenant des achats, des métiers techniques et des coûts internes. Animer des revues de coûts avec les différentes parties prenantes. Produire des analyses économiques et des synthèses comparatives par rapport aux prévisions précédentes. Mettre à jour les outils et systèmes d’information dédiés à la gestion économique des matières. Réaliser des études technico-économiques transversales sur les produits et sous-systèmes. Participer aux workshops, task forces et actions de réduction des coûts. Mesurer et analyser les variations de prix entre différents bilans économiques. Garantir la robustesse, la qualité et la cohérence des consolidations TPC. Diplôme d’Ingénieur Bac+5 en Génie Industriel ou domaine équivalent. Première expérience ou profil débutant avec une forte appétence pour l’analyse économique et le pilotage des coûts. Expérience de 1 à 3 ans appréciée dans l’industrie automobile ou manufacturière. Connaissances générales de l’environnement automobile et du développement produit. Bonne compréhension des référentiels coûts et des mécanismes économiques industriels. Excellente maîtrise d’ Excel et PowerPoint . Solides compétences analytiques et mathématiques. Capacité à exploiter, consolider et synthétiser de grands volumes de données. Connaissance des nomenclatures produits (BOM) et des analyses de coûts. La connaissance du monde véhicule et des activités de consolidation constitue un atout. Maîtrise ou connaissance des processus TPC souhaitée. Sens de l’organisation et gestion des priorités. Excellentes capacités d’analyse et de synthèse. Esprit collaboratif et travail en équipe. Bon relationnel et capacité d’animation. Créativité et esprit d’initiative. Informations supplémentaires",
+        "content_preview_chars": 3340,
+        "rss_summary": "",
+        "full_article_text": "Description de l'entreprise ALTEN Maroc , filiale du leader mondial du conseil en ingénierie et technologies, a été créée en 2008 et est aujourd’hui présente à Fès, Rabat, Tétouan et Casablanca . Aujourd’hui, l’entreprise compte plus de 2 200 collaborateurs et ambitionne de devenir un centre d’excellence avec 3 300 ALTENiens d’ici fin 2027 . Elle s’est positionnée comme un acteur stratégique dans l’accompagnement du développement professionnel des ingénieurs. Notre mission : Répondre aux ambitions technologiques de nos clients — de grandes entreprises internationales — dans les secteurs de l’automobile, du ferroviaire, de la R&D et de l’IT, des télécommunications et des médias. Rejoindre ALTEN Maroc, c’est intégrer un écosystème d’excellence et bénéficier : D’un parcours de carrière personnalisé et évolutif, D’une politique ambitieuse de développement des compétences, D’un environnement de travail stimulant, collaboratif et porteur de sens. Description du poste Le Consolideur TPC est responsable de la consolidation et du suivi des coûts de production tout au long du développement produit. Il analyse les évolutions des nomenclatures, pilote la cohérence des données économiques, réalise les analyses de coûts et contribue activement aux actions d’optimisation visant à améliorer la performance économique des projets. Consolider le coût total de production (TPC) durant les phases de développement projet. Assurer la mise à jour et la fiabilité des nomenclatures de coûts. Analyser les évolutions des nomenclatures produits et de la structure véhicule. Collecter, consolider et gérer les données de coûts provenant des achats, des métiers techniques et des coûts internes. Animer des revues de coûts avec les différentes parties prenantes. Produire des analyses économiques et des synthèses comparatives par rapport aux prévisions précédentes. Mettre à jour les outils et systèmes d’information dédiés à la gestion économique des matières. Réaliser des études technico-économiques transversales sur les produits et sous-systèmes. Participer aux workshops, task forces et actions de réduction des coûts. Mesurer et analyser les variations de prix entre différents bilans économiques. Garantir la robustesse, la qualité et la cohérence des consolidations TPC. Diplôme d’Ingénieur Bac+5 en Génie Industriel ou domaine équivalent. Première expérience ou profil débutant avec une forte appétence pour l’analyse économique et le pilotage des coûts. Expérience de 1 à 3 ans appréciée dans l’industrie automobile ou manufacturière. Connaissances générales de l’environnement automobile et du développement produit. Bonne compréhension des référentiels coûts et des mécanismes économiques industriels. Excellente maîtrise d’ Excel et PowerPoint . Solides compétences analytiques et mathématiques. Capacité à exploiter, consolider et synthétiser de grands volumes de données. Connaissance des nomenclatures produits (BOM) et des analyses de coûts. La connaissance du monde véhicule et des activités de consolidation constitue un atout. Maîtrise ou connaissance des processus TPC souhaitée. Sens de l’organisation et gestion des priorités. Excellentes capacités d’analyse et de synthèse. Esprit collaboratif et travail en équipe. Bon relationnel et capacité d’animation. Créativité et esprit d’initiative. Informations supplémentaires",
+        "full_article_text_chars": 3340,
+        "source_tables": [],
+        "source_tables_count": 0,
+        "source_tables_truncated": false,
+        "enrichment_status": "weak",
+        "source_url": "https://api.smartrecruiters.com/v1/companies/ALTEN/postings?country=ma",
+        "trusted_references": [],
+        "related_posts": [],
+        "labels": [
+          "jobs",
+          "jobs-morocco"
+        ],
+        "job_title": "Consolideur TPC (Automotive Cost consolidation)",
+        "job_company": "ALTEN",
+        "job_location": "Casablanca",
+        "job_country": "MA",
+        "job_contract_type": "Full-time",
+        "job_salary": "",
+        "job_deadline": "",
+        "job_deadline_display": "",
+        "job_exam_date": "",
+        "job_exam_date_display": "",
+        "job_notice_type": "vacancy",
+        "job_notice_type_hint": "vacancy",
+        "job_notice_type_source": "heuristic",
+        "job_notice_status": "",
+        "job_application_url": "https://jobs.smartrecruiters.com/ALTEN/744000153815774-consolideur-tpc-automotive-cost-consolidation-",
+        "job_application_link_kind": "official_job_page",
+        "job_application_is_specific": true,
+        "job_application_is_official_channel": false,
+        "job_detail_url": "https://api.smartrecruiters.com/v1/companies/ALTEN/postings/744000153815774",
+        "job_action_links": [],
+        "job_document_links": [],
+        "job_document_texts": [],
+        "job_document_text_pages": 0,
+        "job_document_text_chars": 0,
+        "job_document_text_truncated": false,
+        "job_document_text_download_failures": 0,
+        "identity_evidence_stage_status": "complete",
+        "verified_fact_manifest": {
+          "version": 2,
+          "policy": {
+            "blocking_confidence": [
+              "high"
+            ],
+            "non_high_behavior": "warning",
+            "raw_table_rows_are_not_blocking": true,
+            "heuristic_regex_facts_are_not_blocking": true
+          },
+          "facts": {
+            "contract_type": [
+              {
+                "value": "Full-time",
+                "source": "extracted_field",
+                "confidence": "medium",
+                "blocking": false,
+                "required_in_output": false,
+                "aliases": [],
+                "meta": {}
+              }
+            ],
+            "location": [
+              {
+                "value": "Casablanca",
+                "source": "official_detail_page",
+                "confidence": "high",
+                "blocking": false,
+                "required_in_output": false,
+                "aliases": [],
+                "meta": {}
+              }
+            ],
+            "notice_type": [
+              {
+                "value": "vacancy",
+                "source": "heuristic",
+                "confidence": "heuristic",
+                "blocking": false,
+                "required_in_output": false,
+                "aliases": [],
+                "meta": {}
+              }
+            ],
+            "application": [
+              {
+                "value": "https://jobs.smartrecruiters.com/ALTEN/744000153815774-consolideur-tpc-automotive-cost-consolidation-",
+                "source": "verified_application_channel",
+                "confidence": "high",
+                "blocking": false,
+                "required_in_output": false,
+                "aliases": [],
+                "meta": {
+                  "kind": "official_job_page",
+                  "notice_type": "vacancy"
+                }
+              }
+            ],
+            "detail": [
+              {
+                "value": "https://api.smartrecruiters.com/v1/companies/ALTEN/postings/744000153815774",
+                "source": "specific_notice_detail",
+                "confidence": "high",
+                "blocking": true,
+                "required_in_output": true,
+                "aliases": [],
+                "meta": {}
+              }
+            ]
+          },
+          "warnings": [],
+          "summary": {
+            "high": 3,
+            "medium": 1,
+            "heuristic": 1
+          }
+        },
+        "job_number_of_positions": 0,
+        "job_diploma": "",
+        "job_experience": "",
+        "job_entry_level": true,
+        "job_remote": false,
+        "job_visa_sponsorship": false,
+        "job_eligibility": "morocco",
+        "job_score": 90,
+        "desired_slug": "alten-consolideur-tpc-automotive-cost-consolidation",
+        "company_logo_url": "",
+        "company_logo_verified": false,
+        "company_logo_confidence": 0,
+        "company_logo_source": "none",
+        "company_official_domain": ""
+      },
+      "ai_provider_last_error": "AI article response returned incomplete JSON.",
+      "ai_status": "failed",
+      "ai_error": "AI article response returned incomplete JSON.",
+      "ai_retry_pending": true,
+      "ai_retry_reason": "AI article response returned incomplete JSON.",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 1.71,
+      "ai_failure_scope": "quality",
+      "ai_failure_fingerprint": "d15a24ae84ad2cd36273",
+      "ai_failure_category": "quality",
+      "ai_retry_after": "2026-10-06T17:26:26+00:00",
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 1,
+      "candidate_retry_after": "2026-10-06T17:26:26Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "AI article response returned incomplete JSON.",
+      "candidate_failure_fingerprint": "4c4b22c467e28e1c7d1c",
+      "candidate_failure_repeat_count": 1,
+      "candidate_failure_backoff_minutes": 60,
+      "candidate_failed_at": "2026-10-06T16:26:26",
+      "candidate_failure_count": 1
     }
   ],
   "notifications": {}
