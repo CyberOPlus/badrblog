@@ -1,6 +1,14 @@
 {
   "avg_time": 0.5573,
   "cooldowns": {
+    "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
+      "failed_at": "2026-10-06T18:03:23",
+      "key_id": "be6dab2cd8",
+      "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "provider": "cloudflare",
+      "reason": "('Connection aborted.', Timeout('AI provider wall-clock timeout after 60s'))",
+      "until": 1791310405.7470503
+    },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "failed_at": "2026-10-06T17:52:48",
       "key_id": "64f603a8c0",
@@ -70,6 +78,17 @@
       "reason": "AI article response returned a non-object JSON payload.",
       "retry_until": 1791211893.3549206,
       "scope": "provider"
+    },
+    "29ea1e8ece6336e46dc2": {
+      "category": "timeout",
+      "count": 1,
+      "first_seen_at": "2026-10-06T18:03:24",
+      "last_seen_at": "2026-10-06T18:03:24",
+      "last_seen_epoch": 1791309804.001618,
+      "provider": "cloudflare,gemini,groq,mistral,openrouter",
+      "reason": "cloudflare provider failed: ('Connection aborted.', Timeout('AI provider wall-clock timeout after 60s'))",
+      "retry_until": 1791313337.1433086,
+      "scope": "global"
     },
     "2eb46af253b68063fbef": {
       "category": "format",
@@ -337,13 +356,13 @@
     },
     "9bf50cd92a6721e56451": {
       "category": "timeout",
-      "count": 4,
+      "count": 5,
       "first_seen_at": "2026-10-05T14:39:07",
-      "last_seen_at": "2026-10-06T11:12:37",
-      "last_seen_epoch": 1791285157.6378825,
+      "last_seen_at": "2026-10-06T18:03:23",
+      "last_seen_epoch": 1791309803.9962857,
       "provider": "cloudflare",
       "reason": "('Connection aborted.', Timeout('AI provider wall-clock timeout after 60s'))",
-      "retry_until": 1791289957.6378825,
+      "retry_until": 1791317003.9962857,
       "scope": "provider"
     },
     "9c566984111dbf1278c7": {
@@ -535,13 +554,13 @@
     },
     "f01b7df2f1f831c39000": {
       "category": "quality",
-      "count": 1,
+      "count": 2,
       "first_seen_at": "2026-10-06T17:54:56",
-      "last_seen_at": "2026-10-06T17:54:56",
-      "last_seen_epoch": 1791309296.1451156,
+      "last_seen_at": "2026-10-06T18:02:23",
+      "last_seen_epoch": 1791309743.4292688,
       "provider": "cloudflare",
       "reason": "vacancy title lacks a clear employment action",
-      "retry_until": 1791309596.1451156,
+      "retry_until": 1791310343.4292688,
       "scope": "quality"
     },
     "f2abe1685a5d0626fa39": {
@@ -601,8 +620,29 @@
     }
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
-  "global_circuit": {},
+  "global_circuit": {
+    "category": "timeout",
+    "fingerprint": "29ea1e8ece6336e46dc2",
+    "opened_at": "2026-10-06T18:03:24",
+    "providers": [
+      "cloudflare",
+      "gemini",
+      "groq",
+      "mistral",
+      "openrouter"
+    ],
+    "reason": "cloudflare provider failed: ('Connection aborted.', Timeout('AI provider wall-clock timeout after 60s'))",
+    "until": 1791313337.1433086
+  },
   "provider_circuits": {
+    "cloudflare": {
+      "category": "timeout",
+      "fingerprint": "9bf50cd92a6721e56451",
+      "opened_at": "2026-10-06T18:03:23",
+      "provider": "cloudflare",
+      "reason": "('Connection aborted.', Timeout('AI provider wall-clock timeout after 60s'))",
+      "until": 1791317003.9962857
+    },
     "gemini": {
       "category": "quota",
       "fingerprint": "9b8ec695d1ca9e549f46",
@@ -656,15 +696,15 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 6.7472,
-      "failures": 8,
+      "avg_time": 6.8857,
+      "failures": 9,
       "key_id": "be6dab2cd8",
-      "last_failure_at": "2026-10-06T15:44:44",
-      "last_success_at": "2026-10-06T17:55:59",
+      "last_failure_at": "2026-10-06T18:03:23",
+      "last_success_at": "2026-10-06T18:02:23",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 283,
-      "total_success_time": 1909.4581
+      "successes": 286,
+      "total_success_time": 1969.3038
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 10.8945,
