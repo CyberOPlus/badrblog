@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-06T17:35:12",
+  "updated_at": "2026-10-06T17:38:08",
   "articles": [
     {
       "id": "a6432a68f27e4c35",
@@ -33208,7 +33208,7 @@
       "job_remote": false,
       "job_number_of_positions": 44,
       "discovered_at": "2026-10-06T14:20:46",
-      "status": "selected",
+      "status": "ready",
       "score": 80,
       "priority": "high",
       "source_links_removed_count": 69,
@@ -33301,8 +33301,6 @@
       "job_identity_final": false,
       "job_urgent_override": false,
       "job_publish_immediately": false,
-      "selected_at": "2026-10-06T17:08:03",
-      "selection_reason": "jobs quality 80/100; identity=new; urgency=elevated",
       "job_document_texts": [
         {
           "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/df7975ff-b146-4dd3-832d-7df84c0bd847",
@@ -33792,7 +33790,9 @@
       "candidate_failure_count": 4,
       "ai_retry_pending": true,
       "ai_previous_failure_scope": "quality",
-      "ai_retry_after": "2026-10-06T17:50:37+00:00"
+      "ai_retry_after": "2026-10-06T17:50:37+00:00",
+      "selection_recovered_at": "2026-10-06T17:38:07+00:00",
+      "selection_recovery_reason": "stale_selected_without_active_worker"
     },
     {
       "id": "4afc987edfad4078",
