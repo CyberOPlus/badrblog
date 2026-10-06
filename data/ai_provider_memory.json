@@ -1,29 +1,21 @@
 {
   "avg_time": 0.5573,
   "cooldowns": {
-    "gemini:gemini-2.5-flash:64f603a8c0": {
-      "failed_at": "2026-10-06T19:09:15",
-      "key_id": "64f603a8c0",
-      "model": "gemini-2.5-flash",
-      "provider": "gemini",
-      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1791316457.8978713
-    },
-    "groq:openai/gpt-oss-120b:fb4fab4ba1": {
-      "failed_at": "2026-10-06T19:11:21",
+    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
+      "failed_at": "2026-10-06T20:14:33",
       "key_id": "fb4fab4ba1",
-      "model": "openai/gpt-oss-120b",
+      "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_de",
-      "until": 1791316582.2139034
+      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
+      "until": 1791320375.9696124
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "failed_at": "2026-10-06T19:02:51",
+      "failed_at": "2026-10-06T20:14:33",
       "key_id": "1af698c9b3",
       "model": "openrouter/free",
       "provider": "openrouter",
       "reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "until": 1791316074.7464662
+      "until": 1791320378.3632658
     }
   },
   "failure_fingerprints": {
@@ -161,13 +153,13 @@
     },
     "4b929cc3ad78785ed806": {
       "category": "quota",
-      "count": 23,
+      "count": 24,
       "first_seen_at": "2026-09-30T23:22:02",
-      "last_seen_at": "2026-10-06T19:00:17",
-      "last_seen_epoch": 1791313217.982145,
+      "last_seen_at": "2026-10-06T20:14:33",
+      "last_seen_epoch": 1791317673.369282,
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "retry_until": 1791334817.982145,
+      "retry_until": 1791339273.369282,
       "scope": "provider"
     },
     "4de9bce2b1f2bf21e522": {
@@ -392,13 +384,13 @@
     },
     "9d792929c1f5c9fbd20c": {
       "category": "quota",
-      "count": 2,
+      "count": 3,
       "first_seen_at": "2026-10-06T19:02:51",
-      "last_seen_at": "2026-10-06T19:02:51",
-      "last_seen_epoch": 1791313371.2915626,
+      "last_seen_at": "2026-10-06T20:14:33",
+      "last_seen_epoch": 1791317673.7699063,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "openrouter provider failed: OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model re",
-      "retry_until": 1791318771.2915626,
+      "retry_until": 1791328473.7699063,
       "scope": "global"
     },
     "a337cb8c4c90a13d6d08": {
@@ -480,13 +472,13 @@
     },
     "c1621a21dd27f0d1d208": {
       "category": "quota",
-      "count": 1,
+      "count": 2,
       "first_seen_at": "2026-10-06T19:02:51",
-      "last_seen_at": "2026-10-06T19:02:51",
-      "last_seen_epoch": 1791313371.2833314,
+      "last_seen_at": "2026-10-06T20:14:33",
+      "last_seen_epoch": 1791317673.764798,
       "provider": "openrouter",
       "reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "retry_until": 1791316071.2833314,
+      "retry_until": 1791323073.764798,
       "scope": "provider"
     },
     "c265fd8cf1cd8b0b0d01": {
@@ -667,7 +659,20 @@
     }
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
-  "global_circuit": {},
+  "global_circuit": {
+    "category": "quota",
+    "fingerprint": "9d792929c1f5c9fbd20c",
+    "opened_at": "2026-10-06T20:14:33",
+    "providers": [
+      "cloudflare",
+      "gemini",
+      "groq",
+      "mistral",
+      "openrouter"
+    ],
+    "reason": "openrouter provider failed: OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model re",
+    "until": 1791323073.764798
+  },
   "provider_circuits": {
     "cloudflare": {
       "category": "quota",
@@ -686,13 +691,12 @@
       "until": 1791335355.2555594
     },
     "groq": {
-      "category": "format",
-      "fingerprint": "c06dfec78988d6c26db2",
-      "model": "openai/gpt-oss-20b",
-      "opened_at": "2026-10-06T19:35:40",
+      "category": "quota",
+      "fingerprint": "4b929cc3ad78785ed806",
+      "opened_at": "2026-10-06T20:14:33",
       "provider": "groq",
-      "reason": "AI article response returned incomplete JSON.",
-      "until": 1791317140.8823457
+      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
+      "until": 1791339273.369282
     },
     "mistral": {
       "category": "quota",
@@ -705,10 +709,10 @@
     "openrouter": {
       "category": "quota",
       "fingerprint": "c1621a21dd27f0d1d208",
-      "opened_at": "2026-10-06T19:02:51",
+      "opened_at": "2026-10-06T20:14:33",
       "provider": "openrouter",
       "reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "until": 1791316071.2833314
+      "until": 1791323073.764798
     }
   },
   "stats": {
@@ -764,15 +768,15 @@
       "total_success_time": 120.1289
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.3666,
-      "failures": 44,
+      "avg_time": 1.3794,
+      "failures": 45,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-06T19:11:16",
-      "last_success_at": "2026-10-06T19:35:40",
+      "last_failure_at": "2026-10-06T20:14:33",
+      "last_success_at": "2026-10-06T20:14:32",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 133,
-      "total_success_time": 181.7523
+      "successes": 134,
+      "total_success_time": 184.8388
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.1807,
@@ -794,9 +798,9 @@
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 13.7849,
-      "failures": 41,
+      "failures": 42,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-06T19:02:51",
+      "last_failure_at": "2026-10-06T20:14:33",
       "last_success_at": "2026-10-06T17:00:47",
       "model": "openrouter/free",
       "provider": "openrouter",
