@@ -2,12 +2,12 @@
   "avg_time": 0.5573,
   "cooldowns": {
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "failed_at": "2026-10-06T18:24:01",
+      "failed_at": "2026-10-06T19:09:15",
       "key_id": "64f603a8c0",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1791313745.6600637
+      "until": 1791316457.8978713
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
       "failed_at": "2026-10-06T19:00:17",
@@ -227,13 +227,13 @@
     },
     "554cda85fb88ccc5d23e": {
       "category": "quota",
-      "count": 2,
+      "count": 3,
       "first_seen_at": "2026-10-01T19:28:13",
-      "last_seen_at": "2026-10-01T20:59:50",
-      "last_seen_epoch": 1790888390.2246137,
+      "last_seen_at": "2026-10-06T19:09:15",
+      "last_seen_epoch": 1791313755.2595735,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "gemini provider failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai",
-      "retry_until": 1790893790.2246137,
+      "retry_until": 1791324555.2595735,
       "scope": "global"
     },
     "556d26370fe5ef0c3347": {
@@ -348,13 +348,13 @@
     },
     "9b8ec695d1ca9e549f46": {
       "category": "quota",
-      "count": 19,
+      "count": 20,
       "first_seen_at": "2026-09-30T23:21:59",
-      "last_seen_at": "2026-10-06T18:08:48",
-      "last_seen_epoch": 1791310128.3868427,
+      "last_seen_at": "2026-10-06T19:09:15",
+      "last_seen_epoch": 1791313755.2555594,
       "provider": "gemini",
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "retry_until": 1791331728.3868427,
+      "retry_until": 1791335355.2555594,
       "scope": "provider"
     },
     "9bf50cd92a6721e56451": {
@@ -667,7 +667,20 @@
     }
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
-  "global_circuit": {},
+  "global_circuit": {
+    "category": "quota",
+    "fingerprint": "554cda85fb88ccc5d23e",
+    "opened_at": "2026-10-06T19:09:15",
+    "providers": [
+      "cloudflare",
+      "gemini",
+      "groq",
+      "mistral",
+      "openrouter"
+    ],
+    "reason": "gemini provider failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai",
+    "until": 1791316071.2833314
+  },
   "provider_circuits": {
     "cloudflare": {
       "category": "quota",
@@ -676,6 +689,14 @@
       "provider": "cloudflare",
       "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
       "until": 1791332533.0822592
+    },
+    "gemini": {
+      "category": "quota",
+      "fingerprint": "9b8ec695d1ca9e549f46",
+      "opened_at": "2026-10-06T19:09:15",
+      "provider": "gemini",
+      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "until": 1791335355.2555594
     },
     "groq": {
       "category": "quota",
@@ -734,9 +755,9 @@
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 10.8344,
-      "failures": 26,
+      "failures": 27,
       "key_id": "64f603a8c0",
-      "last_failure_at": "2026-10-06T18:24:01",
+      "last_failure_at": "2026-10-06T19:09:15",
       "last_success_at": "2026-10-06T18:23:04",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
