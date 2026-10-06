@@ -1,23 +1,6 @@
 {
   "avg_time": 0.5573,
-  "cooldowns": {
-    "gemini:gemini-2.5-flash:64f603a8c0": {
-      "failed_at": "2026-10-06T14:46:38",
-      "key_id": "64f603a8c0",
-      "model": "gemini-2.5-flash",
-      "provider": "gemini",
-      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1791300701.304388
-    },
-    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "failed_at": "2026-10-06T14:46:43",
-      "key_id": "fb4fab4ba1",
-      "model": "openai/gpt-oss-20b",
-      "provider": "groq",
-      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "until": 1791300707.2035763
-    }
-  },
+  "cooldowns": {},
   "failure_fingerprints": {
     "0bfbbde687f6e2ee0b50": {
       "category": "cooldown",
