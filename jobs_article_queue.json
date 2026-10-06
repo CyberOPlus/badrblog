@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-06T14:01:14",
+  "updated_at": "2026-10-06T14:09:49",
   "articles": [
     {
       "id": "a6432a68f27e4c35",
@@ -33945,8 +33945,10 @@
       "content_fetch_status": "success",
       "job_score": 95,
       "job_rank_score": 95,
-      "job_quality_status": "",
-      "job_quality_reasons": [],
+      "job_quality_status": "queue",
+      "job_quality_reasons": [
+        "eligibility must be verified"
+      ],
       "job_hard_gate_passed": false,
       "job_hard_gate_reasons": [
         "eligibility must be verified"
@@ -33963,19 +33965,19 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "d70d86c9e02c5772560c",
+      "job_campaign_id": "109b9740c85400a0f331",
       "seo_slug": "unicef-im-officer-cp-aor-no-ta-months",
       "desired_slug": "unicef-im-officer-cp-aor-no-ta-months",
       "job_quality_wait_fingerprint": "e376992490dc4248",
-      "job_quality_wait_count": 1,
+      "job_quality_wait_count": 2,
       "candidate_failure_stage": "quality-evidence",
       "candidate_failure_reason": "eligibility must be verified",
       "candidate_failure_fingerprint": "e376992490dc4248",
-      "candidate_failure_repeat_count": 1,
-      "candidate_failure_backoff_minutes": 10,
-      "candidate_failed_at": "2026-10-06T13:59:19+00:00",
-      "candidate_retry_after": "2026-10-06T14:09:19+00:00",
-      "job_link_binding_repaired_at": "2026-10-06T14:00:10"
+      "candidate_failure_repeat_count": 2,
+      "candidate_failure_backoff_minutes": 20,
+      "candidate_failed_at": "2026-10-06T14:09:49+00:00",
+      "job_link_binding_repaired_at": "2026-10-06T14:00:10",
+      "candidate_retry_after": "2026-10-06T14:29:49+00:00"
     }
   ],
   "notifications": {}
