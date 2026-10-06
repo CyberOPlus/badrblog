@@ -1,6 +1,22 @@
 {
   "avg_time": 0.5573,
   "cooldowns": {
+    "gemini:gemini-2.5-flash:64f603a8c0": {
+      "failed_at": "2026-10-06T17:52:48",
+      "key_id": "64f603a8c0",
+      "model": "gemini-2.5-flash",
+      "provider": "gemini",
+      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "until": 1791311868.6209023
+    },
+    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
+      "failed_at": "2026-10-06T17:52:51",
+      "key_id": "fb4fab4ba1",
+      "model": "openai/gpt-oss-20b",
+      "provider": "groq",
+      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
+      "until": 1791311871.8172672
+    },
     "mistral:mistral-small-latest:8feed32495": {
       "failed_at": "2026-10-06T17:50:47",
       "key_id": "8feed32495",
@@ -101,13 +117,13 @@
     },
     "4733bfc9fd4308092f81": {
       "category": "quality",
-      "count": 2,
+      "count": 3,
       "first_seen_at": "2026-10-06T15:35:15",
-      "last_seen_at": "2026-10-06T15:41:07",
-      "last_seen_epoch": 1791301267.7531874,
+      "last_seen_at": "2026-10-06T17:54:27",
+      "last_seen_epoch": 1791309267.8307228,
       "provider": "cloudflare",
       "reason": "manifest fact missing from Jobs output: detail=https://careers.capgemini.com/job/Stagiaire-Marketing-&-Communications/1444882433/",
-      "retry_until": 1791301867.7531874,
+      "retry_until": 1791310467.8307228,
       "scope": "quality"
     },
     "474c0c3bf0cefaa18fa3": {
@@ -134,13 +150,13 @@
     },
     "4b929cc3ad78785ed806": {
       "category": "quota",
-      "count": 20,
+      "count": 21,
       "first_seen_at": "2026-09-30T23:22:02",
-      "last_seen_at": "2026-10-06T17:50:47",
-      "last_seen_epoch": 1791309047.5688365,
+      "last_seen_at": "2026-10-06T17:52:51",
+      "last_seen_epoch": 1791309171.0986621,
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "retry_until": 1791330647.5688365,
+      "retry_until": 1791330771.0986621,
       "scope": "provider"
     },
     "4de9bce2b1f2bf21e522": {
@@ -266,13 +282,13 @@
     },
     "7cd7c210360ee67a0f9e": {
       "category": "quality",
-      "count": 4,
+      "count": 5,
       "first_seen_at": "2026-10-02T20:00:31",
-      "last_seen_at": "2026-10-05T16:20:02",
-      "last_seen_epoch": 1791217202.579118,
+      "last_seen_at": "2026-10-06T17:53:45",
+      "last_seen_epoch": 1791309225.8480046,
       "provider": "cloudflare",
-      "reason": "manifest fact missing from Jobs output: deadline=2026-10-21",
-      "retry_until": 1791219602.579118,
+      "reason": "manifest fact missing from Jobs output: deadline=2026-10-31",
+      "retry_until": 1791312825.8480046,
       "scope": "quality"
     },
     "7fc25b239b1f7d4ff3a5": {
@@ -310,13 +326,13 @@
     },
     "9b8ec695d1ca9e549f46": {
       "category": "quota",
-      "count": 17,
+      "count": 18,
       "first_seen_at": "2026-09-30T23:21:59",
-      "last_seen_at": "2026-10-06T16:49:30",
-      "last_seen_epoch": 1791305370.8546562,
+      "last_seen_at": "2026-10-06T17:52:48",
+      "last_seen_epoch": 1791309168.2739966,
       "provider": "gemini",
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "retry_until": 1791326970.8546562,
+      "retry_until": 1791330768.2739966,
       "scope": "provider"
     },
     "9bf50cd92a6721e56451": {
@@ -517,6 +533,17 @@
       "retry_until": 1790868112.6864583,
       "scope": "quality"
     },
+    "f01b7df2f1f831c39000": {
+      "category": "quality",
+      "count": 1,
+      "first_seen_at": "2026-10-06T17:54:56",
+      "last_seen_at": "2026-10-06T17:54:56",
+      "last_seen_epoch": 1791309296.1451156,
+      "provider": "cloudflare",
+      "reason": "vacancy title lacks a clear employment action",
+      "retry_until": 1791309596.1451156,
+      "scope": "quality"
+    },
     "f2abe1685a5d0626fa39": {
       "category": "format",
       "count": 3,
@@ -576,6 +603,22 @@
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
   "global_circuit": {},
   "provider_circuits": {
+    "gemini": {
+      "category": "quota",
+      "fingerprint": "9b8ec695d1ca9e549f46",
+      "opened_at": "2026-10-06T17:52:48",
+      "provider": "gemini",
+      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "until": 1791330768.2739966
+    },
+    "groq": {
+      "category": "quota",
+      "fingerprint": "4b929cc3ad78785ed806",
+      "opened_at": "2026-10-06T17:52:51",
+      "provider": "groq",
+      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
+      "until": 1791330771.0986621
+    },
     "mistral": {
       "category": "quota",
       "fingerprint": "16f0cdcebb62d34cab0f",
@@ -613,21 +656,21 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 6.4836,
+      "avg_time": 6.7472,
       "failures": 8,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-06T15:44:44",
-      "last_success_at": "2026-10-06T17:51:49",
+      "last_success_at": "2026-10-06T17:55:59",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 270,
-      "total_success_time": 1750.5705
+      "successes": 283,
+      "total_success_time": 1909.4581
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 10.8945,
-      "failures": 23,
+      "failures": 24,
       "key_id": "64f603a8c0",
-      "last_failure_at": "2026-10-06T16:49:30",
+      "last_failure_at": "2026-10-06T17:52:48",
       "last_success_at": "2026-10-06T17:51:48",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
@@ -646,15 +689,15 @@
       "total_success_time": 115.3362
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.2485,
-      "failures": 40,
+      "avg_time": 1.2587,
+      "failures": 41,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-06T17:50:47",
-      "last_success_at": "2026-10-06T17:51:48",
+      "last_failure_at": "2026-10-06T17:52:51",
+      "last_success_at": "2026-10-06T17:52:50",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 118,
-      "total_success_time": 147.3246
+      "successes": 119,
+      "total_success_time": 149.7799
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.1807,
