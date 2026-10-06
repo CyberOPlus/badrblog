@@ -1,6 +1,23 @@
 {
   "avg_time": 0.5573,
-  "cooldowns": {},
+  "cooldowns": {
+    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
+      "failed_at": "2026-10-06T14:20:56",
+      "key_id": "fb4fab4ba1",
+      "model": "openai/gpt-oss-20b",
+      "provider": "groq",
+      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
+      "until": 1791299157.950804
+    },
+    "openrouter:openrouter/free:1af698c9b3": {
+      "failed_at": "2026-10-06T14:23:29",
+      "key_id": "1af698c9b3",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+      "until": 1791297213.8668041
+    }
+  },
   "failure_fingerprints": {
     "0bfbbde687f6e2ee0b50": {
       "category": "cooldown",
@@ -103,13 +120,13 @@
     },
     "4b929cc3ad78785ed806": {
       "category": "quota",
-      "count": 12,
+      "count": 13,
       "first_seen_at": "2026-09-30T23:22:02",
-      "last_seen_at": "2026-10-06T12:34:16",
-      "last_seen_epoch": 1791290056.8909812,
+      "last_seen_at": "2026-10-06T14:20:56",
+      "last_seen_epoch": 1791296456.2814996,
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "retry_until": 1791311656.8909812,
+      "retry_until": 1791318056.2814996,
       "scope": "provider"
     },
     "4de9bce2b1f2bf21e522": {
@@ -147,13 +164,13 @@
     },
     "5536f2970a79bc5a87a5": {
       "category": "timeout",
-      "count": 4,
+      "count": 5,
       "first_seen_at": "2026-10-01T20:10:12",
-      "last_seen_at": "2026-10-02T18:46:20",
-      "last_seen_epoch": 1790966780.6482503,
+      "last_seen_at": "2026-10-06T14:23:29",
+      "last_seen_epoch": 1791296609.2717977,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "openrouter provider failed: (\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
-      "retry_until": 1790971580.6482503,
+      "retry_until": 1791303809.2717977,
       "scope": "global"
     },
     "554cda85fb88ccc5d23e": {
@@ -301,13 +318,13 @@
     },
     "9cd5bdcb42034dceea88": {
       "category": "timeout",
-      "count": 8,
+      "count": 9,
       "first_seen_at": "2026-10-01T20:10:12",
-      "last_seen_at": "2026-10-06T12:15:38",
-      "last_seen_epoch": 1791288938.5603242,
+      "last_seen_at": "2026-10-06T14:23:29",
+      "last_seen_epoch": 1791296609.2684085,
       "provider": "openrouter",
       "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
-      "retry_until": 1791296138.5603242,
+      "retry_until": 1791303809.2684085,
       "scope": "provider"
     },
     "a337cb8c4c90a13d6d08": {
@@ -499,7 +516,20 @@
     }
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
-  "global_circuit": {},
+  "global_circuit": {
+    "category": "timeout",
+    "fingerprint": "5536f2970a79bc5a87a5",
+    "opened_at": "2026-10-06T14:23:29",
+    "providers": [
+      "cloudflare",
+      "gemini",
+      "groq",
+      "mistral",
+      "openrouter"
+    ],
+    "reason": "openrouter provider failed: (\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+    "until": 1791299648.5534236
+  },
   "provider_circuits": {
     "cloudflare": {
       "category": "quota",
@@ -517,6 +547,14 @@
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "until": 1791312563.9998353
     },
+    "groq": {
+      "category": "quota",
+      "fingerprint": "4b929cc3ad78785ed806",
+      "opened_at": "2026-10-06T14:20:56",
+      "provider": "groq",
+      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
+      "until": 1791318056.2814996
+    },
     "mistral": {
       "category": "quota",
       "fingerprint": "16f0cdcebb62d34cab0f",
@@ -524,6 +562,14 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1791307048.6331415
+    },
+    "openrouter": {
+      "category": "timeout",
+      "fingerprint": "9cd5bdcb42034dceea88",
+      "opened_at": "2026-10-06T14:23:29",
+      "provider": "openrouter",
+      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+      "until": 1791303809.2684085
     }
   },
   "stats": {
@@ -579,15 +625,15 @@
       "total_success_time": 101.0005
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.1543,
-      "failures": 29,
+      "avg_time": 1.162,
+      "failures": 30,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-06T12:34:16",
-      "last_success_at": "2026-10-06T13:48:44",
+      "last_failure_at": "2026-10-06T14:20:56",
+      "last_success_at": "2026-10-06T14:20:55",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 100,
-      "total_success_time": 115.426
+      "successes": 101,
+      "total_success_time": 117.3601
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 0.8359,
@@ -608,15 +654,15 @@
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 11.3984,
-      "failures": 28,
+      "avg_time": 11.9978,
+      "failures": 29,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-06T12:15:38",
-      "last_success_at": "2026-10-06T13:48:46",
+      "last_failure_at": "2026-10-06T14:23:29",
+      "last_success_at": "2026-10-06T14:21:59",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 85,
-      "total_success_time": 968.8653
+      "successes": 86,
+      "total_success_time": 1031.8116
     }
   }
 }
