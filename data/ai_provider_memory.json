@@ -655,14 +655,6 @@
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
   "global_circuit": {},
   "provider_circuits": {
-    "gemini": {
-      "category": "quota",
-      "fingerprint": "9b8ec695d1ca9e549f46",
-      "opened_at": "2026-10-06T23:00:58",
-      "provider": "gemini",
-      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1791349257.9993157
-    },
     "mistral": {
       "category": "quota",
       "fingerprint": "16f0cdcebb62d34cab0f",
@@ -703,15 +695,15 @@
       "total_success_time": 2053.0492
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 10.8457,
+      "avg_time": 10.7747,
       "failures": 30,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-10-06T23:00:57",
-      "last_success_at": "2026-10-06T22:59:59",
+      "last_success_at": "2026-10-07T01:02:16",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 144,
-      "total_success_time": 1561.7866
+      "successes": 145,
+      "total_success_time": 1562.3334
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
       "avg_time": 3.8453,
@@ -725,15 +717,15 @@
       "total_success_time": 130.7397
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.3926,
+      "avg_time": 1.3862,
       "failures": 59,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-06T23:47:26",
-      "last_success_at": "2026-10-07T00:01:43",
+      "last_success_at": "2026-10-07T01:02:16",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 162,
-      "total_success_time": 225.5938
+      "successes": 163,
+      "total_success_time": 225.9541
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.1807,
@@ -754,15 +746,15 @@
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 13.6667,
+      "avg_time": 13.5752,
       "failures": 43,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-06T21:50:06",
-      "last_success_at": "2026-10-07T00:01:46",
+      "last_success_at": "2026-10-07T01:02:21",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 105,
-      "total_success_time": 1435.0042
+      "successes": 106,
+      "total_success_time": 1438.9672
     }
   }
 }

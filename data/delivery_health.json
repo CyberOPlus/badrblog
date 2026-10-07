@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-07T01:01:24.354556+00:00",
+  "updated_at": "2026-10-07T01:02:21.402677+00:00",
   "state": "source_degraded",
   "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running.",
   "hourly_target_met": false,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-06T18:29:38",
   "last_facebook_post_id": "103026497833721_1089179406810457",
-  "minutes_since_facebook": 391.8,
+  "minutes_since_facebook": 392.7,
   "last_blogger_publish_at": "2026-10-06T18:24:31.486611+00:00",
   "fresh_candidate_count": 19,
   "verified_ready_candidate_count": 0,
@@ -25,7 +25,7 @@
       "status": "ok",
       "providers": {
         "gemini": {
-          "status": "quota",
+          "status": "ok",
           "secret_names": [
             "GEMINI_API_KEY"
           ]
@@ -66,10 +66,22 @@
           "failure_count": 152,
           "category": "network_timeout",
           "retry_after": "2026-10-07T01:18:16Z"
+        },
+        {
+          "source_name": "Emploi-Public — services de l'État",
+          "failure_count": 1,
+          "category": "network_timeout",
+          "retry_after": "2026-10-07T01:07:14Z"
+        },
+        {
+          "source_name": "Emploi-Public — établissements publics",
+          "failure_count": 1,
+          "category": "network_timeout",
+          "retry_after": "2026-10-07T01:07:14Z"
         }
       ],
       "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
     }
   },
-  "services_checked_at": "2026-10-07T00:01:46.571082+00:00"
+  "services_checked_at": "2026-10-07T01:02:21.402165+00:00"
 }
