@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-10-07T23:56:40.447178+00:00",
+  "updated_at": "2026-10-07T23:57:32.803487+00:00",
   "state": "waiting_provider",
   "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
   "hourly_target_met": false,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-07T18:52:38",
   "last_facebook_post_id": "103026497833721_1090057090056022",
-  "minutes_since_facebook": 304.0,
+  "minutes_since_facebook": 304.9,
   "last_blogger_publish_at": "2026-10-07T18:52:46.910689+00:00",
   "fresh_candidate_count": 33,
   "verified_ready_candidate_count": 6,
   "unverified_ready_candidate_count": 26,
   "facebook_pending_count": 3,
-  "oldest_facebook_pending_minutes": 613.7,
-  "oldest_ready_candidate_minutes": 826.7,
+  "oldest_facebook_pending_minutes": 614.6,
+  "oldest_ready_candidate_minutes": 827.6,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -73,12 +73,6 @@
           "failure_count": 192,
           "category": "network_timeout",
           "retry_after": "2026-10-08T00:14:39Z"
-        },
-        {
-          "source_name": "UNICEF Vacancies",
-          "failure_count": 1,
-          "category": "network_timeout",
-          "retry_after": "2026-10-07T23:56:50Z"
         }
       ],
       "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
