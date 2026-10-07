@@ -168,12 +168,26 @@ class DeliveryReliabilityTests(unittest.TestCase):
                 now=datetime(2026, 10, 3, 10, tzinfo=timezone.utc),
                 services={
                     "facebook": {"status": "ok"},
-                    "ai": {"status": "ok"},
+                    "ai": {
+                        "status": "ok",
+                        "providers": {
+                            "groq": {
+                                "status": "ok",
+                                "secret_names": ["GROQ_API_KEY"],
+                            },
+                        },
+                    },
                 },
                 ai_circuit={
                     "global_open": True,
                     "global_retry_after": "2026-10-03T10:30:00+00:00",
-                    "global_category": "cooldown",
+                    "global_category": "quota",
+                    "provider_circuits": {
+                        "groq": {
+                            "category": "quota",
+                            "retry_after": "2026-10-03T12:00:00+00:00",
+                        },
+                    },
                 },
             )
 
@@ -182,6 +196,18 @@ class DeliveryReliabilityTests(unittest.TestCase):
         self.assertEqual(
             result["services"]["ai"]["retry_after"],
             "2026-10-03T10:30:00+00:00",
+        )
+        self.assertEqual(
+            result["services"]["ai"]["providers"]["groq"]["status"],
+            "quota",
+        )
+        self.assertEqual(
+            result["services"]["ai"]["providers"]["groq"]["retry_after"],
+            "2026-10-03T12:00:00+00:00",
+        )
+        self.assertEqual(
+            result["services"]["ai"]["providers"]["groq"]["secret_names"],
+            ["GROQ_API_KEY"],
         )
 
     def test_closed_ai_circuit_clears_stale_cooldown_health(self):
