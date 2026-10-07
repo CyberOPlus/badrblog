@@ -24,6 +24,14 @@
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
       "until": 1791378583.2092612
+    },
+    "openrouter:openrouter/free:1af698c9b3": {
+      "failed_at": "2026-10-07T13:00:06",
+      "key_id": "1af698c9b3",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1791378308.8294716
     }
   },
   "failure_fingerprints": {
@@ -656,13 +664,13 @@
     },
     "f69ff66465ee70a5a639": {
       "category": "empty",
-      "count": 40,
+      "count": 42,
       "first_seen_at": "2026-10-01T22:00:14",
-      "last_seen_at": "2026-10-07T12:13:21",
-      "last_seen_epoch": 1791375201.4029448,
+      "last_seen_at": "2026-10-07T13:00:06",
+      "last_seen_epoch": 1791378006.0514905,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "openrouter provider failed: OpenRouter returned an empty response.",
-      "retry_until": 1791385291.3347545,
+      "retry_until": 1791384769.5477512,
       "scope": "global"
     },
     "f8d83b9dc799f3657708": {
@@ -807,9 +815,9 @@
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 13.2278,
-      "failures": 62,
+      "failures": 63,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-07T12:20:34",
+      "last_failure_at": "2026-10-07T13:00:06",
       "last_success_at": "2026-10-07T12:58:40",
       "model": "openrouter/free",
       "provider": "openrouter",
