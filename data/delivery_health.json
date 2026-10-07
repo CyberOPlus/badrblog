@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-10-07T11:49:31.018000+00:00",
-  "state": "facebook_stalled",
-  "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
+  "updated_at": "2026-10-07T11:50:57.668039+00:00",
+  "state": "waiting_provider",
+  "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
   "hourly_target_met": true,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-07T11:27:03",
   "last_facebook_post_id": "103026497833721_1089736923421372",
-  "minutes_since_facebook": 22.5,
+  "minutes_since_facebook": 23.9,
   "last_blogger_publish_at": "2026-10-07T11:27:07.572786+00:00",
   "fresh_candidate_count": 21,
-  "verified_ready_candidate_count": 9,
-  "unverified_ready_candidate_count": 11,
+  "verified_ready_candidate_count": 10,
+  "unverified_ready_candidate_count": 10,
   "facebook_pending_count": 1,
-  "oldest_facebook_pending_minutes": 160.9,
-  "oldest_ready_candidate_minutes": 175.4,
+  "oldest_facebook_pending_minutes": 162.4,
+  "oldest_ready_candidate_minutes": 176.8,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -22,7 +22,7 @@
       "action": "Page/token lookup succeeded; publish permission is confirmed only by an actual delivery."
     },
     "ai": {
-      "status": "ok",
+      "status": "cooldown",
       "providers": {
         "gemini": {
           "status": "ok",
@@ -56,7 +56,9 @@
           ]
         }
       },
-      "action": "At least one provider generated a response."
+      "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
+      "retry_after": "2026-10-07T12:20:35+00:00",
+      "category": "cooldown"
     },
     "sources": {
       "status": "degraded",
@@ -72,12 +74,6 @@
           "failure_count": 1,
           "category": "http_block",
           "retry_after": "2026-10-07T12:52:45Z"
-        },
-        {
-          "source_name": "UNICEF Vacancies",
-          "failure_count": 1,
-          "category": "source_error",
-          "retry_after": "2026-10-07T11:50:17Z"
         }
       ],
       "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
