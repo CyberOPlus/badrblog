@@ -24,14 +24,6 @@
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_demand",
       "until": 1791368089.1490355
-    },
-    "openrouter:openrouter/free:1af698c9b3": {
-      "failed_at": "2026-10-07T09:43:02",
-      "key_id": "1af698c9b3",
-      "model": "openrouter/free",
-      "provider": "openrouter",
-      "reason": "OpenRouter returned an empty response.",
-      "until": 1791366484.0738666
     }
   },
   "failure_fingerprints": {
@@ -795,15 +787,15 @@
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 12.893,
+      "avg_time": 13.1878,
       "failures": 47,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-07T09:43:02",
-      "last_success_at": "2026-10-07T09:42:20",
+      "last_success_at": "2026-10-07T09:49:47",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 115,
-      "total_success_time": 1482.6939
+      "successes": 117,
+      "total_success_time": 1542.9696
     }
   }
 }
