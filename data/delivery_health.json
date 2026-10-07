@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-10-07T10:07:13.550273+00:00",
-  "state": "waiting_provider",
-  "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
+  "updated_at": "2026-10-07T10:09:07.653437+00:00",
+  "state": "facebook_stalled",
+  "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
   "hourly_target_met": true,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-07T09:49:53",
   "last_facebook_post_id": "103026497833721_1089675593427505",
-  "minutes_since_facebook": 17.3,
+  "minutes_since_facebook": 19.2,
   "last_blogger_publish_at": "2026-10-07T09:49:59.508809+00:00",
   "fresh_candidate_count": 13,
-  "verified_ready_candidate_count": 1,
-  "unverified_ready_candidate_count": 11,
+  "verified_ready_candidate_count": 4,
+  "unverified_ready_candidate_count": 7,
   "facebook_pending_count": 1,
-  "oldest_facebook_pending_minutes": 58.6,
-  "oldest_ready_candidate_minutes": 64.9,
+  "oldest_facebook_pending_minutes": 60.5,
+  "oldest_ready_candidate_minutes": 75.0,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -22,7 +22,7 @@
       "action": "Page/token lookup succeeded; publish permission is confirmed only by an actual delivery."
     },
     "ai": {
-      "status": "cooldown",
+      "status": "ok",
       "providers": {
         "gemini": {
           "status": "ok",
@@ -56,9 +56,7 @@
           ]
         }
       },
-      "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
-      "retry_after": "2026-10-07T10:27:32+00:00",
-      "category": "quota"
+      "action": "At least one provider is available; automatic AI generation can continue."
     },
     "sources": {
       "status": "degraded",
