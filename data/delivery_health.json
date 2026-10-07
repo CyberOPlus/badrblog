@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-10-07T15:05:55.215505+00:00",
+  "updated_at": "2026-10-07T17:32:35.161979+00:00",
   "state": "facebook_stalled",
   "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
-  "hourly_target_met": true,
+  "hourly_target_met": false,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-07T14:34:13",
   "last_facebook_post_id": "103026497833721_1089874216740976",
-  "minutes_since_facebook": 31.7,
+  "minutes_since_facebook": 178.4,
   "last_blogger_publish_at": "2026-10-07T14:29:07.828261+00:00",
-  "fresh_candidate_count": 25,
-  "verified_ready_candidate_count": 4,
+  "fresh_candidate_count": 33,
+  "verified_ready_candidate_count": 12,
   "unverified_ready_candidate_count": 20,
   "facebook_pending_count": 2,
-  "oldest_facebook_pending_minutes": 82.9,
-  "oldest_ready_candidate_minutes": 371.8,
+  "oldest_facebook_pending_minutes": 229.6,
+  "oldest_ready_candidate_minutes": 518.4,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -37,7 +37,7 @@
           ]
         },
         "cloudflare": {
-          "status": "quota",
+          "status": "ok",
           "secret_names": [
             "CLOUDFLARE_API_TOKEN",
             "CLOUDFLARE_ACCOUNT_ID"
@@ -63,13 +63,13 @@
       "active_issues": [
         {
           "source_name": "ANAPEC — offres nationales",
-          "failure_count": 179,
+          "failure_count": 180,
           "category": "network_timeout",
-          "retry_after": "2026-10-07T15:07:11Z"
+          "retry_after": "2026-10-07T18:02:08Z"
         }
       ],
       "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
     }
   },
-  "services_checked_at": "2026-10-07T14:21:02.678300+00:00"
+  "services_checked_at": "2026-10-07T17:32:35.161456+00:00"
 }
