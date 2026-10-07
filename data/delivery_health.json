@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-10-07T13:04:17.587186+00:00",
-  "state": "facebook_stalled",
-  "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
+  "updated_at": "2026-10-07T13:05:22.802554+00:00",
+  "state": "waiting_provider",
+  "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
   "hourly_target_met": true,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-07T12:45:21",
   "last_facebook_post_id": "103026497833721_1089791973415867",
-  "minutes_since_facebook": 18.9,
+  "minutes_since_facebook": 20.0,
   "last_blogger_publish_at": "2026-10-07T12:53:29.743279+00:00",
   "fresh_candidate_count": 23,
   "verified_ready_candidate_count": 5,
   "unverified_ready_candidate_count": 14,
   "facebook_pending_count": 2,
-  "oldest_facebook_pending_minutes": 235.7,
-  "oldest_ready_candidate_minutes": 250.1,
+  "oldest_facebook_pending_minutes": 236.8,
+  "oldest_ready_candidate_minutes": 251.2,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -22,7 +22,7 @@
       "action": "Page/token lookup succeeded; publish permission is confirmed only by an actual delivery."
     },
     "ai": {
-      "status": "ok",
+      "status": "cooldown",
       "providers": {
         "gemini": {
           "status": "quota",
@@ -56,16 +56,18 @@
           ]
         }
       },
-      "action": "At least one provider generated a response."
+      "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
+      "retry_after": "2026-10-07T14:52:49+00:00",
+      "category": "quota"
     },
     "sources": {
       "status": "degraded",
       "active_issues": [
         {
           "source_name": "ANAPEC — offres nationales",
-          "failure_count": 175,
+          "failure_count": 176,
           "category": "network_timeout",
-          "retry_after": "2026-10-07T13:04:27Z"
+          "retry_after": "2026-10-07T13:35:14Z"
         }
       ],
       "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
