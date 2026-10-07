@@ -1,6 +1,14 @@
 {
   "avg_time": 0.5573,
   "cooldowns": {
+    "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
+      "failed_at": "2026-10-07T18:46:06",
+      "key_id": "be6dab2cd8",
+      "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "provider": "cloudflare",
+      "reason": "('Connection aborted.', Timeout('AI provider wall-clock timeout after 60s'))",
+      "until": 1791399369.4581141
+    },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "failed_at": "2026-10-07T18:40:07",
       "key_id": "64f603a8c0",
@@ -37,13 +45,13 @@
   "failure_fingerprints": {
     "0bfbbde687f6e2ee0b50": {
       "category": "cooldown",
-      "count": 9,
+      "count": 10,
       "first_seen_at": "2026-10-02T15:41:54",
-      "last_seen_at": "2026-10-07T13:25:08",
-      "last_seen_epoch": 1791379508.5513105,
+      "last_seen_at": "2026-10-07T18:46:06",
+      "last_seen_epoch": 1791398766.3601103,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "all configured AI providers are unavailable or cooling down",
-      "retry_until": 1791386708.5513105,
+      "retry_until": 1791405966.3601103,
       "scope": "global"
     },
     "0bfee933de78c21150d3": {
@@ -433,13 +441,13 @@
     },
     "9bf50cd92a6721e56451": {
       "category": "timeout",
-      "count": 8,
+      "count": 9,
       "first_seen_at": "2026-10-05T14:39:07",
-      "last_seen_at": "2026-10-07T18:31:03",
-      "last_seen_epoch": 1791397863.2190125,
+      "last_seen_at": "2026-10-07T18:46:06",
+      "last_seen_epoch": 1791398766.3564978,
       "provider": "cloudflare",
       "reason": "('Connection aborted.', Timeout('AI provider wall-clock timeout after 60s'))",
-      "retry_until": 1791405063.2190125,
+      "retry_until": 1791405966.3564978,
       "scope": "provider"
     },
     "9c566984111dbf1278c7": {
@@ -752,8 +760,29 @@
     }
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
-  "global_circuit": {},
+  "global_circuit": {
+    "category": "cooldown",
+    "fingerprint": "0bfbbde687f6e2ee0b50",
+    "opened_at": "2026-10-07T18:46:06",
+    "providers": [
+      "cloudflare",
+      "gemini",
+      "groq",
+      "mistral",
+      "openrouter"
+    ],
+    "reason": "all configured AI providers are unavailable or cooling down",
+    "until": 1791399921.6614325
+  },
   "provider_circuits": {
+    "cloudflare": {
+      "category": "timeout",
+      "fingerprint": "9bf50cd92a6721e56451",
+      "opened_at": "2026-10-07T18:46:06",
+      "provider": "cloudflare",
+      "reason": "('Connection aborted.', Timeout('AI provider wall-clock timeout after 60s'))",
+      "until": 1791405966.3564978
+    },
     "gemini": {
       "category": "quota",
       "fingerprint": "9b8ec695d1ca9e549f46",
@@ -807,15 +836,15 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 7.1622,
-      "failures": 16,
+      "avg_time": 7.1472,
+      "failures": 17,
       "key_id": "be6dab2cd8",
-      "last_failure_at": "2026-10-07T18:31:03",
-      "last_success_at": "2026-10-07T18:42:19",
+      "last_failure_at": "2026-10-07T18:46:06",
+      "last_success_at": "2026-10-07T18:45:06",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 385,
-      "total_success_time": 2757.4538
+      "successes": 386,
+      "total_success_time": 2758.8194
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 10.4299,
