@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-10-07T21:10:19.744767+00:00",
+  "updated_at": "2026-10-07T21:11:53.391791+00:00",
   "state": "waiting_provider",
   "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
   "hourly_target_met": false,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-07T18:52:38",
   "last_facebook_post_id": "103026497833721_1090057090056022",
-  "minutes_since_facebook": 137.7,
+  "minutes_since_facebook": 139.3,
   "last_blogger_publish_at": "2026-10-07T18:52:46.910689+00:00",
   "fresh_candidate_count": 33,
   "verified_ready_candidate_count": 4,
   "unverified_ready_candidate_count": 26,
   "facebook_pending_count": 3,
-  "oldest_facebook_pending_minutes": 447.3,
-  "oldest_ready_candidate_minutes": 660.4,
+  "oldest_facebook_pending_minutes": 448.9,
+  "oldest_ready_candidate_minutes": 661.9,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -66,9 +66,16 @@
       "category": "quota"
     },
     "sources": {
-      "status": "ok",
-      "active_issues": [],
-      "action": "No active source cooldowns are currently blocking discovery."
+      "status": "degraded",
+      "active_issues": [
+        {
+          "source_name": "ANAPEC — offres nationales",
+          "failure_count": 187,
+          "category": "network_timeout",
+          "retry_after": "2026-10-07T21:41:48Z"
+        }
+      ],
+      "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
     }
   },
   "services_checked_at": "2026-10-07T20:57:48.335795+00:00"
