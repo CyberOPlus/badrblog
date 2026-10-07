@@ -24,6 +24,14 @@
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
       "until": 1791377089.9199421
+    },
+    "openrouter:openrouter/free:1af698c9b3": {
+      "failed_at": "2026-10-07T12:13:21",
+      "key_id": "1af698c9b3",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1791375505.2602782
     }
   },
   "failure_fingerprints": {
@@ -425,13 +433,13 @@
     },
     "a337cb8c4c90a13d6d08": {
       "category": "article_input",
-      "count": 3,
+      "count": 4,
       "first_seen_at": "2026-10-02T10:45:11",
-      "last_seen_at": "2026-10-07T10:10:07",
-      "last_seen_epoch": 1791367807.5901678,
+      "last_seen_at": "2026-10-07T12:11:11",
+      "last_seen_epoch": 1791375071.4843998,
       "provider": "",
       "reason": "source/evidence problem: official document evidence could not be retrieved",
-      "retry_until": 1791375007.5901678,
+      "retry_until": 1791389471.4843998,
       "scope": "article_input"
     },
     "b2683a2f011d9f5c4939": {
@@ -656,13 +664,13 @@
     },
     "f69ff66465ee70a5a639": {
       "category": "empty",
-      "count": 38,
+      "count": 40,
       "first_seen_at": "2026-10-01T22:00:14",
-      "last_seen_at": "2026-10-07T11:34:14",
-      "last_seen_epoch": 1791372854.0130165,
+      "last_seen_at": "2026-10-07T12:13:21",
+      "last_seen_epoch": 1791375201.4029448,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "openrouter provider failed: OpenRouter returned an empty response.",
-      "retry_until": 1791385272.2586224,
+      "retry_until": 1791385291.3347545,
       "scope": "global"
     },
     "f8d83b9dc799f3657708": {
@@ -689,20 +697,7 @@
     }
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
-  "global_circuit": {
-    "category": "cooldown",
-    "fingerprint": "f8d83b9dc799f3657708",
-    "opened_at": "2026-10-07T11:59:47",
-    "providers": [
-      "cloudflare",
-      "gemini",
-      "groq",
-      "mistral",
-      "openrouter"
-    ],
-    "reason": "all configured AI providers are cooling down",
-    "until": 1791376186.669941
-  },
+  "global_circuit": {},
   "provider_circuits": {
     "cloudflare": {
       "category": "quota",
@@ -735,15 +730,6 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1791385291.3347545
-    },
-    "openrouter": {
-      "category": "format",
-      "fingerprint": "4b27f0e6f34e06eef2e2",
-      "model": "nvidia/nemotron-3.5-content-safety:free",
-      "opened_at": "2026-10-07T11:59:46",
-      "provider": "openrouter",
-      "reason": "AI article response returned incomplete JSON.",
-      "until": 1791376186.669941
     }
   },
   "stats": {
@@ -829,9 +815,9 @@
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 13.3666,
-      "failures": 60,
+      "failures": 61,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-07T11:45:04",
+      "last_failure_at": "2026-10-07T12:13:21",
       "last_success_at": "2026-10-07T11:59:46",
       "model": "openrouter/free",
       "provider": "openrouter",
