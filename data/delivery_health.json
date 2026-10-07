@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-10-07T21:58:00.840719+00:00",
+  "updated_at": "2026-10-07T21:58:55.384760+00:00",
   "state": "waiting_provider",
   "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
   "hourly_target_met": false,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-07T18:52:38",
   "last_facebook_post_id": "103026497833721_1090057090056022",
-  "minutes_since_facebook": 185.4,
+  "minutes_since_facebook": 186.3,
   "last_blogger_publish_at": "2026-10-07T18:52:46.910689+00:00",
   "fresh_candidate_count": 33,
-  "verified_ready_candidate_count": 6,
-  "unverified_ready_candidate_count": 26,
+  "verified_ready_candidate_count": 7,
+  "unverified_ready_candidate_count": 25,
   "facebook_pending_count": 3,
-  "oldest_facebook_pending_minutes": 495.0,
-  "oldest_ready_candidate_minutes": 708.0,
+  "oldest_facebook_pending_minutes": 495.9,
+  "oldest_ready_candidate_minutes": 784.8,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -32,11 +32,11 @@
           "retry_after": "2026-10-08T02:47:19+00:00"
         },
         "groq": {
-          "status": "format",
+          "status": "quota",
           "secret_names": [
             "GROQ_API_KEY"
           ],
-          "retry_after": "2026-10-07T22:18:05+00:00"
+          "retry_after": "2026-10-08T03:58:53+00:00"
         },
         "cloudflare": {
           "status": "quota",
@@ -62,8 +62,8 @@
         }
       },
       "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
-      "retry_after": "2026-10-07T22:18:05+00:00",
-      "category": "cooldown"
+      "retry_after": "2026-10-08T01:02:32+00:00",
+      "category": "quota"
     },
     "sources": {
       "status": "degraded",
