@@ -1,14 +1,6 @@
 {
   "avg_time": 0.5573,
   "cooldowns": {
-    "gemini:gemini-2.5-flash:64f603a8c0": {
-      "failed_at": "2026-10-07T17:33:48",
-      "key_id": "64f603a8c0",
-      "model": "gemini-2.5-flash",
-      "provider": "gemini",
-      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1791397130.7903461
-    },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
       "failed_at": "2026-10-07T18:10:34",
       "key_id": "fb4fab4ba1",
@@ -766,15 +758,15 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 7.0554,
+      "avg_time": 7.112,
       "failures": 15,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-07T13:48:49",
-      "last_success_at": "2026-10-07T18:15:50",
+      "last_success_at": "2026-10-07T18:18:58",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 349,
-      "total_success_time": 2462.3345
+      "successes": 359,
+      "total_success_time": 2553.1932
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 10.4851,
