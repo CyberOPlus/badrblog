@@ -24,6 +24,14 @@
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
       "until": 1791398006.1510248
+    },
+    "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
+      "failed_at": "2026-10-07T18:15:42",
+      "key_id": "fb4fab4ba1",
+      "model": "qwen/qwen3.8-27b",
+      "provider": "groq",
+      "reason": "groq API error 429: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_demand",
+      "until": 1791399647.7408686
     }
   },
   "failure_fingerprints": {
@@ -758,15 +766,15 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 7.0933,
+      "avg_time": 7.0554,
       "failures": 15,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-07T13:48:49",
-      "last_success_at": "2026-10-07T17:32:34",
+      "last_success_at": "2026-10-07T18:15:50",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 346,
-      "total_success_time": 2454.2861
+      "successes": 349,
+      "total_success_time": 2462.3345
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 10.4851,
@@ -803,9 +811,9 @@
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.025,
-      "failures": 4,
+      "failures": 5,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-07T14:35:18",
+      "last_failure_at": "2026-10-07T18:15:42",
       "last_success_at": "2026-10-07T18:10:35",
       "model": "qwen/qwen3.8-27b",
       "provider": "groq",
