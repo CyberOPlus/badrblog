@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-07T00:00:42.097974+00:00",
-  "state": "waiting_provider",
-  "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
+  "updated_at": "2026-10-07T00:01:46.571593+00:00",
+  "state": "source_degraded",
+  "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running.",
   "hourly_target_met": false,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-06T18:29:38",
   "last_facebook_post_id": "103026497833721_1089179406810457",
-  "minutes_since_facebook": 331.1,
+  "minutes_since_facebook": 332.1,
   "last_blogger_publish_at": "2026-10-06T18:24:31.486611+00:00",
   "fresh_candidate_count": 19,
   "verified_ready_candidate_count": 0,
@@ -22,7 +22,7 @@
       "action": "Page/token lookup succeeded; publish permission is confirmed only by an actual delivery."
     },
     "ai": {
-      "status": "cooldown",
+      "status": "ok",
       "providers": {
         "gemini": {
           "status": "quota",
@@ -44,7 +44,7 @@
           ]
         },
         "openrouter": {
-          "status": "quota",
+          "status": "ok",
           "secret_names": [
             "OPENROUTER_API_KEY"
           ]
@@ -56,9 +56,7 @@
           ]
         }
       },
-      "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
-      "retry_after": "2026-10-07T00:22:13+00:00",
-      "category": "quota"
+      "action": "At least one provider generated a response."
     },
     "sources": {
       "status": "degraded",
@@ -79,5 +77,5 @@
       "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
     }
   },
-  "services_checked_at": "2026-10-06T23:46:33.991615+00:00"
+  "services_checked_at": "2026-10-07T00:01:46.571082+00:00"
 }
