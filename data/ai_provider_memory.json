@@ -1,6 +1,14 @@
 {
   "avg_time": 0.5573,
   "cooldowns": {
+    "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
+      "failed_at": "2026-10-07T18:31:03",
+      "key_id": "be6dab2cd8",
+      "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "provider": "cloudflare",
+      "reason": "('Connection aborted.', Timeout('AI provider wall-clock timeout after 60s'))",
+      "until": 1791398464.6483676
+    },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
       "failed_at": "2026-10-07T18:10:34",
       "key_id": "fb4fab4ba1",
@@ -414,13 +422,13 @@
     },
     "9bf50cd92a6721e56451": {
       "category": "timeout",
-      "count": 7,
+      "count": 8,
       "first_seen_at": "2026-10-05T14:39:07",
-      "last_seen_at": "2026-10-07T13:25:08",
-      "last_seen_epoch": 1791379508.5474622,
+      "last_seen_at": "2026-10-07T18:31:03",
+      "last_seen_epoch": 1791397863.2190125,
       "provider": "cloudflare",
       "reason": "('Connection aborted.', Timeout('AI provider wall-clock timeout after 60s'))",
-      "retry_until": 1791386708.5474622,
+      "retry_until": 1791405063.2190125,
       "scope": "provider"
     },
     "9c566984111dbf1278c7": {
@@ -735,6 +743,14 @@
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
   "global_circuit": {},
   "provider_circuits": {
+    "cloudflare": {
+      "category": "timeout",
+      "fingerprint": "9bf50cd92a6721e56451",
+      "opened_at": "2026-10-07T18:31:03",
+      "provider": "cloudflare",
+      "reason": "('Connection aborted.', Timeout('AI provider wall-clock timeout after 60s'))",
+      "until": 1791405063.2190125
+    },
     "gemini": {
       "category": "quota",
       "fingerprint": "9b8ec695d1ca9e549f46",
@@ -781,9 +797,9 @@
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
       "avg_time": 7.1441,
-      "failures": 15,
+      "failures": 16,
       "key_id": "be6dab2cd8",
-      "last_failure_at": "2026-10-07T13:48:49",
+      "last_failure_at": "2026-10-07T18:31:03",
       "last_success_at": "2026-10-07T18:28:30",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
