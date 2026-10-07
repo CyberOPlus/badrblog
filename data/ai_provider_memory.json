@@ -1,6 +1,39 @@
 {
   "avg_time": 0.5573,
-  "cooldowns": {},
+  "cooldowns": {
+    "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
+      "failed_at": "2026-10-07T11:47:30",
+      "key_id": "be6dab2cd8",
+      "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "provider": "cloudflare",
+      "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
+      "until": 1791376355.3331432
+    },
+    "gemini:gemini-2.5-flash:64f603a8c0": {
+      "failed_at": "2026-10-07T11:44:39",
+      "key_id": "64f603a8c0",
+      "model": "gemini-2.5-flash",
+      "provider": "gemini",
+      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "until": 1791376182.5087588
+    },
+    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
+      "failed_at": "2026-10-07T11:43:43",
+      "key_id": "fb4fab4ba1",
+      "model": "openai/gpt-oss-20b",
+      "provider": "groq",
+      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
+      "until": 1791376124.9600832
+    },
+    "openrouter:openrouter/free:1af698c9b3": {
+      "failed_at": "2026-10-07T11:45:04",
+      "key_id": "1af698c9b3",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1791373805.7329311
+    }
+  },
   "failure_fingerprints": {
     "0bfbbde687f6e2ee0b50": {
       "category": "cooldown",
@@ -147,13 +180,13 @@
     },
     "4b929cc3ad78785ed806": {
       "category": "quota",
-      "count": 43,
+      "count": 44,
       "first_seen_at": "2026-09-30T23:22:02",
-      "last_seen_at": "2026-10-07T11:33:31",
-      "last_seen_epoch": 1791372811.698167,
+      "last_seen_at": "2026-10-07T11:43:43",
+      "last_seen_epoch": 1791373423.9537559,
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "retry_until": 1791394411.698167,
+      "retry_until": 1791395023.9537559,
       "scope": "provider"
     },
     "4de9bce2b1f2bf21e522": {
@@ -279,24 +312,24 @@
     },
     "7a7105af81ae98f13b89": {
       "category": "quota",
-      "count": 6,
+      "count": 7,
       "first_seen_at": "2026-10-02T20:48:02",
-      "last_seen_at": "2026-10-07T09:01:12",
-      "last_seen_epoch": 1791363672.2586224,
+      "last_seen_at": "2026-10-07T11:47:30",
+      "last_seen_epoch": 1791373650.5386093,
       "provider": "cloudflare",
       "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
-      "retry_until": 1791385272.2586224,
+      "retry_until": 1791395250.5386093,
       "scope": "provider"
     },
     "7cd7c210360ee67a0f9e": {
       "category": "quality",
-      "count": 5,
+      "count": 6,
       "first_seen_at": "2026-10-02T20:00:31",
-      "last_seen_at": "2026-10-06T17:53:45",
-      "last_seen_epoch": 1791309225.8480046,
+      "last_seen_at": "2026-10-07T11:45:08",
+      "last_seen_epoch": 1791373508.7008111,
       "provider": "cloudflare",
-      "reason": "manifest fact missing from Jobs output: deadline=2026-10-31",
-      "retry_until": 1791312825.8480046,
+      "reason": "manifest fact missing from Jobs output: deadline=2026-10-22",
+      "retry_until": 1791377108.7008111,
       "scope": "quality"
     },
     "7fc25b239b1f7d4ff3a5": {
@@ -312,13 +345,13 @@
     },
     "82ce5d050ecd9659a30b": {
       "category": "cooldown",
-      "count": 154,
+      "count": 156,
       "first_seen_at": "2026-10-05T15:01:11",
-      "last_seen_at": "2026-10-07T11:38:37",
-      "last_seen_epoch": 1791373117.9361038,
+      "last_seen_at": "2026-10-07T11:47:30",
+      "last_seen_epoch": 1791373650.5452833,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "openrouter candidates are cooling down",
-      "retry_until": 1791385272.2586224,
+      "retry_until": 1791385291.3347545,
       "scope": "global"
     },
     "83df4c959826d93b6e0b": {
@@ -345,13 +378,13 @@
     },
     "9b8ec695d1ca9e549f46": {
       "category": "quota",
-      "count": 27,
+      "count": 28,
       "first_seen_at": "2026-09-30T23:21:59",
-      "last_seen_at": "2026-10-07T10:41:16",
-      "last_seen_epoch": 1791369676.9655461,
+      "last_seen_at": "2026-10-07T11:44:39",
+      "last_seen_epoch": 1791373479.5510063,
       "provider": "gemini",
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "retry_until": 1791391276.9655461,
+      "retry_until": 1791395079.5510063,
       "scope": "provider"
     },
     "9bf50cd92a6721e56451": {
@@ -666,6 +699,30 @@
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
   "global_circuit": {},
   "provider_circuits": {
+    "cloudflare": {
+      "category": "quota",
+      "fingerprint": "7a7105af81ae98f13b89",
+      "opened_at": "2026-10-07T11:47:30",
+      "provider": "cloudflare",
+      "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
+      "until": 1791395250.5386093
+    },
+    "gemini": {
+      "category": "quota",
+      "fingerprint": "9b8ec695d1ca9e549f46",
+      "opened_at": "2026-10-07T11:44:39",
+      "provider": "gemini",
+      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "until": 1791395079.5510063
+    },
+    "groq": {
+      "category": "quota",
+      "fingerprint": "4b929cc3ad78785ed806",
+      "opened_at": "2026-10-07T11:43:43",
+      "provider": "groq",
+      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
+      "until": 1791395023.9537559
+    },
     "mistral": {
       "category": "quota",
       "fingerprint": "16f0cdcebb62d34cab0f",
@@ -695,21 +752,21 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 6.8861,
-      "failures": 11,
+      "avg_time": 7.0397,
+      "failures": 12,
       "key_id": "be6dab2cd8",
-      "last_failure_at": "2026-10-07T09:01:12",
-      "last_success_at": "2026-10-07T11:42:35",
+      "last_failure_at": "2026-10-07T11:47:30",
+      "last_success_at": "2026-10-07T11:45:32",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 299,
-      "total_success_time": 2058.9447
+      "successes": 305,
+      "total_success_time": 2147.1136
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 10.6179,
-      "failures": 35,
+      "failures": 36,
       "key_id": "64f603a8c0",
-      "last_failure_at": "2026-10-07T10:41:16",
+      "last_failure_at": "2026-10-07T11:44:39",
       "last_success_at": "2026-10-07T11:42:29",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
@@ -729,9 +786,9 @@
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
       "avg_time": 1.4075,
-      "failures": 67,
+      "failures": 68,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-07T11:33:31",
+      "last_failure_at": "2026-10-07T11:43:43",
       "last_success_at": "2026-10-07T11:42:29",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
@@ -758,9 +815,9 @@
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 13.6371,
-      "failures": 59,
+      "failures": 60,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-07T11:41:26",
+      "last_failure_at": "2026-10-07T11:45:04",
       "last_success_at": "2026-10-07T11:42:37",
       "model": "openrouter/free",
       "provider": "openrouter",
