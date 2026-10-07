@@ -224,8 +224,25 @@ def delivery_status(now=None, services=None, ai_circuit=None):
     if ai_circuit.get("global_open"):
         services = dict(services or {})
         ai_service = dict(services.get("ai") or {})
+        # Provider probes are cached, while runtime circuits are updated after
+        # every real generation attempt. Overlay active circuit rows so a
+        # recently exhausted provider cannot remain misleadingly marked "ok".
+        provider_rows = {
+            name: dict(row) if isinstance(row, dict) else {}
+            for name, row in (ai_service.get("providers") or {}).items()
+        }
+        for name, circuit in (ai_circuit.get("provider_circuits") or {}).items():
+            if not isinstance(circuit, dict):
+                continue
+            row = provider_rows.setdefault(name, {})
+            row["status"] = str(circuit.get("category") or "cooldown")
+            row["secret_names"] = row.get("secret_names") or PROVIDER_SECRETS.get(name, [])
+            retry_after = str(circuit.get("retry_after") or "")
+            if retry_after:
+                row["retry_after"] = retry_after
         ai_service.update({
             "status": "cooldown",
+            "providers": provider_rows,
             "retry_after": ai_circuit.get("global_retry_after", ""),
             "category": ai_circuit.get("global_category", ""),
             "action": (
