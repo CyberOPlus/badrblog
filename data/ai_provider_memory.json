@@ -26,12 +26,12 @@
       "until": 1791368089.1490355
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "failed_at": "2026-10-07T10:09:06",
+      "failed_at": "2026-10-07T10:14:31",
       "key_id": "1af698c9b3",
       "model": "openrouter/free",
       "provider": "openrouter",
       "reason": "OpenRouter returned an empty response.",
-      "until": 1791368050.3025455
+      "until": 1791368375.2535837
     }
   },
   "failure_fingerprints": {
@@ -664,10 +664,10 @@
     },
     "f69ff66465ee70a5a639": {
       "category": "empty",
-      "count": 26,
+      "count": 28,
       "first_seen_at": "2026-10-01T22:00:14",
-      "last_seen_at": "2026-10-07T10:09:06",
-      "last_seen_epoch": 1791367746.7254133,
+      "last_seen_at": "2026-10-07T10:14:31",
+      "last_seen_epoch": 1791368071.1460447,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "openrouter provider failed: OpenRouter returned an empty response.",
       "retry_until": 1791385272.2586224,
@@ -815,9 +815,9 @@
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 14.0971,
-      "failures": 48,
+      "failures": 49,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-07T10:09:06",
+      "last_failure_at": "2026-10-07T10:14:31",
       "last_success_at": "2026-10-07T10:08:41",
       "model": "openrouter/free",
       "provider": "openrouter",
