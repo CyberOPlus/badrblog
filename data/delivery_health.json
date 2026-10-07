@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-10-07T10:39:10.720637+00:00",
-  "state": "waiting_provider",
-  "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
+  "updated_at": "2026-10-07T10:40:19.676576+00:00",
+  "state": "facebook_stalled",
+  "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
   "hourly_target_met": true,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-07T10:25:22",
   "last_facebook_post_id": "103026497833721_1089696790092052",
-  "minutes_since_facebook": 13.8,
+  "minutes_since_facebook": 15.0,
   "last_blogger_publish_at": "2026-10-07T10:25:32.994378+00:00",
   "fresh_candidate_count": 20,
-  "verified_ready_candidate_count": 9,
-  "unverified_ready_candidate_count": 8,
+  "verified_ready_candidate_count": 5,
+  "unverified_ready_candidate_count": 12,
   "facebook_pending_count": 1,
-  "oldest_facebook_pending_minutes": 90.6,
-  "oldest_ready_candidate_minutes": 105.0,
+  "oldest_facebook_pending_minutes": 91.7,
+  "oldest_ready_candidate_minutes": 98.0,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -22,7 +22,7 @@
       "action": "Page/token lookup succeeded; publish permission is confirmed only by an actual delivery."
     },
     "ai": {
-      "status": "cooldown",
+      "status": "ok",
       "providers": {
         "gemini": {
           "status": "ok",
@@ -56,9 +56,7 @@
           ]
         }
       },
-      "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
-      "retry_after": "2026-10-07T11:01:18+00:00",
-      "category": "timeout"
+      "action": "At least one provider generated a response."
     },
     "sources": {
       "status": "degraded",
@@ -79,5 +77,5 @@
       "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
     }
   },
-  "services_checked_at": "2026-10-07T10:22:35.297105+00:00"
+  "services_checked_at": "2026-10-07T10:40:19.676061+00:00"
 }
