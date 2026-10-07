@@ -32,6 +32,14 @@
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
       "until": 1791385653.1199586
+    },
+    "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
+      "failed_at": "2026-10-07T14:35:18",
+      "key_id": "fb4fab4ba1",
+      "model": "qwen/qwen3.8-27b",
+      "provider": "groq",
+      "reason": "groq API error 429: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_demand",
+      "until": 1791386419.264894
     }
   },
   "failure_fingerprints": {
@@ -475,6 +483,17 @@
       "retry_until": 1790879208.8054576,
       "scope": "cycle_budget"
     },
+    "b476ab60032153e67963": {
+      "category": "quota",
+      "count": 2,
+      "first_seen_at": "2026-10-07T14:35:18",
+      "last_seen_at": "2026-10-07T14:35:18",
+      "last_seen_epoch": 1791383718.176866,
+      "provider": "cloudflare,gemini,groq,mistral,openrouter",
+      "reason": "groq model capacity failed: groq API error 429: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_01kqcsv7j3fkmb0f9ry9ctv",
+      "retry_until": 1791389118.176866,
+      "scope": "global"
+    },
     "b91c0c010afcf8915975": {
       "category": "provider_error",
       "count": 1,
@@ -808,9 +827,9 @@
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.0431,
-      "failures": 3,
+      "failures": 4,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-07T13:08:01",
+      "last_failure_at": "2026-10-07T14:35:18",
       "last_success_at": "2026-10-07T14:34:07",
       "model": "qwen/qwen3.8-27b",
       "provider": "groq",
