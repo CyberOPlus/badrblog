@@ -5653,6 +5653,49 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(article["facebook_retry_delay_seconds"], 5 * 60)
         self.assertEqual(article["facebook_retry_after_epoch"], 1000 + 5 * 60)
 
+    def test_rejected_ai_caption_is_cleared_and_regenerated_on_retry(self):
+        article = {
+            "id": "invalid-social-hook",
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/2026/10/job.html",
+            "facebook_status": "facebook_pending",
+            "facebook_post_source": "social_ai",
+            "facebook_post_text": "عنوان مطابق لعنوان المقال",
+            "facebook_ai_provider_used": "gemini:test",
+            "facebook_ai_attempts": 1,
+            "facebook_ai_generated_at": "2026-10-07T09:00:00+00:00",
+        }
+        error = RuntimeError(
+            "Facebook caption hook is missing or identical to the title."
+        )
+
+        with patch.object(facebook, "JOBS_FACEBOOK_MIN_INTERVAL_MINUTES", 5), \
+             patch.object(facebook.time, "time", return_value=1000):
+            facebook._apply_failure(article, error)
+
+        self.assertEqual(article["facebook_status"], "failed")
+        self.assertEqual(article["facebook_retry_delay_seconds"], 5 * 60)
+        self.assertNotIn("facebook_post_text", article)
+        self.assertNotIn("facebook_post_source", article)
+        self.assertNotIn("facebook_ai_provider_used", article)
+
+        # A record persisted before this fix can still contain the rejected
+        # cached wording. Re-opening it must migrate that stale state too.
+        article["facebook_post_text"] = "عنوان مطابق لعنوان المقال"
+        article["facebook_post_source"] = "social_ai"
+        article["facebook_ai_provider_used"] = "gemini:test"
+        with patch.object(facebook, "_facebook_retry_ready", return_value=True), \
+             patch.object(facebook, "_job_facebook_expired", return_value=False), \
+             patch.object(facebook, "_persist_jobs_social_state"):
+            changed = facebook._mark_facebook_pending(article)
+
+        self.assertTrue(changed)
+        self.assertEqual(article["facebook_status"], "facebook_pending")
+        self.assertNotIn("facebook_post_text", article)
+        self.assertNotIn("facebook_post_source", article)
+        self.assertNotIn("facebook_error", article)
+
     def test_legacy_long_social_ai_backoff_is_shortened_after_schema_fix(self):
         article = {
             "facebook_status": "failed",
