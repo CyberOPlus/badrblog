@@ -107,11 +107,44 @@ def _is_jobs_image_generation_failure(error):
 def _is_jobs_social_generation_failure(error):
     """Return True for local social-copy failures that happen before Graph API."""
     text = re.sub(r"\s+", "", str(error or "").casefold())
+    ai_validation_markers = (
+        "facebookcaptionisempty",
+        "jobsfacebookcaptionisnotforcedtortloneveryvisibleline",
+        "facebookcaptioncontainsvisiblejson/markdown",
+        "facebookcaptioncontainsaurl",
+        "facebookcaptioncontainsmarkdownbullets",
+        "jobsfacebookcaptionmustnotcontainhashtags",
+        "facebookcaptionmustmentionthefirstcommentexactlyonce",
+        "facebookcaptionhookismissingoridenticaltothetitle",
+        "facebookcaptionhookistooweak",
+        "facebookfirst-commentctamustbethefinalline",
+        "facebookcaptionisnotarabicenough",
+        "jobsfacebookcaptionmustbewrittenentirelyinarabic",
+        "facebookcaptionlengthisoutsidetheexpectedrange",
+        "facebookcaptionistoosimilartoarecentpost",
+        "facebookcaptionistoothin",
+    )
     return (
         "facebooksocialaifailed" in text
         or "facebooksocialcopy" in text
         or "facebookhookrepeatsarecentopening" in text
+        or any(marker in text for marker in ai_validation_markers)
     )
+
+
+def _clear_cached_jobs_social_copy(article):
+    """Discard rejected AI wording so the next retry asks AI for fresh copy."""
+    for key in (
+        "facebook_post_text",
+        "facebook_post_source",
+        "facebook_ai_provider_used",
+        "facebook_ai_attempts",
+        "facebook_ai_generated_at",
+        "facebook_ai_error",
+        "facebook_hook_generated",
+        "facebook_caption_fingerprint",
+    ):
+        article.pop(key, None)
 
 
 def _is_jobs_social_provider_wait(error):
@@ -244,6 +277,12 @@ def _mark_facebook_pending(article, now=None, reason="published_to_blogger"):
         return False
 
     changed = current != "facebook_pending"
+    if current == "failed" and _is_jobs_social_generation_failure(
+        article.get("facebook_error")
+    ):
+        # Migrate already-queued failures from before the cache invalidation
+        # fix; otherwise the same rejected AI hook is replayed forever.
+        _clear_cached_jobs_social_copy(article)
     article["facebook_status"] = "facebook_pending"
     article["facebook_queued_at"] = (
         article.get("facebook_queued_at")
@@ -1558,6 +1597,8 @@ def _facebook_failure_delay_seconds(error, failure_count):
 
 
 def _apply_failure(article, error):
+    if _is_jobs_social_generation_failure(error):
+        _clear_cached_jobs_social_copy(article)
     article["facebook_status"] = "failed"
     article["facebook_error"] = str(error)
     count = int(article.get("facebook_failure_count") or 0) + 1
