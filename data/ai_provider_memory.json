@@ -299,6 +299,17 @@
       "retry_until": 1791401131.0284212,
       "scope": "quality"
     },
+    "69724b7da94c262f4b8d": {
+      "category": "quality",
+      "count": 1,
+      "first_seen_at": "2026-10-07T18:41:53",
+      "last_seen_at": "2026-10-07T18:41:53",
+      "last_seen_epoch": 1791398513.2415032,
+      "provider": "cloudflare",
+      "reason": "random language mixing found in article output",
+      "retry_until": 1791398813.2415032,
+      "scope": "quality"
+    },
     "6a52ff2ce198a0896fe8": {
       "category": "empty",
       "count": 11,
@@ -796,15 +807,15 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 7.0968,
+      "avg_time": 7.1622,
       "failures": 16,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-07T18:31:03",
-      "last_success_at": "2026-10-07T18:40:18",
+      "last_success_at": "2026-10-07T18:42:19",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 379,
-      "total_success_time": 2689.6699
+      "successes": 385,
+      "total_success_time": 2757.4538
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 10.4299,
