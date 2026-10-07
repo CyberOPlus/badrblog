@@ -1,14 +1,6 @@
 {
   "avg_time": 0.5573,
   "cooldowns": {
-    "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "failed_at": "2026-10-07T11:47:30",
-      "key_id": "be6dab2cd8",
-      "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-      "provider": "cloudflare",
-      "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
-      "until": 1791376355.3331432
-    },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "failed_at": "2026-10-07T11:59:44",
       "key_id": "64f603a8c0",
@@ -16,22 +8,6 @@
       "provider": "gemini",
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "until": 1791377087.6113229
-    },
-    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "failed_at": "2026-10-07T11:59:44",
-      "key_id": "fb4fab4ba1",
-      "model": "openai/gpt-oss-20b",
-      "provider": "groq",
-      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "until": 1791377089.9199421
-    },
-    "openrouter:openrouter/free:1af698c9b3": {
-      "failed_at": "2026-10-07T12:20:34",
-      "key_id": "1af698c9b3",
-      "model": "openrouter/free",
-      "provider": "openrouter",
-      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
-      "until": 1791376239.2145095
     }
   },
   "failure_fingerprints": {
@@ -697,29 +673,8 @@
     }
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
-  "global_circuit": {
-    "category": "timeout",
-    "fingerprint": "5536f2970a79bc5a87a5",
-    "opened_at": "2026-10-07T12:20:34",
-    "providers": [
-      "cloudflare",
-      "gemini",
-      "groq",
-      "mistral",
-      "openrouter"
-    ],
-    "reason": "openrouter provider failed: (\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
-    "until": 1791382834.8200045
-  },
+  "global_circuit": {},
   "provider_circuits": {
-    "cloudflare": {
-      "category": "quota",
-      "fingerprint": "7a7105af81ae98f13b89",
-      "opened_at": "2026-10-07T11:47:30",
-      "provider": "cloudflare",
-      "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
-      "until": 1791395250.5386093
-    },
     "gemini": {
       "category": "quota",
       "fingerprint": "9b8ec695d1ca9e549f46",
@@ -728,14 +683,6 @@
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "until": 1791395984.8307815
     },
-    "groq": {
-      "category": "quota",
-      "fingerprint": "4b929cc3ad78785ed806",
-      "opened_at": "2026-10-07T11:59:44",
-      "provider": "groq",
-      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "until": 1791395984.96717
-    },
     "mistral": {
       "category": "quota",
       "fingerprint": "16f0cdcebb62d34cab0f",
@@ -743,14 +690,6 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1791385291.3347545
-    },
-    "openrouter": {
-      "category": "timeout",
-      "fingerprint": "9cd5bdcb42034dceea88",
-      "opened_at": "2026-10-07T12:20:34",
-      "provider": "openrouter",
-      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
-      "until": 1791382834.8200045
     }
   },
   "stats": {
@@ -773,15 +712,15 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 7.0397,
+      "avg_time": 7.0188,
       "failures": 12,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-07T11:47:30",
-      "last_success_at": "2026-10-07T11:45:32",
+      "last_success_at": "2026-10-07T12:22:38",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 305,
-      "total_success_time": 2147.1136
+      "successes": 306,
+      "total_success_time": 2147.7445
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 10.5937,
@@ -806,15 +745,15 @@
       "total_success_time": 139.9676
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.4018,
+      "avg_time": 1.3962,
       "failures": 69,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-07T11:59:44",
-      "last_success_at": "2026-10-07T11:58:24",
+      "last_success_at": "2026-10-07T12:22:37",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 193,
-      "total_success_time": 270.551
+      "successes": 194,
+      "total_success_time": 270.8547
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.2348,
@@ -835,15 +774,15 @@
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 13.3666,
+      "avg_time": 13.2949,
       "failures": 62,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-07T12:20:34",
-      "last_success_at": "2026-10-07T11:59:46",
+      "last_success_at": "2026-10-07T12:22:42",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 129,
-      "total_success_time": 1724.2894
+      "successes": 130,
+      "total_success_time": 1728.3426
     }
   }
 }
