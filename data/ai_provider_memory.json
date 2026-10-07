@@ -1,6 +1,23 @@
 {
   "avg_time": 0.5573,
-  "cooldowns": {},
+  "cooldowns": {
+    "gemini:gemini-2.5-flash:64f603a8c0": {
+      "failed_at": "2026-10-07T10:41:16",
+      "key_id": "64f603a8c0",
+      "model": "gemini-2.5-flash",
+      "provider": "gemini",
+      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "until": 1791372377.3492858
+    },
+    "openrouter:openrouter/free:1af698c9b3": {
+      "failed_at": "2026-10-07T10:41:57",
+      "key_id": "1af698c9b3",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1791370020.882787
+    }
+  },
   "failure_fingerprints": {
     "0bfbbde687f6e2ee0b50": {
       "category": "cooldown",
@@ -345,13 +362,13 @@
     },
     "9b8ec695d1ca9e549f46": {
       "category": "quota",
-      "count": 26,
+      "count": 27,
       "first_seen_at": "2026-09-30T23:21:59",
-      "last_seen_at": "2026-10-07T10:25:11",
-      "last_seen_epoch": 1791368711.4643877,
+      "last_seen_at": "2026-10-07T10:41:16",
+      "last_seen_epoch": 1791369676.9655461,
       "provider": "gemini",
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "retry_until": 1791390311.4643877,
+      "retry_until": 1791391276.9655461,
       "scope": "provider"
     },
     "9bf50cd92a6721e56451": {
@@ -455,13 +472,13 @@
     },
     "c06dfec78988d6c26db2": {
       "category": "format",
-      "count": 5,
+      "count": 6,
       "first_seen_at": "2026-10-06T18:54:40",
-      "last_seen_at": "2026-10-07T10:31:18",
-      "last_seen_epoch": 1791369078.5284483,
+      "last_seen_at": "2026-10-07T10:41:20",
+      "last_seen_epoch": 1791369680.603321,
       "provider": "groq:openai/gpt-oss-20b",
       "reason": "AI article response returned incomplete JSON.",
-      "retry_until": 1791372678.5284483,
+      "retry_until": 1791373280.603321,
       "scope": "provider"
     },
     "c10c0e8ef2bd27adc53f": {
@@ -631,13 +648,13 @@
     },
     "f69ff66465ee70a5a639": {
       "category": "empty",
-      "count": 30,
+      "count": 32,
       "first_seen_at": "2026-10-01T22:00:14",
-      "last_seen_at": "2026-10-07T10:31:37",
-      "last_seen_epoch": 1791369097.5684066,
+      "last_seen_at": "2026-10-07T10:41:57",
+      "last_seen_epoch": 1791369717.746498,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "openrouter provider failed: OpenRouter returned an empty response.",
-      "retry_until": 1791370878.530078,
+      "retry_until": 1791371480.6049035,
       "scope": "global"
     },
     "f8d83b9dc799f3657708": {
@@ -673,6 +690,23 @@
       "provider": "cloudflare",
       "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
       "until": 1791385272.2586224
+    },
+    "gemini": {
+      "category": "quota",
+      "fingerprint": "9b8ec695d1ca9e549f46",
+      "opened_at": "2026-10-07T10:41:16",
+      "provider": "gemini",
+      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "until": 1791391276.9655461
+    },
+    "groq": {
+      "category": "format",
+      "fingerprint": "c06dfec78988d6c26db2",
+      "model": "openai/gpt-oss-20b",
+      "opened_at": "2026-10-07T10:41:20",
+      "provider": "groq",
+      "reason": "AI article response returned incomplete JSON.",
+      "until": 1791371480.6049035
     },
     "mistral": {
       "category": "quota",
@@ -715,9 +749,9 @@
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 10.6798,
-      "failures": 34,
+      "failures": 35,
       "key_id": "64f603a8c0",
-      "last_failure_at": "2026-10-07T10:25:11",
+      "last_failure_at": "2026-10-07T10:41:16",
       "last_success_at": "2026-10-07T10:40:16",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
@@ -736,15 +770,15 @@
       "total_success_time": 135.9486
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.3762,
+      "avg_time": 1.3886,
       "failures": 63,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-07T10:05:18",
-      "last_success_at": "2026-10-07T10:40:16",
+      "last_success_at": "2026-10-07T10:41:20",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 181,
-      "total_success_time": 249.0907
+      "successes": 182,
+      "total_success_time": 252.7214
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.2348,
@@ -766,9 +800,9 @@
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 13.901,
-      "failures": 52,
+      "failures": 53,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-07T10:39:09",
+      "last_failure_at": "2026-10-07T10:41:57",
       "last_success_at": "2026-10-07T10:40:19",
       "model": "openrouter/free",
       "provider": "openrouter",
