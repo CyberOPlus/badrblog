@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-10-07T09:17:18.026744+00:00",
+  "updated_at": "2026-10-07T09:18:29.512347+00:00",
   "state": "source_degraded",
   "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running.",
   "hourly_target_met": true,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-07T09:17:10",
   "last_facebook_post_id": "103026497833721_1089656703429394",
-  "minutes_since_facebook": 0.1,
+  "minutes_since_facebook": 1.3,
   "last_blogger_publish_at": "2026-10-07T09:17:17.049141+00:00",
   "fresh_candidate_count": 11,
-  "verified_ready_candidate_count": 5,
-  "unverified_ready_candidate_count": 5,
+  "verified_ready_candidate_count": 0,
+  "unverified_ready_candidate_count": 10,
   "facebook_pending_count": 1,
-  "oldest_facebook_pending_minutes": 8.7,
-  "oldest_ready_candidate_minutes": 23.2,
+  "oldest_facebook_pending_minutes": 9.9,
+  "oldest_ready_candidate_minutes": 0,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -72,6 +72,12 @@
           "failure_count": 2,
           "category": "network_timeout",
           "retry_after": "2026-10-07T09:21:50Z"
+        },
+        {
+          "source_name": "Attijariwafa bank",
+          "failure_count": 1,
+          "category": "network_timeout",
+          "retry_after": "2026-10-07T09:48:19Z"
         }
       ],
       "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
