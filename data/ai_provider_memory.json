@@ -1,14 +1,6 @@
 {
   "avg_time": 0.5573,
   "cooldowns": {
-    "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "failed_at": "2026-10-07T09:01:12",
-      "key_id": "be6dab2cd8",
-      "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-      "provider": "cloudflare",
-      "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
-      "until": 1791366377.126036
-    },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
       "failed_at": "2026-10-07T09:23:11",
       "key_id": "fb4fab4ba1",
@@ -32,14 +24,6 @@
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_demand",
       "until": 1791368089.1490355
-    },
-    "mistral:mistral-small-latest:8feed32495": {
-      "failed_at": "2026-10-07T09:01:31",
-      "key_id": "8feed32495",
-      "model": "mistral-small-latest",
-      "provider": "mistral",
-      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
-      "until": 1791366396.1223989
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "failed_at": "2026-10-07T09:43:02",
@@ -350,13 +334,13 @@
     },
     "82ce5d050ecd9659a30b": {
       "category": "cooldown",
-      "count": 98,
+      "count": 100,
       "first_seen_at": "2026-10-05T15:01:11",
-      "last_seen_at": "2026-10-07T09:45:44",
-      "last_seen_epoch": 1791366344.617755,
+      "last_seen_at": "2026-10-07T09:47:28",
+      "last_seen_epoch": 1791366448.7655094,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "openrouter candidates are cooling down",
-      "retry_until": 1791373544.617755,
+      "retry_until": 1791373648.7655094,
       "scope": "global"
     },
     "83df4c959826d93b6e0b": {
