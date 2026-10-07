@@ -214,6 +214,17 @@
       "retry_until": 1791386329.5015018,
       "scope": "global"
     },
+    "53c2ea580a9dbef51425": {
+      "category": "article_input",
+      "count": 2,
+      "first_seen_at": "2026-10-07T18:25:17",
+      "last_seen_at": "2026-10-07T18:25:24",
+      "last_seen_epoch": 1791397524.165623,
+      "provider": "",
+      "reason": "source/evidence problem: verified identity evidence stage is incomplete",
+      "retry_until": 1791401124.165623,
+      "scope": "article_input"
+    },
     "541464fd2507dff7335a": {
       "category": "quota",
       "count": 1,
@@ -271,13 +282,13 @@
     },
     "601f42aeb7164c70a244": {
       "category": "quality",
-      "count": 11,
+      "count": 12,
       "first_seen_at": "2026-10-01T14:51:02",
-      "last_seen_at": "2026-10-01T18:40:29",
-      "last_seen_epoch": 1790880029.1407633,
+      "last_seen_at": "2026-10-07T18:25:31",
+      "last_seen_epoch": 1791397531.0284212,
       "provider": "cloudflare",
       "reason": "AI article response returned incomplete JSON.",
-      "retry_until": 1790883629.1407633,
+      "retry_until": 1791401131.0284212,
       "scope": "quality"
     },
     "6a52ff2ce198a0896fe8": {
@@ -311,6 +322,17 @@
       "provider": "openrouter:cohere/north-mini-code:free",
       "reason": "AI article response returned incomplete JSON.",
       "retry_until": 1791307237.7117653,
+      "scope": "provider"
+    },
+    "711c5951c0c17ef99790": {
+      "category": "format",
+      "count": 1,
+      "first_seen_at": "2026-10-07T18:25:31",
+      "last_seen_at": "2026-10-07T18:25:31",
+      "last_seen_epoch": 1791397531.0269716,
+      "provider": "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "reason": "AI article response returned incomplete JSON.",
+      "retry_until": 1791398431.0269716,
       "scope": "provider"
     },
     "7a7105af81ae98f13b89": {
@@ -758,15 +780,15 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 7.0766,
+      "avg_time": 7.1236,
       "failures": 15,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-07T13:48:49",
-      "last_success_at": "2026-10-07T18:20:06",
+      "last_success_at": "2026-10-07T18:27:06",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 362,
-      "total_success_time": 2561.7407
+      "successes": 372,
+      "total_success_time": 2649.9886
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 10.4851,
