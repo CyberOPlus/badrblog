@@ -10,12 +10,12 @@
       "until": 1791375514.4124064
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "failed_at": "2026-10-07T11:34:14",
+      "failed_at": "2026-10-07T11:41:26",
       "key_id": "1af698c9b3",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "reason": "OpenRouter returned an empty response.",
-      "until": 1791373158.6554024
+      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+      "until": 1791373886.7182305
     }
   },
   "failure_fingerprints": {
@@ -219,13 +219,13 @@
     },
     "5536f2970a79bc5a87a5": {
       "category": "timeout",
-      "count": 12,
+      "count": 13,
       "first_seen_at": "2026-10-01T20:10:12",
-      "last_seen_at": "2026-10-07T11:12:30",
-      "last_seen_epoch": 1791371550.3099024,
+      "last_seen_at": "2026-10-07T11:41:26",
+      "last_seen_epoch": 1791373286.6414936,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "openrouter provider failed: (\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
-      "retry_until": 1791378750.3099024,
+      "retry_until": 1791380486.6414936,
       "scope": "global"
     },
     "554cda85fb88ccc5d23e": {
@@ -395,13 +395,13 @@
     },
     "9cd5bdcb42034dceea88": {
       "category": "timeout",
-      "count": 17,
+      "count": 18,
       "first_seen_at": "2026-10-01T20:10:12",
-      "last_seen_at": "2026-10-07T11:12:30",
-      "last_seen_epoch": 1791371550.3064039,
+      "last_seen_at": "2026-10-07T11:41:26",
+      "last_seen_epoch": 1791373286.638312,
       "provider": "openrouter",
       "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
-      "retry_until": 1791378750.3064039,
+      "retry_until": 1791380486.638312,
       "scope": "provider"
     },
     "9d792929c1f5c9fbd20c": {
@@ -681,7 +681,20 @@
     }
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
-  "global_circuit": {},
+  "global_circuit": {
+    "category": "timeout",
+    "fingerprint": "5536f2970a79bc5a87a5",
+    "opened_at": "2026-10-07T11:41:26",
+    "providers": [
+      "cloudflare",
+      "gemini",
+      "groq",
+      "mistral",
+      "openrouter"
+    ],
+    "reason": "openrouter provider failed: (\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+    "until": 1791380486.638312
+  },
   "provider_circuits": {
     "cloudflare": {
       "category": "quota",
@@ -714,6 +727,14 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1791385291.3347545
+    },
+    "openrouter": {
+      "category": "timeout",
+      "fingerprint": "9cd5bdcb42034dceea88",
+      "opened_at": "2026-10-07T11:41:26",
+      "provider": "openrouter",
+      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+      "until": 1791380486.638312
     }
   },
   "stats": {
@@ -799,9 +820,9 @@
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 13.7298,
-      "failures": 58,
+      "failures": 59,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-07T11:34:14",
+      "last_failure_at": "2026-10-07T11:41:26",
       "last_success_at": "2026-10-07T11:25:30",
       "model": "openrouter/free",
       "provider": "openrouter",
