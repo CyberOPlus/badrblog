@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-10-07T13:05:22.802554+00:00",
-  "state": "waiting_provider",
-  "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
+  "updated_at": "2026-10-07T13:06:32.158699+00:00",
+  "state": "facebook_stalled",
+  "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
   "hourly_target_met": true,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-07T12:45:21",
   "last_facebook_post_id": "103026497833721_1089791973415867",
-  "minutes_since_facebook": 20.0,
+  "minutes_since_facebook": 21.2,
   "last_blogger_publish_at": "2026-10-07T12:53:29.743279+00:00",
   "fresh_candidate_count": 23,
-  "verified_ready_candidate_count": 5,
-  "unverified_ready_candidate_count": 14,
+  "verified_ready_candidate_count": 2,
+  "unverified_ready_candidate_count": 17,
   "facebook_pending_count": 2,
-  "oldest_facebook_pending_minutes": 236.8,
-  "oldest_ready_candidate_minutes": 251.2,
+  "oldest_facebook_pending_minutes": 238.0,
+  "oldest_ready_candidate_minutes": 176.6,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -22,10 +22,10 @@
       "action": "Page/token lookup succeeded; publish permission is confirmed only by an actual delivery."
     },
     "ai": {
-      "status": "cooldown",
+      "status": "ok",
       "providers": {
         "gemini": {
-          "status": "quota",
+          "status": "ok",
           "secret_names": [
             "GEMINI_API_KEY"
           ]
@@ -44,7 +44,7 @@
           ]
         },
         "openrouter": {
-          "status": "ok",
+          "status": "quota",
           "secret_names": [
             "OPENROUTER_API_KEY"
           ]
@@ -56,9 +56,7 @@
           ]
         }
       },
-      "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
-      "retry_after": "2026-10-07T14:52:49+00:00",
-      "category": "quota"
+      "action": "At least one provider generated a response."
     },
     "sources": {
       "status": "degraded",
@@ -68,10 +66,16 @@
           "failure_count": 176,
           "category": "network_timeout",
           "retry_after": "2026-10-07T13:35:14Z"
+        },
+        {
+          "source_name": "UNICEF Vacancies",
+          "failure_count": 1,
+          "category": "source_error",
+          "retry_after": "2026-10-07T13:21:23Z"
         }
       ],
       "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
     }
   },
-  "services_checked_at": "2026-10-07T12:22:42.520479+00:00"
+  "services_checked_at": "2026-10-07T13:06:32.158198+00:00"
 }
