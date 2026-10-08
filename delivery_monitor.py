@@ -295,10 +295,18 @@ def delivery_status(now=None, services=None, ai_circuit=None):
         and row.get("job_quality_status") == "publish"
         and not (row.get("job_quality_reasons") or [])
         and row.get("job_hard_gate_passed") is True
+        and row.get("identity_evidence_stage_status") == "complete"
+        and not (
+            row.get("ai_status") == "failed"
+            and row.get("ai_retry_pending")
+        )
     ]
     pending_ages = [_age(row.get("facebook_queued_at") or row.get("published_at"), now) for row in pending]
     oldest_pending = max((age for age in pending_ages if age is not None), default=0)
-    candidate_ages = [_age(row.get("discovered_at"), now) for row in verified_ready]
+    candidate_ages = [
+        _age(row.get("selected_at") or row.get("discovered_at"), now)
+        for row in verified_ready
+    ]
     oldest_candidate = max((age for age in candidate_ages if age is not None), default=0)
     target_met = facebook_age is not None and facebook_age <= TARGET_MINUTES
     if services.get("facebook", {}).get("status") not in {None, "ok"}:
