@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-08T22:49:50",
+  "updated_at": "2026-10-08T22:50:50",
   "articles": [
     {
       "id": "a760d3f27d2239d7",
@@ -59104,7 +59104,7 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "bea330c12335dc49bef0",
+      "job_campaign_id": "c3b9b60cc58da3f6c62a",
       "seo_slug": "unicef-senior-international-consultant-on-gender-climate-adaptation",
       "desired_slug": "unicef-senior-international-consultant-on-gender-climate-adaptation",
       "job_identity_final": false,
@@ -59126,7 +59126,7 @@
       "identity_evidence_tables_checked": true,
       "identity_evidence_documents_checked": false,
       "identity_evidence_stage_status": "incomplete",
-      "identity_evidence_stage_checked_at": "2026-10-08T16:51:50+00:00",
+      "identity_evidence_stage_checked_at": "2026-10-08T22:50:50+00:00",
       "identity_evidence_signature": "aa16e5a156decbc63c993096",
       "identity_evidence_strength": 6,
       "identity_evidence_comparison_strength": 1,
@@ -59243,7 +59243,7 @@
         }
       },
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-10-08T16:51:50",
+      "processing_prepared_at": "2026-10-08T22:50:50",
       "ai_input_package": {
         "title": "Senior International Consultant on Gender & Climate Adaptation (remote for 13 months)",
         "url": "https://jobs.unicef.org/cw/en-us/job/596186/senior-international-consultant-on-gender-climate-adaptation-remote-for-13-months",
@@ -59461,23 +59461,25 @@
       "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
       "ai_total_time_seconds": 0.0,
-      "ai_failure_scope": "retry_backoff",
+      "ai_failure_scope": "article_input",
       "ai_failure_fingerprint": "a337cb8c4c90a13d6d08",
       "ai_failure_category": "article_input",
-      "ai_quality_status": "retry_backoff",
+      "ai_quality_status": "article_input_backoff",
       "ai_quality_attempts": 0,
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "source/evidence problem: official document evidence could not be retrieved",
       "candidate_failure_fingerprint": "3f255bfad5596a63b917",
-      "candidate_failure_repeat_count": 1,
-      "candidate_failure_backoff_minutes": 360,
-      "candidate_failed_at": "2026-10-08T10:50:21",
-      "candidate_failure_count": 1,
-      "ai_retry_pending": true,
-      "ai_previous_failure_scope": "article_input",
-      "ai_retry_after": "2026-10-08T22:50:40+00:00",
+      "candidate_failure_repeat_count": 2,
+      "candidate_failure_backoff_minutes": 720,
+      "candidate_failed_at": "2026-10-08T22:50:50",
+      "candidate_failure_count": 2,
       "selection_recovered_at": "2026-10-08T17:22:29+00:00",
-      "selection_recovery_reason": "stale_selected_without_active_worker"
+      "selection_recovery_reason": "stale_selected_without_active_worker",
+      "selected_at": "2026-10-08T22:50:49",
+      "selection_reason": "jobs quality 90/100; identity=new; urgency=normal",
+      "ai_retry_pending": true,
+      "ai_retry_after": "2026-10-09T04:50:50+00:00",
+      "candidate_retry_after": "2026-10-09T10:50:50Z"
     },
     {
       "id": "a99c926f8877a234",
@@ -59997,8 +59999,6 @@
       "candidate_failure_backoff_minutes": 720,
       "candidate_failed_at": "2026-10-08T16:50:41",
       "candidate_failure_count": 2,
-      "ai_retry_pending": true,
-      "ai_retry_after": "2026-10-08T22:50:40+00:00",
       "candidate_retry_after": "2026-10-09T04:50:41Z"
     },
     {
