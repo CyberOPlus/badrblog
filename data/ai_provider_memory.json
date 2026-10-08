@@ -1,14 +1,6 @@
 {
   "avg_time": 0.5573,
   "cooldowns": {
-    "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "failed_at": "2026-10-08T16:39:10",
-      "key_id": "be6dab2cd8",
-      "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-      "provider": "cloudflare",
-      "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
-      "until": 1791480254.9104743
-    },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "failed_at": "2026-10-08T16:41:15",
       "key_id": "64f603a8c0",
@@ -32,14 +24,6 @@
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_deman",
       "until": 1791481025.940501
-    },
-    "mistral:mistral-small-latest:8feed32495": {
-      "failed_at": "2026-10-08T16:39:11",
-      "key_id": "8feed32495",
-      "model": "mistral-small-latest",
-      "provider": "mistral",
-      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
-      "until": 1791480252.0319097
     }
   },
   "failure_fingerprints": {
@@ -862,15 +846,15 @@
       "total_success_time": 2088.1969
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
-      "avg_time": 3.7272,
+      "avg_time": 3.6932,
       "failures": 16,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-08T16:10:46",
-      "last_success_at": "2026-10-08T17:23:44",
+      "last_success_at": "2026-10-08T17:25:20",
       "model": "openai/gpt-oss-120b",
       "provider": "groq",
-      "successes": 81,
-      "total_success_time": 301.9026
+      "successes": 83,
+      "total_success_time": 306.5325
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
       "avg_time": 1.3717,
