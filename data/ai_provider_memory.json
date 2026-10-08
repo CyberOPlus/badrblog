@@ -1,14 +1,6 @@
 {
   "avg_time": 0.5573,
   "cooldowns": {
-    "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "failed_at": "2026-10-08T18:51:40",
-      "key_id": "be6dab2cd8",
-      "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-      "provider": "cloudflare",
-      "reason": "('Connection aborted.', Timeout('AI provider wall-clock timeout after 60s'))",
-      "until": 1791486101.4829051
-    },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
       "failed_at": "2026-10-08T18:49:59",
       "key_id": "fb4fab4ba1",
@@ -414,13 +406,13 @@
     },
     "82ce5d050ecd9659a30b": {
       "category": "cooldown",
-      "count": 212,
+      "count": 214,
       "first_seen_at": "2026-10-05T15:01:11",
-      "last_seen_at": "2026-10-08T19:01:14",
-      "last_seen_epoch": 1791486074.1411781,
+      "last_seen_at": "2026-10-08T19:02:12",
+      "last_seen_epoch": 1791486132.2306626,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "openrouter candidates are cooling down",
-      "retry_until": 1791493274.1411781,
+      "retry_until": 1791493332.2306626,
       "scope": "global"
     },
     "83df4c959826d93b6e0b": {
