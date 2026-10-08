@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-10-08T13:02:52.996404+00:00",
-  "state": "source_degraded",
-  "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running.",
-  "hourly_target_met": true,
+  "updated_at": "2026-10-08T15:56:19.346308+00:00",
+  "state": "candidate_stalled",
+  "action": "A verified ready job has waited at least one hour before Facebook; inspect the publisher's blocking reason.",
+  "hourly_target_met": false,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-08T12:26:49",
   "last_facebook_post_id": "103026497833721_1090649563330108",
-  "minutes_since_facebook": 36.1,
-  "last_blogger_publish_at": "2026-10-08T12:27:00.911718+00:00",
-  "fresh_candidate_count": 16,
-  "verified_ready_candidate_count": 0,
-  "unverified_ready_candidate_count": 16,
-  "facebook_pending_count": 0,
-  "oldest_facebook_pending_minutes": 0,
-  "oldest_ready_candidate_minutes": 0,
+  "minutes_since_facebook": 209.5,
+  "last_blogger_publish_at": "2026-10-08T15:56:02.042229+00:00",
+  "fresh_candidate_count": 23,
+  "verified_ready_candidate_count": 1,
+  "unverified_ready_candidate_count": 22,
+  "facebook_pending_count": 1,
+  "oldest_facebook_pending_minutes": 0.5,
+  "oldest_ready_candidate_minutes": 181.3,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -44,7 +44,7 @@
           ]
         },
         "openrouter": {
-          "status": "ok",
+          "status": "timeout",
           "secret_names": [
             "OPENROUTER_API_KEY"
           ]
@@ -63,13 +63,13 @@
       "active_issues": [
         {
           "source_name": "ANAPEC — offres nationales",
-          "failure_count": 218,
+          "failure_count": 219,
           "category": "network_timeout",
-          "retry_after": "2026-10-08T13:31:56Z"
+          "retry_after": "2026-10-08T16:24:44Z"
         }
       ],
       "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
     }
   },
-  "services_checked_at": "2026-10-08T12:18:26.220713+00:00"
+  "services_checked_at": "2026-10-08T15:56:19.345840+00:00"
 }
