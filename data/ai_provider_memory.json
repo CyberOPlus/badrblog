@@ -25,6 +25,22 @@
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_de",
       "until": 1791478548.4455576
     },
+    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
+      "failed_at": "2026-10-08T16:52:01",
+      "key_id": "fb4fab4ba1",
+      "model": "openai/gpt-oss-20b",
+      "provider": "groq",
+      "reason": "groq returned an empty response.",
+      "until": 1791478626.0441575
+    },
+    "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
+      "failed_at": "2026-10-08T16:52:04",
+      "key_id": "fb4fab4ba1",
+      "model": "qwen/qwen3.8-27b",
+      "provider": "groq",
+      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_deman",
+      "until": 1791481025.940501
+    },
     "mistral:mistral-small-latest:8feed32495": {
       "failed_at": "2026-10-08T16:39:11",
       "key_id": "8feed32495",
@@ -254,13 +270,13 @@
     },
     "541464fd2507dff7335a": {
       "category": "quota",
-      "count": 2,
+      "count": 3,
       "first_seen_at": "2026-10-06T11:11:23",
-      "last_seen_at": "2026-10-08T10:44:25",
-      "last_seen_epoch": 1791456265.6158698,
+      "last_seen_at": "2026-10-08T16:52:04",
+      "last_seen_epoch": 1791478324.7384748,
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_deman",
-      "retry_until": 1791461665.6158698,
+      "retry_until": 1791489124.7384748,
       "scope": "provider"
     },
     "5536f2970a79bc5a87a5": {
@@ -812,13 +828,12 @@
       "until": 1791499275.0420022
     },
     "groq": {
-      "category": "format",
-      "fingerprint": "c06dfec78988d6c26db2",
-      "model": "openai/gpt-oss-20b",
-      "opened_at": "2026-10-08T16:41:19",
+      "category": "quota",
+      "fingerprint": "541464fd2507dff7335a",
+      "opened_at": "2026-10-08T16:52:04",
       "provider": "groq",
-      "reason": "AI article response returned incomplete JSON.",
-      "until": 1791479479.0434666
+      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_deman",
+      "until": 1791489124.7384748
     },
     "mistral": {
       "category": "quota",
@@ -882,26 +897,26 @@
       "total_success_time": 289.8962
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.3662,
-      "failures": 114,
+      "avg_time": 1.368,
+      "failures": 115,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-08T16:01:02",
-      "last_success_at": "2026-10-08T16:41:19",
+      "last_failure_at": "2026-10-08T16:52:01",
+      "last_success_at": "2026-10-08T16:51:53",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 266,
-      "total_success_time": 363.4204
+      "successes": 267,
+      "total_success_time": 365.2639
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
-      "avg_time": 1.1722,
-      "failures": 7,
+      "avg_time": 1.0972,
+      "failures": 8,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-08T11:42:46",
-      "last_success_at": "2026-10-08T11:42:46",
+      "last_failure_at": "2026-10-08T16:52:04",
+      "last_success_at": "2026-10-08T16:52:04",
       "model": "qwen/qwen3.8-27b",
       "provider": "groq",
-      "successes": 13,
-      "total_success_time": 15.2386
+      "successes": 16,
+      "total_success_time": 17.5545
     },
     "mistral:mistral-small-latest:8feed32495": {
       "failures": 16,
