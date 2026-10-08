@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-10-08T18:48:04.669580+00:00",
-  "state": "waiting_provider",
-  "action": "No AI provider is currently confirmed available.",
+  "updated_at": "2026-10-08T18:49:05.996051+00:00",
+  "state": "facebook_stalled",
+  "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
   "hourly_target_met": true,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-08T17:50:51",
   "last_facebook_post_id": "103026497833721_1090888873306177",
-  "minutes_since_facebook": 57.2,
+  "minutes_since_facebook": 58.2,
   "last_blogger_publish_at": "2026-10-08T17:59:54.400618+00:00",
   "fresh_candidate_count": 28,
   "verified_ready_candidate_count": 0,
   "unverified_ready_candidate_count": 27,
   "facebook_pending_count": 6,
-  "oldest_facebook_pending_minutes": 116.1,
+  "oldest_facebook_pending_minutes": 117.2,
   "oldest_ready_candidate_minutes": 0,
   "pending_first_comments": 0,
   "services": {
@@ -22,46 +22,41 @@
       "action": "Page/token lookup succeeded; publish permission is confirmed only by an actual delivery."
     },
     "ai": {
-      "status": "unavailable",
+      "status": "ok",
       "providers": {
         "gemini": {
           "status": "quota",
           "secret_names": [
             "GEMINI_API_KEY"
-          ],
-          "retry_after": "2026-10-08T22:41:15+00:00"
+          ]
         },
         "groq": {
-          "status": "quota",
+          "status": "ok",
           "secret_names": [
             "GROQ_API_KEY"
-          ],
-          "retry_after": "2026-10-09T00:34:35+00:00"
+          ]
         },
         "cloudflare": {
-          "status": "quota",
+          "status": "ok",
           "secret_names": [
             "CLOUDFLARE_API_TOKEN",
             "CLOUDFLARE_ACCOUNT_ID"
-          ],
-          "retry_after": "2026-10-08T22:39:10+00:00"
+          ]
         },
         "openrouter": {
-          "status": "format",
+          "status": "ok",
           "secret_names": [
             "OPENROUTER_API_KEY"
-          ],
-          "retry_after": "2026-10-08T19:04:38+00:00"
+          ]
         },
         "mistral": {
           "status": "quota",
           "secret_names": [
             "MISTRAL_API_KEY"
-          ],
-          "retry_after": "2026-10-08T22:39:11+00:00"
+          ]
         }
       },
-      "action": "No AI provider is currently confirmed available."
+      "action": "At least one provider generated a response."
     },
     "sources": {
       "status": "degraded",
@@ -76,5 +71,5 @@
       "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
     }
   },
-  "services_checked_at": "2026-10-08T18:33:41.201660+00:00"
+  "services_checked_at": "2026-10-08T18:49:05.995693+00:00"
 }
