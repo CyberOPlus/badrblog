@@ -1,22 +1,6 @@
 {
   "avg_time": 0.5573,
   "cooldowns": {
-    "gemini:gemini-2.5-flash:64f603a8c0": {
-      "failed_at": "2026-10-08T11:36:58",
-      "key_id": "64f603a8c0",
-      "model": "gemini-2.5-flash",
-      "provider": "gemini",
-      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1791462120.0188704
-    },
-    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "failed_at": "2026-10-08T12:17:28",
-      "key_id": "fb4fab4ba1",
-      "model": "openai/gpt-oss-20b",
-      "provider": "groq",
-      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "until": 1791464552.5789425
-    },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "failed_at": "2026-10-08T11:42:46",
       "key_id": "fb4fab4ba1",
@@ -755,45 +739,8 @@
     }
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
-  "global_circuit": {
-    "category": "quota",
-    "fingerprint": "9c566984111dbf1278c7",
-    "opened_at": "2026-10-08T12:17:28",
-    "providers": [
-      "cloudflare",
-      "gemini",
-      "groq",
-      "mistral",
-      "openrouter"
-    ],
-    "reason": "groq provider failed: groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y",
-    "until": 1791465492.8522956
-  },
+  "global_circuit": {},
   "provider_circuits": {
-    "cloudflare": {
-      "category": "quota",
-      "fingerprint": "7a7105af81ae98f13b89",
-      "opened_at": "2026-10-08T10:34:27",
-      "provider": "cloudflare",
-      "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
-      "until": 1791477267.2791178
-    },
-    "gemini": {
-      "category": "quota",
-      "fingerprint": "9b8ec695d1ca9e549f46",
-      "opened_at": "2026-10-08T11:36:58",
-      "provider": "gemini",
-      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1791481018.8651338
-    },
-    "groq": {
-      "category": "quota",
-      "fingerprint": "4b929cc3ad78785ed806",
-      "opened_at": "2026-10-08T12:17:28",
-      "provider": "groq",
-      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "until": 1791483448.1946824
-    },
     "mistral": {
       "category": "quota",
       "fingerprint": "16f0cdcebb62d34cab0f",
@@ -801,14 +748,6 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1791477315.4379113
-    },
-    "openrouter": {
-      "category": "timeout",
-      "fingerprint": "9cd5bdcb42034dceea88",
-      "opened_at": "2026-10-08T11:18:12",
-      "provider": "openrouter",
-      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
-      "until": 1791465492.8522956
     }
   },
   "stats": {
@@ -831,26 +770,26 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 7.1591,
+      "avg_time": 7.1429,
       "failures": 19,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-08T10:34:27",
-      "last_success_at": "2026-10-07T18:52:31",
+      "last_success_at": "2026-10-08T12:18:23",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 390,
-      "total_success_time": 2792.0653
+      "successes": 391,
+      "total_success_time": 2792.8597
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 10.6993,
+      "avg_time": 10.6473,
       "failures": 48,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-10-08T11:36:58",
-      "last_success_at": "2026-10-08T11:31:44",
+      "last_success_at": "2026-10-08T12:18:22",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 195,
-      "total_success_time": 2086.3542
+      "successes": 196,
+      "total_success_time": 2086.8676
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
       "avg_time": 3.7138,
@@ -864,15 +803,15 @@
       "total_success_time": 263.6819
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.3368,
+      "avg_time": 1.3332,
       "failures": 112,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-08T12:17:28",
-      "last_success_at": "2026-10-08T12:17:27",
+      "last_success_at": "2026-10-08T12:18:23",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 256,
-      "total_success_time": 342.2302
+      "successes": 257,
+      "total_success_time": 342.6437
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.1722,
@@ -893,15 +832,15 @@
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 13.3806,
+      "avg_time": 13.3057,
       "failures": 68,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-08T11:18:12",
-      "last_success_at": "2026-10-08T11:16:41",
+      "last_success_at": "2026-10-08T12:18:25",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 149,
-      "total_success_time": 1993.7059
+      "successes": 150,
+      "total_success_time": 1995.8618
     }
   }
 }
