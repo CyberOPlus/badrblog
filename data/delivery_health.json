@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-10-08T12:18:26.221184+00:00",
+  "updated_at": "2026-10-08T12:20:31.488905+00:00",
   "state": "source_degraded",
   "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running.",
   "hourly_target_met": true,
   "target_minutes": 60,
-  "last_facebook_posted_at": "2026-10-08T12:01:06",
-  "last_facebook_post_id": "103026497833721_1090630706665327",
-  "minutes_since_facebook": 17.3,
-  "last_blogger_publish_at": "2026-10-08T11:06:00.810085+00:00",
-  "fresh_candidate_count": 18,
+  "last_facebook_posted_at": "2026-10-08T12:20:22",
+  "last_facebook_post_id": "103026497833721_1090645013330563",
+  "minutes_since_facebook": 0.2,
+  "last_blogger_publish_at": "2026-10-08T12:20:30.442270+00:00",
+  "fresh_candidate_count": 16,
   "verified_ready_candidate_count": 0,
-  "unverified_ready_candidate_count": 17,
+  "unverified_ready_candidate_count": 16,
   "facebook_pending_count": 0,
   "oldest_facebook_pending_minutes": 0,
   "oldest_ready_candidate_minutes": 0,
@@ -72,6 +72,12 @@
           "failure_count": 1,
           "category": "http_block",
           "retry_after": "2026-10-08T12:26:00Z"
+        },
+        {
+          "source_name": "Emploi-Public — établissements publics",
+          "failure_count": 1,
+          "category": "network_timeout",
+          "retry_after": "2026-10-08T12:24:23Z"
         }
       ],
       "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
