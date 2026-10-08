@@ -24,14 +24,6 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1791458419.3356974
-    },
-    "openrouter:openrouter/free:1af698c9b3": {
-      "failed_at": "2026-10-08T10:35:11",
-      "key_id": "1af698c9b3",
-      "model": "openrouter/free",
-      "provider": "openrouter",
-      "reason": "OpenRouter returned an empty response.",
-      "until": 1791456014.6067379
     }
   },
   "failure_fingerprints": {
@@ -334,13 +326,13 @@
     },
     "6fb53a41acd0a93d6960": {
       "category": "format",
-      "count": 2,
+      "count": 3,
       "first_seen_at": "2026-10-05T15:05:50",
-      "last_seen_at": "2026-10-06T16:50:37",
-      "last_seen_epoch": 1791305437.7117653,
+      "last_seen_at": "2026-10-08T10:41:58",
+      "last_seen_epoch": 1791456118.1758223,
       "provider": "openrouter:cohere/north-mini-code:free",
       "reason": "AI article response returned incomplete JSON.",
-      "retry_until": 1791307237.7117653,
+      "retry_until": 1791459718.1758223,
       "scope": "provider"
     },
     "711c5951c0c17ef99790": {
@@ -598,13 +590,13 @@
     },
     "d15a24ae84ad2cd36273": {
       "category": "quality",
-      "count": 11,
+      "count": 12,
       "first_seen_at": "2026-10-05T15:05:50",
-      "last_seen_at": "2026-10-07T11:59:46",
-      "last_seen_epoch": 1791374386.6721888,
+      "last_seen_at": "2026-10-08T10:41:58",
+      "last_seen_epoch": 1791456118.1804428,
       "provider": "openrouter",
       "reason": "AI article response returned incomplete JSON.",
-      "retry_until": 1791377986.6721888,
+      "retry_until": 1791459718.1804428,
       "scope": "quality"
     },
     "d15c8a5d2460c1216a2b": {
@@ -730,13 +722,13 @@
     },
     "f8d83b9dc799f3657708": {
       "category": "cooldown",
-      "count": 5,
+      "count": 6,
       "first_seen_at": "2026-10-06T16:27:53",
-      "last_seen_at": "2026-10-07T21:48:07",
-      "last_seen_epoch": 1791409687.2869768,
+      "last_seen_at": "2026-10-08T10:42:07",
+      "last_seen_epoch": 1791456127.6990712,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "all configured AI providers are cooling down",
-      "retry_until": 1791416887.2869768,
+      "retry_until": 1791463327.6990712,
       "scope": "global"
     },
     "fde6cf46cadeff71bc26": {
@@ -752,7 +744,20 @@
     }
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
-  "global_circuit": {},
+  "global_circuit": {
+    "category": "cooldown",
+    "fingerprint": "f8d83b9dc799f3657708",
+    "opened_at": "2026-10-08T10:42:07",
+    "providers": [
+      "cloudflare",
+      "gemini",
+      "groq",
+      "mistral",
+      "openrouter"
+    ],
+    "reason": "all configured AI providers are cooling down",
+    "until": 1791457918.1779354
+  },
   "provider_circuits": {
     "cloudflare": {
       "category": "quota",
@@ -785,6 +790,15 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1791477315.4379113
+    },
+    "openrouter": {
+      "category": "format",
+      "fingerprint": "6fb53a41acd0a93d6960",
+      "model": "cohere/north-mini-code:free",
+      "opened_at": "2026-10-08T10:41:58",
+      "provider": "openrouter",
+      "reason": "AI article response returned incomplete JSON.",
+      "until": 1791457918.1779354
     }
   },
   "stats": {
@@ -869,15 +883,15 @@
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 12.5369,
+      "avg_time": 13.044,
       "failures": 66,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-08T10:35:11",
-      "last_success_at": "2026-10-08T10:12:00",
+      "last_success_at": "2026-10-08T10:41:58",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 144,
-      "total_success_time": 1805.3159
+      "successes": 145,
+      "total_success_time": 1891.3848
     }
   }
 }
