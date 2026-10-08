@@ -117,7 +117,8 @@ class DeliveryReliabilityTests(unittest.TestCase):
                                "content_fetch_status": "success",
                                "job_quality_status": "publish",
                                "job_quality_reasons": [],
-                               "job_hard_gate_passed": True}])
+                               "job_hard_gate_passed": True,
+                               "identity_evidence_stage_status": "complete"}])
         self.assertEqual(result["state"], "candidate_stalled")
         self.assertEqual(result["oldest_ready_candidate_minutes"], 90)
         self.assertEqual(result["verified_ready_candidate_count"], 1)
@@ -131,6 +132,31 @@ class DeliveryReliabilityTests(unittest.TestCase):
                                "job_quality_status": "queue",
                                "job_quality_reasons": ["eligibility must be verified"],
                                "job_hard_gate_passed": False}])
+        self.assertEqual(result["state"], "no_verified_candidate")
+        self.assertEqual(result["oldest_ready_candidate_minutes"], 0)
+        self.assertEqual(result["verified_ready_candidate_count"], 0)
+        self.assertEqual(result["unverified_ready_candidate_count"], 1)
+
+    def test_deferred_evidence_failure_is_not_reported_as_verified_stall(self):
+        result = self.status([{
+            "status": "ready",
+            "official_source": True,
+            "job_published_at": "2026-10-03",
+            "discovered_at": "2026-10-03T08:00:00Z",
+            "selected_at": "2026-10-03T08:30:00Z",
+            "content_fetch_status": "success",
+            "job_quality_status": "publish",
+            "job_quality_reasons": [],
+            "job_hard_gate_passed": True,
+            "identity_evidence_stage_status": "incomplete",
+            "ai_status": "failed",
+            "ai_retry_pending": True,
+            "ai_retry_after": "2026-10-03T12:00:00+00:00",
+            "candidate_failure_reason": (
+                "source/evidence problem: official document evidence could not be retrieved"
+            ),
+        }])
+
         self.assertEqual(result["state"], "no_verified_candidate")
         self.assertEqual(result["oldest_ready_candidate_minutes"], 0)
         self.assertEqual(result["verified_ready_candidate_count"], 0)
