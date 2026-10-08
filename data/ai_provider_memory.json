@@ -280,6 +280,17 @@
       "retry_until": 1790971623.4201622,
       "scope": "provider"
     },
+    "5b709862868b0869e45a": {
+      "category": "quality",
+      "count": 1,
+      "first_seen_at": "2026-10-08T16:29:28",
+      "last_seen_at": "2026-10-08T16:29:28",
+      "last_seen_epoch": 1791476968.7347944,
+      "provider": "cloudflare",
+      "reason": "too much English inside article paragraphs",
+      "retry_until": 1791477268.7347944,
+      "scope": "quality"
+    },
     "5ee766b270ba1b842ccd": {
       "category": "quality",
       "count": 2,
@@ -700,13 +711,13 @@
     },
     "f01b7df2f1f831c39000": {
       "category": "quality",
-      "count": 5,
+      "count": 6,
       "first_seen_at": "2026-10-06T17:54:56",
-      "last_seen_at": "2026-10-08T16:13:18",
-      "last_seen_epoch": 1791475998.7427995,
+      "last_seen_at": "2026-10-08T16:28:24",
+      "last_seen_epoch": 1791476904.2361808,
       "provider": "cloudflare",
       "reason": "vacancy title lacks a clear employment action",
-      "retry_until": 1791479598.7427995,
+      "retry_until": 1791480504.2361808,
       "scope": "quality"
     },
     "f2abe1685a5d0626fa39": {
@@ -821,15 +832,15 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 7.2141,
+      "avg_time": 7.275,
       "failures": 19,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-08T10:34:27",
-      "last_success_at": "2026-10-08T16:22:10",
+      "last_success_at": "2026-10-08T16:30:39",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 427,
-      "total_success_time": 3080.4061
+      "successes": 441,
+      "total_success_time": 3208.2802
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 10.5968,
