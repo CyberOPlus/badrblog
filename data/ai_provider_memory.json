@@ -18,12 +18,12 @@
       "until": 1791480378.7313654
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "failed_at": "2026-10-08T17:17:57",
+      "failed_at": "2026-10-08T17:23:42",
       "key_id": "fb4fab4ba1",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "reason": "groq returned an empty response.",
-      "until": 1791480182.2167242
+      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
+      "until": 1791482926.3386402
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "failed_at": "2026-10-08T16:52:04",
@@ -199,13 +199,13 @@
     },
     "4b929cc3ad78785ed806": {
       "category": "quota",
-      "count": 78,
+      "count": 79,
       "first_seen_at": "2026-09-30T23:22:02",
-      "last_seen_at": "2026-10-08T17:02:21",
-      "last_seen_epoch": 1791478941.8572278,
+      "last_seen_at": "2026-10-08T17:23:42",
+      "last_seen_epoch": 1791480222.261514,
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "retry_until": 1791500541.8572278,
+      "retry_until": 1791501822.261514,
       "scope": "provider"
     },
     "4de9bce2b1f2bf21e522": {
@@ -862,21 +862,21 @@
       "total_success_time": 2088.1969
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
-      "avg_time": 3.7466,
+      "avg_time": 3.7272,
       "failures": 16,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-08T16:10:46",
-      "last_success_at": "2026-10-08T17:19:43",
+      "last_success_at": "2026-10-08T17:23:44",
       "model": "openai/gpt-oss-120b",
       "provider": "groq",
-      "successes": 80,
-      "total_success_time": 299.729
+      "successes": 81,
+      "total_success_time": 301.9026
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
       "avg_time": 1.3717,
-      "failures": 117,
+      "failures": 118,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-08T17:17:57",
+      "last_failure_at": "2026-10-08T17:23:42",
       "last_success_at": "2026-10-08T17:17:48",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
