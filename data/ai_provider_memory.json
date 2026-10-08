@@ -16,6 +16,14 @@
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
       "until": 1791465467.325995
+    },
+    "openrouter:openrouter/free:1af698c9b3": {
+      "failed_at": "2026-10-08T12:56:18",
+      "key_id": "1af698c9b3",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1791464481.0340865
     }
   },
   "failure_fingerprints": {
@@ -681,13 +689,13 @@
     },
     "f01b7df2f1f831c39000": {
       "category": "quality",
-      "count": 3,
+      "count": 4,
       "first_seen_at": "2026-10-06T17:54:56",
-      "last_seen_at": "2026-10-08T12:34:23",
-      "last_seen_epoch": 1791462863.016355,
+      "last_seen_at": "2026-10-08T12:56:29",
+      "last_seen_epoch": 1791464189.2360578,
       "provider": "cloudflare",
       "reason": "vacancy title lacks a clear employment action",
-      "retry_until": 1791464063.016355,
+      "retry_until": 1791466589.2360578,
       "scope": "quality"
     },
     "f2abe1685a5d0626fa39": {
@@ -794,15 +802,15 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 7.1933,
+      "avg_time": 7.2238,
       "failures": 19,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-08T10:34:27",
-      "last_success_at": "2026-10-08T12:34:22",
+      "last_success_at": "2026-10-08T12:56:29",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 395,
-      "total_success_time": 2841.3465
+      "successes": 399,
+      "total_success_time": 2882.2851
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 10.6473,
@@ -857,9 +865,9 @@
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 13.3057,
-      "failures": 69,
+      "failures": 70,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-08T12:34:10",
+      "last_failure_at": "2026-10-08T12:56:18",
       "last_success_at": "2026-10-08T12:18:25",
       "model": "openrouter/free",
       "provider": "openrouter",
