@@ -37,13 +37,13 @@
   "failure_fingerprints": {
     "0bfbbde687f6e2ee0b50": {
       "category": "cooldown",
-      "count": 14,
+      "count": 15,
       "first_seen_at": "2026-10-02T15:41:54",
-      "last_seen_at": "2026-10-08T19:18:07",
-      "last_seen_epoch": 1791487087.0775783,
+      "last_seen_at": "2026-10-08T19:57:05",
+      "last_seen_epoch": 1791489425.9002557,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "all configured AI providers are unavailable or cooling down",
-      "retry_until": 1791494287.0775783,
+      "retry_until": 1791499151.171707,
       "scope": "global"
     },
     "0bfee933de78c21150d3": {
@@ -785,7 +785,20 @@
     }
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
-  "global_circuit": {},
+  "global_circuit": {
+    "category": "cooldown",
+    "fingerprint": "0bfbbde687f6e2ee0b50",
+    "opened_at": "2026-10-08T19:57:05",
+    "providers": [
+      "cloudflare",
+      "gemini",
+      "groq",
+      "mistral",
+      "openrouter"
+    ],
+    "reason": "all configured AI providers are unavailable or cooling down",
+    "until": 1791499151.171707
+  },
   "provider_circuits": {
     "cloudflare": {
       "category": "quota",
