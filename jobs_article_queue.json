@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-08T10:49:22",
+  "updated_at": "2026-10-08T10:52:01",
   "articles": [
     {
       "id": "1cb9737d53e8aa33",
@@ -64780,24 +64780,21 @@
       "blogger_post_url": "https://cyberopluss.blogspot.com/2026/10/onda-recruitment-competition-audit.html",
       "published_at": "2026-10-08T10:44:24",
       "publish_status": "published",
-      "facebook_status": "failed",
+      "facebook_status": "facebook_pending",
       "facebook_queued_at": "2026-10-08T10:44:24",
-      "facebook_queue_reason": "published_to_blogger",
+      "facebook_queue_reason": "retry_ready",
       "jobposting_schema_status": "disabled_embedded_jsonld",
       "google_indexing_status": "disabled",
       "live_update_status": "created_new",
-      "facebook_logo_refresh_attempted_at": "2026-10-08T10:44:25",
+      "facebook_logo_refresh_attempted_at": "2026-10-08T10:52:01",
       "facebook_logo_refresh_status": "already_verified",
       "facebook_template_key": "new",
       "facebook_template_file": "job-new-orange.png",
       "facebook_template_reason": "active-competition-normal-rotation",
-      "facebook_error": "Facebook social AI failed after 3 attempts: No alternate AI provider remains after excluding a rejected provider.",
-      "facebook_failure_count": 1,
-      "facebook_last_failure_at": "2026-10-08T10:44:53",
-      "facebook_retry_after_epoch": 1791456593,
-      "facebook_retry_delay_seconds": 300,
-      "archive_deferred_reason": "facebook_retry_pending",
-      "archive_deferred_at": "2026-10-08T10:44:53"
+      "facebook_ai_deferred_at": "2026-10-08T10:52:01",
+      "facebook_ai_deferred_reason": "Facebook social AI failed after 3 attempts: Global AI circuit open until 2026-10-08T12:14:25+00:00",
+      "facebook_retry_after_epoch": 1791461665,
+      "facebook_retry_delay_seconds": 4944
     },
     {
       "id": "8a554d113e1de7f9",
@@ -65489,12 +65486,380 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "c14cabca0f949e8ed464",
+      "job_campaign_id": "42e455c647b1ec72c803",
       "seo_slug": "unicef-senior-international-consultant-on-gender-climate-adaptation",
       "desired_slug": "unicef-senior-international-consultant-on-gender-climate-adaptation",
       "job_identity_final": false,
       "job_urgent_override": false,
-      "job_publish_immediately": false
+      "job_publish_immediately": false,
+      "selected_at": "2026-10-08T10:50:19",
+      "selection_reason": "jobs quality 100/100; identity=new; urgency=normal",
+      "job_document_texts": [],
+      "job_document_text_pages": 0,
+      "job_document_text_chars": 0,
+      "job_document_text_download_failures": 1,
+      "job_document_text_read_complete": false,
+      "job_document_text_truncated": false,
+      "job_document_text_attempted_documents": 1,
+      "job_document_ocr_attempts": 0,
+      "job_document_ocr_pages": 0,
+      "job_document_ocr_failures": 0,
+      "job_document_ocr_unavailable": false,
+      "job_document_unread_pages": 0,
+      "identity_evidence_detail_checked": true,
+      "identity_evidence_tables_checked": true,
+      "identity_evidence_documents_checked": false,
+      "identity_evidence_stage_status": "incomplete",
+      "identity_evidence_stage_checked_at": "2026-10-08T10:50:20+00:00",
+      "identity_evidence_signature": "aa16e5a156decbc63c993096",
+      "identity_evidence_strength": 6,
+      "identity_evidence_comparison_strength": 1,
+      "identity_evidence_categories": [
+        "reference",
+        "deadline",
+        "documents"
+      ],
+      "identity_evidence_reference": "596186",
+      "identity_evidence_deadline": "2026-10-15T15:55:00Z",
+      "identity_evidence_positions": 0,
+      "verified_fact_manifest": {
+        "version": 2,
+        "policy": {
+          "blocking_confidence": [
+            "high"
+          ],
+          "non_high_behavior": "warning",
+          "raw_table_rows_are_not_blocking": true,
+          "heuristic_regex_facts_are_not_blocking": true
+        },
+        "facts": {
+          "deadline": [
+            {
+              "value": "2026-10-15T15:55:00Z",
+              "source": "extracted_field",
+              "confidence": "medium",
+              "blocking": false,
+              "required_in_output": false,
+              "aliases": [
+                "15 Oct 2026"
+              ],
+              "meta": {}
+            }
+          ],
+          "contract_type": [
+            {
+              "value": "Consultant",
+              "source": "official_detail_page",
+              "confidence": "high",
+              "blocking": false,
+              "required_in_output": false,
+              "aliases": [],
+              "meta": {}
+            }
+          ],
+          "location": [
+            {
+              "value": "Beijing",
+              "source": "official_detail_page",
+              "confidence": "high",
+              "blocking": false,
+              "required_in_output": false,
+              "aliases": [],
+              "meta": {}
+            }
+          ],
+          "notice_type": [
+            {
+              "value": "candidate_list",
+              "source": "heuristic",
+              "confidence": "heuristic",
+              "blocking": false,
+              "required_in_output": false,
+              "aliases": [],
+              "meta": {}
+            }
+          ],
+          "application": [
+            {
+              "value": "https://secure.dc7.pageuppeople.com/apply/671/gateway/default.aspx?c=apply&lJobID=596186&lJobSourceTypeID=796&sLanguage=en-us",
+              "source": "verified_application_channel",
+              "confidence": "high",
+              "blocking": false,
+              "required_in_output": false,
+              "aliases": [],
+              "meta": {
+                "kind": "direct_apply",
+                "notice_type": "candidate_list"
+              }
+            }
+          ],
+          "detail": [
+            {
+              "value": "https://jobs.unicef.org/cw/en-us/job/596186/senior-international-consultant-on-gender-climate-adaptation-remote-for-13-months",
+              "source": "specific_notice_detail",
+              "confidence": "high",
+              "blocking": true,
+              "required_in_output": true,
+              "aliases": [],
+              "meta": {}
+            }
+          ],
+          "documents": [
+            {
+              "value": "https://jobs.unicef.org/cw/en-us/filter/?search-keyword=&work-type=consultant",
+              "source": "official_notice_link",
+              "confidence": "high",
+              "blocking": true,
+              "required_in_output": true,
+              "aliases": [],
+              "meta": {
+                "label": "Vacancies | UNICEF Careers",
+                "kind": "document"
+              }
+            }
+          ]
+        },
+        "warnings": [],
+        "summary": {
+          "high": 5,
+          "medium": 1,
+          "heuristic": 1
+        }
+      },
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-10-08T10:50:20",
+      "ai_input_package": {
+        "title": "Senior International Consultant on Gender & Climate Adaptation (remote for 13 months)",
+        "url": "https://jobs.unicef.org/cw/en-us/job/596186/senior-international-consultant-on-gender-climate-adaptation-remote-for-13-months",
+        "source_name": "UNICEF Vacancies",
+        "official_source": true,
+        "job_official_source": true,
+        "suggested_category": "jobs-abroad",
+        "main_image": "",
+        "article_images": [],
+        "extra_article_images": [],
+        "meta_description": "",
+        "content_preview": "Apply now Job no: 596186 Contract type: Consultant Duty Station: Beijing Level: Consultancy Location: China Categories: Programme Management UNICEF works in over 190 countries and territories to save children’s lives, defend their rights, and help them fulfill their potential, from early childhood through adolescence. At UNICEF, we are committed, passionate, and proud of what we do for as long as we are needed. Promoting the rights of every child is not just a job – it is a calling. UNICEF is a place where careers are built. We offer our staff diverse opportunities for professional and personal development that will help them reinforce a sense of purpose while serving children and communities across the world. We welcome everyone who wants to belong and grow in a diverse and passionate culture, coupled with an attractive compensation and benefits package. Visit our website to learn more about what we do at UNICEF. Climate change is increasingly recognized by UNICEF as a major threat to children’s rights, well-being and development. Its impacts are often mediated through households, communities and essential services, and can affect children differently depending on age, health, disability, household circumstances and access to support. These impacts are also not gender-neutral. Gender roles, caregiving responsibilities, access to information and resources, participation and decision-making can influence both exposure to climate risks and the capacity to prepare for, respond to and recover from them. At the same time, women can play important roles in household and community adaptation, including through preparedness, risk communication, service delivery, community networks and local decision-making. In China, urban and rural communities across different regions are exposed to diverse climate risks, and communities play an important role in climate risk management, disaster risk reduction and resilience building. Existing community adaptation efforts have often focused on infrastructure and other physical interventions, while the systematic integration of women’s and children’s perspectives remains at an exploratory stage. At the same time, local organizations and community actors have accumulated practical experience in areas such as disaster risk reduction, women’s empowerment, child services and environmental protection, creating an important evidence base for further learning and analysis. Against this background, UNICEF China is developing a 12-month study on community climate adaptation for children, women and families in China. The study will identify and analyse good practices through policy and evidence review, field-based case studies and comparative analysis. It is expected to examine approximately 10 community-level cases across China, including practices that already incorporate the needs and capacities of women and children, as well as otherwise effective adaptation approaches that could be further strengthened from a child- and gender-responsive perspective. The study will seek to understand how selected adaptation practices work in different community contexts; how they affect the adaptive capacity, participation and access to support of children, women and families; what design features, enabling conditions and institutional arrangements contribute to their effectiveness; and how relevant lessons could inform wider policy and practice in China. The research is expected to generate a case-study compendium, comparative analysis and policy-relevant recommendations. Given the specialized nature of the gender dimensions of the study, UNICEF China seeks short-term technical support from a consultant with expertise in gender and climate change. The consultant will provide targeted technical backstopping and quality assurance to the research team at critical stages of the research, helping to ensure that gender considerations are integrated in a technically sound, context-appropriate and practically useful manner. The consultant will draw on relevant UNICEF gender equality and climate-related policies and technical frameworks, as well as international good practice, to support the quality of the analytical framework, case-selection approach, research tools, interpretation of emerging findings, and final recommendations. The consultant’s role is intended to complement, rather than duplicate, the climate adaptation and policy expertise of the national research team. The consultant will provide advisory and technical-review support and will not be responsible for primary data collection, overall research management, or preparation of the case studies themselves. If you would like to know more about this consultancy, please review the complete Terms of Reference here: Senior Consultant on Gender&Climate Adaption.pdf To qualify as an advocate for every child you will have... Minimum requirements: ( Qualifications/Experience/ Knowledge/Expertise/Skills) Education: Masters in gender studies, climate change, development studies, public policy, social sciences or a related field. Work Experience: At least 8–10 years of relevant professional experience in gender equality and climate change, climate adaptation, resilience or related areas. Demonstrated experience at the intersection of gender and climate, including research, policy analysis, technical guidance or advisory support. At least 8–10 years of relevant professional experience in gender equality and climate change, climate adaptation, resilience or related areas. Demonstrated experience at the intersection of gender and climate, including research, policy analysis, technical guidance or advisory support. Language Requirements: Excellent analytical, writing and communication skills in English Knowledge/Expertise/Skills: Strong knowledge of UNICEF and/or UN gender and climate frameworks, together with familiarity with relevant international standards and good practice. Proven experience in reviewing or developing analytical frameworks, research methodologies, case-study approaches and policy recommendations from a gender perspective. Strong comparative international experience, with the ability to assess country-level research against wider global evidence and practice. Strong knowledge of UNICEF and/or UN gender and climate frameworks, together with familiarity with relevant international standards and good practice. Proven experience in reviewing or developing analytical frameworks, research methodologies, case-study approaches and policy recommendations from a gender perspective. Strong comparative international experience, with the ability to assess country-level research against wider global evidence and practice. Desirables: Experience supporting UNICEF or other UN agencies on gender–climate research or technical products would be a strong asset. UNICEF’s Core Values of Care, Respect, Integrity, Trust and Accountability and Sustainability (CRITAS) underpin everything we do and how we do it. Get acquainted with Our Values Charter: UNICEF Values UNICEF promotes and advocates for the protection of the rights of every child, everywhere, in everything it does and is mandated to support the realization of the rights of every child, including those most disadvantaged, and our global workforce must reflect the diversity of those children. The UNICEF family is committed to include everyone, irrespective of their race/ethnicity, disability, gender identity, sexual orientation, religion, nationality, socio-economic background, minority, or any other status. UNICEF encourages applications from all qualified candidates, regardless of gender, nationality, religious or ethnic backgrounds, and from people with disabilities, including neurodivergence. We offer reasonable accommodation for persons with disabilities. throughout the recruitment process. If you require any accommodation, please submit your request through the accessibility email button on the UNICEF Careers webpage Accessibility | UNICEF. Should you be shortlisted, please get in touch with the recruiter directly to share further details, enabling us to make the necessary arrangements in advance. UNICEF does not hire candidates who are married to children (persons under 18). UNICEF has a zero-tolerance policy on conduct that is incompatible with the aims and objectives of the United Nations and UNICEF, including sexual exploitation and abuse, sexual harassment, abuse of authority and discrimination based on gender, nationality, age, race, sexual orientation, religious or ethnic background or disabilities. UNICEF is committed to promote the protection and safeguarding of all children. All selected candidates will, therefore, undergo rigorous reference and background checks, and will be expected to adhere to these standards and principles. Background checks will include the verification of academic credential(s) and employment history.",
+        "content_preview_chars": 8908,
+        "rss_summary": "",
+        "full_article_text": "Apply now Job no: 596186 Contract type: Consultant Duty Station: Beijing Level: Consultancy Location: China Categories: Programme Management UNICEF works in over 190 countries and territories to save children’s lives, defend their rights, and help them fulfill their potential, from early childhood through adolescence. At UNICEF, we are committed, passionate, and proud of what we do for as long as we are needed. Promoting the rights of every child is not just a job – it is a calling. UNICEF is a place where careers are built. We offer our staff diverse opportunities for professional and personal development that will help them reinforce a sense of purpose while serving children and communities across the world. We welcome everyone who wants to belong and grow in a diverse and passionate culture, coupled with an attractive compensation and benefits package. Visit our website to learn more about what we do at UNICEF. Climate change is increasingly recognized by UNICEF as a major threat to children’s rights, well-being and development. Its impacts are often mediated through households, communities and essential services, and can affect children differently depending on age, health, disability, household circumstances and access to support. These impacts are also not gender-neutral. Gender roles, caregiving responsibilities, access to information and resources, participation and decision-making can influence both exposure to climate risks and the capacity to prepare for, respond to and recover from them. At the same time, women can play important roles in household and community adaptation, including through preparedness, risk communication, service delivery, community networks and local decision-making. In China, urban and rural communities across different regions are exposed to diverse climate risks, and communities play an important role in climate risk management, disaster risk reduction and resilience building. Existing community adaptation efforts have often focused on infrastructure and other physical interventions, while the systematic integration of women’s and children’s perspectives remains at an exploratory stage. At the same time, local organizations and community actors have accumulated practical experience in areas such as disaster risk reduction, women’s empowerment, child services and environmental protection, creating an important evidence base for further learning and analysis. Against this background, UNICEF China is developing a 12-month study on community climate adaptation for children, women and families in China. The study will identify and analyse good practices through policy and evidence review, field-based case studies and comparative analysis. It is expected to examine approximately 10 community-level cases across China, including practices that already incorporate the needs and capacities of women and children, as well as otherwise effective adaptation approaches that could be further strengthened from a child- and gender-responsive perspective. The study will seek to understand how selected adaptation practices work in different community contexts; how they affect the adaptive capacity, participation and access to support of children, women and families; what design features, enabling conditions and institutional arrangements contribute to their effectiveness; and how relevant lessons could inform wider policy and practice in China. The research is expected to generate a case-study compendium, comparative analysis and policy-relevant recommendations. Given the specialized nature of the gender dimensions of the study, UNICEF China seeks short-term technical support from a consultant with expertise in gender and climate change. The consultant will provide targeted technical backstopping and quality assurance to the research team at critical stages of the research, helping to ensure that gender considerations are integrated in a technically sound, context-appropriate and practically useful manner. The consultant will draw on relevant UNICEF gender equality and climate-related policies and technical frameworks, as well as international good practice, to support the quality of the analytical framework, case-selection approach, research tools, interpretation of emerging findings, and final recommendations. The consultant’s role is intended to complement, rather than duplicate, the climate adaptation and policy expertise of the national research team. The consultant will provide advisory and technical-review support and will not be responsible for primary data collection, overall research management, or preparation of the case studies themselves. If you would like to know more about this consultancy, please review the complete Terms of Reference here: Senior Consultant on Gender&Climate Adaption.pdf To qualify as an advocate for every child you will have... Minimum requirements: ( Qualifications/Experience/ Knowledge/Expertise/Skills) Education: Masters in gender studies, climate change, development studies, public policy, social sciences or a related field. Work Experience: At least 8–10 years of relevant professional experience in gender equality and climate change, climate adaptation, resilience or related areas. Demonstrated experience at the intersection of gender and climate, including research, policy analysis, technical guidance or advisory support. At least 8–10 years of relevant professional experience in gender equality and climate change, climate adaptation, resilience or related areas. Demonstrated experience at the intersection of gender and climate, including research, policy analysis, technical guidance or advisory support. Language Requirements: Excellent analytical, writing and communication skills in English Knowledge/Expertise/Skills: Strong knowledge of UNICEF and/or UN gender and climate frameworks, together with familiarity with relevant international standards and good practice. Proven experience in reviewing or developing analytical frameworks, research methodologies, case-study approaches and policy recommendations from a gender perspective. Strong comparative international experience, with the ability to assess country-level research against wider global evidence and practice. Strong knowledge of UNICEF and/or UN gender and climate frameworks, together with familiarity with relevant international standards and good practice. Proven experience in reviewing or developing analytical frameworks, research methodologies, case-study approaches and policy recommendations from a gender perspective. Strong comparative international experience, with the ability to assess country-level research against wider global evidence and practice. Desirables: Experience supporting UNICEF or other UN agencies on gender–climate research or technical products would be a strong asset. UNICEF’s Core Values of Care, Respect, Integrity, Trust and Accountability and Sustainability (CRITAS) underpin everything we do and how we do it. Get acquainted with Our Values Charter: UNICEF Values UNICEF promotes and advocates for the protection of the rights of every child, everywhere, in everything it does and is mandated to support the realization of the rights of every child, including those most disadvantaged, and our global workforce must reflect the diversity of those children. The UNICEF family is committed to include everyone, irrespective of their race/ethnicity, disability, gender identity, sexual orientation, religion, nationality, socio-economic background, minority, or any other status. UNICEF encourages applications from all qualified candidates, regardless of gender, nationality, religious or ethnic backgrounds, and from people with disabilities, including neurodivergence. We offer reasonable accommodation for persons with disabilities. throughout the recruitment process. If you require any accommodation, please submit your request through the accessibility email button on the UNICEF Careers webpage Accessibility | UNICEF. Should you be shortlisted, please get in touch with the recruiter directly to share further details, enabling us to make the necessary arrangements in advance. UNICEF does not hire candidates who are married to children (persons under 18). UNICEF has a zero-tolerance policy on conduct that is incompatible with the aims and objectives of the United Nations and UNICEF, including sexual exploitation and abuse, sexual harassment, abuse of authority and discrimination based on gender, nationality, age, race, sexual orientation, religious or ethnic background or disabilities. UNICEF is committed to promote the protection and safeguarding of all children. All selected candidates will, therefore, undergo rigorous reference and background checks, and will be expected to adhere to these standards and principles. Background checks will include the verification of academic credential(s) and employment history. Selected candidates may be required to provide additional information to conduct a background check, and selected candidates with disabilities may be requested to submit supporting documentation in relation to their disability confidentially. Qualified candidates are invited to submit the following documents via the online recruitment portal, TMS (Talent Management System): An up-to-date TMS profile and curriculum vitae (CV) A separate financial proposal (only acceptable in the format of the linked template) Financial proposal Senior Consultant on Gender&Climate Adaption.docx A detailed technical proposal: Applicants are required to submit a brief technical proposal outlining the proposed approach and an indicative workplan aligned with the key deliverables in the TOR; exact timing will be agreed with UNICEF based on the progress of the underlying research. Remarks: If the TOR or financial proposal documents are not downloadable on certain recruitment platforms, please visit our official page Vacancies | UNICEF Careers . UNICEF does not charge a processing fee at any stage of its recruitment, selection, and hiring processes (i.e., application stage, interview stage, validation stage, or appointment and training). UNICEF will not ask for applicants’ bank account information. All UNICEF positions are advertised, and only shortlisted candidates will be contacted and advance to the next stage of the selection process. Additional information about working for UNICEF can be found here. Advertised: 08 Oct 2026 China Standard Time Deadline: 15 Oct 2026 China Standard Time",
+        "full_article_text_chars": 10499,
+        "source_tables": [],
+        "source_tables_count": 0,
+        "source_tables_truncated": false,
+        "enrichment_status": "strong",
+        "source_url": "https://jobs.unicef.org/cw/en-us/",
+        "trusted_references": [],
+        "related_posts": [],
+        "labels": [
+          "jobs",
+          "remote-jobs"
+        ],
+        "job_title": "Senior International Consultant on Gender & Climate Adaptation (remote for 13 months)",
+        "job_company": "UNICEF",
+        "job_location": "Beijing",
+        "job_country": "China",
+        "job_contract_type": "Consultant",
+        "job_salary": "",
+        "job_deadline": "2026-10-15T15:55:00Z",
+        "job_deadline_display": "15 Oct 2026",
+        "job_exam_date": "",
+        "job_exam_date_display": "",
+        "job_notice_type": "candidate_list",
+        "job_notice_type_hint": "candidate_list",
+        "job_notice_type_source": "heuristic",
+        "job_notice_status": "final",
+        "job_application_url": "https://secure.dc7.pageuppeople.com/apply/671/gateway/default.aspx?c=apply&lJobID=596186&lJobSourceTypeID=796&sLanguage=en-us",
+        "job_application_link_kind": "direct_apply",
+        "job_application_is_specific": true,
+        "job_application_is_official_channel": false,
+        "job_detail_url": "https://jobs.unicef.org/cw/en-us/job/596186/senior-international-consultant-on-gender-climate-adaptation-remote-for-13-months",
+        "job_action_links": [
+          {
+            "url": "https://secure.dc7.pageuppeople.com/apply/671/gateway/default.aspx?c=apply&lJobID=596186&lJobSourceTypeID=796&sLanguage=en-us",
+            "label": "Apply now",
+            "kind": "apply",
+            "context": "Apply now Job no: 596186 Contract type: Consultant Duty Station: Beijing Level: Consultancy Location: China Categories: Programme Management"
+          },
+          {
+            "url": "https://secure.dc7.pageuppeople.com/apply/TransferRichTextFile.ashx?sData=UFUtVjMtjC0krbQ0YfGoZV35xpGLcQQfXG40SdraGGz2mey0RQcElVMWT0EtUeBf9J9II_EVQggzI_-ZKo0uSHYusu6UWDwDv9HGDLE8TleeUrRUEcUm2Ksp7m0Di2UiJQQ-67CbBaS25IuWWAqVqTXCNm4i4w%7e%7e",
+            "label": "Senior Consultant on Gender&Climate Adaption.pdf",
+            "kind": "apply",
+            "context": "If you would like to know more about this consultancy, please review the complete Terms of Reference here: Senior Consultant on Gender&Climate Adaption.pdf"
+          },
+          {
+            "url": "https://secure.dc7.pageuppeople.com/apply/TransferRichTextFile.ashx?sData=UFUtVjMtJXHZRecgbVix0J-f_19qwR-JTEFk4Q3SEXDfU4basYAW8NA_GHRp5YwNA_FoK7vZvJhZtCi6kvrBDU5QspK26HfBA2ldZykTYtFpGeSMn58FUqTPJ5cOaSDZVO-ABzOOMfuGveV4YG_PK4KDsBSp7w%7e%7e",
+            "label": "Financial proposal Senior Consultant on Gender&Climate Adaption.docx",
+            "kind": "apply",
+            "context": "A separate financial proposal (only acceptable in the format of the linked template) Financial proposal Senior Consultant on Gender&Climate Adaption.docx"
+          },
+          {
+            "url": "https://jobs.unicef.org/cw/en-us/filter/?search-keyword=&work-type=consultant",
+            "label": "Vacancies | UNICEF Careers",
+            "kind": "document",
+            "context": "Remarks: If the TOR or financial proposal documents are not downloadable on certain recruitment platforms, please visit our official page Vacancies | UNICEF Careers ."
+          },
+          {
+            "url": "https://jobs.unicef.org/cw/en-us/listing/",
+            "label": "Back to search results",
+            "kind": "apply",
+            "context": "Back to search results Apply now"
+          }
+        ],
+        "job_document_links": [
+          {
+            "url": "https://jobs.unicef.org/cw/en-us/filter/?search-keyword=&work-type=consultant",
+            "label": "Vacancies | UNICEF Careers",
+            "kind": "document",
+            "context": "Remarks: If the TOR or financial proposal documents are not downloadable on certain recruitment platforms, please visit our official page Vacancies | UNICEF Careers ."
+          }
+        ],
+        "job_document_texts": [],
+        "job_document_text_pages": 0,
+        "job_document_text_chars": 0,
+        "job_document_text_truncated": false,
+        "job_document_text_download_failures": 1,
+        "identity_evidence_stage_status": "incomplete",
+        "verified_fact_manifest": {
+          "version": 2,
+          "policy": {
+            "blocking_confidence": [
+              "high"
+            ],
+            "non_high_behavior": "warning",
+            "raw_table_rows_are_not_blocking": true,
+            "heuristic_regex_facts_are_not_blocking": true
+          },
+          "facts": {
+            "deadline": [
+              {
+                "value": "2026-10-15T15:55:00Z",
+                "source": "extracted_field",
+                "confidence": "medium",
+                "blocking": false,
+                "required_in_output": false,
+                "aliases": [
+                  "15 Oct 2026"
+                ],
+                "meta": {}
+              }
+            ],
+            "contract_type": [
+              {
+                "value": "Consultant",
+                "source": "official_detail_page",
+                "confidence": "high",
+                "blocking": false,
+                "required_in_output": false,
+                "aliases": [],
+                "meta": {}
+              }
+            ],
+            "location": [
+              {
+                "value": "Beijing",
+                "source": "official_detail_page",
+                "confidence": "high",
+                "blocking": false,
+                "required_in_output": false,
+                "aliases": [],
+                "meta": {}
+              }
+            ],
+            "notice_type": [
+              {
+                "value": "candidate_list",
+                "source": "heuristic",
+                "confidence": "heuristic",
+                "blocking": false,
+                "required_in_output": false,
+                "aliases": [],
+                "meta": {}
+              }
+            ],
+            "application": [
+              {
+                "value": "https://secure.dc7.pageuppeople.com/apply/671/gateway/default.aspx?c=apply&lJobID=596186&lJobSourceTypeID=796&sLanguage=en-us",
+                "source": "verified_application_channel",
+                "confidence": "high",
+                "blocking": false,
+                "required_in_output": false,
+                "aliases": [],
+                "meta": {
+                  "kind": "direct_apply",
+                  "notice_type": "candidate_list"
+                }
+              }
+            ],
+            "detail": [
+              {
+                "value": "https://jobs.unicef.org/cw/en-us/job/596186/senior-international-consultant-on-gender-climate-adaptation-remote-for-13-months",
+                "source": "specific_notice_detail",
+                "confidence": "high",
+                "blocking": true,
+                "required_in_output": true,
+                "aliases": [],
+                "meta": {}
+              }
+            ],
+            "documents": [
+              {
+                "value": "https://jobs.unicef.org/cw/en-us/filter/?search-keyword=&work-type=consultant",
+                "source": "official_notice_link",
+                "confidence": "high",
+                "blocking": true,
+                "required_in_output": true,
+                "aliases": [],
+                "meta": {
+                  "label": "Vacancies | UNICEF Careers",
+                  "kind": "document"
+                }
+              }
+            ]
+          },
+          "warnings": [],
+          "summary": {
+            "high": 5,
+            "medium": 1,
+            "heuristic": 1
+          }
+        },
+        "job_number_of_positions": 0,
+        "job_diploma": "",
+        "job_experience": "",
+        "job_entry_level": true,
+        "job_remote": true,
+        "job_visa_sponsorship": false,
+        "job_eligibility": "abroad_open",
+        "job_score": 100,
+        "desired_slug": "unicef-senior-international-consultant-on-gender-climate-adaptation",
+        "company_logo_url": "https://sites.unicef.org/vacanciestemplate/assets/unicef_logo.svg",
+        "company_logo_verified": true,
+        "company_logo_confidence": 100,
+        "company_logo_source": "verified_registry",
+        "company_official_domain": "jobs.unicef.org"
+      },
+      "ai_status": "failed",
+      "ai_error": "source/evidence problem: official document evidence could not be retrieved",
+      "ai_retry_pending": true,
+      "ai_retry_reason": "source/evidence problem: official document evidence could not be retrieved",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 0.0,
+      "ai_failure_scope": "article_input",
+      "ai_failure_fingerprint": "a337cb8c4c90a13d6d08",
+      "ai_failure_category": "article_input",
+      "ai_retry_after": "2026-10-08T16:50:21+00:00",
+      "ai_quality_status": "article_input_backoff",
+      "ai_quality_attempts": 0,
+      "candidate_retry_after": "2026-10-08T16:50:21Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "source/evidence problem: official document evidence could not be retrieved",
+      "candidate_failure_fingerprint": "3f255bfad5596a63b917",
+      "candidate_failure_repeat_count": 1,
+      "candidate_failure_backoff_minutes": 360,
+      "candidate_failed_at": "2026-10-08T10:50:21",
+      "candidate_failure_count": 1
     },
     {
       "id": "a99c926f8877a234",
@@ -66060,15 +66425,15 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-08T10:49:18",
-      "status": "ready",
-      "score": 10,
+      "status": "selected",
+      "score": 70,
       "priority": "high",
       "source_links_removed_count": 69,
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 69,
       "fetched_title": "مباريات التوظيف : دبلوم البكالوريا + 3 سنوات في تخصص الاقتصاد والتدبير",
       "meta_description": "",
-      "identity_evidence_invalidated_at": "2026-10-08T10:49:22+00:00",
+      "identity_evidence_invalidated_at": "2026-10-08T10:50:19+00:00",
       "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
       "source_tables": [],
       "source_tables_count": 0,
@@ -66124,9 +66489,429 @@
       "full_article_text_chars": 579,
       "content_preview": "خيارات الوصول المرئي دبلوم البكالوريا + 3 سنوات في تخصص الاقتصاد والتدبير الإدارة المنظمة المكتب الوطني للمطارات آخر أجل لإيداع الترشيحات 23 أكتوبر 2026 - 16:30 تاريخ النشر 8 أكتوبر 2026 معلومات عن المباراة اسم المنصب : دبلوم البكالوريا + 3 سنوات في تخصص الاقتصاد والتدبير نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://econcours.brainman.ma/cmp/ONDA_2026 هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
       "content_preview_chars": 579,
-      "content_fetched_at": "2026-10-08T10:49:22",
+      "content_fetched_at": "2026-10-08T10:50:19",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "job_score": 70,
+      "job_rank_score": 70,
+      "job_quality_status": "publish",
+      "job_quality_reasons": [],
+      "job_hard_gate_passed": true,
+      "job_hard_gate_reasons": [],
+      "labels": [
+        "jobs",
+        "jobs-morocco"
+      ],
+      "job_urgency": {
+        "level": "normal",
+        "publish_immediately": false,
+        "allow_daily_override": false,
+        "reason": ""
+      },
+      "job_identity_action": "new",
+      "job_identity_reason": "no existing campaign",
+      "job_campaign_id": "b7dbb6ba9dfb00fc8df1",
+      "seo_slug": "almktb-alwtny-llmtarat-mbaryat-altwzyf-dblwm-albkalwrya-snwat",
+      "desired_slug": "almktb-alwtny-llmtarat-mbaryat-altwzyf-dblwm-albkalwrya-snwat",
+      "job_identity_final": false,
+      "job_urgent_override": false,
+      "job_publish_immediately": false,
+      "selected_at": "2026-10-08T10:50:21",
+      "job_document_texts": [
+        {
+          "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/9f671b5c-7983-47f8-a5df-eec812776c8c",
+          "document_label": "قرار فتح المباراة",
+          "page_number": 1,
+          "page_count": 3,
+          "text": "AIRPORTS 7\\ oFMOROCCO\nLJ rà.dl ùUlbo DIRECTION GENERA \\^a\n\\ 0 6 0cI. 2026 DCH.PSo9.E.322100 rJüUU2tltti\nI}BCISION DD RBCEUTEN|DNT 20126\nLe Directeur cénéral de l'office National Des Aéroports,\n141 0 (30 Décembrel 989) transformant l'Office des . Vu la Loi n' '14.89 du 1 \"' Joumada II\nAéroports de Casablanca en Office National Des Aéroports;\n. Vu le Décret n\" 2.89.480 du 1\"'Joumada II 1410 (30 Décembre1989) pris pour l'application de\nla Loi n' 14.89 ;\n. Vu le Dahir n'1.24.31 du 10 Dhou-al H i.ija 1445 (17 juin 2024) portant nomination de Monsieur\nAdel EL FAKIR en qualité de Directeur Général de l'Office National Des Aéroports;\n. Vu le statut du personnel de l'office National Des Aéroports ;\n. Vu la circulaire du Chef de Gouvernement N\" 241?012 du 22 Octobre 2012 relative aux\nprocédures de recrutement dans les Etablissements et les Entreprises Publics;\npostes en priorité . Vu l'arrêté du Premier Ministre n'3-130-00 du 10 Juillet 2000 fixant les\nsusceptibles d'être affectés aux personnes handicapées ainsi que le pourcentage de ces postes\npour les administrations de l'Etât et des instances qui en dépendent.\nDECIDE\nARTICLE UN: Uoffice National des Aéroports lance une Opération de Recrutement de 07 postes au\n:titre de l'exercice 2026, répartis comme suit\nProfil Poste Erpérience requise Missions du poste affectâtion\nDiplôme d'lngénieur Enseignant en Expérience Assurer l'enseignement et la formation,\nà d'Etat ou Doctorat en Mathématiqu minimale de 3 ans contribuer à la recherche et Siège : 1\nles Mathématiques es Appliquées suivant l'obtention l'encadrement des projets, et gérer\ndu diplôme activités pédagogique5 et de laboratoire. Appliquées ou\néquivalent (1 poste)\ndu Expérience minimale de . Assurer le contrôle et le suivi des dossiers Diplôme de Bac+5 ans chargé {e)\npaiement des dépenses des marchés et en audit et contrôle ou Contrôle des 3 ans suivant I'obtention de\nsuivi Siège : 1 finance ou contrôle de dossiers de du diplôme en audit ou bons de commandes ainsi que le\nà sa charge. Aéroport gestion ou gestion des paiements contrôle interne ou budgétaire des entités\npermanent ou d'Oujda :1 risques (2 postes) engagés par contrôle\nmarchés et bons conformité ou risques\nde commandes ou équivalent\ndonnées, Diplôme de Bac+s ans chargé (e) du Expérience minimale . collecter et consolider les\nsuivant plannings et indicateurs du portefeuille de en Mangement de pilotage et du d'une année\ndiplôme projets de l'Office ; projet ou Business reporting des l'obtention du\nphysique et financier intelligence ou aide à la projets avec une certification en . suivre l'avancement\nanalyser Siège : 1 décision ou Business management/gestion (coûts, délais, performances) et\nanalytics et analyse de de projet souhaitable les écarts et émettre des alertes j\ndonnées ou équivalent . Concevoir et produire les tableaux de bord.\n(1 poste)\nactivités Diplôme de Bac+3 ans Cadre chargé de la Expérience minimale de Piloter et coordonner les\n; en économie et gestion coordination, du 3 ans suivant I'obtention administratives de son périmètre\n(l poste) suivi administratif du diplôme lnstruire, suivre et contrôler les dossiers\nadministratifs relevant de son domaine ; siège : 1 et du reporting\ndes aéroports Élaborer les tableaux de bord. consolider\nles indicateurs et assurer le reporting de\nl'activité au rès de la hiérarchie\n. Assurer l'assistanat tout en assurant une Diplôme de Technicien Assistant (e) de Expérience minimale\nSpécialisé (bac+2 ans) direction d'une ânnée suivant organisation optimale et un suivi rigoureux Siège :2\nl'obtention du di iers confiés en secrétariat de\ndirection ou équivalent §\n(2 postes)\nL:-^\n+. C- () (l î,'ü V ), \\\\ ,,'u--,jü\"T#r#,*.#i---,/'. Office National des Aéropons - Nouaceur 05 22 53 90 40 - www.onda.ma vo\n/ . _ /\n(-//"
+        },
+        {
+          "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/9f671b5c-7983-47f8-a5df-eec812776c8c",
+          "document_label": "قرار فتح المباراة",
+          "page_number": 2,
+          "page_count": 3,
+          "text": "DIRECTION GENERAI AIRPORTS\noF MOROCCO\nlrlJôoll ùUll:l.o \\\nARTICLE DEUX : Le concours est ouvert aux candidats(es) remplissant les conditions suivantes :\n- Être de nationalité marocaine;\n- Être âgé (au 31t1212026) de 18 ans au moins et de 45 ans au plus;\n- Être titulaire du diplôme susmentionné dans la spécialité exigée du poste pourvu;\n- Avoir au minimum l'expérience requise demandée au niveau du poste pourvu (suivant\nl'obtention du diplôme).\nARTICLE TROIS: Le dossier de candidature est constitué obligatoirement des pièces suivantes\n(Tout dossier incomplet est automatiquement rejeté) :\n. Un curriculum vitae (CV) détaillé;\n. Une copie du baccalauréat;\nUne copie du diplôme dans la spécialité exigée pour le poste pourvu, à la limite une copie de ' l'attestation de réussite pour les candidats(es) relevant des promotions 2025/2026 (*\\;\n. Une attestation précisant la spécialité du diplôme (dans Ie cas où ce n'est pas mentionné au\nniveau du diplôme) ;\n. Une copie du bulletin officiel evou d'attestation de l'équivalence, s'il y a lieu;\n. Une copie de la Carte Nationale d'Identité;\n. Une copie des attestations de travail (pour les postes nécessitant une expérience);\n. Une déclaration CN55 attestant le nombre d'années d'expérience au sein des établissements\nprivés (pour les postes nécessitant une expérience);\n. Une copie de la carte « Personne Handicapée » (pour les personnes disposant de cette carte);\n. Une copie de la carte justifiânt la qualité de pupilles de la Nation (pour les personnes disposant\nde cette carte).\n(*) NB: Seuls les diplômes délivrés par les instituts, écoles ou universités publics marocains, en\nformation initiale, ou les instituts, écoles ou universités privés ou étrangers disposant d'une\néquivalence sont éligibles.\nSept pour cent 7% des postes seront réservés aux personnes handicapées et vingt-cinq pour cent 25%\naux pupilles de la nation.\nARTICLE OUATRE : Critères d'admissibilité et d'admission\n1) Il sera procédé à une présélection des dossiers de candidature sur la base des conditions\nmentionnées dans les articles 1, 2 et 3 de la présente décision et ne seront admissibles pour\nl'épreuve écrite que les candidats(es) ayant remplices conditions;\n2) Ne seront admissibles pour l'épreuve orale que les candidats(es), ayant obtenu une note à\nl'épreuve écrite, supérieure ou égale à 12120;\n3) Ensuite, ne seront admis(es) définitivement que les candidats(es) ayant obtenu, une note à\nl'épreuve orale, supérieure ou égale à 12120 dans la limite des postes pourvus;\n4) La liste des candidats(es) définitivement admis(es) et la liste d'attente seront arrêtées par ordre\nde mérite.\nRécapitulatif des épreuves prévues\nE preuves Durée\npreuve Ecrite: Se rapportant aux exigences du poste 01 h30 à 02h00\npreuve Orale: Entretien avec le jury ts rmettant 20 minutes l'évaluation de l'aptitude du candidat (e) à re mrsst érentes\nau rofil demandé ,t\nU\nO O\n2t3 ÊA Office Nâtaonal des Aéroports - Nouaceur - 53 90 40 - www.onda.ma l t."
+        },
+        {
+          "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/9f671b5c-7983-47f8-a5df-eec812776c8c",
+          "document_label": "قرار فتح المباراة",
+          "page_number": 3,
+          "page_count": 3,
+          "text": "DIRECTION GENERA AIRPORTS\noF MOROCCO\nvr.Éorl ûlrtbo \\\nARTICLE CINO : Affichage des résultats\nLa liste des candidats(es) arrêtés à passer l'épreuve écrite, la liste des candidats(es) admis(es) pour\npasser l'épreuve orale, la liste nominative des candidats (es) admis (es) définitivement et la liste\nd'attente seront affichées sur le portail www.emoloi-oublic.ma et sur le site web de I'ONDA\nwww.onda.ma.\nNB : La date et le lieu du concours écrit seront communiqués ultérieurement.\nARTICLE SIX ET DERNIERi Modalités de candidature\nLes candidats(es) intéressés doivent renseigner leurs dossiers de candidature au plus tard\nle à 23H00 sur le lien suivant: 2 3 Octo 2026\nhttps://econcours.brainman.ma/cm p/ON DA_2026\nImportant:\nSeules les candidatures reçues via le lien\nhttps://econcours,brainman.ma/cmp/ON DA-2026 seront traitées. Tout dossier de\ncandidature envoyé via un canal autre que celui précité, ne sera pas pris en considération ;\nLes candidats(es) intéressés(es) ne peuvent postuler que pour un seul poste à la fois;\nLe/la candidat(e) est responsable de l'exactitude et de l'exhaustivité des informations\nrenseignées sur le formulaire de candidature. Toute candidature incomplète ou ne\ncorrespondant pas au profil demandé ou fausse déclaration entrainera son rejet automatique ;\nL'embauche reste tributaire des résultats de l'examen de l'aptitude physique et mentale\neffectué par le service médecine de travail de l'office evou par un médecin désigné par\nI'ONDA;\nPour plus d'information sur les modalités de candidature et d'organisation du concours, merci\nde nous contacter sur l'adresse: R.ecrutement@brainman.ma et/ou Tél i05229A77 40\nVos données personnelles sont traitées conformément aux dispositions de la loi n'09-08\nrelative à la protection des personnes physiques à l'égard du traitement des données à\ncaractère personnel ;\nLes salaires respectent le régime indemnitaire de l'office t t\nr!\nt IF,iWt Adc .)iti r\\.:r\\ Diret Atl on'al Dcs \\''t Otlitc\ne. J,i-ll- _J*lr,ill - .rlJtLl) 3t3\nOffice Nationaldes Aéroports - Nouaceur - Maroc - Tél. : l+2121 05 22 53 90 40 - www. onda. ma"
+        }
+      ],
+      "job_document_text_pages": 3,
+      "job_document_text_chars": 8830,
+      "job_document_text_download_failures": 0,
+      "job_document_text_read_complete": true,
+      "job_document_text_truncated": false,
+      "job_document_text_attempted_documents": 1,
+      "job_document_ocr_attempts": 0,
+      "job_document_ocr_pages": 0,
+      "job_document_ocr_failures": 0,
+      "job_document_ocr_unavailable": false,
+      "job_document_unread_pages": 0,
+      "identity_evidence_document_fingerprint": "https://emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/9f671b5c-7983-47f8-a5df-eec812776c8c",
+      "job_notice_status": "",
+      "identity_evidence_detail_checked": true,
+      "identity_evidence_tables_checked": true,
+      "identity_evidence_documents_checked": true,
+      "identity_evidence_stage_status": "complete",
+      "identity_evidence_stage_checked_at": "2026-10-08T10:50:30+00:00",
+      "identity_evidence_signature": "ddc59bdf89caf4fa938307e8",
+      "identity_evidence_strength": 9,
+      "identity_evidence_comparison_strength": 4,
+      "identity_evidence_categories": [
+        "reference",
+        "deadline",
+        "pdf_text",
+        "documents"
+      ],
+      "identity_evidence_reference": "9f671b5c 7983 47f8 a5df eec812776c8c",
+      "identity_evidence_deadline": "2026-10-23",
+      "identity_evidence_positions": 0,
+      "verified_fact_manifest": {
+        "version": 2,
+        "policy": {
+          "blocking_confidence": [
+            "high"
+          ],
+          "non_high_behavior": "warning",
+          "raw_table_rows_are_not_blocking": true,
+          "heuristic_regex_facts_are_not_blocking": true
+        },
+        "facts": {
+          "deadline": [
+            {
+              "value": "2026-10-23",
+              "source": "official_detail_page",
+              "confidence": "high",
+              "blocking": true,
+              "required_in_output": true,
+              "aliases": [
+                "23 أكتوبر 2026"
+              ],
+              "meta": {}
+            }
+          ],
+          "notice_type": [
+            {
+              "value": "competition",
+              "source": "source",
+              "confidence": "high",
+              "blocking": false,
+              "required_in_output": false,
+              "aliases": [],
+              "meta": {}
+            }
+          ],
+          "application": [
+            {
+              "value": "https://econcours.brainman.ma/cmp/ONDA_2026",
+              "source": "verified_application_channel",
+              "confidence": "high",
+              "blocking": true,
+              "required_in_output": true,
+              "aliases": [],
+              "meta": {
+                "kind": "direct_apply",
+                "notice_type": "competition"
+              }
+            }
+          ],
+          "detail": [
+            {
+              "value": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/9f671b5c-7983-47f8-a5df-eec812776c8c",
+              "source": "specific_notice_detail",
+              "confidence": "high",
+              "blocking": true,
+              "required_in_output": true,
+              "aliases": [],
+              "meta": {}
+            }
+          ],
+          "documents": [
+            {
+              "value": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/9f671b5c-7983-47f8-a5df-eec812776c8c",
+              "source": "official_notice_link",
+              "confidence": "high",
+              "blocking": true,
+              "required_in_output": true,
+              "aliases": [],
+              "meta": {
+                "label": "قرار فتح المباراة",
+                "kind": "document"
+              }
+            }
+          ],
+          "tests": [
+            {
+              "value": "Se rapportant aux exigences du poste 01 h30 à 02h00",
+              "source": "official_pdf",
+              "confidence": "high",
+              "blocking": true,
+              "required_in_output": true,
+              "aliases": [],
+              "meta": {
+                "kind": "test",
+                "explicit_label": "preuve Ecrite"
+              }
+            },
+            {
+              "value": "Entretien avec le jury ts rmettant 20 minutes l'évaluation de l'aptitude du candidat (e) à re mrsst érentes",
+              "source": "official_pdf",
+              "confidence": "high",
+              "blocking": true,
+              "required_in_output": true,
+              "aliases": [],
+              "meta": {
+                "kind": "test",
+                "explicit_label": "preuve Orale"
+              }
+            }
+          ]
+        },
+        "warnings": [],
+        "summary": {
+          "high": 7,
+          "medium": 0,
+          "heuristic": 0
+        }
+      },
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-10-08T10:50:30",
+      "ai_input_package": {
+        "title": "مباريات التوظيف : دبلوم البكالوريا + 3 سنوات في تخصص الاقتصاد والتدبير",
+        "url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/9f671b5c-7983-47f8-a5df-eec812776c8c",
+        "source_name": "Emploi-Public — établissements publics",
+        "official_source": true,
+        "job_official_source": true,
+        "suggested_category": "jobs-morocco",
+        "main_image": "",
+        "article_images": [],
+        "extra_article_images": [],
+        "meta_description": "",
+        "content_preview": "خيارات الوصول المرئي دبلوم البكالوريا + 3 سنوات في تخصص الاقتصاد والتدبير الإدارة المنظمة المكتب الوطني للمطارات آخر أجل لإيداع الترشيحات 23 أكتوبر 2026 - 16:30 تاريخ النشر 8 أكتوبر 2026 معلومات عن المباراة اسم المنصب : دبلوم البكالوريا + 3 سنوات في تخصص الاقتصاد والتدبير نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://econcours.brainman.ma/cmp/ONDA_2026 هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+        "content_preview_chars": 579,
+        "rss_summary": "",
+        "full_article_text": "خيارات الوصول المرئي دبلوم البكالوريا + 3 سنوات في تخصص الاقتصاد والتدبير الإدارة المنظمة المكتب الوطني للمطارات آخر أجل لإيداع الترشيحات 23 أكتوبر 2026 - 16:30 تاريخ النشر 8 أكتوبر 2026 معلومات عن المباراة اسم المنصب : دبلوم البكالوريا + 3 سنوات في تخصص الاقتصاد والتدبير نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://econcours.brainman.ma/cmp/ONDA_2026 هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+        "full_article_text_chars": 579,
+        "source_tables": [],
+        "source_tables_count": 0,
+        "source_tables_truncated": false,
+        "enrichment_status": "weak",
+        "source_url": "https://www.emploi-public.ma/ar/%D9%82%D8%A7%D8%A6%D9%85%D8%A9-%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA?corps=0&procedure=0&region=0&stat=etab_publics",
+        "trusted_references": [],
+        "related_posts": [],
+        "labels": [
+          "jobs",
+          "jobs-morocco"
+        ],
+        "job_title": "مباريات التوظيف : دبلوم البكالوريا + 3 سنوات في تخصص الاقتصاد والتدبير",
+        "job_company": "المكتب الوطني للمطارات",
+        "job_location": "",
+        "job_country": "MA",
+        "job_contract_type": "",
+        "job_salary": "",
+        "job_deadline": "2026-10-23",
+        "job_deadline_display": "23 أكتوبر 2026",
+        "job_exam_date": "",
+        "job_exam_date_display": "",
+        "job_notice_type": "competition",
+        "job_notice_type_hint": "competition",
+        "job_notice_type_source": "source",
+        "job_notice_status": "",
+        "job_application_url": "https://econcours.brainman.ma/cmp/ONDA_2026",
+        "job_application_link_kind": "direct_apply",
+        "job_application_is_specific": true,
+        "job_application_is_official_channel": false,
+        "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/9f671b5c-7983-47f8-a5df-eec812776c8c",
+        "job_action_links": [
+          {
+            "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/9f671b5c-7983-47f8-a5df-eec812776c8c",
+            "label": "قرار فتح المباراة",
+            "kind": "document",
+            "context": ""
+          },
+          {
+            "url": "https://econcours.brainman.ma/cmp/ONDA_2026",
+            "label": "منصة الترشيح الرسمية",
+            "kind": "apply",
+            "context": "موقع الإيداع : https://econcours.brainman.ma/cmp/ONDA_2026"
+          }
+        ],
+        "job_document_links": [
+          {
+            "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/9f671b5c-7983-47f8-a5df-eec812776c8c",
+            "label": "قرار فتح المباراة",
+            "kind": "document",
+            "context": ""
+          }
+        ],
+        "job_document_texts": [
+          {
+            "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/9f671b5c-7983-47f8-a5df-eec812776c8c",
+            "document_label": "قرار فتح المباراة",
+            "page_number": 1,
+            "page_count": 3,
+            "text": "AIRPORTS 7\\ oFMOROCCO\nLJ rà.dl ùUlbo DIRECTION GENERA \\^a\n\\ 0 6 0cI. 2026 DCH.PSo9.E.322100 rJüUU2tltti\nI}BCISION DD RBCEUTEN|DNT 20126\nLe Directeur cénéral de l'office National Des Aéroports,\n141 0 (30 Décembrel 989) transformant l'Office des . Vu la Loi n' '14.89 du 1 \"' Joumada II\nAéroports de Casablanca en Office National Des Aéroports;\n. Vu le Décret n\" 2.89.480 du 1\"'Joumada II 1410 (30 Décembre1989) pris pour l'application de\nla Loi n' 14.89 ;\n. Vu le Dahir n'1.24.31 du 10 Dhou-al H i.ija 1445 (17 juin 2024) portant nomination de Monsieur\nAdel EL FAKIR en qualité de Directeur Général de l'Office National Des Aéroports;\n. Vu le statut du personnel de l'office National Des Aéroports ;\n. Vu la circulaire du Chef de Gouvernement N\" 241?012 du 22 Octobre 2012 relative aux\nprocédures de recrutement dans les Etablissements et les Entreprises Publics;\npostes en priorité . Vu l'arrêté du Premier Ministre n'3-130-00 du 10 Juillet 2000 fixant les\nsusceptibles d'être affectés aux personnes handicapées ainsi que le pourcentage de ces postes\npour les administrations de l'Etât et des instances qui en dépendent.\nDECIDE\nARTICLE UN: Uoffice National des Aéroports lance une Opération de Recrutement de 07 postes au\n:titre de l'exercice 2026, répartis comme suit\nProfil Poste Erpérience requise Missions du poste affectâtion\nDiplôme d'lngénieur Enseignant en Expérience Assurer l'enseignement et la formation,\nà d'Etat ou Doctorat en Mathématiqu minimale de 3 ans contribuer à la recherche et Siège : 1\nles Mathématiques es Appliquées suivant l'obtention l'encadrement des projets, et gérer\ndu diplôme activités pédagogique5 et de laboratoire. Appliquées ou\néquivalent (1 poste)\ndu Expérience minimale de . Assurer le contrôle et le suivi des dossiers Diplôme de Bac+5 ans chargé {e)\npaiement des dépenses des marchés et en audit et contrôle ou Contrôle des 3 ans suivant I'obtention de\nsuivi Siège : 1 finance ou contrôle de dossiers de du diplôme en audit ou bons de commandes ainsi que le\nà sa charge. Aéroport gestion ou gestion des paiements contrôle interne ou budgétaire des entités\npermanent ou d'Oujda :1 risques (2 postes) engagés par contrôle\nmarchés et bons conformité ou risques\nde commandes ou équivalent\ndonnées, Diplôme de Bac+s ans chargé (e) du Expérience minimale . collecter et consolider les\nsuivant plannings et indicateurs du portefeuille de en Mangement de pilotage et du d'une année\ndiplôme projets de l'Office ; projet ou Business reporting des l'obtention du\nphysique et financier intelligence ou aide à la projets avec une certification en . suivre l'avancement\nanalyser Siège : 1 décision ou Business management/gestion (coûts, délais, performances) et\nanalytics et analyse de de projet souhaitable les écarts et émettre des alertes j\ndonnées ou équivalent . Concevoir et produire les tableaux de bord.\n(1 poste)\nactivités Diplôme de Bac+3 ans Cadre chargé de la Expérience minimale de Piloter et coordonner les\n; en économie et gestion coordination, du 3 ans suivant I'obtention administratives de son périmètre\n(l poste) suivi administratif du diplôme lnstruire, suivre et contrôler les dossiers\nadministratifs relevant de son domaine ; siège : 1 et du reporting\ndes aéroports Élaborer les tableaux de bord. consolider\nles indicateurs et assurer le reporting de\nl'activité au rès de la hiérarchie\n. Assurer l'assistanat tout en assurant une Diplôme de Technicien Assistant (e) de Expérience minimale\nSpécialisé (bac+2 ans) direction d'une ânnée suivant organisation optimale et un suivi rigoureux Siège :2\nl'obtention du di iers confiés en secrétariat de\ndirection ou équivalent §\n(2 postes)\nL:-^\n+. C- () (l î,'ü V ), \\\\ ,,'u--,jü\"T#r#,*.#i---,/'. Office National des Aéropons - Nouaceur 05 22 53 90 40 - www.onda.ma vo\n/ . _ /\n(-//"
+          },
+          {
+            "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/9f671b5c-7983-47f8-a5df-eec812776c8c",
+            "document_label": "قرار فتح المباراة",
+            "page_number": 2,
+            "page_count": 3,
+            "text": "DIRECTION GENERAI AIRPORTS\noF MOROCCO\nlrlJôoll ùUll:l.o \\\nARTICLE DEUX : Le concours est ouvert aux candidats(es) remplissant les conditions suivantes :\n- Être de nationalité marocaine;\n- Être âgé (au 31t1212026) de 18 ans au moins et de 45 ans au plus;\n- Être titulaire du diplôme susmentionné dans la spécialité exigée du poste pourvu;\n- Avoir au minimum l'expérience requise demandée au niveau du poste pourvu (suivant\nl'obtention du diplôme).\nARTICLE TROIS: Le dossier de candidature est constitué obligatoirement des pièces suivantes\n(Tout dossier incomplet est automatiquement rejeté) :\n. Un curriculum vitae (CV) détaillé;\n. Une copie du baccalauréat;\nUne copie du diplôme dans la spécialité exigée pour le poste pourvu, à la limite une copie de ' l'attestation de réussite pour les candidats(es) relevant des promotions 2025/2026 (*\\;\n. Une attestation précisant la spécialité du diplôme (dans Ie cas où ce n'est pas mentionné au\nniveau du diplôme) ;\n. Une copie du bulletin officiel evou d'attestation de l'équivalence, s'il y a lieu;\n. Une copie de la Carte Nationale d'Identité;\n. Une copie des attestations de travail (pour les postes nécessitant une expérience);\n. Une déclaration CN55 attestant le nombre d'années d'expérience au sein des établissements\nprivés (pour les postes nécessitant une expérience);\n. Une copie de la carte « Personne Handicapée » (pour les personnes disposant de cette carte);\n. Une copie de la carte justifiânt la qualité de pupilles de la Nation (pour les personnes disposant\nde cette carte).\n(*) NB: Seuls les diplômes délivrés par les instituts, écoles ou universités publics marocains, en\nformation initiale, ou les instituts, écoles ou universités privés ou étrangers disposant d'une\néquivalence sont éligibles.\nSept pour cent 7% des postes seront réservés aux personnes handicapées et vingt-cinq pour cent 25%\naux pupilles de la nation.\nARTICLE OUATRE : Critères d'admissibilité et d'admission\n1) Il sera procédé à une présélection des dossiers de candidature sur la base des conditions\nmentionnées dans les articles 1, 2 et 3 de la présente décision et ne seront admissibles pour\nl'épreuve écrite que les candidats(es) ayant remplices conditions;\n2) Ne seront admissibles pour l'épreuve orale que les candidats(es), ayant obtenu une note à\nl'épreuve écrite, supérieure ou égale à 12120;\n3) Ensuite, ne seront admis(es) définitivement que les candidats(es) ayant obtenu, une note à\nl'épreuve orale, supérieure ou égale à 12120 dans la limite des postes pourvus;\n4) La liste des candidats(es) définitivement admis(es) et la liste d'attente seront arrêtées par ordre\nde mérite.\nRécapitulatif des épreuves prévues\nE preuves Durée\npreuve Ecrite: Se rapportant aux exigences du poste 01 h30 à 02h00\npreuve Orale: Entretien avec le jury ts rmettant 20 minutes l'évaluation de l'aptitude du candidat (e) à re mrsst érentes\nau rofil demandé ,t\nU\nO O\n2t3 ÊA Office Nâtaonal des Aéroports - Nouaceur - 53 90 40 - www.onda.ma l t."
+          },
+          {
+            "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/9f671b5c-7983-47f8-a5df-eec812776c8c",
+            "document_label": "قرار فتح المباراة",
+            "page_number": 3,
+            "page_count": 3,
+            "text": "DIRECTION GENERA AIRPORTS\noF MOROCCO\nvr.Éorl ûlrtbo \\\nARTICLE CINO : Affichage des résultats\nLa liste des candidats(es) arrêtés à passer l'épreuve écrite, la liste des candidats(es) admis(es) pour\npasser l'épreuve orale, la liste nominative des candidats (es) admis (es) définitivement et la liste\nd'attente seront affichées sur le portail www.emoloi-oublic.ma et sur le site web de I'ONDA\nwww.onda.ma.\nNB : La date et le lieu du concours écrit seront communiqués ultérieurement.\nARTICLE SIX ET DERNIERi Modalités de candidature\nLes candidats(es) intéressés doivent renseigner leurs dossiers de candidature au plus tard\nle à 23H00 sur le lien suivant: 2 3 Octo 2026\nhttps://econcours.brainman.ma/cm p/ON DA_2026\nImportant:\nSeules les candidatures reçues via le lien\nhttps://econcours,brainman.ma/cmp/ON DA-2026 seront traitées. Tout dossier de\ncandidature envoyé via un canal autre que celui précité, ne sera pas pris en considération ;\nLes candidats(es) intéressés(es) ne peuvent postuler que pour un seul poste à la fois;\nLe/la candidat(e) est responsable de l'exactitude et de l'exhaustivité des informations\nrenseignées sur le formulaire de candidature. Toute candidature incomplète ou ne\ncorrespondant pas au profil demandé ou fausse déclaration entrainera son rejet automatique ;\nL'embauche reste tributaire des résultats de l'examen de l'aptitude physique et mentale\neffectué par le service médecine de travail de l'office evou par un médecin désigné par\nI'ONDA;\nPour plus d'information sur les modalités de candidature et d'organisation du concours, merci\nde nous contacter sur l'adresse: R.ecrutement@brainman.ma et/ou Tél i05229A77 40\nVos données personnelles sont traitées conformément aux dispositions de la loi n'09-08\nrelative à la protection des personnes physiques à l'égard du traitement des données à\ncaractère personnel ;\nLes salaires respectent le régime indemnitaire de l'office t t\nr!\nt IF,iWt Adc .)iti r\\.:r\\ Diret Atl on'al Dcs \\''t Otlitc\ne. J,i-ll- _J*lr,ill - .rlJtLl) 3t3\nOffice Nationaldes Aéroports - Nouaceur - Maroc - Tél. : l+2121 05 22 53 90 40 - www. onda. ma"
+          }
+        ],
+        "job_document_text_pages": 3,
+        "job_document_text_chars": 8830,
+        "job_document_text_truncated": false,
+        "job_document_text_download_failures": 0,
+        "identity_evidence_stage_status": "complete",
+        "verified_fact_manifest": {
+          "version": 2,
+          "policy": {
+            "blocking_confidence": [
+              "high"
+            ],
+            "non_high_behavior": "warning",
+            "raw_table_rows_are_not_blocking": true,
+            "heuristic_regex_facts_are_not_blocking": true
+          },
+          "facts": {
+            "deadline": [
+              {
+                "value": "2026-10-23",
+                "source": "official_detail_page",
+                "confidence": "high",
+                "blocking": true,
+                "required_in_output": true,
+                "aliases": [
+                  "23 أكتوبر 2026"
+                ],
+                "meta": {}
+              }
+            ],
+            "notice_type": [
+              {
+                "value": "competition",
+                "source": "source",
+                "confidence": "high",
+                "blocking": false,
+                "required_in_output": false,
+                "aliases": [],
+                "meta": {}
+              }
+            ],
+            "application": [
+              {
+                "value": "https://econcours.brainman.ma/cmp/ONDA_2026",
+                "source": "verified_application_channel",
+                "confidence": "high",
+                "blocking": true,
+                "required_in_output": true,
+                "aliases": [],
+                "meta": {
+                  "kind": "direct_apply",
+                  "notice_type": "competition"
+                }
+              }
+            ],
+            "detail": [
+              {
+                "value": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/9f671b5c-7983-47f8-a5df-eec812776c8c",
+                "source": "specific_notice_detail",
+                "confidence": "high",
+                "blocking": true,
+                "required_in_output": true,
+                "aliases": [],
+                "meta": {}
+              }
+            ],
+            "documents": [
+              {
+                "value": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/9f671b5c-7983-47f8-a5df-eec812776c8c",
+                "source": "official_notice_link",
+                "confidence": "high",
+                "blocking": true,
+                "required_in_output": true,
+                "aliases": [],
+                "meta": {
+                  "label": "قرار فتح المباراة",
+                  "kind": "document"
+                }
+              }
+            ],
+            "tests": [
+              {
+                "value": "Se rapportant aux exigences du poste 01 h30 à 02h00",
+                "source": "official_pdf",
+                "confidence": "high",
+                "blocking": true,
+                "required_in_output": true,
+                "aliases": [],
+                "meta": {
+                  "kind": "test",
+                  "explicit_label": "preuve Ecrite"
+                }
+              },
+              {
+                "value": "Entretien avec le jury ts rmettant 20 minutes l'évaluation de l'aptitude du candidat (e) à re mrsst érentes",
+                "source": "official_pdf",
+                "confidence": "high",
+                "blocking": true,
+                "required_in_output": true,
+                "aliases": [],
+                "meta": {
+                  "kind": "test",
+                  "explicit_label": "preuve Orale"
+                }
+              }
+            ]
+          },
+          "warnings": [],
+          "summary": {
+            "high": 7,
+            "medium": 0,
+            "heuristic": 0
+          }
+        },
+        "job_number_of_positions": 0,
+        "job_diploma": "",
+        "job_experience": "",
+        "job_entry_level": false,
+        "job_remote": false,
+        "job_visa_sponsorship": false,
+        "job_eligibility": "morocco",
+        "job_score": 70,
+        "desired_slug": "almktb-alwtny-llmtarat-mbaryat-altwzyf-dblwm-albkalwrya-snwat",
+        "company_logo_url": "https://www.emploi-public.ma/backoffice/files/images/administrations/logo-102.png",
+        "company_logo_verified": true,
+        "company_logo_confidence": 100,
+        "company_logo_source": "verified_registry",
+        "company_official_domain": ""
+      },
+      "ai_provider_last_error": "openrouter provider failed: (\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+      "ai_status": "failed",
+      "ai_error": "openrouter provider failed: (\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+      "ai_retry_pending": true,
+      "ai_retry_reason": "openrouter provider failed: (\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 90.01,
+      "ai_failure_scope": "global_outage",
+      "ai_failure_fingerprint": "5536f2970a79bc5a87a5",
+      "ai_failure_category": "timeout",
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 1
     }
   ],
   "notifications": {}
