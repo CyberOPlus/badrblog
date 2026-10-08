@@ -9,14 +9,6 @@
       "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
       "until": 1791458368.546482
     },
-    "gemini:gemini-2.5-flash:64f603a8c0": {
-      "failed_at": "2026-10-08T10:27:28",
-      "key_id": "64f603a8c0",
-      "model": "gemini-2.5-flash",
-      "provider": "gemini",
-      "reason": "504 The request timed out. Please try again.",
-      "until": 1791455852.6021404
-    },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
       "failed_at": "2026-10-08T10:34:26",
       "key_id": "fb4fab4ba1",
@@ -397,13 +389,13 @@
     },
     "82ce5d050ecd9659a30b": {
       "category": "cooldown",
-      "count": 176,
+      "count": 178,
       "first_seen_at": "2026-10-05T15:01:11",
-      "last_seen_at": "2026-10-08T10:37:22",
-      "last_seen_epoch": 1791455842.2004302,
+      "last_seen_at": "2026-10-08T10:38:21",
+      "last_seen_epoch": 1791455901.486964,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "openrouter candidates are cooling down",
-      "retry_until": 1791463042.2004302,
+      "retry_until": 1791463101.486964,
       "scope": "global"
     },
     "83df4c959826d93b6e0b": {
