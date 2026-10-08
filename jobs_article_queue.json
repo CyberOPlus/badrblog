@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-08T16:43:45",
+  "updated_at": "2026-10-08T16:44:40",
   "articles": [
     {
       "id": "a760d3f27d2239d7",
@@ -63968,7 +63968,6 @@
       },
       "ai_status": "failed",
       "ai_error": "source/evidence problem: official document evidence could not be retrieved",
-      "ai_retry_pending": true,
       "ai_retry_reason": "source/evidence problem: official document evidence could not be retrieved",
       "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
@@ -63976,10 +63975,8 @@
       "ai_failure_scope": "article_input",
       "ai_failure_fingerprint": "a337cb8c4c90a13d6d08",
       "ai_failure_category": "article_input",
-      "ai_retry_after": "2026-10-08T16:44:01+00:00",
       "ai_quality_status": "article_input_backoff",
       "ai_quality_attempts": 0,
-      "candidate_retry_after": "2026-10-08T16:44:01Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "source/evidence problem: official document evidence could not be retrieved",
       "candidate_failure_fingerprint": "3f255bfad5596a63b917",
@@ -68243,7 +68240,7 @@
       "removed_source_links_count": 69,
       "fetched_title": "مباريات التوظيف : أطباء مقيمين بكلية الطب والصيدلة بأكادير",
       "meta_description": "",
-      "identity_evidence_invalidated_at": "2026-10-08T16:43:45+00:00",
+      "identity_evidence_invalidated_at": "2026-10-08T16:44:39+00:00",
       "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
       "source_tables": [],
       "source_tables_count": 0,
@@ -68301,7 +68298,7 @@
       "full_article_text_chars": 562,
       "content_preview": "خيارات الوصول المرئي أطباء مقيمين بكلية الطب والصيدلة بأكادير الإدارة المنظمة جامعة ابن زهر - أكادير آخر أجل لإيداع الترشيحات 31 أكتوبر 2026 تاريخ إجراء المباراة 16 نونبر 2026 تاريخ النشر 8 أكتوبر 2026 معلومات عن المباراة اسم المنصب : أطباء مقيمين بكلية الطب والصيدلة بأكادير نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://fmpa.uiz.ac.ma/ هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
       "content_preview_chars": 562,
-      "content_fetched_at": "2026-10-08T16:43:45",
+      "content_fetched_at": "2026-10-08T16:44:39",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
       "job_score": 70,
@@ -72003,21 +72000,24 @@
       "blogger_post_url": "https://cyberopluss.blogspot.com/2026/10/mubariyat-tawzif-taknisiin-hindasah.html",
       "published_at": "2026-10-08T16:21:27",
       "publish_status": "published",
-      "facebook_status": "facebook_pending",
+      "facebook_status": "failed",
       "facebook_queued_at": "2026-10-08T16:21:27",
       "facebook_queue_reason": "retry_ready",
       "jobposting_schema_status": "disabled_embedded_jsonld",
       "google_indexing_status": "disabled",
       "live_update_status": "created_new",
-      "facebook_logo_refresh_attempted_at": "2026-10-08T16:40:08",
+      "facebook_logo_refresh_attempted_at": "2026-10-08T16:44:40",
       "facebook_logo_refresh_status": "already_verified",
       "facebook_template_key": "new",
       "facebook_template_file": "job-new-orange.png",
       "facebook_template_reason": "active-competition-normal-rotation",
       "facebook_ai_deferred_at": "2026-10-08T16:40:08",
       "facebook_ai_deferred_reason": "Facebook social AI failed after 3 attempts: Global AI circuit open until 2026-10-08T18:13:05+00:00",
-      "facebook_retry_after_epoch": 1791483185,
-      "facebook_retry_delay_seconds": 5577
+      "facebook_retry_after_epoch": 1791478180,
+      "facebook_retry_delay_seconds": 300,
+      "facebook_error": "Facebook social AI failed after 3 attempts: All configured AI candidates are cooling down.",
+      "facebook_failure_count": 1,
+      "facebook_last_failure_at": "2026-10-08T16:44:40"
     },
     {
       "id": "170469f9d3b57252",
@@ -73740,12 +73740,12 @@
       "status": "ready",
       "score": 10,
       "priority": "high",
-      "source_links_removed_count": 73,
+      "source_links_removed_count": 74,
       "affiliate_links_removed_count": 0,
-      "removed_source_links_count": 73,
+      "removed_source_links_count": 74,
       "fetched_title": "مباريات التوظيف : 3تقنيين في السوائل; تقني متعدد الاختصاصات; إطار تجاري",
       "meta_description": "",
-      "identity_evidence_invalidated_at": "2026-10-08T16:43:43+00:00",
+      "identity_evidence_invalidated_at": "2026-10-08T16:44:38+00:00",
       "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
       "source_tables": [],
       "source_tables_count": 0,
@@ -73790,6 +73790,12 @@
           "context": ""
         },
         {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/fichiers_att/297a16a4-eacf-4944-8eb8-ef4ac019fb8b/4",
+          "label": "بطائق الوظيفة (بالفرنسية)",
+          "kind": "document",
+          "context": ""
+        },
+        {
           "url": "https://sonarges.ma/",
           "label": "منصة الترشيح الرسمية",
           "kind": "apply",
@@ -73826,6 +73832,12 @@
           "label": "استمارة الترشح (بالفرنسية)",
           "kind": "document",
           "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/fichiers_att/297a16a4-eacf-4944-8eb8-ef4ac019fb8b/4",
+          "label": "بطائق الوظيفة (بالفرنسية)",
+          "kind": "document",
+          "context": ""
         }
       ],
       "job_entry_level": false,
@@ -73849,9 +73861,12 @@
       "full_article_text_chars": 618,
       "content_preview": "خيارات الوصول المرئي 3تقنيين في السوائل; تقني متعدد الاختصاصات; إطار تجاري الإدارة المنظمة الشركة الوطنية لإنجاز وتدبير المنشآت الرياضية آخر أجل لإيداع الترشيحات 22 أكتوبر 2026 - 16:00 تاريخ النشر 8 أكتوبر 2026 معلومات عن المباراة اسم المنصب : 3تقنيين في السوائل; تقني متعدد الاختصاصات; إطار تجاري الإقليم : جهة مراكش - أسفي (5 مناصب) نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://sonarges.ma/ هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
       "content_preview_chars": 618,
-      "content_fetched_at": "2026-10-08T16:43:43",
+      "content_fetched_at": "2026-10-08T16:44:38",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "job_link_binding_repaired_at": "2026-10-08T16:44:32",
+      "job_quality_status": "",
+      "job_quality_reasons": []
     },
     {
       "id": "2837231077f2b1c2",
