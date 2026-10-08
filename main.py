@@ -1565,7 +1565,7 @@ def _selection_blocker_reason(queue):
     if retry_blocked == len(ready):
         retry_text = earliest_retry.isoformat(timespec="seconds") if earliest_retry else "later"
         return (
-            f"{len(ready)} ready verified job(s) are in retry cooldown; "
+            f"{len(ready)} ready job(s) are in retry cooldown; "
             f"earliest retry={retry_text}"
         )
 
