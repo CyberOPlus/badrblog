@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-08T11:04:26",
+  "updated_at": "2026-10-08T11:06:01",
   "articles": [
     {
       "id": "1cb9737d53e8aa33",
@@ -42020,7 +42020,10 @@
       "candidate_failure_repeat_count": 14,
       "candidate_failure_backoff_minutes": 120,
       "candidate_failed_at": "2026-10-08T09:55:01+00:00",
-      "candidate_retry_after": "2026-10-08T11:55:01+00:00"
+      "candidate_retry_after": "2026-10-08T11:55:01+00:00",
+      "archived": true,
+      "archived_at": "2026-10-08T11:05:17",
+      "archive_reason": "job_publication_window_passed"
     },
     {
       "id": "73561e6d45346c05",
@@ -61308,17 +61311,18 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "be2ed0ebb103c50b0d9c",
+      "job_campaign_id": "eb83b6f90f0743758264",
       "seo_slug": "unicef-finance-assistant-g-ta-days-east-jerusalem",
       "desired_slug": "unicef-finance-assistant-g-ta-days-east-jerusalem",
       "job_quality_wait_fingerprint": "e376992490dc4248",
-      "job_quality_wait_count": 4,
+      "job_quality_wait_count": 5,
       "candidate_failure_stage": "quality-evidence",
       "candidate_failure_reason": "eligibility must be verified",
       "candidate_failure_fingerprint": "e376992490dc4248",
-      "candidate_failure_repeat_count": 4,
-      "candidate_failure_backoff_minutes": 80,
-      "candidate_failed_at": "2026-10-08T09:39:48+00:00"
+      "candidate_failure_repeat_count": 5,
+      "candidate_failure_backoff_minutes": 120,
+      "candidate_failed_at": "2026-10-08T11:05:20+00:00",
+      "candidate_retry_after": "2026-10-08T13:05:20+00:00"
     },
     {
       "id": "98cd22f18e763903",
@@ -61458,17 +61462,18 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "970495c3bf7f26287baf",
+      "job_campaign_id": "cebb02ec190219a1c619",
       "seo_slug": "unicef-development-of-a-unicef-strategy-for-engagement",
       "desired_slug": "unicef-development-of-a-unicef-strategy-for-engagement",
       "job_quality_wait_fingerprint": "e376992490dc4248",
-      "job_quality_wait_count": 4,
+      "job_quality_wait_count": 5,
       "candidate_failure_stage": "quality-evidence",
       "candidate_failure_reason": "eligibility must be verified",
       "candidate_failure_fingerprint": "e376992490dc4248",
-      "candidate_failure_repeat_count": 4,
-      "candidate_failure_backoff_minutes": 80,
-      "candidate_failed_at": "2026-10-08T09:39:48+00:00"
+      "candidate_failure_repeat_count": 5,
+      "candidate_failure_backoff_minutes": 120,
+      "candidate_failed_at": "2026-10-08T11:05:20+00:00",
+      "candidate_retry_after": "2026-10-08T13:05:20+00:00"
     },
     {
       "id": "40c68488c418b7f0",
@@ -61609,17 +61614,18 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "065b352b61b06483152f",
+      "job_campaign_id": "e993bedd493c5b661ce8",
       "seo_slug": "unicef-consultant-e-national-e-expert-en-suivi",
       "desired_slug": "unicef-consultant-e-national-e-expert-en-suivi",
       "job_quality_wait_fingerprint": "e376992490dc4248",
-      "job_quality_wait_count": 4,
+      "job_quality_wait_count": 5,
       "candidate_failure_stage": "quality-evidence",
       "candidate_failure_reason": "eligibility must be verified",
       "candidate_failure_fingerprint": "e376992490dc4248",
-      "candidate_failure_repeat_count": 4,
-      "candidate_failure_backoff_minutes": 80,
-      "candidate_failed_at": "2026-10-08T09:39:48+00:00"
+      "candidate_failure_repeat_count": 5,
+      "candidate_failure_backoff_minutes": 120,
+      "candidate_failed_at": "2026-10-08T11:05:20+00:00",
+      "candidate_retry_after": "2026-10-08T13:05:20+00:00"
     },
     {
       "id": "d5fdb07bfe76803e",
@@ -64777,22 +64783,21 @@
       "blogger_post_url": "https://cyberopluss.blogspot.com/2026/10/onda-recruitment-competition-audit.html",
       "published_at": "2026-10-08T10:44:24",
       "publish_status": "published",
-      "facebook_status": "failed",
+      "facebook_status": "facebook_pending",
       "facebook_queued_at": "2026-10-08T10:44:24",
       "facebook_queue_reason": "retry_ready",
       "jobposting_schema_status": "disabled_embedded_jsonld",
       "google_indexing_status": "disabled",
       "live_update_status": "created_new",
-      "facebook_logo_refresh_attempted_at": "2026-10-08T11:00:41",
+      "facebook_logo_refresh_attempted_at": "2026-10-08T11:06:01",
       "facebook_logo_refresh_status": "already_verified",
       "facebook_template_key": "new",
       "facebook_template_file": "job-new-orange.png",
       "facebook_template_reason": "active-competition-normal-rotation",
-      "facebook_error": "Facebook social AI failed after 3 attempts: All configured AI candidates are cooling down.",
-      "facebook_failure_count": 1,
-      "facebook_last_failure_at": "2026-10-08T11:00:41",
-      "facebook_retry_after_epoch": 1791457541,
-      "facebook_retry_delay_seconds": 300
+      "facebook_ai_deferred_at": "2026-10-08T11:06:01",
+      "facebook_ai_deferred_reason": "Facebook social AI failed after 3 attempts: Global AI circuit open until 2026-10-08T12:52:00+00:00",
+      "facebook_retry_after_epoch": 1791463920,
+      "facebook_retry_delay_seconds": 6359
     },
     {
       "id": "8a554d113e1de7f9",
@@ -66508,7 +66513,7 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "0688567dc01ceacd3173",
+      "job_campaign_id": "4354c052dc45d9db42de",
       "seo_slug": "almktb-alwtny-llmtarat-mbaryat-altwzyf-dblwm-albkalwrya-snwat",
       "desired_slug": "almktb-alwtny-llmtarat-mbaryat-altwzyf-dblwm-albkalwrya-snwat",
       "job_identity_final": false,
@@ -66953,15 +66958,15 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-08T10:52:52",
-      "status": "ready",
+      "status": "published",
       "score": 70,
       "priority": "high",
       "source_links_removed_count": 69,
       "affiliate_links_removed_count": 0,
-      "removed_source_links_count": 69,
+      "removed_source_links_count": 0,
       "fetched_title": "مباريات التوظيف : دبلوم تقني متخصص (البكالوريا + سنتان) في تخصص سكرتارية الإدارة أو ما يعادلها",
       "meta_description": "",
-      "identity_evidence_invalidated_at": "2026-10-08T11:04:25+00:00",
+      "identity_evidence_invalidated_at": "2026-10-08T11:05:19+00:00",
       "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
       "source_tables": [],
       "source_tables_count": 0,
@@ -66969,7 +66974,7 @@
       "job_title": "مباريات التوظيف : دبلوم تقني متخصص (البكالوريا + سنتان) في تخصص سكرتارية الإدارة أو ما يعادلها",
       "job_deadline_display": "23 أكتوبر 2026",
       "job_notice_type": "competition",
-      "job_notice_type_source": "source",
+      "job_notice_type_source": "ai",
       "job_published_at_display": "8 أكتوبر 2026",
       "job_application_is_specific": true,
       "job_application_is_official_channel": false,
@@ -67007,17 +67012,23 @@
       "company_logo_source": "verified_registry",
       "company_official_domain": "",
       "company_logo_checksum": "853d1ae69e31a2fcd12f59e8e260e71fcdd89e05fe04491eb2778d2d0aba9963",
-      "article_images": [],
-      "main_image": "",
-      "main_image_source_type": "job_template",
-      "main_image_extraction_method": "disabled_for_jobs",
+      "article_images": [
+        {
+          "url": "https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-articles/mabarat-tawziif-diplom-teknik.jpg",
+          "alt": "مباراة توظيف: دبلوم تقني متخصص في سكرتارية الإدارة – المكتب الوطني للمطارات",
+          "source": "generated_job_template"
+        }
+      ],
+      "main_image": "https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-articles/mabarat-tawziif-diplom-teknik.jpg",
+      "main_image_source_type": "generated_job_template",
+      "main_image_extraction_method": "generated_job_template",
       "extra_article_images": [],
       "trusted_references": [],
       "full_article_text": "خيارات الوصول المرئي دبلوم تقني متخصص (البكالوريا + سنتان) في تخصص سكرتارية الإدارة أو ما يعادلها الإدارة المنظمة المكتب الوطني للمطارات آخر أجل لإيداع الترشيحات 23 أكتوبر 2026 - 16:30 تاريخ النشر 8 أكتوبر 2026 معلومات عن المباراة اسم المنصب : دبلوم تقني متخصص (البكالوريا + سنتان) في تخصص سكرتارية الإدارة أو ما يعادلها نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://econcours.brainman.ma/cmp/ONDA_2026 هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
       "full_article_text_chars": 627,
       "content_preview": "خيارات الوصول المرئي دبلوم تقني متخصص (البكالوريا + سنتان) في تخصص سكرتارية الإدارة أو ما يعادلها الإدارة المنظمة المكتب الوطني للمطارات آخر أجل لإيداع الترشيحات 23 أكتوبر 2026 - 16:30 تاريخ النشر 8 أكتوبر 2026 معلومات عن المباراة اسم المنصب : دبلوم تقني متخصص (البكالوريا + سنتان) في تخصص سكرتارية الإدارة أو ما يعادلها نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://econcours.brainman.ma/cmp/ONDA_2026 هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
       "content_preview_chars": 627,
-      "content_fetched_at": "2026-10-08T11:04:26",
+      "content_fetched_at": "2026-10-08T11:05:19",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
       "job_score": 70,
@@ -67038,12 +67049,547 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "8a661ed0b0bd0971b0a1",
-      "seo_slug": "almktb-alwtny-llmtarat-mbaryat-altwzyf-dblwm-tqny-mtkhss",
+      "job_campaign_id": "850d4c51481dd3a9c4de",
+      "seo_slug": "mabarat-tawziif-diplom-teknik",
       "desired_slug": "almktb-alwtny-llmtarat-mbaryat-altwzyf-dblwm-tqny-mtkhss",
       "job_identity_final": false,
       "job_urgent_override": false,
-      "job_publish_immediately": false
+      "job_publish_immediately": false,
+      "selected_at": "2026-10-08T11:05:20",
+      "selection_reason": "jobs quality 70/100; identity=new; urgency=normal",
+      "job_document_texts": [
+        {
+          "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/6012a79a-b78f-454f-a7ef-b744748e05da",
+          "document_label": "قرار فتح المباراة",
+          "page_number": 1,
+          "page_count": 3,
+          "text": "AIRPORTS 7\\ oFMOROCCO\nLJ rà.dl ùUlbo DIRECTION GENERA \\^a\n\\ 0 6 0cI. 2026 DCH.PSo9.E.322100 rJüUU2tltti\nI}BCISION DD RBCEUTEN|DNT 20126\nLe Directeur cénéral de l'office National Des Aéroports,\n141 0 (30 Décembrel 989) transformant l'Office des . Vu la Loi n' '14.89 du 1 \"' Joumada II\nAéroports de Casablanca en Office National Des Aéroports;\n. Vu le Décret n\" 2.89.480 du 1\"'Joumada II 1410 (30 Décembre1989) pris pour l'application de\nla Loi n' 14.89 ;\n. Vu le Dahir n'1.24.31 du 10 Dhou-al H i.ija 1445 (17 juin 2024) portant nomination de Monsieur\nAdel EL FAKIR en qualité de Directeur Général de l'Office National Des Aéroports;\n. Vu le statut du personnel de l'office National Des Aéroports ;\n. Vu la circulaire du Chef de Gouvernement N\" 241?012 du 22 Octobre 2012 relative aux\nprocédures de recrutement dans les Etablissements et les Entreprises Publics;\npostes en priorité . Vu l'arrêté du Premier Ministre n'3-130-00 du 10 Juillet 2000 fixant les\nsusceptibles d'être affectés aux personnes handicapées ainsi que le pourcentage de ces postes\npour les administrations de l'Etât et des instances qui en dépendent.\nDECIDE\nARTICLE UN: Uoffice National des Aéroports lance une Opération de Recrutement de 07 postes au\n:titre de l'exercice 2026, répartis comme suit\nProfil Poste Erpérience requise Missions du poste affectâtion\nDiplôme d'lngénieur Enseignant en Expérience Assurer l'enseignement et la formation,\nà d'Etat ou Doctorat en Mathématiqu minimale de 3 ans contribuer à la recherche et Siège : 1\nles Mathématiques es Appliquées suivant l'obtention l'encadrement des projets, et gérer\ndu diplôme activités pédagogique5 et de laboratoire. Appliquées ou\néquivalent (1 poste)\ndu Expérience minimale de . Assurer le contrôle et le suivi des dossiers Diplôme de Bac+5 ans chargé {e)\npaiement des dépenses des marchés et en audit et contrôle ou Contrôle des 3 ans suivant I'obtention de\nsuivi Siège : 1 finance ou contrôle de dossiers de du diplôme en audit ou bons de commandes ainsi que le\nà sa charge. Aéroport gestion ou gestion des paiements contrôle interne ou budgétaire des entités\npermanent ou d'Oujda :1 risques (2 postes) engagés par contrôle\nmarchés et bons conformité ou risques\nde commandes ou équivalent\ndonnées, Diplôme de Bac+s ans chargé (e) du Expérience minimale . collecter et consolider les\nsuivant plannings et indicateurs du portefeuille de en Mangement de pilotage et du d'une année\ndiplôme projets de l'Office ; projet ou Business reporting des l'obtention du\nphysique et financier intelligence ou aide à la projets avec une certification en . suivre l'avancement\nanalyser Siège : 1 décision ou Business management/gestion (coûts, délais, performances) et\nanalytics et analyse de de projet souhaitable les écarts et émettre des alertes j\ndonnées ou équivalent . Concevoir et produire les tableaux de bord.\n(1 poste)\nactivités Diplôme de Bac+3 ans Cadre chargé de la Expérience minimale de Piloter et coordonner les\n; en économie et gestion coordination, du 3 ans suivant I'obtention administratives de son périmètre\n(l poste) suivi administratif du diplôme lnstruire, suivre et contrôler les dossiers\nadministratifs relevant de son domaine ; siège : 1 et du reporting\ndes aéroports Élaborer les tableaux de bord. consolider\nles indicateurs et assurer le reporting de\nl'activité au rès de la hiérarchie\n. Assurer l'assistanat tout en assurant une Diplôme de Technicien Assistant (e) de Expérience minimale\nSpécialisé (bac+2 ans) direction d'une ânnée suivant organisation optimale et un suivi rigoureux Siège :2\nl'obtention du di iers confiés en secrétariat de\ndirection ou équivalent §\n(2 postes)\nL:-^\n+. C- () (l î,'ü V ), \\\\ ,,'u--,jü\"T#r#,*.#i---,/'. Office National des Aéropons - Nouaceur 05 22 53 90 40 - www.onda.ma vo\n/ . _ /\n(-//"
+        },
+        {
+          "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/6012a79a-b78f-454f-a7ef-b744748e05da",
+          "document_label": "قرار فتح المباراة",
+          "page_number": 2,
+          "page_count": 3,
+          "text": "DIRECTION GENERAI AIRPORTS\noF MOROCCO\nlrlJôoll ùUll:l.o \\\nARTICLE DEUX : Le concours est ouvert aux candidats(es) remplissant les conditions suivantes :\n- Être de nationalité marocaine;\n- Être âgé (au 31t1212026) de 18 ans au moins et de 45 ans au plus;\n- Être titulaire du diplôme susmentionné dans la spécialité exigée du poste pourvu;\n- Avoir au minimum l'expérience requise demandée au niveau du poste pourvu (suivant\nl'obtention du diplôme).\nARTICLE TROIS: Le dossier de candidature est constitué obligatoirement des pièces suivantes\n(Tout dossier incomplet est automatiquement rejeté) :\n. Un curriculum vitae (CV) détaillé;\n. Une copie du baccalauréat;\nUne copie du diplôme dans la spécialité exigée pour le poste pourvu, à la limite une copie de ' l'attestation de réussite pour les candidats(es) relevant des promotions 2025/2026 (*\\;\n. Une attestation précisant la spécialité du diplôme (dans Ie cas où ce n'est pas mentionné au\nniveau du diplôme) ;\n. Une copie du bulletin officiel evou d'attestation de l'équivalence, s'il y a lieu;\n. Une copie de la Carte Nationale d'Identité;\n. Une copie des attestations de travail (pour les postes nécessitant une expérience);\n. Une déclaration CN55 attestant le nombre d'années d'expérience au sein des établissements\nprivés (pour les postes nécessitant une expérience);\n. Une copie de la carte « Personne Handicapée » (pour les personnes disposant de cette carte);\n. Une copie de la carte justifiânt la qualité de pupilles de la Nation (pour les personnes disposant\nde cette carte).\n(*) NB: Seuls les diplômes délivrés par les instituts, écoles ou universités publics marocains, en\nformation initiale, ou les instituts, écoles ou universités privés ou étrangers disposant d'une\néquivalence sont éligibles.\nSept pour cent 7% des postes seront réservés aux personnes handicapées et vingt-cinq pour cent 25%\naux pupilles de la nation.\nARTICLE OUATRE : Critères d'admissibilité et d'admission\n1) Il sera procédé à une présélection des dossiers de candidature sur la base des conditions\nmentionnées dans les articles 1, 2 et 3 de la présente décision et ne seront admissibles pour\nl'épreuve écrite que les candidats(es) ayant remplices conditions;\n2) Ne seront admissibles pour l'épreuve orale que les candidats(es), ayant obtenu une note à\nl'épreuve écrite, supérieure ou égale à 12120;\n3) Ensuite, ne seront admis(es) définitivement que les candidats(es) ayant obtenu, une note à\nl'épreuve orale, supérieure ou égale à 12120 dans la limite des postes pourvus;\n4) La liste des candidats(es) définitivement admis(es) et la liste d'attente seront arrêtées par ordre\nde mérite.\nRécapitulatif des épreuves prévues\nE preuves Durée\npreuve Ecrite: Se rapportant aux exigences du poste 01 h30 à 02h00\npreuve Orale: Entretien avec le jury ts rmettant 20 minutes l'évaluation de l'aptitude du candidat (e) à re mrsst érentes\nau rofil demandé ,t\nU\nO O\n2t3 ÊA Office Nâtaonal des Aéroports - Nouaceur - 53 90 40 - www.onda.ma l t."
+        },
+        {
+          "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/6012a79a-b78f-454f-a7ef-b744748e05da",
+          "document_label": "قرار فتح المباراة",
+          "page_number": 3,
+          "page_count": 3,
+          "text": "DIRECTION GENERA AIRPORTS\noF MOROCCO\nvr.Éorl ûlrtbo \\\nARTICLE CINO : Affichage des résultats\nLa liste des candidats(es) arrêtés à passer l'épreuve écrite, la liste des candidats(es) admis(es) pour\npasser l'épreuve orale, la liste nominative des candidats (es) admis (es) définitivement et la liste\nd'attente seront affichées sur le portail www.emoloi-oublic.ma et sur le site web de I'ONDA\nwww.onda.ma.\nNB : La date et le lieu du concours écrit seront communiqués ultérieurement.\nARTICLE SIX ET DERNIERi Modalités de candidature\nLes candidats(es) intéressés doivent renseigner leurs dossiers de candidature au plus tard\nle à 23H00 sur le lien suivant: 2 3 Octo 2026\nhttps://econcours.brainman.ma/cm p/ON DA_2026\nImportant:\nSeules les candidatures reçues via le lien\nhttps://econcours,brainman.ma/cmp/ON DA-2026 seront traitées. Tout dossier de\ncandidature envoyé via un canal autre que celui précité, ne sera pas pris en considération ;\nLes candidats(es) intéressés(es) ne peuvent postuler que pour un seul poste à la fois;\nLe/la candidat(e) est responsable de l'exactitude et de l'exhaustivité des informations\nrenseignées sur le formulaire de candidature. Toute candidature incomplète ou ne\ncorrespondant pas au profil demandé ou fausse déclaration entrainera son rejet automatique ;\nL'embauche reste tributaire des résultats de l'examen de l'aptitude physique et mentale\neffectué par le service médecine de travail de l'office evou par un médecin désigné par\nI'ONDA;\nPour plus d'information sur les modalités de candidature et d'organisation du concours, merci\nde nous contacter sur l'adresse: R.ecrutement@brainman.ma et/ou Tél i05229A77 40\nVos données personnelles sont traitées conformément aux dispositions de la loi n'09-08\nrelative à la protection des personnes physiques à l'égard du traitement des données à\ncaractère personnel ;\nLes salaires respectent le régime indemnitaire de l'office t t\nr!\nt IF,iWt Adc .)iti r\\.:r\\ Diret Atl on'al Dcs \\''t Otlitc\ne. J,i-ll- _J*lr,ill - .rlJtLl) 3t3\nOffice Nationaldes Aéroports - Nouaceur - Maroc - Tél. : l+2121 05 22 53 90 40 - www. onda. ma"
+        }
+      ],
+      "job_document_text_pages": 3,
+      "job_document_text_chars": 8830,
+      "job_document_text_download_failures": 0,
+      "job_document_text_read_complete": true,
+      "job_document_text_truncated": false,
+      "job_document_text_attempted_documents": 1,
+      "job_document_ocr_attempts": 0,
+      "job_document_ocr_pages": 0,
+      "job_document_ocr_failures": 0,
+      "job_document_ocr_unavailable": false,
+      "job_document_unread_pages": 0,
+      "identity_evidence_document_fingerprint": "https://emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/6012a79a-b78f-454f-a7ef-b744748e05da",
+      "job_notice_status": "",
+      "identity_evidence_detail_checked": true,
+      "identity_evidence_tables_checked": true,
+      "identity_evidence_documents_checked": true,
+      "identity_evidence_stage_status": "complete",
+      "identity_evidence_stage_checked_at": "2026-10-08T11:05:39+00:00",
+      "identity_evidence_signature": "ddc59bdf89caf4fa938307e8",
+      "identity_evidence_strength": 9,
+      "identity_evidence_comparison_strength": 4,
+      "identity_evidence_categories": [
+        "reference",
+        "deadline",
+        "pdf_text",
+        "documents"
+      ],
+      "identity_evidence_reference": "6012a79a b78f 454f a7ef b744748e05da",
+      "identity_evidence_deadline": "2026-10-23",
+      "identity_evidence_positions": 0,
+      "verified_fact_manifest": {
+        "version": 2,
+        "policy": {
+          "blocking_confidence": [
+            "high"
+          ],
+          "non_high_behavior": "warning",
+          "raw_table_rows_are_not_blocking": true,
+          "heuristic_regex_facts_are_not_blocking": true
+        },
+        "facts": {
+          "deadline": [
+            {
+              "value": "2026-10-23",
+              "source": "official_detail_page",
+              "confidence": "high",
+              "blocking": true,
+              "required_in_output": true,
+              "aliases": [
+                "23 أكتوبر 2026"
+              ],
+              "meta": {}
+            }
+          ],
+          "notice_type": [
+            {
+              "value": "competition",
+              "source": "source",
+              "confidence": "high",
+              "blocking": false,
+              "required_in_output": false,
+              "aliases": [],
+              "meta": {}
+            }
+          ],
+          "application": [
+            {
+              "value": "https://econcours.brainman.ma/cmp/ONDA_2026",
+              "source": "verified_application_channel",
+              "confidence": "high",
+              "blocking": true,
+              "required_in_output": true,
+              "aliases": [],
+              "meta": {
+                "kind": "direct_apply",
+                "notice_type": "competition"
+              }
+            }
+          ],
+          "detail": [
+            {
+              "value": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/6012a79a-b78f-454f-a7ef-b744748e05da",
+              "source": "specific_notice_detail",
+              "confidence": "high",
+              "blocking": true,
+              "required_in_output": true,
+              "aliases": [],
+              "meta": {}
+            }
+          ],
+          "documents": [
+            {
+              "value": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/6012a79a-b78f-454f-a7ef-b744748e05da",
+              "source": "official_notice_link",
+              "confidence": "high",
+              "blocking": true,
+              "required_in_output": true,
+              "aliases": [],
+              "meta": {
+                "label": "قرار فتح المباراة",
+                "kind": "document"
+              }
+            }
+          ],
+          "tests": [
+            {
+              "value": "Se rapportant aux exigences du poste 01 h30 à 02h00",
+              "source": "official_pdf",
+              "confidence": "high",
+              "blocking": true,
+              "required_in_output": true,
+              "aliases": [],
+              "meta": {
+                "kind": "test",
+                "explicit_label": "preuve Ecrite"
+              }
+            },
+            {
+              "value": "Entretien avec le jury ts rmettant 20 minutes l'évaluation de l'aptitude du candidat (e) à re mrsst érentes",
+              "source": "official_pdf",
+              "confidence": "high",
+              "blocking": true,
+              "required_in_output": true,
+              "aliases": [],
+              "meta": {
+                "kind": "test",
+                "explicit_label": "preuve Orale"
+              }
+            }
+          ]
+        },
+        "warnings": [],
+        "summary": {
+          "high": 7,
+          "medium": 0,
+          "heuristic": 0
+        }
+      },
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-10-08T11:05:39",
+      "ai_input_package": {
+        "title": "مباريات التوظيف : دبلوم تقني متخصص (البكالوريا + سنتان) في تخصص سكرتارية الإدارة أو ما يعادلها",
+        "url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/6012a79a-b78f-454f-a7ef-b744748e05da",
+        "source_name": "Emploi-Public — établissements publics",
+        "official_source": true,
+        "job_official_source": true,
+        "suggested_category": "jobs-morocco",
+        "main_image": "https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-articles/mabarat-tawziif-diplom-teknik.jpg",
+        "article_images": [
+          {
+            "url": "https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-articles/mabarat-tawziif-diplom-teknik.jpg",
+            "alt": "مباراة توظيف: دبلوم تقني متخصص في سكرتارية الإدارة – المكتب الوطني للمطارات",
+            "source": "generated_job_template"
+          }
+        ],
+        "extra_article_images": [],
+        "meta_description": "",
+        "content_preview": "خيارات الوصول المرئي دبلوم تقني متخصص (البكالوريا + سنتان) في تخصص سكرتارية الإدارة أو ما يعادلها الإدارة المنظمة المكتب الوطني للمطارات آخر أجل لإيداع الترشيحات 23 أكتوبر 2026 - 16:30 تاريخ النشر 8 أكتوبر 2026 معلومات عن المباراة اسم المنصب : دبلوم تقني متخصص (البكالوريا + سنتان) في تخصص سكرتارية الإدارة أو ما يعادلها نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://econcours.brainman.ma/cmp/ONDA_2026 هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+        "content_preview_chars": 627,
+        "rss_summary": "",
+        "full_article_text": "خيارات الوصول المرئي دبلوم تقني متخصص (البكالوريا + سنتان) في تخصص سكرتارية الإدارة أو ما يعادلها الإدارة المنظمة المكتب الوطني للمطارات آخر أجل لإيداع الترشيحات 23 أكتوبر 2026 - 16:30 تاريخ النشر 8 أكتوبر 2026 معلومات عن المباراة اسم المنصب : دبلوم تقني متخصص (البكالوريا + سنتان) في تخصص سكرتارية الإدارة أو ما يعادلها نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://econcours.brainman.ma/cmp/ONDA_2026 هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+        "full_article_text_chars": 627,
+        "source_tables": [],
+        "source_tables_count": 0,
+        "source_tables_truncated": false,
+        "enrichment_status": "weak",
+        "source_url": "https://www.emploi-public.ma/ar/%D9%82%D8%A7%D8%A6%D9%85%D8%A9-%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA?corps=0&procedure=0&region=0&stat=etab_publics",
+        "trusted_references": [],
+        "related_posts": [],
+        "labels": [
+          "jobs",
+          "jobs-morocco"
+        ],
+        "job_title": "مباريات التوظيف : دبلوم تقني متخصص (البكالوريا + سنتان) في تخصص سكرتارية الإدارة أو ما يعادلها",
+        "job_company": "المكتب الوطني للمطارات",
+        "job_location": "",
+        "job_country": "MA",
+        "job_contract_type": "",
+        "job_salary": "",
+        "job_deadline": "2026-10-23",
+        "job_deadline_display": "23 أكتوبر 2026",
+        "job_exam_date": "",
+        "job_exam_date_display": "",
+        "job_notice_type": "competition",
+        "job_notice_type_hint": "competition",
+        "job_notice_type_source": "ai",
+        "job_notice_status": "",
+        "job_application_url": "https://econcours.brainman.ma/cmp/ONDA_2026",
+        "job_application_link_kind": "direct_apply",
+        "job_application_is_specific": true,
+        "job_application_is_official_channel": false,
+        "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/6012a79a-b78f-454f-a7ef-b744748e05da",
+        "job_action_links": [
+          {
+            "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/6012a79a-b78f-454f-a7ef-b744748e05da",
+            "label": "قرار فتح المباراة",
+            "kind": "document",
+            "context": ""
+          },
+          {
+            "url": "https://econcours.brainman.ma/cmp/ONDA_2026",
+            "label": "منصة الترشيح الرسمية",
+            "kind": "apply",
+            "context": "موقع الإيداع : https://econcours.brainman.ma/cmp/ONDA_2026"
+          }
+        ],
+        "job_document_links": [
+          {
+            "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/6012a79a-b78f-454f-a7ef-b744748e05da",
+            "label": "قرار فتح المباراة",
+            "kind": "document",
+            "context": ""
+          }
+        ],
+        "job_document_texts": [
+          {
+            "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/6012a79a-b78f-454f-a7ef-b744748e05da",
+            "document_label": "قرار فتح المباراة",
+            "page_number": 1,
+            "page_count": 3,
+            "text": "AIRPORTS 7\\ oFMOROCCO\nLJ rà.dl ùUlbo DIRECTION GENERA \\^a\n\\ 0 6 0cI. 2026 DCH.PSo9.E.322100 rJüUU2tltti\nI}BCISION DD RBCEUTEN|DNT 20126\nLe Directeur cénéral de l'office National Des Aéroports,\n141 0 (30 Décembrel 989) transformant l'Office des . Vu la Loi n' '14.89 du 1 \"' Joumada II\nAéroports de Casablanca en Office National Des Aéroports;\n. Vu le Décret n\" 2.89.480 du 1\"'Joumada II 1410 (30 Décembre1989) pris pour l'application de\nla Loi n' 14.89 ;\n. Vu le Dahir n'1.24.31 du 10 Dhou-al H i.ija 1445 (17 juin 2024) portant nomination de Monsieur\nAdel EL FAKIR en qualité de Directeur Général de l'Office National Des Aéroports;\n. Vu le statut du personnel de l'office National Des Aéroports ;\n. Vu la circulaire du Chef de Gouvernement N\" 241?012 du 22 Octobre 2012 relative aux\nprocédures de recrutement dans les Etablissements et les Entreprises Publics;\npostes en priorité . Vu l'arrêté du Premier Ministre n'3-130-00 du 10 Juillet 2000 fixant les\nsusceptibles d'être affectés aux personnes handicapées ainsi que le pourcentage de ces postes\npour les administrations de l'Etât et des instances qui en dépendent.\nDECIDE\nARTICLE UN: Uoffice National des Aéroports lance une Opération de Recrutement de 07 postes au\n:titre de l'exercice 2026, répartis comme suit\nProfil Poste Erpérience requise Missions du poste affectâtion\nDiplôme d'lngénieur Enseignant en Expérience Assurer l'enseignement et la formation,\nà d'Etat ou Doctorat en Mathématiqu minimale de 3 ans contribuer à la recherche et Siège : 1\nles Mathématiques es Appliquées suivant l'obtention l'encadrement des projets, et gérer\ndu diplôme activités pédagogique5 et de laboratoire. Appliquées ou\néquivalent (1 poste)\ndu Expérience minimale de . Assurer le contrôle et le suivi des dossiers Diplôme de Bac+5 ans chargé {e)\npaiement des dépenses des marchés et en audit et contrôle ou Contrôle des 3 ans suivant I'obtention de\nsuivi Siège : 1 finance ou contrôle de dossiers de du diplôme en audit ou bons de commandes ainsi que le\nà sa charge. Aéroport gestion ou gestion des paiements contrôle interne ou budgétaire des entités\npermanent ou d'Oujda :1 risques (2 postes) engagés par contrôle\nmarchés et bons conformité ou risques\nde commandes ou équivalent\ndonnées, Diplôme de Bac+s ans chargé (e) du Expérience minimale . collecter et consolider les\nsuivant plannings et indicateurs du portefeuille de en Mangement de pilotage et du d'une année\ndiplôme projets de l'Office ; projet ou Business reporting des l'obtention du\nphysique et financier intelligence ou aide à la projets avec une certification en . suivre l'avancement\nanalyser Siège : 1 décision ou Business management/gestion (coûts, délais, performances) et\nanalytics et analyse de de projet souhaitable les écarts et émettre des alertes j\ndonnées ou équivalent . Concevoir et produire les tableaux de bord.\n(1 poste)\nactivités Diplôme de Bac+3 ans Cadre chargé de la Expérience minimale de Piloter et coordonner les\n; en économie et gestion coordination, du 3 ans suivant I'obtention administratives de son périmètre\n(l poste) suivi administratif du diplôme lnstruire, suivre et contrôler les dossiers\nadministratifs relevant de son domaine ; siège : 1 et du reporting\ndes aéroports Élaborer les tableaux de bord. consolider\nles indicateurs et assurer le reporting de\nl'activité au rès de la hiérarchie\n. Assurer l'assistanat tout en assurant une Diplôme de Technicien Assistant (e) de Expérience minimale\nSpécialisé (bac+2 ans) direction d'une ânnée suivant organisation optimale et un suivi rigoureux Siège :2\nl'obtention du di iers confiés en secrétariat de\ndirection ou équivalent §\n(2 postes)\nL:-^\n+. C- () (l î,'ü V ), \\\\ ,,'u--,jü\"T#r#,*.#i---,/'. Office National des Aéropons - Nouaceur 05 22 53 90 40 - www.onda.ma vo\n/ . _ /\n(-//"
+          },
+          {
+            "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/6012a79a-b78f-454f-a7ef-b744748e05da",
+            "document_label": "قرار فتح المباراة",
+            "page_number": 2,
+            "page_count": 3,
+            "text": "DIRECTION GENERAI AIRPORTS\noF MOROCCO\nlrlJôoll ùUll:l.o \\\nARTICLE DEUX : Le concours est ouvert aux candidats(es) remplissant les conditions suivantes :\n- Être de nationalité marocaine;\n- Être âgé (au 31t1212026) de 18 ans au moins et de 45 ans au plus;\n- Être titulaire du diplôme susmentionné dans la spécialité exigée du poste pourvu;\n- Avoir au minimum l'expérience requise demandée au niveau du poste pourvu (suivant\nl'obtention du diplôme).\nARTICLE TROIS: Le dossier de candidature est constitué obligatoirement des pièces suivantes\n(Tout dossier incomplet est automatiquement rejeté) :\n. Un curriculum vitae (CV) détaillé;\n. Une copie du baccalauréat;\nUne copie du diplôme dans la spécialité exigée pour le poste pourvu, à la limite une copie de ' l'attestation de réussite pour les candidats(es) relevant des promotions 2025/2026 (*\\;\n. Une attestation précisant la spécialité du diplôme (dans Ie cas où ce n'est pas mentionné au\nniveau du diplôme) ;\n. Une copie du bulletin officiel evou d'attestation de l'équivalence, s'il y a lieu;\n. Une copie de la Carte Nationale d'Identité;\n. Une copie des attestations de travail (pour les postes nécessitant une expérience);\n. Une déclaration CN55 attestant le nombre d'années d'expérience au sein des établissements\nprivés (pour les postes nécessitant une expérience);\n. Une copie de la carte « Personne Handicapée » (pour les personnes disposant de cette carte);\n. Une copie de la carte justifiânt la qualité de pupilles de la Nation (pour les personnes disposant\nde cette carte).\n(*) NB: Seuls les diplômes délivrés par les instituts, écoles ou universités publics marocains, en\nformation initiale, ou les instituts, écoles ou universités privés ou étrangers disposant d'une\néquivalence sont éligibles.\nSept pour cent 7% des postes seront réservés aux personnes handicapées et vingt-cinq pour cent 25%\naux pupilles de la nation.\nARTICLE OUATRE : Critères d'admissibilité et d'admission\n1) Il sera procédé à une présélection des dossiers de candidature sur la base des conditions\nmentionnées dans les articles 1, 2 et 3 de la présente décision et ne seront admissibles pour\nl'épreuve écrite que les candidats(es) ayant remplices conditions;\n2) Ne seront admissibles pour l'épreuve orale que les candidats(es), ayant obtenu une note à\nl'épreuve écrite, supérieure ou égale à 12120;\n3) Ensuite, ne seront admis(es) définitivement que les candidats(es) ayant obtenu, une note à\nl'épreuve orale, supérieure ou égale à 12120 dans la limite des postes pourvus;\n4) La liste des candidats(es) définitivement admis(es) et la liste d'attente seront arrêtées par ordre\nde mérite.\nRécapitulatif des épreuves prévues\nE preuves Durée\npreuve Ecrite: Se rapportant aux exigences du poste 01 h30 à 02h00\npreuve Orale: Entretien avec le jury ts rmettant 20 minutes l'évaluation de l'aptitude du candidat (e) à re mrsst érentes\nau rofil demandé ,t\nU\nO O\n2t3 ÊA Office Nâtaonal des Aéroports - Nouaceur - 53 90 40 - www.onda.ma l t."
+          },
+          {
+            "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/6012a79a-b78f-454f-a7ef-b744748e05da",
+            "document_label": "قرار فتح المباراة",
+            "page_number": 3,
+            "page_count": 3,
+            "text": "DIRECTION GENERA AIRPORTS\noF MOROCCO\nvr.Éorl ûlrtbo \\\nARTICLE CINO : Affichage des résultats\nLa liste des candidats(es) arrêtés à passer l'épreuve écrite, la liste des candidats(es) admis(es) pour\npasser l'épreuve orale, la liste nominative des candidats (es) admis (es) définitivement et la liste\nd'attente seront affichées sur le portail www.emoloi-oublic.ma et sur le site web de I'ONDA\nwww.onda.ma.\nNB : La date et le lieu du concours écrit seront communiqués ultérieurement.\nARTICLE SIX ET DERNIERi Modalités de candidature\nLes candidats(es) intéressés doivent renseigner leurs dossiers de candidature au plus tard\nle à 23H00 sur le lien suivant: 2 3 Octo 2026\nhttps://econcours.brainman.ma/cm p/ON DA_2026\nImportant:\nSeules les candidatures reçues via le lien\nhttps://econcours,brainman.ma/cmp/ON DA-2026 seront traitées. Tout dossier de\ncandidature envoyé via un canal autre que celui précité, ne sera pas pris en considération ;\nLes candidats(es) intéressés(es) ne peuvent postuler que pour un seul poste à la fois;\nLe/la candidat(e) est responsable de l'exactitude et de l'exhaustivité des informations\nrenseignées sur le formulaire de candidature. Toute candidature incomplète ou ne\ncorrespondant pas au profil demandé ou fausse déclaration entrainera son rejet automatique ;\nL'embauche reste tributaire des résultats de l'examen de l'aptitude physique et mentale\neffectué par le service médecine de travail de l'office evou par un médecin désigné par\nI'ONDA;\nPour plus d'information sur les modalités de candidature et d'organisation du concours, merci\nde nous contacter sur l'adresse: R.ecrutement@brainman.ma et/ou Tél i05229A77 40\nVos données personnelles sont traitées conformément aux dispositions de la loi n'09-08\nrelative à la protection des personnes physiques à l'égard du traitement des données à\ncaractère personnel ;\nLes salaires respectent le régime indemnitaire de l'office t t\nr!\nt IF,iWt Adc .)iti r\\.:r\\ Diret Atl on'al Dcs \\''t Otlitc\ne. J,i-ll- _J*lr,ill - .rlJtLl) 3t3\nOffice Nationaldes Aéroports - Nouaceur - Maroc - Tél. : l+2121 05 22 53 90 40 - www. onda. ma"
+          }
+        ],
+        "job_document_text_pages": 3,
+        "job_document_text_chars": 8830,
+        "job_document_text_truncated": false,
+        "job_document_text_download_failures": 0,
+        "identity_evidence_stage_status": "complete",
+        "verified_fact_manifest": {
+          "version": 2,
+          "policy": {
+            "blocking_confidence": [
+              "high"
+            ],
+            "non_high_behavior": "warning",
+            "raw_table_rows_are_not_blocking": true,
+            "heuristic_regex_facts_are_not_blocking": true
+          },
+          "facts": {
+            "deadline": [
+              {
+                "value": "2026-10-23",
+                "source": "official_detail_page",
+                "confidence": "high",
+                "blocking": true,
+                "required_in_output": true,
+                "aliases": [
+                  "23 أكتوبر 2026"
+                ],
+                "meta": {}
+              }
+            ],
+            "notice_type": [
+              {
+                "value": "competition",
+                "source": "source",
+                "confidence": "high",
+                "blocking": false,
+                "required_in_output": false,
+                "aliases": [],
+                "meta": {}
+              }
+            ],
+            "application": [
+              {
+                "value": "https://econcours.brainman.ma/cmp/ONDA_2026",
+                "source": "verified_application_channel",
+                "confidence": "high",
+                "blocking": true,
+                "required_in_output": true,
+                "aliases": [],
+                "meta": {
+                  "kind": "direct_apply",
+                  "notice_type": "competition"
+                }
+              }
+            ],
+            "detail": [
+              {
+                "value": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/6012a79a-b78f-454f-a7ef-b744748e05da",
+                "source": "specific_notice_detail",
+                "confidence": "high",
+                "blocking": true,
+                "required_in_output": true,
+                "aliases": [],
+                "meta": {}
+              }
+            ],
+            "documents": [
+              {
+                "value": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/6012a79a-b78f-454f-a7ef-b744748e05da",
+                "source": "official_notice_link",
+                "confidence": "high",
+                "blocking": true,
+                "required_in_output": true,
+                "aliases": [],
+                "meta": {
+                  "label": "قرار فتح المباراة",
+                  "kind": "document"
+                }
+              }
+            ],
+            "tests": [
+              {
+                "value": "Se rapportant aux exigences du poste 01 h30 à 02h00",
+                "source": "official_pdf",
+                "confidence": "high",
+                "blocking": true,
+                "required_in_output": true,
+                "aliases": [],
+                "meta": {
+                  "kind": "test",
+                  "explicit_label": "preuve Ecrite"
+                }
+              },
+              {
+                "value": "Entretien avec le jury ts rmettant 20 minutes l'évaluation de l'aptitude du candidat (e) à re mrsst érentes",
+                "source": "official_pdf",
+                "confidence": "high",
+                "blocking": true,
+                "required_in_output": true,
+                "aliases": [],
+                "meta": {
+                  "kind": "test",
+                  "explicit_label": "preuve Orale"
+                }
+              }
+            ]
+          },
+          "warnings": [],
+          "summary": {
+            "high": 7,
+            "medium": 0,
+            "heuristic": 0
+          }
+        },
+        "job_number_of_positions": 0,
+        "job_diploma": "",
+        "job_experience": "",
+        "job_entry_level": false,
+        "job_remote": false,
+        "job_visa_sponsorship": false,
+        "job_eligibility": "morocco",
+        "job_score": 70,
+        "desired_slug": "almktb-alwtny-llmtarat-mbaryat-altwzyf-dblwm-tqny-mtkhss",
+        "company_logo_url": "https://www.emploi-public.ma/backoffice/files/images/administrations/logo-102.png",
+        "company_logo_verified": true,
+        "company_logo_confidence": 100,
+        "company_logo_source": "verified_registry",
+        "company_official_domain": "",
+        "job_notice_type_ai": "competition",
+        "company_logo_checksum": "853d1ae69e31a2fcd12f59e8e260e71fcdd89e05fe04491eb2778d2d0aba9963",
+        "logo_resolution_status": "verified",
+        "article_logo_used": true,
+        "article_cover_fallback_used": false,
+        "article_logo_url_used": "https://www.emploi-public.ma/backoffice/files/images/administrations/logo-102.png",
+        "job_article_cover_url": "https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-articles/mabarat-tawziif-diplom-teknik.jpg",
+        "job_article_cover_status": "ready",
+        "cover_alt": "مباراة توظيف: دبلوم تقني متخصص في سكرتارية الإدارة – المكتب الوطني للمطارات",
+        "cover_width": 1731,
+        "cover_height": 909,
+        "job_document_page_images": [
+          {
+            "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/6012a79a-b78f-454f-a7ef-b744748e05da",
+            "document_label": "قرار فتح المباراة",
+            "page_number": 1,
+            "page_count": 3,
+            "url": "https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-documents/mabarat-tawziif-diplom-teknik/doc-01-d5b9bdca95-page-01.jpg",
+            "path": "assets/generated/job-documents/mabarat-tawziif-diplom-teknik/doc-01-d5b9bdca95-page-01.jpg",
+            "alt": "قرار فتح المباراة — الصفحة 1"
+          },
+          {
+            "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/6012a79a-b78f-454f-a7ef-b744748e05da",
+            "document_label": "قرار فتح المباراة",
+            "page_number": 2,
+            "page_count": 3,
+            "url": "https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-documents/mabarat-tawziif-diplom-teknik/doc-01-d5b9bdca95-page-02.jpg",
+            "path": "assets/generated/job-documents/mabarat-tawziif-diplom-teknik/doc-01-d5b9bdca95-page-02.jpg",
+            "alt": "قرار فتح المباراة — الصفحة 2"
+          },
+          {
+            "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/6012a79a-b78f-454f-a7ef-b744748e05da",
+            "document_label": "قرار فتح المباراة",
+            "page_number": 3,
+            "page_count": 3,
+            "url": "https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-documents/mabarat-tawziif-diplom-teknik/doc-01-d5b9bdca95-page-03.jpg",
+            "path": "assets/generated/job-documents/mabarat-tawziif-diplom-teknik/doc-01-d5b9bdca95-page-03.jpg",
+            "alt": "قرار فتح المباراة — الصفحة 3"
+          }
+        ],
+        "job_document_rendered_pages": 3,
+        "job_document_render_status": "rendered"
+      },
+      "ai_quality_warnings": [
+        "Jobs introduction substantially overlaps the Blogger/SEO title"
+      ],
+      "ai_status": "completed",
+      "ai_processed_at": "2026-10-08T11:05:42",
+      "seo_title": "مباراة توظيف: دبلوم تقني متخصص في سكرتارية الإدارة – المكتب الوطني للمطارات",
+      "seo_description": "مباراة توظيف للمكتب الوطني للمطارات للمنصب دبلوم تقني متخصص في سكرتارية الإدارة. الإيداع الإلكتروني حتى 23 أكتوبر 2026. اختبارات مكتوبة ومقابلة. تفاصيل على موقع التوظيف.",
+      "final_html": "<p>تعلن المكتب الوطني للمطارات عن مباراة توظيف للمنصب \"دبلوم تقني متخصص (البكالوريا + سنتان) في تخصص سكرتارية الإدارة أو ما يعادلها\". الإيداع الإلكتروني متاح حتى 23 أكتوبر 2026، مع اختبارات مكتوبة ومقابلة شخصية.</p><figure>\n<img alt=\"مباراة توظيف: دبلوم تقني متخصص في سكرتارية الإدارة – المكتب الوطني للمطارات\" height=\"909\" src=\"https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-articles/mabarat-tawziif-diplom-teknik.jpg\" width=\"1731\"/>\n</figure>\n<ul><li><strong>الاختبار:</strong> Se rapportant aux exigences du poste 01 h30 à 02h00</li><li><strong>الاختبار:</strong> Entretien avec le jury ts rmettant 20 minutes l'évaluation de l'aptitude du candidat (e) à re mrsst érentes</li></ul><h2>المتطلبات الأساسية</h2>\n<ul>\n<li>الجنسية: المغربية.</li>\n<li>السن: 18–45 سنة (حسب 31 أكتوبر 2026).</li>\n<li>الحصول على الدبلوم المتخصص في سكرتارية الإدارة أو ما يعادلها.</li>\n<li>الخبرة: حسب متطلبات المنصب (الحد الأدنى يختلف حسب الدرجة).</li>\n</ul>\n<h2>المستندات المطلوبة</h2>\n<ul>\n<li>سيرة ذاتية مفصلة.</li>\n<li>نسخة من شهادة البكالوريا.</li>\n<li>نسخة من الدبلوم المتخصص أو شهادة النجاح (أو شهادة معادلة).</li>\n<li>شهادة توضح التخصص إن لم يُذكر في الدبلوم.</li>\n<li>نسخة من بطاقة الهوية الوطنية.</li>\n<li>نسخ من شهادات الخبرة (إن وجدت).</li>\n<li>إقرار CN55 يوضح عدد سنوات الخبرة في مؤسسات خاصة (إن وجدت).</li>\n<li>نسخة من بطاقة الشخص المعاق (إن كان متوفر).</li>\n<li>نسخة من بطاقة \"شخص من الشعب\" (إن كان متوفر).</li>\n</ul>\n<h2>الاختبارات</h2>\n<ul>\n<li>الاختبار المكتوب: 1.5–2 ساعات، يختبر المتطلبات الوظيفية.</li>\n<li>الاختبار الشفوي: مقابلة مع لجنة، 20 دقيقة، تقييم مدى ملاءمة المتقدم للمنصب.</li>\n</ul>\n<h2>الإجراءات والموعد النهائي</h2>\n<ul>\n<li>الإيداع الإلكتروني عبر <a class=\"extL\" href=\"https://econcours.brainman.ma/cmp/ONDA_2026\" rel=\"nofollow noreferrer noopener\" role=\"button\" target=\"_blank\">منصة الترشيح الرسمية</a>.</li>\n<li>الموعد النهائي لتقديم الطلبات: 23 أكتوبر 2026 الساعة 16:30.</li>\n<li>الاختبار المكتوب والمقابلة ستُعلن عنهما لاحقاً.</li>\n</ul>\n<h2>معلومات إضافية</h2>\n<ul>\n<li>7% من المناصب مخصصة للأشخاص ذوي الإعاقة.</li>\n<li>25% من المناصب مخصصة للأشخاص من الشعب.</li>\n<li>النتائج النهائية ستُعلن على <a class=\"extL\" href=\"https://www.emoloi-oublic.ma\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">موقع الخدمة العامة</a> وموقع المكتب الوطني للمطارات.</li>\n</ul>\n<p>للمزيد من التفاصيل، يمكن الاطلاع على <a class=\"extL\" href=\"https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/6012a79a-b78f-454f-a7ef-b744748e05da\" rel=\"nofollow noreferrer noopener\" role=\"button\" target=\"_blank\">قرار فتح المباراة</a>.</p><p><a class=\"extL\" href=\"https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/6012a79a-b78f-454f-a7ef-b744748e05da\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">صفحة الإعلان الرسمية</a></p>\n<section class='jobOfficialDocuments'>\n<h2>صفحات الوثيقة الرسمية</h2>\n<h3>قرار فتح المباراة</h3>\n<figure class='jobDocPage'><img class='jobDocPageImage' src='https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-documents/mabarat-tawziif-diplom-teknik/doc-01-d5b9bdca95-page-01.jpg' alt='قرار فتح المباراة — الصفحة 1' loading='lazy' decoding='async'/><figcaption>الصفحة 1</figcaption></figure>\n<figure class='jobDocPage'><img class='jobDocPageImage' src='https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-documents/mabarat-tawziif-diplom-teknik/doc-01-d5b9bdca95-page-02.jpg' alt='قرار فتح المباراة — الصفحة 2' loading='lazy' decoding='async'/><figcaption>الصفحة 2</figcaption></figure>\n<figure class='jobDocPage'><img class='jobDocPageImage' src='https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-documents/mabarat-tawziif-diplom-teknik/doc-01-d5b9bdca95-page-03.jpg' alt='قرار فتح المباراة — الصفحة 3' loading='lazy' decoding='async'/><figcaption>الصفحة 3</figcaption></figure>\n</section>",
+      "blogger_article_html": "<p>تعلن المكتب الوطني للمطارات عن مباراة توظيف للمنصب \"دبلوم تقني متخصص (البكالوريا + سنتان) في تخصص سكرتارية الإدارة أو ما يعادلها\". الإيداع الإلكتروني متاح حتى 23 أكتوبر 2026، مع اختبارات مكتوبة ومقابلة شخصية.</p><figure>\n<img alt=\"مباراة توظيف: دبلوم تقني متخصص في سكرتارية الإدارة – المكتب الوطني للمطارات\" height=\"909\" src=\"https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-articles/mabarat-tawziif-diplom-teknik.jpg\" width=\"1731\"/>\n</figure>\n<ul><li><strong>الاختبار:</strong> Se rapportant aux exigences du poste 01 h30 à 02h00</li><li><strong>الاختبار:</strong> Entretien avec le jury ts rmettant 20 minutes l'évaluation de l'aptitude du candidat (e) à re mrsst érentes</li></ul><h2>المتطلبات الأساسية</h2>\n<ul>\n<li>الجنسية: المغربية.</li>\n<li>السن: 18–45 سنة (حسب 31 أكتوبر 2026).</li>\n<li>الحصول على الدبلوم المتخصص في سكرتارية الإدارة أو ما يعادلها.</li>\n<li>الخبرة: حسب متطلبات المنصب (الحد الأدنى يختلف حسب الدرجة).</li>\n</ul>\n<h2>المستندات المطلوبة</h2>\n<ul>\n<li>سيرة ذاتية مفصلة.</li>\n<li>نسخة من شهادة البكالوريا.</li>\n<li>نسخة من الدبلوم المتخصص أو شهادة النجاح (أو شهادة معادلة).</li>\n<li>شهادة توضح التخصص إن لم يُذكر في الدبلوم.</li>\n<li>نسخة من بطاقة الهوية الوطنية.</li>\n<li>نسخ من شهادات الخبرة (إن وجدت).</li>\n<li>إقرار CN55 يوضح عدد سنوات الخبرة في مؤسسات خاصة (إن وجدت).</li>\n<li>نسخة من بطاقة الشخص المعاق (إن كان متوفر).</li>\n<li>نسخة من بطاقة \"شخص من الشعب\" (إن كان متوفر).</li>\n</ul>\n<h2>الاختبارات</h2>\n<ul>\n<li>الاختبار المكتوب: 1.5–2 ساعات، يختبر المتطلبات الوظيفية.</li>\n<li>الاختبار الشفوي: مقابلة مع لجنة، 20 دقيقة، تقييم مدى ملاءمة المتقدم للمنصب.</li>\n</ul>\n<h2>الإجراءات والموعد النهائي</h2>\n<ul>\n<li>الإيداع الإلكتروني عبر <a class=\"extL\" href=\"https://econcours.brainman.ma/cmp/ONDA_2026\" rel=\"nofollow noreferrer noopener\" role=\"button\" target=\"_blank\">منصة الترشيح الرسمية</a>.</li>\n<li>الموعد النهائي لتقديم الطلبات: 23 أكتوبر 2026 الساعة 16:30.</li>\n<li>الاختبار المكتوب والمقابلة ستُعلن عنهما لاحقاً.</li>\n</ul>\n<h2>معلومات إضافية</h2>\n<ul>\n<li>7% من المناصب مخصصة للأشخاص ذوي الإعاقة.</li>\n<li>25% من المناصب مخصصة للأشخاص من الشعب.</li>\n<li>النتائج النهائية ستُعلن على <a class=\"extL\" href=\"https://www.emoloi-oublic.ma\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">موقع الخدمة العامة</a> وموقع المكتب الوطني للمطارات.</li>\n</ul>\n<p>للمزيد من التفاصيل، يمكن الاطلاع على <a class=\"extL\" href=\"https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/6012a79a-b78f-454f-a7ef-b744748e05da\" rel=\"nofollow noreferrer noopener\" role=\"button\" target=\"_blank\">قرار فتح المباراة</a>.</p><p><a class=\"extL\" href=\"https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/6012a79a-b78f-454f-a7ef-b744748e05da\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">صفحة الإعلان الرسمية</a></p>\n<section class='jobOfficialDocuments'>\n<h2>صفحات الوثيقة الرسمية</h2>\n<h3>قرار فتح المباراة</h3>\n<figure class='jobDocPage'><img class='jobDocPageImage' src='https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-documents/mabarat-tawziif-diplom-teknik/doc-01-d5b9bdca95-page-01.jpg' alt='قرار فتح المباراة — الصفحة 1' loading='lazy' decoding='async'/><figcaption>الصفحة 1</figcaption></figure>\n<figure class='jobDocPage'><img class='jobDocPageImage' src='https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-documents/mabarat-tawziif-diplom-teknik/doc-01-d5b9bdca95-page-02.jpg' alt='قرار فتح المباراة — الصفحة 2' loading='lazy' decoding='async'/><figcaption>الصفحة 2</figcaption></figure>\n<figure class='jobDocPage'><img class='jobDocPageImage' src='https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-documents/mabarat-tawziif-diplom-teknik/doc-01-d5b9bdca95-page-03.jpg' alt='قرار فتح المباراة — الصفحة 3' loading='lazy' decoding='async'/><figcaption>الصفحة 3</figcaption></figure>\n</section>",
+      "final_word_count": 259,
+      "final_html_chars": 2728,
+      "final_content_hash": "c20ca20857d3946668d98648",
+      "ai_provider_used": "groq:openai/gpt-oss-20b",
+      "ai_rotation_exhausted": false,
+      "ai_openrouter_fallback_used": false,
+      "ai_quality_attempts": 1,
+      "ai_quality_status": "passed",
+      "ai_total_time_seconds": 2.39,
+      "custom_slug_warning": "Custom permalink is not supported by this Blogger API method.",
+      "logo_resolution_status": "verified",
+      "article_logo_used": true,
+      "article_cover_fallback_used": false,
+      "job_article_cover_path": "assets/generated/job-articles/mabarat-tawziif-diplom-teknik.jpg",
+      "job_article_cover_url": "https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-articles/mabarat-tawziif-diplom-teknik.jpg",
+      "article_logo_url_used": "https://www.emploi-public.ma/backoffice/files/images/administrations/logo-102.png",
+      "job_article_cover_status": "ready",
+      "visual_readiness_status": "ready",
+      "job_document_page_images": [
+        {
+          "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/6012a79a-b78f-454f-a7ef-b744748e05da",
+          "document_label": "قرار فتح المباراة",
+          "page_number": 1,
+          "page_count": 3,
+          "url": "https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-documents/mabarat-tawziif-diplom-teknik/doc-01-d5b9bdca95-page-01.jpg",
+          "path": "assets/generated/job-documents/mabarat-tawziif-diplom-teknik/doc-01-d5b9bdca95-page-01.jpg",
+          "alt": "قرار فتح المباراة — الصفحة 1"
+        },
+        {
+          "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/6012a79a-b78f-454f-a7ef-b744748e05da",
+          "document_label": "قرار فتح المباراة",
+          "page_number": 2,
+          "page_count": 3,
+          "url": "https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-documents/mabarat-tawziif-diplom-teknik/doc-01-d5b9bdca95-page-02.jpg",
+          "path": "assets/generated/job-documents/mabarat-tawziif-diplom-teknik/doc-01-d5b9bdca95-page-02.jpg",
+          "alt": "قرار فتح المباراة — الصفحة 2"
+        },
+        {
+          "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/6012a79a-b78f-454f-a7ef-b744748e05da",
+          "document_label": "قرار فتح المباراة",
+          "page_number": 3,
+          "page_count": 3,
+          "url": "https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-documents/mabarat-tawziif-diplom-teknik/doc-01-d5b9bdca95-page-03.jpg",
+          "path": "assets/generated/job-documents/mabarat-tawziif-diplom-teknik/doc-01-d5b9bdca95-page-03.jpg",
+          "alt": "قرار فتح المباراة — الصفحة 3"
+        }
+      ],
+      "job_document_pages_truncated": false,
+      "job_document_render_pending_urls": [],
+      "job_document_render_new_pages": 3,
+      "job_document_rendered_pages": 3,
+      "job_document_render_attempted_documents": 1,
+      "job_document_render_failures": 0,
+      "job_document_render_failed_urls": [],
+      "job_document_render_status": "rendered",
+      "job_document_render_retry_count": 0,
+      "internal_cache_loaded": 0,
+      "expired_internal_links_removed": 0,
+      "internal_links_inserted_count": 0,
+      "external_trusted_links_inserted_count": 0,
+      "internal_cache_saved": true,
+      "pre_publish_quality": {
+        "passed": true,
+        "reason": "",
+        "word_count": 259,
+        "warnings": [
+          "Jobs introduction substantially overlaps the Blogger/SEO title"
+        ]
+      },
+      "pre_publish_warnings": [
+        "Jobs introduction substantially overlaps the Blogger/SEO title"
+      ],
+      "blogger_post_id": "8690976260266613884",
+      "blogger_post_url": "https://cyberopluss.blogspot.com/2026/10/mabarat-tawziif-diplom-teknik.html",
+      "published_at": "2026-10-08T11:05:54",
+      "publish_status": "published",
+      "facebook_status": "failed",
+      "facebook_queued_at": "2026-10-08T11:05:54",
+      "facebook_queue_reason": "published_to_blogger",
+      "jobposting_schema_status": "disabled_embedded_jsonld",
+      "google_indexing_status": "disabled",
+      "live_update_status": "created_new",
+      "facebook_logo_refresh_attempted_at": "2026-10-08T11:05:56",
+      "facebook_logo_refresh_status": "already_verified",
+      "facebook_template_key": "new",
+      "facebook_template_file": "job-new-orange.png",
+      "facebook_template_reason": "active-competition-normal-rotation",
+      "facebook_error": "Facebook social AI failed after 3 attempts: No alternate AI provider remains after excluding a rejected provider.",
+      "facebook_failure_count": 1,
+      "facebook_last_failure_at": "2026-10-08T11:06:00",
+      "facebook_retry_after_epoch": 1791457860,
+      "facebook_retry_delay_seconds": 300,
+      "archive_deferred_reason": "facebook_retry_pending",
+      "archive_deferred_at": "2026-10-08T11:06:00"
     },
     {
       "id": "0fd6c961b2fe796f",
@@ -67464,9 +68010,9 @@
       "blogger_post_url": "https://cyberopluss.blogspot.com/2026/10/alten-maroc-consultant-sap-sd-fi.html",
       "published_at": "2026-10-08T10:59:36",
       "publish_status": "published",
-      "facebook_status": "failed",
+      "facebook_status": "facebook_pending",
       "facebook_queued_at": "2026-10-08T10:59:36",
-      "facebook_queue_reason": "published_to_blogger",
+      "facebook_queue_reason": "retry_ready",
       "jobposting_schema_status": "disabled_embedded_jsonld",
       "google_indexing_status": "disabled",
       "live_update_status": "created_new",
@@ -67474,14 +68020,7 @@
       "facebook_logo_refresh_status": "employer_text_fallback",
       "facebook_template_key": "apply",
       "facebook_template_file": "job-apply-red.png",
-      "facebook_template_reason": "active-vacancy-normal-rotation",
-      "facebook_error": "Facebook social AI failed after 3 attempts: All configured AI candidates are cooling down.",
-      "facebook_failure_count": 1,
-      "facebook_last_failure_at": "2026-10-08T10:59:43",
-      "facebook_retry_after_epoch": 1791457483,
-      "facebook_retry_delay_seconds": 300,
-      "archive_deferred_reason": "facebook_retry_pending",
-      "archive_deferred_at": "2026-10-08T10:59:43"
+      "facebook_template_reason": "active-vacancy-normal-rotation"
     }
   ],
   "notifications": {}
