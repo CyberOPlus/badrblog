@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-10-08T12:16:22.798645+00:00",
-  "state": "source_degraded",
-  "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running.",
+  "updated_at": "2026-10-08T12:17:29.482963+00:00",
+  "state": "waiting_provider",
+  "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
   "hourly_target_met": true,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-08T12:01:06",
   "last_facebook_post_id": "103026497833721_1090630706665327",
-  "minutes_since_facebook": 15.3,
+  "minutes_since_facebook": 16.4,
   "last_blogger_publish_at": "2026-10-08T11:06:00.810085+00:00",
   "fresh_candidate_count": 18,
   "verified_ready_candidate_count": 0,
-  "unverified_ready_candidate_count": 18,
+  "unverified_ready_candidate_count": 17,
   "facebook_pending_count": 0,
   "oldest_facebook_pending_minutes": 0,
   "oldest_ready_candidate_minutes": 0,
@@ -22,41 +22,48 @@
       "action": "Page/token lookup succeeded; publish permission is confirmed only by an actual delivery."
     },
     "ai": {
-      "status": "ok",
+      "status": "cooldown",
       "providers": {
         "gemini": {
-          "status": "ok",
+          "status": "quota",
           "secret_names": [
             "GEMINI_API_KEY"
-          ]
+          ],
+          "retry_after": "2026-10-08T17:36:58+00:00"
         },
         "groq": {
-          "status": "ok",
+          "status": "quota",
           "secret_names": [
             "GROQ_API_KEY"
-          ]
+          ],
+          "retry_after": "2026-10-08T18:17:28+00:00"
         },
         "cloudflare": {
           "status": "quota",
           "secret_names": [
             "CLOUDFLARE_API_TOKEN",
             "CLOUDFLARE_ACCOUNT_ID"
-          ]
+          ],
+          "retry_after": "2026-10-08T16:34:27+00:00"
         },
         "openrouter": {
-          "status": "empty",
+          "status": "timeout",
           "secret_names": [
             "OPENROUTER_API_KEY"
-          ]
+          ],
+          "retry_after": "2026-10-08T13:18:12+00:00"
         },
         "mistral": {
           "status": "quota",
           "secret_names": [
             "MISTRAL_API_KEY"
-          ]
+          ],
+          "retry_after": "2026-10-08T16:35:15+00:00"
         }
       },
-      "action": "At least one provider generated a response."
+      "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
+      "retry_after": "2026-10-08T13:18:12+00:00",
+      "category": "quota"
     },
     "sources": {
       "status": "degraded",
