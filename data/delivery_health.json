@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-10-08T20:02:23.540296+00:00",
+  "updated_at": "2026-10-08T20:03:56.148240+00:00",
   "state": "facebook_stalled",
   "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
   "hourly_target_met": true,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-08T19:59:26",
   "last_facebook_post_id": "103026497833721_1090968176631580",
-  "minutes_since_facebook": 3.0,
+  "minutes_since_facebook": 4.5,
   "last_blogger_publish_at": "2026-10-08T19:38:18.275222+00:00",
   "fresh_candidate_count": 24,
   "verified_ready_candidate_count": 1,
   "unverified_ready_candidate_count": 23,
   "facebook_pending_count": 5,
-  "oldest_facebook_pending_minutes": 190.5,
-  "oldest_ready_candidate_minutes": 7.6,
+  "oldest_facebook_pending_minutes": 192.0,
+  "oldest_ready_candidate_minutes": 9.2,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -63,9 +63,9 @@
       "active_issues": [
         {
           "source_name": "ANAPEC — offres nationales",
-          "failure_count": 226,
+          "failure_count": 227,
           "category": "network_timeout",
-          "retry_after": "2026-10-08T20:03:26Z"
+          "retry_after": "2026-10-08T20:33:54Z"
         }
       ],
       "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
