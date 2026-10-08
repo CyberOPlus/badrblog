@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-08T22:40:52",
+  "updated_at": "2026-10-08T22:41:39",
   "articles": [
     {
       "id": "a760d3f27d2239d7",
@@ -77914,7 +77914,7 @@
       "job_remote": false,
       "job_number_of_positions": 7,
       "discovered_at": "2026-10-08T18:13:39",
-      "status": "ready",
+      "status": "selected",
       "score": 70,
       "priority": "high",
       "source_links_removed_count": 75,
@@ -77977,12 +77977,6 @@
           "label": "بطائق الوظيفة (بالفرنسية)",
           "kind": "document",
           "context": ""
-        },
-        {
-          "url": "https://sonarges.ma/",
-          "label": "منصة الترشيح الرسمية",
-          "kind": "apply",
-          "context": "موقع الإيداع : https://sonarges.ma/"
         }
       ],
       "job_document_links": [
@@ -78055,7 +78049,7 @@
       "content_fetch_status": "success",
       "job_score": 70,
       "job_rank_score": 70,
-      "job_quality_status": "publish",
+      "job_quality_status": "",
       "job_quality_reasons": [],
       "job_hard_gate_passed": true,
       "job_hard_gate_reasons": [],
@@ -78077,7 +78071,7 @@
       "job_identity_final": false,
       "job_urgent_override": false,
       "job_publish_immediately": false,
-      "selected_at": "2026-10-08T22:39:55",
+      "selected_at": "2026-10-08T22:41:39+00:00",
       "selection_reason": "jobs quality 70/100; identity=new; urgency=normal",
       "job_document_texts": [
         {
@@ -78359,12 +78353,6 @@
             "label": "بطائق الوظيفة (بالفرنسية)",
             "kind": "document",
             "context": ""
-          },
-          {
-            "url": "https://sonarges.ma/",
-            "label": "منصة الترشيح الرسمية",
-            "kind": "apply",
-            "context": "موقع الإيداع : https://sonarges.ma/"
           }
         ],
         "job_document_links": [
@@ -78646,7 +78634,7 @@
       "ai_total_time_seconds": 11.81,
       "ai_quality_status": "passed",
       "ai_quality_attempts": 1,
-      "job_link_binding_repaired_at": "2026-10-08T22:23:58",
+      "job_link_binding_repaired_at": "2026-10-08T22:41:39",
       "ai_quality_last_error": "Jobs article contains an external URL not present in verified application/document evidence",
       "ai_quality_repairs_used": 1,
       "candidate_failure_count": 23,
@@ -78727,15 +78715,7 @@
         "word_count": 100,
         "warnings": []
       },
-      "publish_status": "failed",
-      "publish_error": "Publish blocked: job article must start with the generated cover image",
-      "publish_blocked_reason": "job article must start with the generated cover image",
-      "candidate_failure_stage": "publish",
-      "candidate_failure_reason": "Publish blocked: job article must start with the generated cover image",
-      "candidate_failure_fingerprint": "99360445a58d4ec78042",
-      "candidate_failure_repeat_count": 1,
-      "candidate_failure_backoff_minutes": 15,
-      "candidate_failed_at": "2026-10-08T22:40:00",
+      "publish_status": "visual_optional_ready",
       "identity_evidence_detail_checked": true,
       "identity_evidence_tables_checked": true,
       "identity_evidence_documents_checked": true,
@@ -78756,7 +78736,7 @@
       "identity_evidence_positions": 7,
       "logo_visual_retry_pending": true,
       "logo_visual_retry_after": "2026-10-08T22:41:00.371653+00:00",
-      "candidate_retry_after": "2026-10-08T22:55:00Z"
+      "visual_content_reuse_required": true
     },
     {
       "id": "672fb0c32b722466",
@@ -78906,8 +78886,7 @@
       "candidate_failure_fingerprint": "e376992490dc4248",
       "candidate_failure_repeat_count": 1,
       "candidate_failure_backoff_minutes": 10,
-      "candidate_failed_at": "2026-10-08T22:30:38+00:00",
-      "candidate_retry_after": "2026-10-08T22:40:38+00:00"
+      "candidate_failed_at": "2026-10-08T22:30:38+00:00"
     },
     {
       "id": "9ef9b7ff5ba58256",
