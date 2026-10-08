@@ -1,6 +1,23 @@
 {
   "avg_time": 0.5573,
-  "cooldowns": {},
+  "cooldowns": {
+    "gemini:gemini-2.5-flash:64f603a8c0": {
+      "failed_at": "2026-10-08T10:27:28",
+      "key_id": "64f603a8c0",
+      "model": "gemini-2.5-flash",
+      "provider": "gemini",
+      "reason": "504 The request timed out. Please try again.",
+      "until": 1791455852.6021404
+    },
+    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
+      "failed_at": "2026-10-08T10:27:32",
+      "key_id": "fb4fab4ba1",
+      "model": "openai/gpt-oss-20b",
+      "provider": "groq",
+      "reason": "groq returned an empty response.",
+      "until": 1791455555.7101116
+    }
+  },
   "failure_fingerprints": {
     "0bfbbde687f6e2ee0b50": {
       "category": "cooldown",
@@ -576,13 +593,13 @@
     },
     "d15c8a5d2460c1216a2b": {
       "category": "outage",
-      "count": 6,
+      "count": 7,
       "first_seen_at": "2026-10-01T11:18:41",
-      "last_seen_at": "2026-10-07T09:16:49",
-      "last_seen_epoch": 1791364609.3442197,
+      "last_seen_at": "2026-10-08T10:27:28",
+      "last_seen_epoch": 1791455248.4154563,
       "provider": "gemini",
       "reason": "504 The request timed out. Please try again.",
-      "retry_until": 1791371809.3442197,
+      "retry_until": 1791462448.4154563,
       "scope": "provider"
     },
     "d2e61ebb7b47e1c3750d": {
@@ -720,7 +737,16 @@
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
   "global_circuit": {},
-  "provider_circuits": {},
+  "provider_circuits": {
+    "gemini": {
+      "category": "outage",
+      "fingerprint": "d15c8a5d2460c1216a2b",
+      "opened_at": "2026-10-08T10:27:28",
+      "provider": "gemini",
+      "reason": "504 The request timed out. Please try again.",
+      "until": 1791462448.4154563
+    }
+  },
   "stats": {
     "cloudflare:@cf/meta/llama-3.1-8b-instruct-fp8:be6dab2cd8": {
       "failures": 1,
@@ -753,9 +779,9 @@
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 10.7897,
-      "failures": 45,
+      "failures": 46,
       "key_id": "64f603a8c0",
-      "last_failure_at": "2026-10-07T22:54:36",
+      "last_failure_at": "2026-10-08T10:27:28",
       "last_success_at": "2026-10-08T10:11:57",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
@@ -763,21 +789,21 @@
       "total_success_time": 2071.6128
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
-      "avg_time": 3.6446,
+      "avg_time": 3.6729,
       "failures": 13,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-07T23:20:52",
-      "last_success_at": "2026-10-08T00:18:16",
+      "last_success_at": "2026-10-08T10:27:57",
       "model": "openai/gpt-oss-120b",
       "provider": "groq",
-      "successes": 66,
-      "total_success_time": 240.5438
+      "successes": 68,
+      "total_success_time": 249.7598
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
       "avg_time": 1.3119,
-      "failures": 101,
+      "failures": 102,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-08T00:18:08",
+      "last_failure_at": "2026-10-08T10:27:32",
       "last_success_at": "2026-10-08T10:11:57",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
