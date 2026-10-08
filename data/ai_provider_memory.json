@@ -720,16 +720,7 @@
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
   "global_circuit": {},
-  "provider_circuits": {
-    "mistral": {
-      "category": "quota",
-      "fingerprint": "16f0cdcebb62d34cab0f",
-      "opened_at": "2026-10-07T21:06:22",
-      "provider": "mistral",
-      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
-      "until": 1791428782.7044177
-    }
-  },
+  "provider_circuits": {},
   "stats": {
     "cloudflare:@cf/meta/llama-3.1-8b-instruct-fp8:be6dab2cd8": {
       "failures": 1,
@@ -783,15 +774,15 @@
       "total_success_time": 240.5438
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.3444,
+      "avg_time": 1.3398,
       "failures": 101,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-08T00:18:08",
-      "last_success_at": "2026-10-08T02:06:38",
+      "last_success_at": "2026-10-08T03:06:49",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 238,
-      "total_success_time": 319.9758
+      "successes": 239,
+      "total_success_time": 320.2191
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.025,
@@ -812,15 +803,15 @@
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 12.9739,
+      "avg_time": 12.9057,
       "failures": 65,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-07T19:05:24",
-      "last_success_at": "2026-10-08T02:06:41",
+      "last_success_at": "2026-10-08T03:06:53",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 136,
-      "total_success_time": 1764.4468
+      "successes": 137,
+      "total_success_time": 1768.0872
     }
   }
 }
