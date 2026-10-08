@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-08T05:18:42.144460+00:00",
-  "state": "no_verified_candidate",
-  "action": "Hourly target missed: fresh ready queue items exist, but none has completed all publication verification gates.",
+  "updated_at": "2026-10-08T05:19:36.586318+00:00",
+  "state": "source_degraded",
+  "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running.",
   "hourly_target_met": false,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-08T00:18:19",
   "last_facebook_post_id": "103026497833721_1090221210039610",
-  "minutes_since_facebook": 300.4,
+  "minutes_since_facebook": 301.3,
   "last_blogger_publish_at": "2026-10-07T18:52:46.910689+00:00",
   "fresh_candidate_count": 23,
   "verified_ready_candidate_count": 0,
@@ -59,8 +59,14 @@
       "action": "At least one provider generated a response."
     },
     "sources": {
-      "status": "warning",
+      "status": "degraded",
       "active_issues": [
+        {
+          "source_name": "ANAPEC — offres nationales",
+          "failure_count": 203,
+          "category": "network_timeout",
+          "retry_after": "2026-10-08T05:49:34Z"
+        },
         {
           "source_name": "Crédit du Maroc",
           "failure_count": 1,
@@ -68,7 +74,7 @@
           "retry_after": "2026-10-08T05:30:57Z"
         }
       ],
-      "action": "One or more sources are cooling down after transient fetch failures."
+      "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
     }
   },
   "services_checked_at": "2026-10-08T05:08:05.782018+00:00"
