@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-10-08T11:12:30.332055+00:00",
-  "state": "waiting_provider",
-  "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
+  "updated_at": "2026-10-08T11:14:37.426990+00:00",
+  "state": "source_degraded",
+  "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running.",
   "hourly_target_met": true,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-08T10:28:03",
   "last_facebook_post_id": "103026497833721_1090570323338032",
-  "minutes_since_facebook": 44.5,
+  "minutes_since_facebook": 46.6,
   "last_blogger_publish_at": "2026-10-08T11:06:00.810085+00:00",
   "fresh_candidate_count": 16,
   "verified_ready_candidate_count": 0,
   "unverified_ready_candidate_count": 15,
   "facebook_pending_count": 3,
-  "oldest_facebook_pending_minutes": 28.1,
+  "oldest_facebook_pending_minutes": 30.2,
   "oldest_ready_candidate_minutes": 0,
   "pending_first_comments": 0,
   "services": {
@@ -22,48 +22,41 @@
       "action": "Page/token lookup succeeded; publish permission is confirmed only by an actual delivery."
     },
     "ai": {
-      "status": "cooldown",
+      "status": "ok",
       "providers": {
         "gemini": {
           "status": "quota",
           "secret_names": [
             "GEMINI_API_KEY"
-          ],
-          "retry_after": "2026-10-08T16:44:02+00:00"
+          ]
         },
         "groq": {
-          "status": "quota",
+          "status": "ok",
           "secret_names": [
             "GROQ_API_KEY"
-          ],
-          "retry_after": "2026-10-08T17:06:00+00:00"
+          ]
         },
         "cloudflare": {
           "status": "quota",
           "secret_names": [
             "CLOUDFLARE_API_TOKEN",
             "CLOUDFLARE_ACCOUNT_ID"
-          ],
-          "retry_after": "2026-10-08T16:34:27+00:00"
+          ]
         },
         "openrouter": {
-          "status": "timeout",
+          "status": "ok",
           "secret_names": [
             "OPENROUTER_API_KEY"
-          ],
-          "retry_after": "2026-10-08T12:52:00+00:00"
+          ]
         },
         "mistral": {
           "status": "quota",
           "secret_names": [
             "MISTRAL_API_KEY"
-          ],
-          "retry_after": "2026-10-08T16:35:15+00:00"
+          ]
         }
       },
-      "action": "All configured AI providers are temporarily unavailable or cooling down; automatic generation resumes after the circuit retry window.",
-      "retry_after": "2026-10-08T12:52:00+00:00",
-      "category": "cooldown"
+      "action": "At least one provider generated a response."
     },
     "sources": {
       "status": "degraded",
@@ -84,5 +77,5 @@
       "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
     }
   },
-  "services_checked_at": "2026-10-08T10:58:24.098089+00:00"
+  "services_checked_at": "2026-10-08T11:14:37.426706+00:00"
 }
