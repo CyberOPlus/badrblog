@@ -34,12 +34,12 @@
       "until": 1791480252.0319097
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "failed_at": "2026-10-08T16:42:52",
+      "failed_at": "2026-10-08T16:50:57",
       "key_id": "1af698c9b3",
       "model": "openrouter/free",
       "provider": "openrouter",
       "reason": "OpenRouter returned an empty response.",
-      "until": 1791478073.358644
+      "until": 1791478561.2096908
     }
   },
   "failure_fingerprints": {
@@ -518,13 +518,13 @@
     },
     "a337cb8c4c90a13d6d08": {
       "category": "article_input",
-      "count": 7,
+      "count": 8,
       "first_seen_at": "2026-10-02T10:45:11",
-      "last_seen_at": "2026-10-08T10:50:21",
-      "last_seen_epoch": 1791456621.0393836,
+      "last_seen_at": "2026-10-08T16:50:40",
+      "last_seen_epoch": 1791478240.862482,
       "provider": "",
       "reason": "source/evidence problem: official document evidence could not be retrieved",
-      "retry_until": 1791478221.0393836,
+      "retry_until": 1791499840.862482,
       "scope": "article_input"
     },
     "b2683a2f011d9f5c4939": {
@@ -760,13 +760,13 @@
     },
     "f69ff66465ee70a5a639": {
       "category": "empty",
-      "count": 42,
+      "count": 44,
       "first_seen_at": "2026-10-01T22:00:14",
-      "last_seen_at": "2026-10-07T13:00:06",
-      "last_seen_epoch": 1791378006.0514905,
+      "last_seen_at": "2026-10-08T16:50:57",
+      "last_seen_epoch": 1791478257.4258409,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "openrouter provider failed: OpenRouter returned an empty response.",
-      "retry_until": 1791384769.5477512,
+      "retry_until": 1791479479.0434666,
       "scope": "global"
     },
     "f8d83b9dc799f3657708": {
@@ -912,9 +912,9 @@
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 13.4798,
-      "failures": 72,
+      "failures": 73,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-08T16:42:52",
+      "last_failure_at": "2026-10-08T16:50:57",
       "last_success_at": "2026-10-08T16:41:50",
       "model": "openrouter/free",
       "provider": "openrouter",
