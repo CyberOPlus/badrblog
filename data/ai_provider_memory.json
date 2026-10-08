@@ -25,6 +25,14 @@
       "reason": "groq API error 413: {\"error\":{\"message\":\"Request too large for model `openai/gpt-oss-120b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
       "until": 1791458054.6060483
     },
+    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
+      "failed_at": "2026-10-08T10:59:43",
+      "key_id": "fb4fab4ba1",
+      "model": "openai/gpt-oss-20b",
+      "provider": "groq",
+      "reason": "groq returned an empty response.",
+      "until": 1791457486.687661
+    },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "failed_at": "2026-10-08T10:44:25",
       "key_id": "fb4fab4ba1",
@@ -856,15 +864,15 @@
       "total_success_time": 254.5095
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.3169,
-      "failures": 104,
+      "avg_time": 1.3236,
+      "failures": 105,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-08T10:44:07",
-      "last_success_at": "2026-10-08T10:58:22",
+      "last_failure_at": "2026-10-08T10:59:43",
+      "last_success_at": "2026-10-08T10:59:31",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 249,
-      "total_success_time": 327.9082
+      "successes": 250,
+      "total_success_time": 330.8978
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.2173,
