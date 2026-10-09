@@ -295,6 +295,7 @@ jobs:
               "JOBS_WEEKLY_FACEBOOK_SCHEDULE_ENABLED": "true",
               "JOBS_FACEBOOK_MAX_POSTS_PER_DAY": "4",
               "JOBS_FACEBOOK_MIN_INTERVAL_MINUTES": "70",
+              "JOBS_FACEBOOK_METRICS_ENABLED": "true",
               "FACEBOOK_PAGE_ID": os.environ.get("FACEBOOK_PAGE_ID", ""),
               "FACEBOOK_PAGE_ACCESS_TOKEN": os.environ.get("FACEBOOK_PAGE_ACCESS_TOKEN", ""),
               "JOBS_GOOGLE_INDEXING_ENABLED": os.environ.get("JOBS_GOOGLE_INDEXING_ENABLED", "false"),
@@ -354,6 +355,12 @@ jobs:
         # per run so the cycle still reaches AI/Blogger/Facebook within budget.
         timeout-minutes: 20
         run: python main.py auto-cycle
+
+      - name: Collect Facebook feedback (read only, 6-hour cooldown)
+        if: always()
+        continue-on-error: true
+        timeout-minutes: 2
+        run: python facebook_performance.py
 
       - name: Jobs status
         if: always()
@@ -475,6 +482,7 @@ jobs:
             "data/crawl_state.json"
             "data/ai_provider_memory.json"
             "data/facebook_style_memory.json"
+            "data/facebook_performance.json"
             "data/internal_link_cache.json"
             "data/source_health.json"
             "data/automation_heartbeat.json"
@@ -699,6 +707,7 @@ jobs:
             data/crawl_state.json
             data/ai_provider_memory.json
             data/facebook_style_memory.json
+            data/facebook_performance.json
             data/internal_link_cache.json
             data/source_health.json
             data/automation_heartbeat.json
