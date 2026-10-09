@@ -99,8 +99,8 @@ class OfficialPdfApplicationTests(unittest.TestCase):
         def set_pdf_evidence(article):
             article["job_document_texts"] = [{
                 "page_number": 1,
-                "text": "شهادة أو دبلوم Bac+2\\n"
-                        "الترشيح عبر المنصة https://recrutement.enssup.gov.ma\\n"
+                "text": "شهادة أو دبلوم Bac+2\n"
+                        "الترشيح عبر المنصة https://recrutement.enssup.gov.ma\n"
                         "وذلك قبل 2026/10/25",
             }]
             article["job_document_text_read_complete"] = True
@@ -108,9 +108,9 @@ class OfficialPdfApplicationTests(unittest.TestCase):
             docs.promote_job_document_application_channel(article)
             docs.promote_job_document_deadline(article)
 
-        with patch.object(processor, "load_article_queue", return_value=queue), \\
-             patch.object(processor, "save_article_queue") as save, \\
-             patch.object(processor, "_prepare_identity_evidence", side_effect=set_pdf_evidence), \\
+        with patch.object(processor, "load_article_queue", return_value=queue), \
+             patch.object(processor, "save_article_queue") as save, \
+             patch.object(processor, "_prepare_identity_evidence", side_effect=set_pdf_evidence), \
              patch.object(processor, "job_publication_freshness", return_value={"verified": True, "fresh": True}):
             result = processor.recover_public_competition_submission_evidence(max_articles=1)
         self.assertEqual(result, {"checked": 1, "recovered": 1})
