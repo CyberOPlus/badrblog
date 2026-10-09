@@ -61,7 +61,7 @@ def article_row(**overrides):
 
 
 class UnicefExtractionTests(unittest.TestCase):
-    def test_real_detail_fields_pass_gates_only_inside_the_freshness_window(self):
+    def test_unicef_details_still_extract_but_retired_source_cannot_publish(self):
         soup = BeautifulSoup(detail_html(), "html.parser")
         row = article_row()
         fields = job_extractor.extract_job_fields(soup, row, DETAIL_URL)
@@ -77,7 +77,8 @@ class UnicefExtractionTests(unittest.TestCase):
         self.assertTrue(fields["job_remote"])
         self.assertIn("lJobID=596019", fields["job_application_url"])
         fresh = job_core.score_job(row, now=datetime(2026, 10, 2, 10, tzinfo=timezone.utc))
-        self.assertTrue(fresh["passed"], fresh["reasons"])
+        self.assertFalse(fresh["passed"])
+        self.assertIn("retired source is not approved for publishing", fresh["reasons"])
         stale = job_core.score_job(row, now=datetime(2026, 10, 3, 10, tzinfo=timezone.utc))
         self.assertFalse(stale["passed"])
         self.assertIn("job is older than 24 hours", stale["reasons"])
