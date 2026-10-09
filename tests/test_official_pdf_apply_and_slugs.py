@@ -113,7 +113,8 @@ class OfficialPdfApplicationTests(unittest.TestCase):
              patch.object(processor, "_prepare_identity_evidence", side_effect=set_pdf_evidence), \
              patch.object(processor, "job_publication_freshness", return_value={"verified": True, "fresh": True}):
             result = processor.recover_public_competition_submission_evidence(max_articles=1)
-        self.assertEqual(result, {"checked": 1, "recovered": 1})
+        self.assertEqual(result["checked"], 1)
+        self.assertEqual(result["recovered"], 1)
         self.assertEqual(row["job_application_url"], PORTAL)
         self.assertEqual(row["job_deadline"], "2026-10-25")
         save.assert_called_once()

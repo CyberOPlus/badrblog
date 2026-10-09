@@ -763,6 +763,53 @@ def _release_legacy_logo_wait(article):
     return True
 
 
+
+def archive_retired_source_jobs():
+    """Quarantine only unpublished jobs from explicitly retired sources.
+
+    Historical Blogger publications, pending Facebook delivery and drafts must
+    not be altered. Keep their records intact for reconciliation and dedupe.
+    """
+    try:
+        config = json.loads(SOURCES_CONFIG_PATH.read_text(encoding="utf-8-sig"))
+        retired_names = {
+            str(name).strip().casefold()
+            for name in (config.get("policy", {}).get("retired_source_names") or [])
+            if str(name).strip()
+        }
+    except (OSError, ValueError, TypeError, AttributeError):
+        return {"checked": 0, "retired_archived": 0, "changed": False}
+    if not retired_names:
+        return {"checked": 0, "retired_archived": 0, "changed": False}
+
+    queue = load_article_queue()
+    archived_at = _now_iso()
+    checked = 0
+    archived = 0
+    for article in queue.get("articles", []):
+        if article.get("archived"):
+            continue
+        name = str(article.get("source_name") or "").strip().casefold()
+        if name not in retired_names:
+            continue
+        checked += 1
+        published_or_drafted = bool(
+            article.get("status") in {"published", "draft_created"}
+            or article.get("publish_status") in {"published", "draft_created"}
+            or article.get("blogger_post_id")
+            or article.get("blogger_draft_id")
+        )
+        if published_or_drafted:
+            continue
+        if _archive_article(article, "source_removed_from_approved_registry", archived_at):
+            archived += 1
+
+    if archived:
+        save_article_queue(queue)
+        log_event("job_retired_sources_archived", checked=checked, archived=archived)
+    return {"checked": checked, "retired_archived": archived, "changed": bool(archived)}
+
+
 def archive_expired_queue_articles(now=None, max_age_hours=None):
     queue = load_article_queue()
     articles = queue.get("articles", [])
