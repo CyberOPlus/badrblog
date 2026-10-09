@@ -1,4 +1,4 @@
-"""Read-only GitHub-runner smoke probe for the disabled local-government source.
+"""Read-only GitHub-runner smoke probe for the approved local-government source.
 
 No job gets published, no queue is mutated. This verifies that the runner can
 fetch and extract actual competition detail URLs from the source before enabling.
@@ -18,8 +18,8 @@ def main():
          if s.get("name") == "Emploi-Public — collectivités territoriales"),
         None,
     )
-    if not row or row.get("enabled"):
-        raise RuntimeError("Probe expects an existing disabled candidate source")
+    if not row:
+        raise RuntimeError("Official collectivités source missing from configured allowlist")
     url = row["base_url"]
     response = requests.get(
         url,
