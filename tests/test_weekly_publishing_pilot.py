@@ -45,7 +45,7 @@ class WeeklyPilotTests(unittest.TestCase):
                          datetime(2026, 10, 10, 10, 0, tzinfo=TZ))
 
     def test_deadline_urgent_bypasses_engagement_window_not_daily_limits(self):
-        now = datetime(2026, 10, 8, 2, 0, tzinfo=TZ)
+        now = datetime(2026, 10, 8, 16, 0, tzinfo=TZ)
         with patch.object(job_core, "JOBS_WEEKLY_FACEBOOK_SCHEDULE_ENABLED", True):
             self.assertFalse(job_core.facebook_slot_status(now=now)["allowed_now"])
             self.assertTrue(job_core.facebook_slot_status(now=now, urgent=True)["allowed_now"])
