@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-09T12:23:36",
+  "updated_at": "2026-10-09T12:24:40",
   "articles": [
     {
       "id": "876860ea6b906dec",
@@ -72380,7 +72380,7 @@
       "job_remote": true,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-09T09:52:29",
-      "status": "ready",
+      "status": "skipped",
       "score": 100,
       "priority": "high",
       "source_links_removed_count": 7,
@@ -72469,13 +72469,17 @@
       "content_fetch_status": "success",
       "job_score": 100,
       "job_rank_score": 100,
-      "job_quality_status": "queue",
+      "job_quality_status": "reject",
       "job_quality_reasons": [
-        "eligibility must be verified"
+        "eligibility must be verified",
+        "required diploma is Bac+3 or higher",
+        "retired source is not approved for publishing"
       ],
       "job_hard_gate_passed": false,
       "job_hard_gate_reasons": [
-        "eligibility must be verified"
+        "eligibility must be verified",
+        "required diploma is Bac+3 or higher",
+        "retired source is not approved for publishing"
       ],
       "labels": [
         "jobs",
@@ -72489,7 +72493,7 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "0b9ea5885d0f29a24cf2",
+      "job_campaign_id": "3784afb8f7e33742f6d4",
       "seo_slug": "unicef-international-digital-education-consultancy-home-based-with",
       "desired_slug": "unicef-international-digital-education-consultancy-home-based-with",
       "job_quality_wait_fingerprint": "e376992490dc4248",
@@ -72500,7 +72504,7 @@
       "candidate_failure_repeat_count": 4,
       "candidate_failure_backoff_minutes": 80,
       "candidate_failed_at": "2026-10-09T11:04:32+00:00",
-      "candidate_retry_after": "2026-10-09T12:24:32+00:00"
+      "skip_reason": "eligibility must be verified; required diploma is Bac+3 or higher; retired source is not approved for publishing"
     },
     {
       "id": "203e8d6560e7863a",
