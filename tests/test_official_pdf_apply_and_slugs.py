@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 
 import article_ai_processor as ai
 import article_draft_publisher as publisher
+import article_processor as processor
 import job_core
 import job_document_renderer as docs
 from job_extractor import _deadline_details_from_text
@@ -87,6 +88,35 @@ class OfficialPdfApplicationTests(unittest.TestCase):
         self.assertEqual(row["job_application_link_kind"], "direct_email")
         self.assertEqual(job_core.job_direct_application_policy(row), "")
         self.assertTrue(job_core.is_application_url_bound_to_job(row, row["job_application_url"]))
+
+    def test_official_pdf_is_recovered_before_selection(self):
+        row = public_job(
+            "", status="ready", content_fetch_status="success",
+            job_deadline="", job_document_texts=[],
+        )
+        queue = {"articles": [row]}
+
+        def set_pdf_evidence(article):
+            article["job_document_texts"] = [{
+                "page_number": 1,
+                "text": "شهادة أو دبلوم Bac+2\\n"
+                        "الترشيح عبر المنصة https://recrutement.enssup.gov.ma\\n"
+                        "وذلك قبل 2026/10/25",
+            }]
+            article["job_document_text_read_complete"] = True
+            article["job_document_text_attempted_documents"] = 1
+            docs.promote_job_document_application_channel(article)
+            docs.promote_job_document_deadline(article)
+
+        with patch.object(processor, "load_article_queue", return_value=queue), \\
+             patch.object(processor, "save_article_queue") as save, \\
+             patch.object(processor, "_prepare_identity_evidence", side_effect=set_pdf_evidence), \\
+             patch.object(processor, "job_publication_freshness", return_value={"verified": True, "fresh": True}):
+            result = processor.recover_public_competition_submission_evidence(max_articles=1)
+        self.assertEqual(result, {"checked": 1, "recovered": 1})
+        self.assertEqual(row["job_application_url"], PORTAL)
+        self.assertEqual(row["job_deadline"], "2026-10-25")
+        save.assert_called_once()
 
     def test_unverified_email_does_not_pass(self):
         row = public_job(
