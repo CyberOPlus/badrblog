@@ -437,6 +437,16 @@ def is_verified_official_application_channel(article, url):
 
 
 def is_application_url_bound_to_job(article, url):
+    value = str(url or "").strip()
+    if value.lower().startswith("mailto:"):
+        address = value[7:].split("?", 1)[0].strip().lower()
+        return bool(
+            address
+            and str(article.get("job_application_email") or "").strip().lower() == address
+            and article.get("job_application_email_verified") is True
+            and re.fullmatch(r"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}", address)
+            and bool(article.get("official_source") or article.get("job_official_source"))
+        )
     candidate = canonicalize_job_url(url)
     if not candidate or not _public_http(candidate):
         return False
@@ -489,7 +499,7 @@ def job_direct_application_policy(article):
         if (
             verified == address
             and bool(article.get("job_application_email_verified"))
-            and re.fullmatch(r"[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}", address)
+            and re.fullmatch(r"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}", address)
             and bool(article.get("official_source") or article.get("job_official_source"))
         ):
             return ""
@@ -1015,6 +1025,17 @@ def job_qualification_evidence(article):
                 evidence.append(snippet)
             if len(evidence) >= 15:
                 break
+    # Also inspect text from the specific official competition PDF. Mixed
+    # qualifications are rejected by job_qualification_policy, not cherry-picked.
+    for page in (article.get("job_document_texts") or []):
+        if not isinstance(page, dict):
+            continue
+        for line in str(page.get("text") or "").splitlines():
+            if not _EDUCATION_LABEL.search(line):
+                continue
+            snippet = line.strip()[:350]
+            if snippet and snippet not in evidence:
+                evidence.append(snippet)
     return evidence
 
 
@@ -1119,11 +1140,8 @@ def score_job(article, now=None):
     points["clear_location"] = 5 if str(article.get("job_location") or "").strip() else 0
     points["clear_diploma"] = 5 if str(article.get("job_diploma") or "").strip() else 0
 
-    apply_url = article.get("job_application_url") or article.get("application_url") or article.get("url")
-    valid_apply = bool(
-        _public_http(apply_url)
-        and is_application_url_bound_to_job(article, apply_url)
-    )
+    apply_url = article.get("job_application_url") or article.get("application_url") or ""
+    valid_apply = bool(is_application_url_bound_to_job(article, apply_url))
     points["clear_application"] = 10 if valid_apply else 0
     points["salary_listed"] = 5 if str(article.get("job_salary") or "").strip() else 0
     points["entry_level_or_student"] = 5 if bool(article.get("job_entry_level")) else 0
