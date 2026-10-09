@@ -1,4 +1,5 @@
 """Weekly Morocco Facebook pilot and safe publisher rollout."""
+import os
 import unittest
 from datetime import datetime, timedelta, timezone
 from unittest.mock import patch
@@ -98,6 +99,24 @@ class WeeklyPilotTests(unittest.TestCase):
             healthy = adaptive.current_policy(now=datetime(2026, 10, 9, 14, tzinfo=TZ))
         self.assertEqual(result["daily_cap"], 8)
         self.assertEqual(healthy["daily_cap"], 12)
+
+    def test_one_day_rollout_grace_prevents_freezing_current_published_day(self):
+        today = datetime(2026, 10, 9, 16, 0, tzinfo=TZ)
+        tomorrow = datetime(2026, 10, 10, 16, 0, tzinfo=TZ)
+        state = {"daily_publish_count": {"2026-10-09": 9, "2026-10-10": 0},
+                 "last_publish_at": "2026-10-09T10:54:10+00:00"}
+        with patch.dict(os.environ, {
+            "JOBS_PILOT_ROLLOUT_GRACE_DAY": "2026-10-09",
+            "JOBS_PILOT_ROLLOUT_GRACE_CAP": "12",
+        }), patch.object(job_core, "JOBS_ADAPTIVE_PUBLISHING", True), \
+             patch.object(job_core, "current_policy", return_value={"daily_cap": 8}), \
+             patch.object(job_core, "load_job_state", return_value=state):
+            today_window = job_core.job_publish_window_status(now=today, publishable_backlog=1)
+            tomorrow_cap = job_core.daily_publish_cap(now=tomorrow)
+        self.assertTrue(today_window["allowed_now"], today_window)
+        self.assertEqual(today_window["daily_cap"], 12)
+        self.assertEqual(today_window["published_today"], 9)
+        self.assertEqual(tomorrow_cap, 8)
 
     def test_non_english_slug_retry_is_cleanly_deferred(self):
         row = {"permalink_attempt": 1}

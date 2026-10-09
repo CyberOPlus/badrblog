@@ -1337,10 +1337,21 @@ def _day_key(now=None):
 
 def daily_publish_cap(now=None):
     if JOBS_ADAPTIVE_PUBLISHING:
+        local = _local(now)
         cap = int(current_policy(now=now).get("daily_cap") or 8)
+        # Midday deployment migration: posts already made under the earlier
+        # daily ceiling must not deadlock the first pilot day. The limited
+        # one-day grace disappears automatically tomorrow without intervention.
+        grace_day = os.getenv("JOBS_PILOT_ROLLOUT_GRACE_DAY", "").strip()
+        if grace_day and local.date().isoformat() == grace_day:
+            try:
+                grace_limit = int(os.getenv("JOBS_PILOT_ROLLOUT_GRACE_CAP", "0"))
+            except ValueError:
+                grace_limit = 0
+            cap = max(cap, min(12, max(0, grace_limit)))
         # Quiet weekends get a lower soft editorial ceiling. It is still
         # a maximum, not a publication goal or permission to skip other gates.
-        if _local(now).weekday() >= 5:
+        if local.weekday() >= 5:
             return min(cap, 8)
         return cap
     local = _local(now)

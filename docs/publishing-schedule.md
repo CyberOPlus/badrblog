@@ -13,6 +13,10 @@ No artificial morning-only/office-hours rule delays a new vacancy. Blogger
 pilot limit starts at **8** per day and can grow gradually to **12** after
 healthy production days. Weekend editorial ceiling: **8**. Minimum Blogger
 spacing: **20 minutes**. These are upper bounds, not publication quotas.
+**Midday migration safety:** 2026-10-09 already recorded 9 Blogger posts
+before the pilot installed its initial cap of 8. A one-day local-time grace
+sets the cap to 12 for this rollout day only; it automatically expires on
+2026-10-10. No grace ever bypasses candidate publication quality checks.
 Zero valid jobs = zero published articles. A closing-soon vacancy gets the
 existing urgent priority, but never skips source, diploma, date, or apply-link
 verification.
