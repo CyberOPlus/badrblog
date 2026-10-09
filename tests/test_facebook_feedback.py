@@ -54,6 +54,16 @@ class FacebookFeedbackTests(unittest.TestCase):
         self.assertNotIn("reach", obs)
         self.assertEqual(obs["local_weekday"], 4)
 
+    def test_share_field_missing_is_zero_only_with_valid_other_counts(self):
+        base = result("123_1")
+        base.pop("shares")
+        row = {"post_id": "123_1", "published_at": NOW.isoformat()}
+        normal = metrics._observation(row, base, NOW)
+        self.assertEqual(normal["interactions_observed"], 14)
+        base.pop("reactions")
+        incomplete = metrics._observation(row, base, NOW)
+        self.assertIsNone(incomplete["interactions_observed"])
+
     def test_collect_read_only_and_persist_one_sample(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "fb.json"
