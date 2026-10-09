@@ -481,10 +481,21 @@ def job_direct_application_policy(article):
     if source_name and source_name in _retired_job_source_names():
         return "retired source is not approved for publishing"
     url = str(article.get("job_application_url") or article.get("application_url") or "").strip()
+    # A mailto application is allowed only when the specific official notice or
+    # PDF explicitly instructs applicants to send candidatures to that address.
+    if str(url or "").lower().startswith("mailto:"):
+        address = str(url)[7:].split("?", 1)[0].strip().lower()
+        verified = str(article.get("job_application_email") or "").strip().lower()
+        if (
+            verified == address
+            and bool(article.get("job_application_email_verified"))
+            and re.fullmatch(r"[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}", address)
+            and bool(article.get("official_source") or article.get("job_official_source"))
+        ):
+            return ""
+        return "email application is not verified from this exact official notice"
     if not url or not _public_http(url):
         return "missing direct job-specific application URL"
-    if not is_job_specific_url(url) or not is_application_url_bound_to_job(article, url):
-        return "application URL is a generic portal or belongs to another vacancy"
     candidate = canonicalize_job_url(url)
     parsed = urlparse(candidate)
     host = parsed.netloc.casefold().removeprefix("www.")
@@ -494,9 +505,31 @@ def job_direct_application_policy(article):
         r"(?i)(?:^|[?&])(?:redirect|returnUrl|next)=[^&]*(?:login|register|signup)", parsed.query
     ):
         return "application URL leads to registration or sign-in"
+    if article.get("job_application_requires_registration") is True:
+        return "application requires a registered candidate account"
     kind = str(article.get("job_application_link_kind") or "").strip().lower()
-    if kind in {"official_application_channel", "official_job_page", "listing", "generic"}:
+    # An official PDF may explicitly designate one centralized portal for THIS
+    # competition (e.g. recrutement.enssup.gov.ma). It is the official action,
+    # even when the portal address does not contain an individual vacancy ID.
+    # Require the linked action to be on the specific notice and preserve the
+    # distinction between a direct form and an official application platform.
+    if kind == "official_application_channel":
+        if is_verified_official_application_channel(article, url):
+            if str(article.get("job_application_source") or "").strip().lower() == "official_pdf":
+                exact = str(url).rstrip("/").casefold()
+                pdf_urls = " ".join(
+                    str(p.get("text") or "").casefold()
+                    for p in (article.get("job_document_texts") or [])
+                    if isinstance(p, dict)
+                )
+                if exact not in pdf_urls:
+                    return "official PDF does not prove this application portal"
+            return ""
+        return "generic application portal is not verified in this competition"
+    if kind in {"official_job_page", "listing", "generic"}:
         return "application URL is not the direct form/action"
+    if not is_job_specific_url(url) or not is_application_url_bound_to_job(article, url):
+        return "application URL is a generic portal or belongs to another vacancy"
     detail = canonicalize_job_url(
         article.get("job_detail_url") or article.get("canonical_url") or article.get("url")
     )
@@ -509,8 +542,6 @@ def job_direct_application_policy(article):
         return "a verified job-specific apply action is missing"
     # The URL/action check proves destination specificity, not that the employer
     # will never ask users to create an account later in a multi-step workflow.
-    if article.get("job_application_requires_registration") is True:
-        return "application requires a registered candidate account"
     return ""
 
 
