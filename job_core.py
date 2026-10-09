@@ -860,28 +860,28 @@ def job_deadline_time(article):
 # Publication policy: only vacancies with a verified, still-open application
 # deadline and evidence of a qualification strictly below Bac+3 may publish.
 _EDUCATION_LABEL = re.compile(
-    r"(?:dipl[oô]me|niveau\\s+d['’]?[eé]tudes|niveau\\s+scolaire|"
-    r"formation\\s+(?:requise|demand[eé]e)|profil\\s+(?:recherch[eé]|demand[eé])|"
-    r"qualification|education\\s+(?:required|level)|"
-    r"الشهادة|المؤهل|المستوى\\s+الدراسي|المستوى\\s+التعليمي|الدبلوم|"
-    r"شروط\\s+(?:الترشح|التوظيف)|الاجازة|الإجازة)",
+    r"(?:dipl[oô]me|niveau\s+d['’]?[eé]tudes|niveau\s+scolaire|"
+    r"formation\s+(?:requise|demand[eé]e)|profil\s+(?:recherch[eé]|demand[eé])|"
+    r"qualification|education\s+(?:required|level)|"
+    r"الشهادة|المؤهل|المستوى\s+الدراسي|المستوى\s+التعليمي|الدبلوم|"
+    r"شروط\s+(?:الترشح|التوظيف)|الاجازة|الإجازة)",
     re.IGNORECASE,
 )
 _EDUCATION_HIGH = re.compile(
-    r"\\bbac\\s*\\+\\s*(?:[3-9]|[1-9]\\d+)\\b|"
-    r"\\b(?:licence(?!\\s+de\\s+conduire\\b)|bachelor|master|"
+    r"\bbac\s*\+\s*(?:[3-9]|[1-9]\d+)\b|"
+    r"\b(?:licence(?!\s+de\s+conduire\b)|bachelor|master|"
     r"mastere|maitrise|ingenieur|doctorat|doctorate|phd|mba|"
-    r"bac\\s*plus\\s*(?:trois|quatre|cinq))\\b|"
-    r"(?:الاجازة|الماستر|الدكتوراه|مهندس\\s+دولة|باك\\s*\\+\\s*[٣٤٥٦٧٨٩])",
+    r"bac\s*plus\s*(?:trois|quatre|cinq))\b|"
+    r"(?:الاجازة|الماستر|الدكتوراه|مهندس\s+دولة|باك\s*\+\s*[٣٤٥٦٧٨٩])",
     re.IGNORECASE,
 )
 _EDUCATION_LOW = re.compile(
-    r"\\bbac\\s*\\+\\s*[012]\\b|\\bbac\\b(?!\\s*\\+)|"
-    r"\\b(?:baccalaureat|bts|dut|deug|deust|dts|cap|bep|"
-    r"technicien\\s+specialise|sans\\s+diplome|niveau\\s+secondaire)\\b|"
-    r"(?:بكالوريا|البكالوريا|مستوى\\s+(?:باك|الباك)|تقني\\s+متخصص|"
-    r"الثانوي|التأهيل\\s+المهني|التاهيل\\s+المهني|بدون\\s+شهادة|دون\\s+شهادة|"
-    r"باك\\s*\\+\\s*[٠١٢])",
+    r"\bbac\s*\+\s*[012]\b|\bbac\b(?!\s*\+)|"
+    r"\b(?:baccalaureat|bts|dut|deug|deust|dts|cap|bep|"
+    r"technicien\s+specialise|sans\s+diplome|niveau\s+secondaire)\b|"
+    r"(?:بكالوريا|البكالوريا|مستوى\s+(?:باك|الباك)|تقني\s+متخصص|"
+    r"الثانوي|التأهيل\s+المهني|التاهيل\s+المهني|بدون\s+شهادة|دون\s+شهادة|"
+    r"باك\s*\+\s*[٠١٢])",
     re.IGNORECASE,
 )
 
@@ -906,7 +906,7 @@ def job_qualification_evidence(article):
     # Bac+2 mention in unrelated duties or a listing cannot establish eligibility.
     for field in ("full_article_text", "job_description"):
         body = str(article.get(field) or "")
-        for line in re.split(r"[\\n\\r]+|(?<=[.!?])\\s+", body):
+        for line in re.split(r"[\n\r]+|(?<=[.!?])\s+", body):
             if not _EDUCATION_LABEL.search(line):
                 continue
             match = _EDUCATION_LABEL.search(line)
