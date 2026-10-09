@@ -105,6 +105,14 @@ six-hour collection pass, rechecks each individual post no sooner than
 24 hours, and looks back only 21 days. Successful feedback is persisted in
 `data/facebook_performance.json` and summarized in GitHub Actions.
 
+The first comment on each CyberOPlus Facebook post is often created by the
+bot itself and carries the Blogger URL. A known, acknowledged bot comment is
+subtracted from Facebook's raw comment count when calculating **audience**
+interactions. A Page's own CTA is never evidence of audience engagement.
+A comparison slot needs at least three complete corrected observations,
+from at least two distinct days, each post at least 24 hours old.
+The old one-day averages were explicitly invalidated on migration.
+
 Metric availability depends on the Page's actual Graph API permissions. A
 rejected metric query never deletes posts, updates the queue, sends comments,
 retries social publishing or blocks Blogger. Facebook Graph API v26 removed
@@ -112,7 +120,7 @@ multiple former reach/impressions metrics: the collector queries **reaction,
 comment and share counts only**, labels unavailable values as unknown, and
 never presents those counts as reach, link clicks, or job applications. The
 collector ignores incomplete samples when ranking windows. A reporting window
-only appears with at least three complete post observations; prefer 2–4 weeks
+appears only after multi-day, mature post observations; prefer 2–4 weeks
 before moving a time slot. This is observational, not proof that changing a
 post time causes better engagement.
 
