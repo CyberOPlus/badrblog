@@ -59,7 +59,7 @@ class PublicationRequirementsTests(unittest.TestCase):
         self.assertEqual(result["education"], "unverified")
 
     def test_bac2_in_unrelated_duty_does_not_prove_eligibility(self):
-        result = job_publication_policy(posting(job_diploma="", job_description="Accompagner les étudiants Bac+2 sans condition de diplôme"), now=NOW)
+        result = job_publication_policy(posting(job_diploma="", job_description="Former des personnes Bac+2 en sécurité réseau"), now=NOW)
         self.assertFalse(result["passed"])
 
     def test_verified_low_qualification_from_full_text(self):
