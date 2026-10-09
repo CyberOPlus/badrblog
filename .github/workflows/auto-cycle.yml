@@ -362,6 +362,12 @@ jobs:
         timeout-minutes: 2
         run: python facebook_performance.py
 
+      - name: Sample Facebook engagement safely
+        if: always()
+        continue-on-error: true
+        timeout-minutes: 1
+        run: python facebook_performance_monitor.py
+
       - name: Jobs status
         if: always()
         run: |
@@ -482,6 +488,7 @@ jobs:
             "data/crawl_state.json"
             "data/ai_provider_memory.json"
             "data/facebook_style_memory.json"
+            "data/facebook_performance.json"
             "data/facebook_performance.json"
             "data/internal_link_cache.json"
             "data/source_health.json"
@@ -707,6 +714,7 @@ jobs:
             data/crawl_state.json
             data/ai_provider_memory.json
             data/facebook_style_memory.json
+            data/facebook_performance.json
             data/facebook_performance.json
             data/internal_link_cache.json
             data/source_health.json
