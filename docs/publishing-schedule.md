@@ -76,6 +76,32 @@ References:
 6. Blogger first. Facebook delivery (and first comment) is independently
    retried, without creating duplicate social uploads or blocking Blogger.
 
+
+## Measuring the Facebook pilot safely
+
+Production optionally runs `facebook_performance_monitor.py` **after**
+the publisher step; the reader only uses Graph API GET. It never publishes,
+comments, edits, reposts, nor bypasses anti-spam limits. With
+`JOBS_FACEBOOK_METRICS_ENABLED=true`, it makes at most **two** post-read
+requests every **20 minutes**, and records available reactions, public
+comments (excluding our own link-first-comment), and shares in
+`data/facebook_performance.json`. It samples posts at about 1–8h,
+24–48h and 7–9 days after publication. The exact age is stored: a sample
+after 36h is **not** incorrectly described as the first 24h.
+
+Missing permissions, HTTP 429, API failure, or network errors never stop
+Blogger/Facebook. Permission/rate errors cause a six-hour optional-metrics
+cooldown. No deprecated reach/impressions metrics are requested in Graph
+API v26. Unknown metrics are null, not fabricated zero.
+
+Only comparable samples aged **24–36 hours** are eligible for slot-to-slot
+comparison. At least **four** posts per window and **two** adequately sampled
+windows are required before any finding is considered actionable. The
+monitor displays descriptive comparisons but never silently changes the
+weekly calendar. Views, reach, clicks and application conversions
+cannot be inferred from these engagement counters; consult Meta
+Business Suite or a verified analytics source for those separately.
+
 ## Operations
 
 - The `Jobs Auto Cycle` workflow self-dispatches; the watchdog revives it
