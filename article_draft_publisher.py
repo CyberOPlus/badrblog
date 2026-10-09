@@ -32,7 +32,7 @@ from config import (
     JOBS_EXPECTED_BLOG_HOST,
     JOBS_MAX_PUBLISH_AGE_HOURS,
 )
-from job_core import job_deadline_time, job_publication_freshness
+from job_core import job_deadline_time, job_publication_freshness, job_publication_policy
 from production_logging import html_word_count, log_event
 from quality_gate import validate_before_publish
 from internal_link_cache import record_published_article
@@ -110,6 +110,12 @@ def _article_word_count(article):
 
 
 def _publish_quality_error(article, articles):
+    # Hard gate on every draft/live write, including jobs already queued before
+    # these rules were introduced. Do not publish AI-generated content first.
+    policy = job_publication_policy(article)
+    article["job_editorial_policy"] = policy
+    if not policy["passed"]:
+        return "job publication policy blocked: " + "; ".join(policy["reasons"])
     words = _article_word_count(article)
     package = article.get("ai_input_package")
     if not isinstance(package, dict):
@@ -1040,6 +1046,9 @@ def _assert_fresh_job_for_new_live_publish(article, now=None):
     deadline = job_deadline_time(article)
     if notice_type in {"vacancy", "competition"} and deadline and deadline < current:
         raise RuntimeError("Job deadline passed; refusing new live publication.")
+    policy = job_publication_policy(article, now=current)
+    if not policy["passed"]:
+        raise RuntimeError("Job publication policy blocked: " + "; ".join(policy["reasons"]))
 
 
 def _get_saved_post_by_id(service, article, mode=None):
