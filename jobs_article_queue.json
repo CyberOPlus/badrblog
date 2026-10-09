@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-09T11:52:08",
+  "updated_at": "2026-10-09T11:52:59",
   "articles": [
     {
       "id": "876860ea6b906dec",
@@ -71989,11 +71989,15 @@
       "job_rank_score": 100,
       "job_quality_status": "queue",
       "job_quality_reasons": [
-        "eligibility must be verified"
+        "eligibility must be verified",
+        "required diploma below Bac+3 is not verified",
+        "retired source is not approved for publishing"
       ],
       "job_hard_gate_passed": false,
       "job_hard_gate_reasons": [
-        "eligibility must be verified"
+        "eligibility must be verified",
+        "required diploma below Bac+3 is not verified",
+        "retired source is not approved for publishing"
       ],
       "labels": [
         "jobs",
@@ -72007,18 +72011,18 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "29752ca511331d791f64",
+      "job_campaign_id": "5adebe6a55c0c967e14b",
       "seo_slug": "unicef-ai-technical-consultant-llm-safety-evaluation-digital",
       "desired_slug": "unicef-ai-technical-consultant-llm-safety-evaluation-digital",
-      "job_quality_wait_fingerprint": "e376992490dc4248",
-      "job_quality_wait_count": 4,
+      "job_quality_wait_fingerprint": "1141f2f76869c01b",
+      "job_quality_wait_count": 1,
       "candidate_failure_stage": "quality-evidence",
-      "candidate_failure_reason": "eligibility must be verified",
-      "candidate_failure_fingerprint": "e376992490dc4248",
-      "candidate_failure_repeat_count": 4,
-      "candidate_failure_backoff_minutes": 80,
-      "candidate_failed_at": "2026-10-09T10:32:57+00:00",
-      "candidate_retry_after": "2026-10-09T11:52:57+00:00"
+      "candidate_failure_reason": "eligibility must be verified; required diploma below Bac+3 is not verified; retired source is not approved for publishing",
+      "candidate_failure_fingerprint": "1141f2f76869c01b",
+      "candidate_failure_repeat_count": 1,
+      "candidate_failure_backoff_minutes": 10,
+      "candidate_failed_at": "2026-10-09T11:52:59+00:00",
+      "candidate_retry_after": "2026-10-09T12:02:59+00:00"
     },
     {
       "id": "529115783d82902e",
