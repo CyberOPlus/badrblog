@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-09T12:47:05",
+  "updated_at": "2026-10-09T12:50:21",
   "articles": [
     {
       "id": "876860ea6b906dec",
@@ -70112,18 +70112,18 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "0a1b0d108b39741918eb",
+      "job_campaign_id": "edbe45073eddb2292b66",
       "seo_slug": "unicef-consultancy-to-provide-technical-support-to-advance",
       "desired_slug": "unicef-consultancy-to-provide-technical-support-to-advance",
       "job_quality_wait_fingerprint": "1141f2f76869c01b",
-      "job_quality_wait_count": 3,
+      "job_quality_wait_count": 4,
       "candidate_failure_stage": "quality-evidence",
       "candidate_failure_reason": "eligibility must be verified; required diploma below Bac+3 is not verified; retired source is not approved for publishing",
       "candidate_failure_fingerprint": "1141f2f76869c01b",
-      "candidate_failure_repeat_count": 3,
-      "candidate_failure_backoff_minutes": 40,
-      "candidate_failed_at": "2026-10-09T12:08:10+00:00",
-      "candidate_retry_after": "2026-10-09T12:48:10+00:00"
+      "candidate_failure_repeat_count": 4,
+      "candidate_failure_backoff_minutes": 80,
+      "candidate_failed_at": "2026-10-09T12:50:21+00:00",
+      "candidate_retry_after": "2026-10-09T14:10:21+00:00"
     },
     {
       "id": "89066272e7daec85",
@@ -72992,18 +72992,18 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "dc09fcd1e196dfc39348",
+      "job_campaign_id": "ecaa97098384cef05c0c",
       "seo_slug": "unicef-supply-logistics-officer-no-ft-brazzaville-congo",
       "desired_slug": "unicef-supply-logistics-officer-no-ft-brazzaville-congo",
       "job_quality_wait_fingerprint": "1141f2f76869c01b",
-      "job_quality_wait_count": 3,
+      "job_quality_wait_count": 4,
       "candidate_failure_stage": "quality-evidence",
       "candidate_failure_reason": "eligibility must be verified; required diploma below Bac+3 is not verified; retired source is not approved for publishing",
       "candidate_failure_fingerprint": "1141f2f76869c01b",
-      "candidate_failure_repeat_count": 3,
-      "candidate_failure_backoff_minutes": 40,
-      "candidate_failed_at": "2026-10-09T12:08:10+00:00",
-      "candidate_retry_after": "2026-10-09T12:48:10+00:00"
+      "candidate_failure_repeat_count": 4,
+      "candidate_failure_backoff_minutes": 80,
+      "candidate_failed_at": "2026-10-09T12:50:21+00:00",
+      "candidate_retry_after": "2026-10-09T14:10:21+00:00"
     },
     {
       "id": "679fe4d645f864c2",
@@ -75711,7 +75711,7 @@
       "removed_source_links_count": 71,
       "fetched_title": "مباريات التوظيف : تقني متعدد الاختصاصات",
       "meta_description": "",
-      "identity_evidence_invalidated_at": "2026-10-09T12:08:07+00:00",
+      "identity_evidence_invalidated_at": "2026-10-09T12:50:20+00:00",
       "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
       "source_tables": [],
       "source_tables_count": 0,
@@ -75742,6 +75742,12 @@
           "label": "استمارة الترشح (بالفرنسية)",
           "kind": "document",
           "context": ""
+        },
+        {
+          "url": "https://sonarges.ma/",
+          "label": "منصة الترشيح الرسمية",
+          "kind": "apply",
+          "context": "موقع الإيداع : https://sonarges.ma/"
         }
       ],
       "job_document_links": [
@@ -75785,12 +75791,15 @@
       "full_article_text_chars": 541,
       "content_preview": "خيارات الوصول المرئي الإدارة المنظمة الشركة الوطنية لإنجاز وتدبير المنشآت الرياضية آخر أجل لإيداع الترشيحات 23 أكتوبر 2026 - 16:00 تاريخ النشر 9 أكتوبر 2026 معلومات عن المباراة اسم المنصب : تقني متعدد الاختصاصات الإقليم : جهة طنجة - تطوان - الحسيمة (1 منصب) نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://sonarges.ma/ هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
       "content_preview_chars": 541,
-      "content_fetched_at": "2026-10-09T12:08:07",
+      "content_fetched_at": "2026-10-09T12:50:20",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
       "job_link_binding_repaired_at": "2026-10-09T12:08:55",
-      "job_quality_status": "",
-      "job_quality_reasons": [],
+      "job_quality_status": "queue",
+      "job_quality_reasons": [
+        "required diploma below Bac+3 is not verified",
+        "application URL is not the direct form/action"
+      ],
       "job_score": 70,
       "job_rank_score": 70,
       "job_hard_gate_passed": false,
@@ -75810,17 +75819,17 @@
       },
       "job_identity_action": "new_campaign",
       "job_identity_reason": "different external reference",
-      "job_campaign_id": "1127939ab5ed86ec50a3",
+      "job_campaign_id": "7c76eeb0b8b19d2476df",
       "seo_slug": "alshrka-alwtnya-lanjaz-wtdbyr-almnshat-alryadya-mbaryat-altwzyf",
       "desired_slug": "alshrka-alwtnya-lanjaz-wtdbyr-almnshat-alryadya-mbaryat-altwzyf",
       "job_quality_wait_fingerprint": "6b8101e7d598bee0",
-      "job_quality_wait_count": 3,
+      "job_quality_wait_count": 4,
       "candidate_failure_stage": "quality-evidence",
       "candidate_failure_reason": "application URL is not the direct form/action; required diploma below Bac+3 is not verified",
       "candidate_failure_fingerprint": "6b8101e7d598bee0",
-      "candidate_failure_repeat_count": 3,
-      "candidate_failure_backoff_minutes": 40,
-      "candidate_failed_at": "2026-10-09T12:08:10+00:00",
+      "candidate_failure_repeat_count": 4,
+      "candidate_failure_backoff_minutes": 80,
+      "candidate_failed_at": "2026-10-09T12:50:21+00:00",
       "job_document_texts": [
         {
           "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/7cc70e0a-2b25-4e8f-8644-d92f779de7a4",
@@ -75850,7 +75859,7 @@
       "job_document_unread_pages": 0,
       "identity_evidence_document_fingerprint": "https://emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/7cc70e0a-2b25-4e8f-8644-d92f779de7a4|https://emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/fichiers_att/7cc70e0a-2b25-4e8f-8644-d92f779de7a4/0|https://emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/fichiers_att/7cc70e0a-2b25-4e8f-8644-d92f779de7a4/1",
       "job_notice_status": "",
-      "candidate_retry_after": "2026-10-09T12:48:10+00:00"
+      "candidate_retry_after": "2026-10-09T14:10:21+00:00"
     },
     {
       "id": "1598dd3c6f3761fa",
