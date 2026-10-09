@@ -10,6 +10,7 @@ from internal_link_cache import load_internal_link_cache, select_internal_link_c
 from job_document_renderer import (
     extract_job_document_texts,
     promote_job_document_application_channel,
+    promote_job_document_deadline,
     promote_job_document_position_count,
 )
 from job_core import canonicalize_job_url, classify_identity, finalize_identity_evidence_stage
@@ -87,6 +88,9 @@ def _build_ai_input_package(article):
         "job_notice_status": article.get("job_notice_status", ""),
         "job_application_url": article.get("job_application_url", ""),
         "job_application_link_kind": article.get("job_application_link_kind", ""),
+        "job_application_email": article.get("job_application_email", ""),
+        "job_application_email_verified": bool(article.get("job_application_email_verified")),
+        "job_application_source": article.get("job_application_source", ""),
         "job_application_is_specific": bool(article.get("job_application_is_specific", False)),
         "job_application_is_official_channel": bool(article.get("job_application_is_official_channel", False)),
         "job_detail_url": article.get("job_detail_url", ""),
@@ -180,6 +184,7 @@ def _prepare_identity_evidence(article):
     # exposes the real public application channel, promote it before the manifest
     # and AI package are built so the article uses the correct submission link.
     promote_job_document_application_channel(article)
+    promote_job_document_deadline(article)
     promote_job_document_position_count(article)
 
     # Reconcile legacy queued Emploi-Public records with the current extractor
