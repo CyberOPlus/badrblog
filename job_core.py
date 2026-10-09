@@ -1337,7 +1337,12 @@ def _day_key(now=None):
 
 def daily_publish_cap(now=None):
     if JOBS_ADAPTIVE_PUBLISHING:
-        return int(current_policy(now=now).get("daily_cap") or 3)
+        cap = int(current_policy(now=now).get("daily_cap") or 8)
+        # Quiet weekends get a lower soft editorial ceiling. It is still
+        # a maximum, not a publication goal or permission to skip other gates.
+        if _local(now).weekday() >= 5:
+            return min(cap, 8)
+        return cap
     local = _local(now)
     month_max = MONTHLY_VOLUME_RANGE.get(local.month, (1, 2))[1]
     weekday_cap = WEEKDAY_BLOGGER_CAP.get(local.weekday(), month_max)
@@ -2255,9 +2260,56 @@ def record_job_social_state(article, now=None):
     return record
 
 
+# Pilot windows spread Facebook posts across Morocco audience's morning, noon
+# and evening sessions. Slots are NOT required for Blogger: vacancies must be
+# published when verified, without waiting for a social-engagement hour.
+JOBS_WEEKLY_FACEBOOK_SCHEDULE_ENABLED = (
+    os.getenv("JOBS_WEEKLY_FACEBOOK_SCHEDULE_ENABLED", "false").strip().casefold()
+    in {"1", "true", "yes", "on"}
+)
+WEEKLY_FACEBOOK_SLOTS = {
+    0: ((9, 0), (12, 30), (19, 0)),                  # Monday
+    1: ((9, 0), (13, 0), (18, 30), (20, 30)),       # Tuesday
+    2: ((9, 0), (13, 0), (18, 30), (20, 30)),       # Wednesday
+    3: ((9, 0), (13, 0), (18, 30), (20, 30)),       # Thursday
+    4: ((9, 30), (16, 0), (19, 0)),                 # Friday
+    5: ((10, 0), (18, 0)),                           # Saturday
+    6: ((9, 30), (18, 0)),                           # Sunday
+}
+
+
 def facebook_slot_status(posted_times=None, now=None, urgent=False, window_minutes=50):
     local_now = _local(now)
-    return {"allowed_now": True, "mode": "immediate", "slot": "", "next_slot": local_now.isoformat()}
+    if not JOBS_WEEKLY_FACEBOOK_SCHEDULE_ENABLED:
+        return {"allowed_now": True, "mode": "immediate", "slot": "", "next_slot": local_now.isoformat()}
+    if urgent:
+        # Closing-soon competitions cannot wait for an engagement experiment.
+        # Hard daily cap and the safety interval remain enforced separately.
+        return {"allowed_now": True, "mode": "urgent", "slot": "deadline-priority", "next_slot": local_now.isoformat()}
+    span = max(10, min(60, int(window_minutes or 50)))
+    slots = WEEKLY_FACEBOOK_SLOTS.get(local_now.weekday(), ())
+    for hour, minute in slots:
+        start = local_now.replace(hour=hour, minute=minute, second=0, microsecond=0)
+        if start <= local_now < start + timedelta(minutes=span):
+            return {
+                "allowed_now": True,
+                "mode": "weekly",
+                "slot": f"{hour:02d}:{minute:02d}",
+                "next_slot": start.isoformat(),
+            }
+    for offset in range(8):
+        day = local_now.date() + timedelta(days=offset)
+        day_slots = WEEKLY_FACEBOOK_SLOTS.get(day.weekday(), ())
+        for hour, minute in day_slots:
+            candidate = datetime.combine(day, time(hour, minute), tzinfo=local_now.tzinfo)
+            if candidate > local_now:
+                return {
+                    "allowed_now": False,
+                    "mode": "weekly",
+                    "slot": "",
+                    "next_slot": candidate.isoformat(),
+                }
+    return {"allowed_now": False, "mode": "weekly", "slot": "", "next_slot": ""}
 
 
 def job_status_snapshot(now=None):
