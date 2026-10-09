@@ -94,6 +94,15 @@ def _observation(row, payload, now):
         "comments": _count_from_summary(payload, "comments"),
         "shares": _count_from_summary(payload, "shares"),
     }
+    # Graph may omit the "shares" object entirely when a valid post has zero
+    # shares. Only interpret that omission as zero if both other summaries
+    # arrived; otherwise preserve missing values as unknown.
+    if (
+        engagement["shares"] is None and "shares" not in payload
+        and engagement["reactions"] is not None
+        and engagement["comments"] is not None
+    ):
+        engagement["shares"] = 0
     available = [value for value in engagement.values() if value is not None]
     return {
         **row,
