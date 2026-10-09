@@ -80,6 +80,7 @@ class JobsRuntimeTests(unittest.TestCase):
             "source_published_at": "2026-10-01",
             "job_notice_type": "competition",
             "job_deadline": "2026-10-16",
+            "job_diploma": "Bac+2",
         }
         draft._assert_fresh_job_for_new_live_publish(article, now=now)
 
@@ -342,6 +343,8 @@ class JobsRuntimeTests(unittest.TestCase):
 
     def test_publish_blocks_while_official_pdf_pages_are_pending(self):
         article = {
+            "job_deadline": "2099-01-01",
+            "job_diploma": "Bac+2",
             "job_document_render_status": "document_render_retry",
             "job_document_links": [
                 {"url": "https://example.gov.ma/notice.pdf", "kind": "document"}
@@ -2011,7 +2014,7 @@ class JobsRuntimeTests(unittest.TestCase):
 
     def test_write_boundary_allows_exactly_twelve_hours_but_checks_deadline(self):
         now = datetime(2026, 10, 1, 12, 0, tzinfo=timezone.utc)
-        article = {"job_published_at": "2026-10-01T00:00:00Z"}
+        article = {"job_published_at": "2026-10-01T00:00:00Z", "job_deadline": "2026-10-16", "job_diploma": "Bac+2"}
         with patch.object(draft, "JOBS_MODE", True):
             draft._assert_fresh_job_for_new_live_publish(article, now=now)
             article["job_deadline"] = "2026-09-30"
@@ -2180,7 +2183,9 @@ class JobsRuntimeTests(unittest.TestCase):
             stats = facebook.drain_scheduled_facebook()
 
         self.assertEqual(stats["recovered"], 1)
-        self.assertEqual(stats["pending"], 1)
+        # Legacy recovered records without a verified deadline and diploma must
+        # remain in storage but never be eligible for a NEW social publication.
+        self.assertEqual(stats["pending"], 0)
         self.assertEqual(stats["skipped"], 1)
         self.assertTrue(stats["configuration_missing"])
         self.assertEqual(queue["articles"][0]["facebook_status"], "facebook_pending")
@@ -2212,6 +2217,8 @@ class JobsRuntimeTests(unittest.TestCase):
 
     def test_facebook_score_ranks_jobs_but_never_filters_them(self):
         base = {
+            "job_deadline": "2099-01-01",
+            "job_diploma": "Bac+2",
             "status": "published",
             "publish_status": "published",
             "blogger_post_url": "https://example.blogspot.com/p/job.html",
@@ -4387,6 +4394,8 @@ class JobsRuntimeTests(unittest.TestCase):
 
     def test_required_cover_quality_failure_waits_for_renderer_without_ai_retry(self):
         article = {
+            "job_deadline": "2099-01-01",
+            "job_diploma": "Bac+2",
             "id": "visual-quality-only",
             "url": "https://example.com/jobs/visual-quality",
             "status": "selected",
@@ -5716,6 +5725,8 @@ class JobsRuntimeTests(unittest.TestCase):
 
     def test_retry_ready_failed_job_becomes_immediately_eligible_pending(self):
         article = {
+            "job_deadline": "2099-01-01",
+            "job_diploma": "Bac+2",
             "id": "renderer-retry",
             "status": "published",
             "publish_status": "published",

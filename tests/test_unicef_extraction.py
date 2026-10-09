@@ -31,6 +31,7 @@ def detail_html(title="Technical Support International Consultant (Home based)")
           Applicants need relevant technical experience and must submit a CV,
           a technical proposal and the requested supporting documents through
           the official application page before the stated deadline.</p>
+          <p>Education required: Bac+2 technical diploma (BTS).</p>
           <p>Applications from qualified candidates are welcome regardless of nationality.</p>
         </div>
         <p><b>Advertised:</b><span class="open-date">
