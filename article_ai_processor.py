@@ -1269,8 +1269,8 @@ def _compact_prompt_package(package):
         "job_exam_date", "job_exam_date_display",
         "job_notice_type", "job_notice_type_hint", "job_notice_type_source",
         "job_notice_status",
-        "job_application_url", "job_application_link_kind",
-        "job_detail_url", "job_diploma", "job_experience", "job_eligibility",
+        "job_application_url", "job_application_link_kind", "job_application_email",
+        "job_application_source", "job_diploma", "job_experience", "job_eligibility",
     )
     for key in scalar_keys:
         value = package.get(key)
@@ -1401,9 +1401,12 @@ ADAPTIVE ARTICLE STRUCTURE
 
 APPLICATION AND OFFICIAL LINKS
 - For an active vacancy/competition, include the strongest verified application resource exactly once where application makes sense.
-- If job_application_link_kind="official_application_channel", label it as "منصة الترشيح الرسمية" or equivalent, never "التقديم المباشر".
-- If job_application_link_kind="direct_apply", make the label clearly mean direct application.
-- If job_detail_url differs from the application URL, preserve it once as the official notice/detail link when present.
+- If job_application_link_kind="official_application_channel", show its EXACT verified application portal as the clickable action "الترشيح عبر المنصة الرسمية" even if the portal URL is a generic homepage. This is the application channel printed in the official notice/PDF, not an instruction to search for a job.
+- If job_application_link_kind="direct_apply", label the exact verified form URL "قدّم الآن".
+- If job_application_link_kind="direct_email", provide a mailto: link to the verified job_application_email; do not invent an address or send readers to a generic contact page.
+- Never tell the reader to visit an aggregator, search a website, look for the ad, or locate the application button. Include the precise destination in a clickable link.
+- NEVER put an original discovery source/aggregator URL, source name, source attribution, "المصدر" or "نقلا عن" in the public article. Official application URLs and official PDF links are not aggregator attributions.
+- No official notice/detail page link unless that SAME URL is the verified application action or an original official PDF document.
 - EVERY useful URL in job_document_links must remain in the final article exactly once.
 - In this pipeline listed official job_document_links are verified evidence; keep every listed document URL exactly once unless it is an exact duplicate.
 - Preserve URLs exactly. Never shorten, rewrite, fabricate or duplicate them.
@@ -1696,9 +1699,9 @@ MANDATORY JOB RETRY RULES:
 - Lists/results/updates must focus on their current stage/status and verified next action.
 - Omit any section with no verified facts; do not create "تفاصيل الوظيفة", "المهام", or "الشروط" merely because a template expects them.
 - Include job_application_url exactly once when present.
-- If job_application_link_kind is "official_application_channel", present that URL only as the official
-  application/registration platform ("منصة الترشيح الرسمية"), never as a direct vacancy link.
-- If job_detail_url differs from job_application_url, preserve the specific official notice/detail URL once as well.
+- If job_application_link_kind is "official_application_channel", present the exact evidenced portal as a clickable action ("الترشيح عبر المنصة الرسمية"); do not make the reader find it on a third-party site.
+- If job_application_link_kind is "direct_email", use the verified mailto: application link.
+- Exclude intermediary source names and URLs and do not link job_detail_url unless it IS the application destination or an official PDF.
 - Include EVERY useful job_document_links URL exactly once when present.
 - Do not add any internal related-post/category-hub link, pRelate block, "قد يهمك", "مقالات ذات صلة",
   or automatic link on ordinary words such as "وظائف", "التوظيف", "الوظيفة", "الترشيح", or "العمل".
@@ -2173,11 +2176,71 @@ def validate_phase3_article_quality(article):
     return _phase3_quality_failure_reason(data, package=package)
 
 
+
+def _enforce_exact_application_call_to_action(html_content, package):
+    """Last-mile repair: one accurate clickable action and no source hop."""
+    soup = BeautifulSoup(str(html_content or ""), "html.parser")
+    package = dict(package or {})
+    destination = str(package.get("job_application_url") or "").strip()
+    if not destination or not is_application_url_bound_to_job(package, destination):
+        return str(soup)
+    destination_key = destination.rstrip("/").casefold()
+    excluded_urls = {
+        str(package.get(k) or "").rstrip("/").casefold()
+        for k in ("url", "source_url", "job_detail_url")
+        if str(package.get(k) or "").strip()
+    }
+    doc_urls = {
+        str(row.get("url") or "").rstrip("/").casefold()
+        for row in (package.get("job_document_links") or [])
+        if isinstance(row, dict)
+    }
+    existing = None
+    for link in list(soup.find_all("a", href=True)):
+        href = str(link.get("href") or "").strip()
+        key = href.rstrip("/").casefold()
+        if key == destination_key:
+            if existing is None:
+                existing = link
+            else:
+                link.decompose()
+        elif key in excluded_urls and key not in doc_urls:
+            parent = link.parent
+            link.decompose()
+            if parent and parent.name in ("p", "li") and not parent.get_text(" ", strip=True):
+                parent.decompose()
+
+    kind = str(package.get("job_application_link_kind") or "").strip().lower()
+    label = (
+        "إرسال الترشيح عبر البريد الإلكتروني" if kind == "direct_email" else
+        "الترشيح عبر المنصة الرسمية" if kind == "official_application_channel" else
+        "قدّم الآن عبر الرابط المباشر"
+    )
+    if existing is not None:
+        existing.clear()
+        existing.append(label)
+        existing["href"] = destination
+        if kind != "direct_email":
+            existing["target"] = "_blank"
+            existing["rel"] = "nofollow noreferrer noopener"
+    else:
+        paragraph = soup.new_tag("p")
+        link = soup.new_tag("a", href=destination)
+        link.string = label
+        if kind != "direct_email":
+            link["target"] = "_blank"
+            link["rel"] = "nofollow noreferrer noopener"
+        paragraph.append(link)
+        soup.append(paragraph)
+    return str(soup)
+
+
 def format_phase3_article_html(html_content, package=None):
     package = package or {}
     formatted = _plus_ui_format_html(html_content, package)
     formatted = _remove_empty_job_fact_rows(formatted)
     formatted = _remove_internal_job_metadata(formatted, package)
+    formatted = _enforce_exact_application_call_to_action(formatted, package)
     # PDF pages are rendered/persisted by the Blogger publisher after AI.
     # Attach those verified page images here, in document/page order, so the
     # final Blogger body always contains the visual copy of the official PDF.
@@ -3360,7 +3423,7 @@ def _jobs_pre_ai_evidence_error(package):
         if (
             not is_job_specific_url(application_url)
             and str(package.get("job_application_link_kind") or "").strip().lower()
-            != "official_application_channel"
+            not in {"official_application_channel", "direct_email"}
         ):
             return (
                 "source/evidence problem: generic application portal must be "
