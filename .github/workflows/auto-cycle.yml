@@ -132,6 +132,12 @@ jobs:
           cd "$TEST_DIR/repo"
           python -m unittest discover -s tests -q
 
+      - name: Check required production modules compile
+        run: |
+          python -m py_compile main.py article_queue.py article_processor.py \
+            job_core.py job_extractor.py job_document_renderer.py \
+            article_ai_processor.py article_draft_publisher.py facebook_publisher.py
+
       - name: Verify scheduled production smoke
         if: github.event_name == 'schedule' || !inputs.verify
         continue-on-error: true
@@ -366,6 +372,57 @@ jobs:
       - name: Health summary
         if: always()
         run: python main.py health
+
+      - name: Jobs live-status summary
+        if: always()
+        continue-on-error: true
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          def read(path):
+              try:
+                  return json.loads(Path(path).read_text(encoding="utf-8"))
+              except (OSError, ValueError):
+                  return {}
+
+          sources = read("sources.json")
+          registry = [s for cat in sources.get("categories", []) for s in cat.get("sources", [])]
+          enabled = {str(s.get("name") or "").strip().casefold() for s in registry if s.get("enabled") is True}
+          queue = read("jobs_article_queue.json")
+          active = [
+              a for a in queue.get("articles", [])
+              if isinstance(a, dict)
+              and not a.get("archived")
+              and a.get("status") in ("ready", "selected")
+              and str(a.get("source_name") or "").strip().casefold() in enabled
+          ]
+          state = read("data/job_state.json")
+          delivery = read("data/delivery_health.json")
+          today = datetime.now(timezone.utc).date().isoformat()
+          rows = [
+              "### CyberOPlus Jobs — production cycle",
+              "- This workflow ran; a completed cycle does not necessarily publish a job.",
+              f"- Enabled approved sources: **{len(enabled)}/{len(registry)}**",
+              f"- Ready/selected from enabled sources: **{len(active)}** (not all have passed eligibility checks)",
+              f"- Last Blogger publication (UTC): **{state.get('last_publish_at') or 'none recorded'}**",
+              f"- Blogger publications recorded for {today}: **{(state.get('daily_publish_count') or {}).get(today, 0)}**",
+              f"- Facebook last posted: **{delivery.get('last_facebook_posted_at') or 'none recorded'}**",
+              f"- Verified publishable candidates (last diagnostic): **{delivery.get('verified_ready_candidate_count', 'unknown')}**",
+              f"- Current diagnostic: **{delivery.get('state') or 'unknown'}**",
+              f"- Diagnostic note: {delivery.get('action') or 'No diagnostic note'}",
+              "- Published posts are never fabricated to satisfy a time target.",
+          ]
+          report = "\n".join(rows) + "\n"
+          print(report)
+          summary = os.environ.get("GITHUB_STEP_SUMMARY")
+          if summary:
+              with open(summary, "a", encoding="utf-8") as output:
+                  output.write(report)
+          PY
 
       - name: Refresh daily scheduler heartbeat
         if: always() && github.ref == 'refs/heads/main'
