@@ -80,6 +80,7 @@ class JobsRuntimeTests(unittest.TestCase):
             "source_published_at": "2026-10-01",
             "job_notice_type": "competition",
             "job_deadline": "2026-10-16",
+            "job_diploma": "Bac+2",
         }
         draft._assert_fresh_job_for_new_live_publish(article, now=now)
 
@@ -2011,7 +2012,7 @@ class JobsRuntimeTests(unittest.TestCase):
 
     def test_write_boundary_allows_exactly_twelve_hours_but_checks_deadline(self):
         now = datetime(2026, 10, 1, 12, 0, tzinfo=timezone.utc)
-        article = {"job_published_at": "2026-10-01T00:00:00Z"}
+        article = {"job_published_at": "2026-10-01T00:00:00Z", "job_deadline": "2026-10-16", "job_diploma": "Bac+2"}
         with patch.object(draft, "JOBS_MODE", True):
             draft._assert_fresh_job_for_new_live_publish(article, now=now)
             article["job_deadline"] = "2026-09-30"
@@ -2212,6 +2213,8 @@ class JobsRuntimeTests(unittest.TestCase):
 
     def test_facebook_score_ranks_jobs_but_never_filters_them(self):
         base = {
+            "job_deadline": "2099-01-01",
+            "job_diploma": "Bac+2",
             "status": "published",
             "publish_status": "published",
             "blogger_post_url": "https://example.blogspot.com/p/job.html",
