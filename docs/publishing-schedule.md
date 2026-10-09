@@ -85,7 +85,7 @@ comments, edits, reposts, nor bypasses anti-spam limits. With
 `JOBS_FACEBOOK_METRICS_ENABLED=true`, it makes at most **two** post-read
 requests every **20 minutes**, and records available reactions, public
 comments (excluding our own link-first-comment), and shares in
-`data/facebook_performance.json`. It samples posts at about 1–8h,
+`data/facebook_engagement_samples.json` (separate from the pre-existing `data/facebook_performance.json` collector). It samples posts at about 1–8h,
 24–48h and 7–9 days after publication. The exact age is stored: a sample
 after 36h is **not** incorrectly described as the first 24h.
 

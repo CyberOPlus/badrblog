@@ -23,7 +23,7 @@ from state_io import atomic_write_json
 
 BASE = Path(__file__).resolve().parent
 QUEUE_PATH = BASE / "jobs_article_queue.json"
-STATE_PATH = BASE / "data" / "facebook_performance.json"
+STATE_PATH = BASE / "data" / "facebook_engagement_samples.json"
 MOROCCO = ZoneInfo("Africa/Casablanca")
 POST_ID = re.compile(r"^[0-9]+(?:_[0-9]+)?$")
 POLL_SECONDS = 20 * 60
