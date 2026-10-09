@@ -95,3 +95,47 @@ References:
 - **Rollback:** set that flag to `false` and restore original production
   daily limits if real audience results or new regressions justify rollback.
   Keep all publication verification gates during any rollback.
+
+## Facebook feedback: measuring outcomes instead of guessing
+
+The `facebook_performance.py` collector runs inside the regular GitHub
+worker with `JOBS_FACEBOOK_METRICS_ENABLED=true`. It is strictly **read-only**,
+uses the Page's existing token, makes **at most four Graph GET requests** per
+six-hour collection pass, rechecks each individual post no sooner than
+24 hours, and looks back only 21 days. Successful feedback is persisted in
+`data/facebook_performance.json` and summarized in GitHub Actions.
+
+Metric availability depends on the Page's actual Graph API permissions. A
+rejected metric query never deletes posts, updates the queue, sends comments,
+retries social publishing or blocks Blogger. Facebook Graph API v26 removed
+multiple former reach/impressions metrics: the collector queries **reaction,
+comment and share counts only**, labels unavailable values as unknown, and
+never presents those counts as reach, link clicks, or job applications. The
+collector ignores incomplete samples when ranking windows. A reporting window
+only appears with at least three complete post observations; prefer 2–4 weeks
+before moving a time slot. This is observational, not proof that changing a
+post time causes better engagement.
+
+The link to the Blogger article remains in the first Facebook comment as
+requested, and a comment's Graph acknowledgment is reconciled before retrying.
+Some Page owners have reported 2026 Meta One link-post restrictions that can
+include comment links. We **do not** assume those trials apply to this Page or
+attempt to circumvent Meta restrictions; explicit failures must be investigated
+from this Page's Graph response, not repaired by blind duplicate comments.
+
+Urgent Facebook posting now recomputes a vacancy's deadline at **send time**,
+not from the cached urgency flag left at Blogger publication. The deadline
+must still be open and official, and daily social limits/minimum spacing apply.
+
+References:
+- Meta 2026 original-content update:
+  https://about.fb.com/news/2026/03/rewarding-original-creators-on-facebook/
+- Buffer 2026 study based on 52M+ posts:
+  https://buffer.com/resources/state-of-social-media-engagement-2026/
+- Meta Graph API v25/v26 Insights deprecations:
+  https://developers.facebook.com/docs/graph-api/changelog/version25.0/
+
+Rollback: set `JOBS_FACEBOOK_METRICS_ENABLED=false` to turn off feedback
+without touching posting, or restore the previous workflow after verified
+deployment failure. Never roll back the eligibility, duplicate or direct-apply
+safety checks.
