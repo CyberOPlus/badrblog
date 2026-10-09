@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-09T11:25:43",
+  "updated_at": "2026-10-09T11:26:50",
   "articles": [
     {
       "id": "876860ea6b906dec",
@@ -70569,11 +70569,13 @@
       "job_rank_score": 100,
       "job_quality_status": "queue",
       "job_quality_reasons": [
-        "eligibility must be verified"
+        "eligibility must be verified",
+        "required diploma below Bac+3 is not verified"
       ],
       "job_hard_gate_passed": false,
       "job_hard_gate_reasons": [
-        "eligibility must be verified"
+        "eligibility must be verified",
+        "required diploma below Bac+3 is not verified"
       ],
       "labels": [
         "jobs",
@@ -70587,17 +70589,18 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "c40891e58a36a33d977e",
+      "job_campaign_id": "7dbec6fc497ee9130c33",
       "seo_slug": "unicef-consultancy-to-provide-technical-support-to-advance",
       "desired_slug": "unicef-consultancy-to-provide-technical-support-to-advance",
-      "job_quality_wait_fingerprint": "e376992490dc4248",
-      "job_quality_wait_count": 4,
+      "job_quality_wait_fingerprint": "48a4a57e3e6e653e",
+      "job_quality_wait_count": 1,
       "candidate_failure_stage": "quality-evidence",
-      "candidate_failure_reason": "eligibility must be verified",
-      "candidate_failure_fingerprint": "e376992490dc4248",
-      "candidate_failure_repeat_count": 4,
-      "candidate_failure_backoff_minutes": 80,
-      "candidate_failed_at": "2026-10-09T09:52:31+00:00"
+      "candidate_failure_reason": "eligibility must be verified; required diploma below Bac+3 is not verified",
+      "candidate_failure_fingerprint": "48a4a57e3e6e653e",
+      "candidate_failure_repeat_count": 1,
+      "candidate_failure_backoff_minutes": 10,
+      "candidate_failed_at": "2026-10-09T11:26:50+00:00",
+      "candidate_retry_after": "2026-10-09T11:36:50+00:00"
     },
     {
       "id": "89066272e7daec85",
@@ -73432,11 +73435,13 @@
       "job_rank_score": 100,
       "job_quality_status": "queue",
       "job_quality_reasons": [
-        "eligibility must be verified"
+        "eligibility must be verified",
+        "required diploma below Bac+3 is not verified"
       ],
       "job_hard_gate_passed": false,
       "job_hard_gate_reasons": [
-        "eligibility must be verified"
+        "eligibility must be verified",
+        "required diploma below Bac+3 is not verified"
       ],
       "labels": [
         "jobs",
@@ -73450,17 +73455,18 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "ee634fcd834afff5268f",
+      "job_campaign_id": "4eaf60bd22b45f00ae28",
       "seo_slug": "unicef-supply-logistics-officer-no-ft-brazzaville-congo",
       "desired_slug": "unicef-supply-logistics-officer-no-ft-brazzaville-congo",
-      "job_quality_wait_fingerprint": "e376992490dc4248",
-      "job_quality_wait_count": 3,
+      "job_quality_wait_fingerprint": "48a4a57e3e6e653e",
+      "job_quality_wait_count": 1,
       "candidate_failure_stage": "quality-evidence",
-      "candidate_failure_reason": "eligibility must be verified",
-      "candidate_failure_fingerprint": "e376992490dc4248",
-      "candidate_failure_repeat_count": 3,
-      "candidate_failure_backoff_minutes": 40,
-      "candidate_failed_at": "2026-10-09T10:33:54+00:00"
+      "candidate_failure_reason": "eligibility must be verified; required diploma below Bac+3 is not verified",
+      "candidate_failure_fingerprint": "48a4a57e3e6e653e",
+      "candidate_failure_repeat_count": 1,
+      "candidate_failure_backoff_minutes": 10,
+      "candidate_failed_at": "2026-10-09T11:26:50+00:00",
+      "candidate_retry_after": "2026-10-09T11:36:50+00:00"
     },
     {
       "id": "679fe4d645f864c2",
@@ -75693,10 +75699,14 @@
       "content_fetch_status": "success",
       "job_score": 70,
       "job_rank_score": 70,
-      "job_quality_status": "publish",
-      "job_quality_reasons": [],
-      "job_hard_gate_passed": true,
-      "job_hard_gate_reasons": [],
+      "job_quality_status": "queue",
+      "job_quality_reasons": [
+        "required diploma below Bac+3 is not verified"
+      ],
+      "job_hard_gate_passed": false,
+      "job_hard_gate_reasons": [
+        "required diploma below Bac+3 is not verified"
+      ],
       "labels": [
         "jobs",
         "jobs-morocco"
@@ -75709,7 +75719,7 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "84a358bc4435f6ecf3d1",
+      "job_campaign_id": "83989f188ea366a3dd53",
       "seo_slug": "alwkala-alwtnya-llmwany-mbaryat-altwzyf-atar-fy-tdbyr",
       "desired_slug": "alwkala-alwtnya-llmwany-mbaryat-altwzyf-atar-fy-tdbyr",
       "job_identity_final": false,
@@ -76121,7 +76131,16 @@
       "ai_failure_fingerprint": "5536f2970a79bc5a87a5",
       "ai_failure_category": "timeout",
       "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 4
+      "ai_quality_attempts": 4,
+      "job_quality_wait_fingerprint": "556d395ef50b82da",
+      "job_quality_wait_count": 1,
+      "candidate_failure_stage": "quality-evidence",
+      "candidate_failure_reason": "required diploma below Bac+3 is not verified",
+      "candidate_failure_fingerprint": "556d395ef50b82da",
+      "candidate_failure_repeat_count": 1,
+      "candidate_failure_backoff_minutes": 10,
+      "candidate_failed_at": "2026-10-09T11:26:50+00:00",
+      "candidate_retry_after": "2026-10-09T11:36:50+00:00"
     },
     {
       "id": "e1f1d8333be1cecd",
@@ -76166,14 +76185,14 @@
       "job_number_of_positions": 1,
       "discovered_at": "2026-10-09T11:13:32",
       "status": "ready",
-      "score": 10,
+      "score": 70,
       "priority": "high",
       "source_links_removed_count": 71,
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 71,
       "fetched_title": "مباريات التوظيف : تقني متعدد الاختصاصات",
       "meta_description": "",
-      "identity_evidence_invalidated_at": "2026-10-09T11:25:43+00:00",
+      "identity_evidence_invalidated_at": "2026-10-09T11:26:50+00:00",
       "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
       "source_tables": [],
       "source_tables_count": 0,
@@ -76253,12 +76272,44 @@
       "full_article_text_chars": 541,
       "content_preview": "خيارات الوصول المرئي الإدارة المنظمة الشركة الوطنية لإنجاز وتدبير المنشآت الرياضية آخر أجل لإيداع الترشيحات 23 أكتوبر 2026 - 16:00 تاريخ النشر 9 أكتوبر 2026 معلومات عن المباراة اسم المنصب : تقني متعدد الاختصاصات الإقليم : جهة طنجة - تطوان - الحسيمة (1 منصب) نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://sonarges.ma/ هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
       "content_preview_chars": 541,
-      "content_fetched_at": "2026-10-09T11:25:43",
+      "content_fetched_at": "2026-10-09T11:26:50",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
-      "job_link_binding_repaired_at": "2026-10-09T11:25:33",
-      "job_quality_status": "",
-      "job_quality_reasons": []
+      "job_link_binding_repaired_at": "2026-10-09T11:26:41",
+      "job_quality_status": "queue",
+      "job_quality_reasons": [
+        "required diploma below Bac+3 is not verified"
+      ],
+      "job_score": 70,
+      "job_rank_score": 70,
+      "job_hard_gate_passed": false,
+      "job_hard_gate_reasons": [
+        "required diploma below Bac+3 is not verified"
+      ],
+      "labels": [
+        "jobs",
+        "jobs-morocco"
+      ],
+      "job_urgency": {
+        "level": "normal",
+        "publish_immediately": false,
+        "allow_daily_override": false,
+        "reason": ""
+      },
+      "job_identity_action": "new_campaign",
+      "job_identity_reason": "different external reference",
+      "job_campaign_id": "78730bcfdd8aacf2f9c5",
+      "seo_slug": "alshrka-alwtnya-lanjaz-wtdbyr-almnshat-alryadya-mbaryat-altwzyf",
+      "desired_slug": "alshrka-alwtnya-lanjaz-wtdbyr-almnshat-alryadya-mbaryat-altwzyf",
+      "job_quality_wait_fingerprint": "556d395ef50b82da",
+      "job_quality_wait_count": 1,
+      "candidate_failure_stage": "quality-evidence",
+      "candidate_failure_reason": "required diploma below Bac+3 is not verified",
+      "candidate_failure_fingerprint": "556d395ef50b82da",
+      "candidate_failure_repeat_count": 1,
+      "candidate_failure_backoff_minutes": 10,
+      "candidate_failed_at": "2026-10-09T11:26:50+00:00",
+      "candidate_retry_after": "2026-10-09T11:36:50+00:00"
     }
   ],
   "notifications": {}
