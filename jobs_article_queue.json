@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-09T11:48:26",
+  "updated_at": "2026-10-09T11:50:24",
   "articles": [
     {
       "id": "876860ea6b906dec",
@@ -71373,18 +71373,18 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "eb8d68673d2a67007c04",
+      "job_campaign_id": "78c01f451df427ed180d",
       "seo_slug": "unicef-innovation-data-and-product-consultant-office-of",
       "desired_slug": "unicef-innovation-data-and-product-consultant-office-of",
       "job_quality_wait_fingerprint": "1141f2f76869c01b",
-      "job_quality_wait_count": 1,
+      "job_quality_wait_count": 2,
       "candidate_failure_stage": "quality-evidence",
       "candidate_failure_reason": "eligibility must be verified; required diploma below Bac+3 is not verified; retired source is not approved for publishing",
       "candidate_failure_fingerprint": "1141f2f76869c01b",
-      "candidate_failure_repeat_count": 1,
-      "candidate_failure_backoff_minutes": 10,
-      "candidate_failed_at": "2026-10-09T11:40:20+00:00",
-      "candidate_retry_after": "2026-10-09T11:50:20+00:00"
+      "candidate_failure_repeat_count": 2,
+      "candidate_failure_backoff_minutes": 20,
+      "candidate_failed_at": "2026-10-09T11:50:24+00:00",
+      "candidate_retry_after": "2026-10-09T12:10:24+00:00"
     },
     {
       "id": "fbc625e092252655",
@@ -76570,9 +76570,9 @@
       "full_article_text_chars": 534,
       "content_preview": "خيارات الوصول المرئي مكلف(ة) بالأمن التشغيلي لنظم المعلومات الإدارة المنظمة الهيئة المغربية لسوق الرساميل آخر أجل لإيداع الترشيحات 23 أكتوبر 2026 تاريخ النشر 9 أكتوبر 2026 معلومات عن المباراة اسم المنصب : مكلف(ة) بالأمن التشغيلي لنظم المعلومات نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://recrutement.ammc.ma هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
       "content_preview_chars": 534,
-      "content_fetched_at": "2026-10-09T11:40:19",
+      "content_fetched_at": "2026-10-09T11:50:24",
       "enrichment_status": "weak",
-      "content_fetch_status": "success",
+      "content_fetch_status": "failed",
       "job_score": 70,
       "job_rank_score": 70,
       "job_quality_status": "",
@@ -76599,14 +76599,17 @@
       "desired_slug": "alhyya-almghrbya-lswq-alrsamyl-mbaryat-altwzyf-mklf-a",
       "job_quality_wait_fingerprint": "6b8101e7d598bee0",
       "job_quality_wait_count": 1,
-      "candidate_failure_stage": "quality-evidence",
-      "candidate_failure_reason": "application URL is not the direct form/action; required diploma below Bac+3 is not verified",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))",
       "candidate_failure_fingerprint": "6b8101e7d598bee0",
       "candidate_failure_repeat_count": 1,
       "candidate_failure_backoff_minutes": 10,
-      "candidate_failed_at": "2026-10-09T11:40:20+00:00",
-      "candidate_retry_after": "2026-10-09T11:50:20+00:00",
-      "job_link_binding_repaired_at": "2026-10-09T11:41:03"
+      "candidate_failed_at": "2026-10-09T11:50:24",
+      "job_link_binding_repaired_at": "2026-10-09T11:41:03",
+      "content_fetch_error": "('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))",
+      "candidate_retry_after": "2026-10-09T12:05:24Z",
+      "candidate_failure_count": 1,
+      "candidate_retry_backoff_minutes": 15
     }
   ],
   "notifications": {}
