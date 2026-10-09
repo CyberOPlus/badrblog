@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-10-09T15:10:11.592914+00:00",
+  "updated_at": "2026-10-09T15:12:14.081187+00:00",
   "state": "no_verified_candidate",
   "action": "Hourly target missed: fresh ready queue items exist, but none has completed all publication verification gates.",
   "hourly_target_met": false,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-09T10:54:04",
   "last_facebook_post_id": "103026497833721_1091452636583134",
-  "minutes_since_facebook": 256.1,
+  "minutes_since_facebook": 258.2,
   "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00",
-  "fresh_candidate_count": 5,
+  "fresh_candidate_count": 6,
   "verified_ready_candidate_count": 0,
-  "unverified_ready_candidate_count": 5,
+  "unverified_ready_candidate_count": 6,
   "facebook_pending_count": 0,
   "oldest_facebook_pending_minutes": 0,
   "oldest_ready_candidate_minutes": 0,
@@ -59,28 +59,9 @@
       "action": "At least one provider generated a response."
     },
     "sources": {
-      "status": "warning",
-      "active_issues": [
-        {
-          "source_name": "Emploi-Public — collectivités territoriales",
-          "failure_count": 1,
-          "category": "network_timeout",
-          "retry_after": "2026-10-09T15:10:48Z"
-        },
-        {
-          "source_name": "Emploi-Public — services de l'État",
-          "failure_count": 1,
-          "category": "network_timeout",
-          "retry_after": "2026-10-09T15:10:48Z"
-        },
-        {
-          "source_name": "Emploi-Public — établissements publics",
-          "failure_count": 1,
-          "category": "network_timeout",
-          "retry_after": "2026-10-09T15:10:48Z"
-        }
-      ],
-      "action": "One or more sources are cooling down after transient fetch failures."
+      "status": "ok",
+      "active_issues": [],
+      "action": "No active source cooldowns are currently blocking discovery."
     }
   },
   "services_checked_at": "2026-10-09T14:27:30.736413+00:00"
