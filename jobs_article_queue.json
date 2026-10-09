@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-09T11:03:42",
+  "updated_at": "2026-10-09T11:04:33",
   "articles": [
     {
       "id": "876860ea6b906dec",
@@ -72811,18 +72811,18 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "9d0566be8397d4e0812a",
+      "job_campaign_id": "0b9ea5885d0f29a24cf2",
       "seo_slug": "unicef-international-digital-education-consultancy-home-based-with",
       "desired_slug": "unicef-international-digital-education-consultancy-home-based-with",
       "job_quality_wait_fingerprint": "e376992490dc4248",
-      "job_quality_wait_count": 3,
+      "job_quality_wait_count": 4,
       "candidate_failure_stage": "quality-evidence",
       "candidate_failure_reason": "eligibility must be verified",
       "candidate_failure_fingerprint": "e376992490dc4248",
-      "candidate_failure_repeat_count": 3,
-      "candidate_failure_backoff_minutes": 40,
-      "candidate_failed_at": "2026-10-09T10:23:51+00:00",
-      "candidate_retry_after": "2026-10-09T11:03:51+00:00"
+      "candidate_failure_repeat_count": 4,
+      "candidate_failure_backoff_minutes": 80,
+      "candidate_failed_at": "2026-10-09T11:04:32+00:00",
+      "candidate_retry_after": "2026-10-09T12:24:32+00:00"
     },
     {
       "id": "203e8d6560e7863a",
@@ -75711,13 +75711,13 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "07c626975a1d8170ff93",
+      "job_campaign_id": "f18a04053c62eee6391b",
       "seo_slug": "alwkala-alwtnya-llmwany-mbaryat-altwzyf-atar-fy-tdbyr",
       "desired_slug": "alwkala-alwtnya-llmwany-mbaryat-altwzyf-atar-fy-tdbyr",
       "job_identity_final": false,
       "job_urgent_override": false,
       "job_publish_immediately": false,
-      "selected_at": "2026-10-09T11:02:48",
+      "selected_at": "2026-10-09T11:04:32",
       "selection_reason": "jobs quality 70/100; identity=new; urgency=normal",
       "job_document_texts": [
         {
@@ -75746,7 +75746,7 @@
       "identity_evidence_tables_checked": true,
       "identity_evidence_documents_checked": true,
       "identity_evidence_stage_status": "complete",
-      "identity_evidence_stage_checked_at": "2026-10-09T11:03:03+00:00",
+      "identity_evidence_stage_checked_at": "2026-10-09T11:04:32+00:00",
       "identity_evidence_signature": "12372e86e6312b7fc8609c60",
       "identity_evidence_strength": 10,
       "identity_evidence_comparison_strength": 5,
@@ -75880,7 +75880,7 @@
         }
       },
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-10-09T11:03:03",
+      "processing_prepared_at": "2026-10-09T11:04:32",
       "ai_input_package": {
         "title": "مباريات التوظيف : اطار في تدبير الاملاك العقارية",
         "url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/5a042223-f9d3-48d8-9048-bd2924b93288",
@@ -76111,19 +76111,19 @@
       },
       "ai_quality_last_error": "duplicate job link found in final HTML",
       "ai_quality_repairs_used": 1,
-      "ai_provider_last_error": "mistral provider failed: mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_c",
+      "ai_provider_last_error": "openrouter candidates are cooling down",
       "ai_status": "failed",
-      "ai_error": "mistral provider failed: mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
+      "ai_error": "openrouter candidates are cooling down",
       "ai_retry_pending": true,
-      "ai_retry_reason": "mistral provider failed: mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_c",
+      "ai_retry_reason": "openrouter candidates are cooling down",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 37.97,
+      "ai_total_time_seconds": 0.0,
       "ai_failure_scope": "global_outage",
-      "ai_failure_fingerprint": "c265fd8cf1cd8b0b0d01",
-      "ai_failure_category": "quota",
+      "ai_failure_fingerprint": "82ce5d050ecd9659a30b",
+      "ai_failure_category": "cooldown",
       "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 5
+      "ai_quality_attempts": 1
     }
   ],
   "notifications": {}
