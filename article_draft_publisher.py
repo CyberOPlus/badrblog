@@ -360,7 +360,10 @@ def _job_permalink_stem(url):
 def _reject_numeric_new_job_permalink(service, post, article):
     url = str((post or {}).get("url") or "").strip()
     stem = _job_permalink_stem(url)
-    if not stem or not re.search(r"\d", stem):
+    # Blogger chooses its own permalink from the initial insert title. Never
+    # allow Arabic, percent-encoded Arabic, digits, or mixed-script filenames
+    # for a NEW live Jobs article. Existing published URLs are not renamed.
+    if not stem or re.fullmatch(r"[a-z]+(?:-[a-z]+)*", stem):
         return
 
     article["blogger_numeric_permalink_rejected"] = url
@@ -388,12 +391,12 @@ def _reject_numeric_new_job_permalink(service, post, article):
     )
     if delete_error:
         raise RuntimeError(
-            "Blogger generated a numeric Jobs permalink and cleanup failed; "
+            "Blogger generated a non-English Jobs permalink and cleanup failed; "
             "the remote post identity was preserved for reconciliation: "
             + delete_error
         )
     raise RuntimeError(
-        "Blogger generated a numeric Jobs permalink; it was deleted and will retry "
+        "Blogger generated a non-English Jobs permalink; it was deleted and will retry "
         "with a new alphabetic permalink seed."
     )
 
