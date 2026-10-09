@@ -263,6 +263,16 @@ def _job_facebook_expired(article, now=None):
     return classify_urgency(article, now=now).get("level") == "expired"
 
 
+def _facebook_urgent_now(article, now=None):
+    """Fresh urgency at send time; publication-time flags go stale in the queue."""
+    if not isinstance(article, dict):
+        return False
+    if not job_publication_policy(article, now=now)["passed"]:
+        return False
+    return bool(classify_urgency(article, now=now).get("publish_immediately"))
+
+
+
 def _mark_facebook_pending(article, now=None, reason="published_to_blogger"):
     if not _has_blogger_live_publish(article) or article.get('facebook_post_id'):
         return False
@@ -1853,7 +1863,7 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
 
     if respect_limits:
         limits = get_facebook_limits_status(
-            urgent=bool(JOBS_MODE and article.get("job_publish_immediately"))
+            urgent=bool(JOBS_MODE and _facebook_urgent_now(article))
         )
         if not limits["allowed_now"]:
             return _deferred_result(
@@ -2544,7 +2554,7 @@ def drain_scheduled_facebook():
                 save_article_queue(queue)
                 stats["expired"] += 1
             continue
-        limits = get_facebook_limits_status(urgent=bool(JOBS_MODE and article.get("job_publish_immediately")))
+        limits = get_facebook_limits_status(urgent=bool(JOBS_MODE and _facebook_urgent_now(article)))
         if not limits["allowed_now"]:
             stats["skipped"] += 1
             continue
@@ -2606,7 +2616,7 @@ def backfill_facebook_posts():
                 stats["expired"] += 1
             continue
         limits = get_facebook_limits_status(
-            urgent=bool(JOBS_MODE and article.get("job_publish_immediately"))
+            urgent=bool(JOBS_MODE and _facebook_urgent_now(article))
         )
         if not limits.get("allowed_now"):
             stats["skipped"] += 1
