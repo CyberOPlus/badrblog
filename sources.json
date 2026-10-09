@@ -88,7 +88,7 @@
         },
         {
           "name": "Emploi-Public — collectivités territoriales",
-          "base_url": "https://www.emploi-public.ma/fr/concours-liste?corps=0&procedure=0&region=0&stat=collec",
+          "base_url": "https://www.emploi-public.ma/ar/%D9%82%D8%A7%D8%A6%D9%85%D8%A9-%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA?corps=0&procedure=avis&region=0&stat=collec",
           "enabled": false,
           "fetch_limit_per_run": 6,
           "extractor_type": "emploi_public",
@@ -97,8 +97,8 @@
           "source_country": "MA",
           "source_eligibility": "morocco",
           "strict_source_path": true,
-          "verification_state": "pending_runner_scraper_smoke_test",
-          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient.",
+          "verification_state": "live_official_listing_confirmed_runner_smoke_pending",
+          "source_note": "Official Arabic list of new local-government competitions (announcements only); confirmed live via web 2026-10-09. Kept disabled pending GitHub-runner detail/official PDF application smoke verification.",
           "required_apply_mode": "direct_job_specific_application_without_account"
         },
         {
