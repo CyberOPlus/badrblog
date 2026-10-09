@@ -51,6 +51,7 @@ def _latest_posts(now, queue_articles=None, campaign_records=None):
             found[post_id] = {
                 "post_id": post_id, "published_at": posted.astimezone(timezone.utc).isoformat(),
                 "source": str(record.get("source_name") or "")[:90],
+                "own_comment_recorded": bool(record.get("facebook_comment_id")),
             }
     for article in queue_articles or []:
         if not isinstance(article, dict):
@@ -61,6 +62,10 @@ def _latest_posts(now, queue_articles=None, campaign_records=None):
             found[post_id] = {
                 "post_id": post_id, "published_at": posted.astimezone(timezone.utc).isoformat(),
                 "source": str(article.get("source_name") or "")[:90],
+                "own_comment_recorded": bool(
+                    article.get("facebook_comment_id")
+                    or found.get(post_id, {}).get("own_comment_recorded")
+                ),
             }
     relevant = []
     for row in found.values():
@@ -104,6 +109,21 @@ def _observation(row, payload, now):
     ):
         engagement["shares"] = 0
     available = [value for value in engagement.values() if value is not None]
+    # CyberOPlus posts its own Blogger link as the first comment. Facebook
+    # includes that Page-authored comment in comments.summary.total_count.
+    # Never mistake our automated CTA for an audience interaction.
+    own_comment_recorded = bool(row.get("own_comment_recorded"))
+    comments = engagement["comments"]
+    audience_comments = (
+        max(0, comments - int(own_comment_recorded))
+        if comments is not None
+        else None
+    )
+    audience_interactions = (
+        engagement["reactions"] + audience_comments + engagement["shares"]
+        if len(available) == 3
+        else None
+    )
     return {
         **row,
         "checked_at": now.isoformat(),
@@ -112,20 +132,31 @@ def _observation(row, payload, now):
         "local_date": local.date().isoformat(),
         **engagement,
         "interactions_available": len(available),
-        "interactions_observed": sum(available) if len(available) == 3 else None,
-        "warning": "Counts are post interactions, not reach, link clicks, or applications.",
+        "audience_comments": audience_comments,
+        "interactions_observed": audience_interactions,
+        "metrics_version": 2,
+        "warning": "Page-authored first comment excluded; not reach, clicks, or applications.",
     }
 
 
-def summarize_performance(posts, min_samples=3):
-    """Meaningful timing comparison only after repeated observed posts per bucket."""
+def summarize_performance(posts, min_samples=3, now=None):
+    """Use only mature, corrected samples from multiple days per window."""
+    current = _utc(now)
     buckets = {}
     for post in posts.values():
-        if not isinstance(post, dict) or post.get("interactions_observed") is None:
+        if not isinstance(post, dict) or post.get("metrics_version") != 2:
+            continue
+        if post.get("interactions_observed") is None:
+            continue
+        published = _parse_date(post.get("published_at"))
+        if not published or current - published < timedelta(hours=24):
             continue
         try:
             hour = int(post.get("local_hour"))
         except (ValueError, TypeError):
+            continue
+        date = str(post.get("local_date") or "").strip()
+        if not date:
             continue
         if hour < 8:
             window = "overnight"
@@ -135,12 +166,17 @@ def summarize_performance(posts, min_samples=3):
             window = "midday"
         else:
             window = "evening"
-        group = buckets.setdefault(window, [])
-        group.append(int(post["interactions_observed"]))
+        buckets.setdefault(window, []).append((date, int(post["interactions_observed"])))
     return {
-        name: {"samples": len(values), "average_interactions": round(sum(values) / len(values), 1)}
+        name: {
+            "samples": len(values),
+            "days": len({date for date, _ in values}),
+            "average_audience_interactions": round(
+                sum(number for _, number in values) / len(values), 1
+            ),
+        }
         for name, values in sorted(buckets.items())
-        if len(values) >= min_samples
+        if len(values) >= min_samples and len({date for date, _ in values}) >= 2
     }
 
 
@@ -151,6 +187,13 @@ def collect_facebook_performance(now=None, queue_articles=None, campaign_records
     if not str(token or "").strip():
         return {"checked": 0, "status": "no_facebook_token"}
     state = _load(state_path)
+    if int(state.get("version") or 0) < 2:
+        # Old snapshots count the bot's own link comment as engagement.
+        # Drop the misleading summary immediately, without additional API
+        # calls, and replace it once real audience samples have matured.
+        state["version"] = 2
+        state["windows"] = {}
+        atomic_write_json(state_path, state)
     previous = _parse_date(state.get("last_attempt_at"))
     if previous and now - previous < timedelta(hours=GLOBAL_RECHECK_HOURS):
         return {"checked": 0, "status": "cooldown", "next_attempt_at": (previous + timedelta(hours=GLOBAL_RECHECK_HOURS)).isoformat()}
@@ -211,11 +254,11 @@ def collect_facebook_performance(now=None, queue_articles=None, campaign_records
         and (_parse_date(row.get("published_at")) or datetime(1970, 1, 1, tzinfo=timezone.utc)) >= cutoff
     }
     outcome = {
-        "version": 1,
+        "version": 2,
         "last_attempt_at": now.isoformat(),
         "last_success_at": now.isoformat() if success else state.get("last_success_at", ""),
         "posts": posts,
-        "windows": summarize_performance(posts),
+        "windows": summarize_performance(posts, now=now),
         "note": "Observed post reactions/comments/shares; no reach, clicks, or job applications inferred.",
     }
     atomic_write_json(state_path, outcome)
@@ -236,9 +279,9 @@ def main():
             file.write("\n### Facebook performance feedback\n")
             file.write(f"- Read-only result: {results.get('status')}\n")
             file.write(f"- Post metrics checked: {results.get('checked', 0)}; verified samples: {results.get('succeeded', 0)}\n")
-            file.write("- The experiment does not infer reach, clicks, or job applications from engagement totals.\n")
+            file.write("- The experiment excludes the bot's own link comment and does not infer reach, clicks or applications.\n")
             for window, metrics in results.get("window_samples", {}).items():
-                file.write(f"- {window}: {metrics['samples']} posts, mean {metrics['average_interactions']} observed interactions\n")
+                file.write(f"- {window}: {metrics['samples']} posts, mean {metrics['average_audience_interactions']} observed interactions\n")
 
 
 if __name__ == "__main__":
