@@ -343,6 +343,8 @@ class JobsRuntimeTests(unittest.TestCase):
 
     def test_publish_blocks_while_official_pdf_pages_are_pending(self):
         article = {
+            "job_deadline": "2099-01-01",
+            "job_diploma": "Bac+2",
             "job_document_render_status": "document_render_retry",
             "job_document_links": [
                 {"url": "https://example.gov.ma/notice.pdf", "kind": "document"}
@@ -2181,7 +2183,9 @@ class JobsRuntimeTests(unittest.TestCase):
             stats = facebook.drain_scheduled_facebook()
 
         self.assertEqual(stats["recovered"], 1)
-        self.assertEqual(stats["pending"], 1)
+        # Legacy recovered records without a verified deadline and diploma must
+        # remain in storage but never be eligible for a NEW social publication.
+        self.assertEqual(stats["pending"], 0)
         self.assertEqual(stats["skipped"], 1)
         self.assertTrue(stats["configuration_missing"])
         self.assertEqual(queue["articles"][0]["facebook_status"], "facebook_pending")
@@ -4390,6 +4394,8 @@ class JobsRuntimeTests(unittest.TestCase):
 
     def test_required_cover_quality_failure_waits_for_renderer_without_ai_retry(self):
         article = {
+            "job_deadline": "2099-01-01",
+            "job_diploma": "Bac+2",
             "id": "visual-quality-only",
             "url": "https://example.com/jobs/visual-quality",
             "status": "selected",
@@ -5719,6 +5725,8 @@ class JobsRuntimeTests(unittest.TestCase):
 
     def test_retry_ready_failed_job_becomes_immediately_eligible_pending(self):
         article = {
+            "job_deadline": "2099-01-01",
+            "job_diploma": "Bac+2",
             "id": "renderer-retry",
             "status": "published",
             "publish_status": "published",
