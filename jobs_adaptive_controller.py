@@ -14,7 +14,7 @@ from config import (
 
 BASE_DIR = Path(__file__).resolve().parent
 STATE_PATH = BASE_DIR / "data" / "jobs_adaptive_state.json"
-CAP_STAGES = (24, 26, 28, 30, 32, 32)
+CAP_STAGES = (8, 9, 10, 11, 12, 12)
 GREEN_THRESHOLDS = (0, 2, 4, 7, 10, 14)
 HISTORY_DAYS = 120
 
