@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-09T12:03:11",
+  "updated_at": "2026-10-09T12:05:37",
   "articles": [
     {
       "id": "876860ea6b906dec",
@@ -76662,7 +76662,7 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-09T11:40:16",
-      "status": "ready",
+      "status": "skipped",
       "score": 70,
       "priority": "high",
       "source_links_removed_count": 69,
@@ -76670,7 +76670,7 @@
       "removed_source_links_count": 69,
       "fetched_title": "مباريات التوظيف : مكلف(ة) بالأمن التشغيلي لنظم المعلومات",
       "meta_description": "",
-      "identity_evidence_invalidated_at": "2026-10-09T11:40:19+00:00",
+      "identity_evidence_invalidated_at": "2026-10-09T12:05:35+00:00",
       "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
       "source_tables": [],
       "source_tables_count": 0,
@@ -76689,6 +76689,12 @@
           "label": "قرار فتح المباراة",
           "kind": "document",
           "context": ""
+        },
+        {
+          "url": "https://recrutement.ammc.ma",
+          "label": "منصة الترشيح الرسمية",
+          "kind": "apply",
+          "context": "موقع الإيداع : https://recrutement.ammc.ma"
         }
       ],
       "job_document_links": [
@@ -76720,16 +76726,19 @@
       "full_article_text_chars": 534,
       "content_preview": "خيارات الوصول المرئي مكلف(ة) بالأمن التشغيلي لنظم المعلومات الإدارة المنظمة الهيئة المغربية لسوق الرساميل آخر أجل لإيداع الترشيحات 23 أكتوبر 2026 تاريخ النشر 9 أكتوبر 2026 معلومات عن المباراة اسم المنصب : مكلف(ة) بالأمن التشغيلي لنظم المعلومات نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://recrutement.ammc.ma هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
       "content_preview_chars": 534,
-      "content_fetched_at": "2026-10-09T11:50:24",
+      "content_fetched_at": "2026-10-09T12:05:35",
       "enrichment_status": "weak",
-      "content_fetch_status": "failed",
+      "content_fetch_status": "success",
       "job_score": 70,
       "job_rank_score": 70,
-      "job_quality_status": "",
-      "job_quality_reasons": [],
+      "job_quality_status": "reject",
+      "job_quality_reasons": [
+        "required diploma is Bac+3 or higher",
+        "application URL is not the direct form/action"
+      ],
       "job_hard_gate_passed": false,
       "job_hard_gate_reasons": [
-        "required diploma below Bac+3 is not verified",
+        "required diploma is Bac+3 or higher",
         "application URL is not the direct form/action"
       ],
       "labels": [
@@ -76744,7 +76753,7 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "77e1213539946b5a2d1d",
+      "job_campaign_id": "0f62378d4c0c01043ac3",
       "seo_slug": "alhyya-almghrbya-lswq-alrsamyl-mbaryat-altwzyf-mklf-a",
       "desired_slug": "alhyya-almghrbya-lswq-alrsamyl-mbaryat-altwzyf-mklf-a",
       "job_quality_wait_fingerprint": "6b8101e7d598bee0",
@@ -76756,10 +76765,48 @@
       "candidate_failure_backoff_minutes": 10,
       "candidate_failed_at": "2026-10-09T11:50:24",
       "job_link_binding_repaired_at": "2026-10-09T11:41:03",
-      "content_fetch_error": "('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))",
-      "candidate_retry_after": "2026-10-09T12:05:24Z",
       "candidate_failure_count": 1,
-      "candidate_retry_backoff_minutes": 15
+      "candidate_retry_backoff_minutes": 15,
+      "job_document_texts": [
+        {
+          "document_url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/f9319c19-8199-4e8f-bec8-718831a32a15",
+          "document_label": "قرار فتح المباراة",
+          "page_number": 1,
+          "page_count": 1,
+          "text": "APPEL À CANDIDATURE POUR LE RECRUTEMENT D’UN(E)\nCHARGÉ(E) DE LA SÉCURITÉ OPÉRATIONNELLE SI\nREF / OE-CSOSI-091026\nL’Autorité Marocaine du Marché des Capitaux (AMMC) lance un appel à candidature pour pourvoir au poste de Chargé de la\nSécurité Opérationnelle SI, basé à Rabat.\nPrincipales missions :\nRattaché(e) au Chef de Service Infrastructure et Exploitation SI au sein de la Direction Transformation Digitale, Organisation\net Data, il/elle aura les principales missions suivantes :\n Analyser et traiter les incidents/alertes de sécurité SI en collaboration avec les différentes parties prenantes ;\n Suivre les correctifs de sécurité et des vulnérabilités impactant les systèmes d’information de l’Autorité ;\n Assurer la gestion des activités relatives à la sécurité opérationnelledu système d’information de l’Autorité ;\n Participer à la mise en œuvre du Plan de Secours Informatique et à la gestion du Site de Secours Informatique ;\n Participer au choix, à la conception et à la mise en œuvre des plateformes et des solutions de sécurité SI, conformément aux\nstandards et aux bonnes pratiques ;\n Assurer l’administration, la supervision et le maintien des plateformes et des solutions de sécurité SI ;\n Contribuer aux contrôles et aux audits de sécurité du système d’information de l’Autorité et suivre les actions correctives issues\nde ces audits ;\n Effectuer une revue régulière des mesures de sécurité implémentées pour s’assurer de leur conformité aux politiques de sécurité\nSI ;\n Elaborer et analyser les tableaux de bord de performance des plateformes de sécurité SI ;\n Participer à l’élaboration des politiques et des procédures de sécurité informatique et à leur mise en œuvre ;\n Assurer une veille continue en matière de sécurité informatique.\nProfil :\n Être de nationalité Marocaine ;\n Avoir un diplôme d’études supérieures (Bac+5) en sécurité des systèmes d’information, cybersécurité ou équivalent, délivré par un\nétablissement d’enseignement supérieur ;\n Justifier d’une expérience professionnelle d’au moins 2 ans dans le domaine de la sécurité des SI.\nDes certifications dans le domaine de la sécurité SI sont fortement recommandées.\nCompétences et qualités :\n Connaissance de l’activité de l’AMMC, de son environnement et de son cadre réglementaire ;\n Maitrise des solutions de sécurité SI (pare-feu réseau, pare-feu applicatif, NAC, PAM, antispam, antivirus, EDR) ;\n Bonne connaissance des concepts de sécurité SI ;\n Bonne connaissance de l’architecture des systèmes d’information, Cloud Computing, réseaux et télécoms, VPN, … ;\n Bonne connaissance de la réglementation et de la législation ;\n Bonnes capacités rédactionnelles ;\n Sens d'anticipation, de polyvalence, d’autonomie, de réactivité et de disponibilité ;\n Bonne capacité d’organisation et de suivi méthodique de son activité ;\n Aisance relationnelle et excellent esprit d’équipe ;\n Sens de veille technologique.\nLe candidat devra être bilingue (Français, Arabe), l’anglais est fortement souhaitable.\nDossier de candidature :\n Un curriculum vitae ;\n Une lettre de motivation.\nLes candidats intéressés par cette offre doivent renseigner leur candidature\nau plus tard le vendredi 23/10/2026\nPar le biais de la plateforme https://recrutement.ammc.ma\nAutorité Marocaine du Marché des Capitaux, Avenue Annakhil, Hay Riad - Rabat, Maroc\nTél : (+212) 05 37 68 89 00\nFax : (+212) 05 37 68 89 46\nwww.ammc.ma"
+        }
+      ],
+      "job_document_text_pages": 1,
+      "job_document_text_chars": 3403,
+      "job_document_text_download_failures": 0,
+      "job_document_text_read_complete": true,
+      "job_document_text_truncated": false,
+      "job_document_text_attempted_documents": 1,
+      "job_document_ocr_attempts": 0,
+      "job_document_ocr_pages": 0,
+      "job_document_ocr_failures": 0,
+      "job_document_ocr_unavailable": false,
+      "job_document_unread_pages": 0,
+      "identity_evidence_document_fingerprint": "https://emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/f9319c19-8199-4e8f-bec8-718831a32a15",
+      "job_notice_status": "",
+      "identity_evidence_detail_checked": true,
+      "identity_evidence_tables_checked": true,
+      "identity_evidence_documents_checked": true,
+      "identity_evidence_stage_status": "complete",
+      "identity_evidence_stage_checked_at": "2026-10-09T12:05:37+00:00",
+      "identity_evidence_signature": "cb63cd7d826857da0ecd2846",
+      "identity_evidence_strength": 9,
+      "identity_evidence_comparison_strength": 4,
+      "identity_evidence_categories": [
+        "reference",
+        "deadline",
+        "pdf_text",
+        "documents"
+      ],
+      "identity_evidence_reference": "f9319c19 8199 4e8f bec8 718831a32a15",
+      "identity_evidence_deadline": "2026-10-23",
+      "identity_evidence_positions": 0,
+      "skip_reason": "required diploma is Bac+3 or higher; application URL is not the direct form/action"
     }
   ],
   "notifications": {}

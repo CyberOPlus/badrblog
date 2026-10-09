@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-10-09T12:04:41.940791+00:00",
+  "updated_at": "2026-10-09T12:05:38.409295+00:00",
   "state": "no_verified_candidate",
   "action": "Hourly target missed: fresh ready queue items exist, but none has completed all publication verification gates.",
   "hourly_target_met": false,
   "target_minutes": 60,
   "last_facebook_posted_at": "2026-10-09T10:54:04",
   "last_facebook_post_id": "103026497833721_1091452636583134",
-  "minutes_since_facebook": 70.6,
+  "minutes_since_facebook": 71.6,
   "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00",
-  "fresh_candidate_count": 18,
+  "fresh_candidate_count": 17,
   "verified_ready_candidate_count": 0,
-  "unverified_ready_candidate_count": 18,
+  "unverified_ready_candidate_count": 17,
   "facebook_pending_count": 0,
   "oldest_facebook_pending_minutes": 0,
   "oldest_ready_candidate_minutes": 0,
@@ -59,16 +59,9 @@
       "action": "At least one provider generated a response."
     },
     "sources": {
-      "status": "warning",
-      "active_issues": [
-        {
-          "source_name": "Emploi-Public — établissements publics",
-          "failure_count": 2,
-          "category": "source_error",
-          "retry_after": "2026-10-09T12:05:24Z"
-        }
-      ],
-      "action": "One or more sources are cooling down after transient fetch failures."
+      "status": "ok",
+      "active_issues": [],
+      "action": "No active source cooldowns are currently blocking discovery."
     }
   },
   "services_checked_at": "2026-10-09T11:25:56.095658+00:00"
