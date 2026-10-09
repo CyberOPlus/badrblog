@@ -216,6 +216,9 @@ def collect_facebook_performance(now=None, queue_articles=None, campaign_records
 
 
 def main():
+    if os.getenv("JOBS_FACEBOOK_METRICS_ENABLED", "false").strip().casefold() not in {"1", "true", "yes", "on"}:
+        print('{"status":"disabled"}')
+        return
     results = collect_facebook_performance()
     print(json.dumps({k: v for k, v in results.items() if k != "posts"}, ensure_ascii=False))
     summary_path = os.getenv("GITHUB_STEP_SUMMARY")
