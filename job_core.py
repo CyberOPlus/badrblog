@@ -856,6 +856,115 @@ def job_deadline_time(article):
     return _parse_date(raw)
 
 
+
+# Publication policy: only vacancies with a verified, still-open application
+# deadline and evidence of a qualification strictly below Bac+3 may publish.
+_EDUCATION_LABEL = re.compile(
+    r"(?:dipl[oô]me|niveau\\s+d['’]?[eé]tudes|niveau\\s+scolaire|"
+    r"formation\\s+(?:requise|demand[eé]e)|profil\\s+(?:recherch[eé]|demand[eé])|"
+    r"qualification|education\\s+(?:required|level)|"
+    r"الشهادة|المؤهل|المستوى\\s+الدراسي|المستوى\\s+التعليمي|الدبلوم|"
+    r"شروط\\s+(?:الترشح|التوظيف)|الاجازة|الإجازة)",
+    re.IGNORECASE,
+)
+_EDUCATION_HIGH = re.compile(
+    r"\\bbac\\s*\\+\\s*(?:[3-9]|[1-9]\\d+)\\b|"
+    r"\\b(?:licence(?!\\s+de\\s+conduire\\b)|bachelor|master|"
+    r"mastere|maitrise|ingenieur|doctorat|doctorate|phd|mba|"
+    r"bac\\s*plus\\s*(?:trois|quatre|cinq))\\b|"
+    r"(?:الاجازة|الماستر|الدكتوراه|مهندس\\s+دولة|باك\\s*\\+\\s*[٣٤٥٦٧٨٩])",
+    re.IGNORECASE,
+)
+_EDUCATION_LOW = re.compile(
+    r"\\bbac\\s*\\+\\s*[012]\\b|\\bbac\\b(?!\\s*\\+)|"
+    r"\\b(?:baccalaureat|bts|dut|deug|deust|dts|cap|bep|"
+    r"technicien\\s+specialise|sans\\s+diplome|niveau\\s+secondaire)\\b|"
+    r"(?:بكالوريا|البكالوريا|مستوى\\s+(?:باك|الباك)|تقني\\s+متخصص|"
+    r"الثانوي|التأهيل\\s+المهني|التاهيل\\s+المهني|بدون\\s+شهادة|دون\\s+شهادة|"
+    r"باك\\s*\\+\\s*[٠١٢])",
+    re.IGNORECASE,
+)
+
+
+def _education_plain(text):
+    value = unicodedata.normalize("NFKD", str(text or "")).casefold()
+    return "".join(c for c in value if not unicodedata.combining(c))
+
+
+def job_qualification_evidence(article):
+    """Conservative source-grounded diploma evidence. Never infer from job title."""
+    direct = [
+        article.get(field)
+        for field in (
+            "job_diploma", "job_required_diploma", "job_education",
+            "job_required_education", "job_qualification",
+        )
+        if str(article.get(field) or "").strip()
+    ]
+    evidence = [str(value).strip()[:350] for value in direct]
+    # Only inspected job detail paragraphs with education labels; a generic
+    # Bac+2 mention in unrelated duties or a listing cannot establish eligibility.
+    for field in ("full_article_text", "job_description"):
+        body = str(article.get(field) or "")
+        for line in re.split(r"[\\n\\r]+|(?<=[.!?])\\s+", body):
+            if not _EDUCATION_LABEL.search(line):
+                continue
+            match = _EDUCATION_LABEL.search(line)
+            snippet = line[max(0, match.start() - 35):match.start() + 320]
+            if snippet and snippet not in evidence:
+                evidence.append(snippet)
+            if len(evidence) >= 15:
+                break
+    return evidence
+
+
+def job_qualification_policy(article):
+    """Return (state, evidence); pass only if source proves < Bac+3."""
+    evidence = job_qualification_evidence(article)
+    normalized = [_education_plain(value) for value in evidence]
+    # An explicit Bac+3+ requirement anywhere in the scoped evidence blocks
+    # mixed multi-position announcements, including Bac+2/Bac+5 listings.
+    for value, original in zip(normalized, evidence):
+        if _EDUCATION_HIGH.search(value):
+            return "above_limit", original
+    for value, original in zip(normalized, evidence):
+        if _EDUCATION_LOW.search(value):
+            return "below_bac3", original
+    return "unverified", ""
+
+
+def job_publication_policy(article, now=None):
+    """Independent fail-closed editorial gates for selection and Blogger writes."""
+    current = now or datetime.now(timezone.utc)
+    if current.tzinfo is None:
+        current = current.replace(tzinfo=timezone.utc)
+    else:
+        current = current.astimezone(timezone.utc)
+    reasons = []
+    raw_deadline = str(article.get("job_deadline") or "").strip()
+    deadline = job_deadline_time(article) if raw_deadline else None
+    if deadline is None:
+        reasons.append("application closing deadline is missing or invalid")
+    elif deadline <= current:
+        reasons.append("application registration deadline passed")
+    education, evidence = job_qualification_policy(article)
+    if education == "above_limit":
+        reasons.append("required diploma is Bac+3 or higher")
+    elif education != "below_bac3":
+        reasons.append("required diploma below Bac+3 is not verified")
+    return {
+        "passed": not reasons,
+        "reasons": reasons,
+        "deadline": raw_deadline if deadline else "",
+        "education": education,
+        "education_evidence": evidence,
+        "permanent_reject": bool(
+            (deadline is not None and deadline <= current)
+            or education == "above_limit"
+        ),
+    }
+
+
 def job_labels(article):
     labels = ["jobs"]
     eligibility = str(article.get("job_eligibility") or article.get("eligibility") or "").strip().lower()
@@ -949,6 +1058,8 @@ def score_job(article, now=None):
     expired = bool(notice_type in {"vacancy", "competition"} and deadline and deadline < now)
     if expired:
         reasons.append("deadline passed")
+    editorial_policy = job_publication_policy(article, now=now)
+    reasons.extend(editorial_policy["reasons"])
 
     # Ranking score is intentionally NOT a publication gate. A legitimate,
     # verified vacancy can score low simply because salary, diploma, location,
@@ -957,6 +1068,7 @@ def score_job(article, now=None):
     hard_gate_passed = not reasons
     permanent_hard_failure = bool(
         expired
+        or editorial_policy["permanent_reject"]
         or (freshness["verified"] and (freshness["future"] or not freshness["fresh"]))
         or not _public_http(source_url)
         or normalized_title in {
@@ -980,6 +1092,7 @@ def score_job(article, now=None):
         "publication_date_only": bool(freshness["date_only"]),
         "max_publish_age_hours": JOBS_MAX_PUBLISH_AGE_HOURS,
         "focus_priority": job_focus_priority(article),
+        "publication_policy": editorial_policy,
         "points": points,
         "reasons": reasons,
         # Kept for compatibility/diagnostics only. This threshold no longer
