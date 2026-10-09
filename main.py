@@ -24,6 +24,7 @@ from article_queue import (
     add_articles_to_queue,
     article_queue_storage_status,
     archive_expired_queue_articles,
+    archive_retired_source_jobs,
     archive_published_queue_article,
     repair_job_link_bindings,
     load_article_queue,
@@ -2060,6 +2061,21 @@ def run_safe_cycle_only():
         return {"completed": False, "reason": reason, "step_reached": "safety-check"}
 
 
+    # Previous sources were removed at the user's request. Quarantine their
+    # unpublished leftovers first so they do not consume retries or obscure
+    # the count of actually publishable approved-source jobs.
+    retired_cleanup_stats = _run_timed_jobs_stage(
+        "retired_source_cleanup",
+        stage_timings,
+        archive_retired_source_jobs,
+    )
+    if retired_cleanup_stats.get("retired_archived"):
+        print(
+            "Quarantined retired-source unpublished jobs: "
+            f"{retired_cleanup_stats['retired_archived']}",
+            flush=True,
+        )
+
     runtime_repair_stats = _run_timed_jobs_stage(
         "runtime_repair",
         stage_timings,
@@ -2271,6 +2287,8 @@ def run_safe_cycle_only():
             "job_official_pdf_preselection_recovered",
             checked=pdf_recovery.get("checked"),
             recovered=pdf_recovery.get("recovered"),
+            cached_rechecks=pdf_recovery.get("cached_rechecks"),
+            quality_cooldowns_released=pdf_recovery.get("quality_cooldowns_released"),
         )
 
     print("\n[4/7] plan-next --lock")
