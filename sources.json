@@ -9,7 +9,35 @@
     "morocco_timezone": "Africa/Casablanca",
     "deadline_required_for_every_new_job": true,
     "maximum_required_education": "strictly_below_bac_plus_3",
-    "unknown_education_or_deadline": "do_not_publish"
+    "unknown_education_or_deadline": "do_not_publish",
+    "application_link_policy": "direct_verified_job_specific_apply_form_only",
+    "registration_required": "reject_at_job_level",
+    "generic_search_login_listing_page": "never_publish",
+    "source_allowlist_mode": "only_requested_sources",
+    "retired_source_names": [
+      "ONCF Recrutement",
+      "ONDA Recrutement",
+      "Maroc Telecom",
+      "inwi",
+      "Capgemini Morocco",
+      "Crédit du Maroc",
+      "OCP Group",
+      "Orange Maroc",
+      "Orange Business Morocco",
+      "Attijariwafa bank",
+      "Autoroutes du Maroc",
+      "CIH Bank",
+      "ALTEN Maroc",
+      "SQLI Maroc",
+      "Devoteam Maroc",
+      "Inetum Maroc",
+      "Bosch Morocco",
+      "Wavestone Morocco",
+      "UN Careers",
+      "UNICEF Vacancies",
+      "UN Volunteers",
+      "GOV.UK — register of licensed sponsors (verification only)"
+    ]
   },
   "categories": [
     {
@@ -27,7 +55,8 @@
           "official_source": true,
           "source_country": "MA",
           "source_eligibility": "morocco",
-          "strict_source_path": false
+          "strict_source_path": false,
+          "required_apply_mode": "direct_job_specific_application_without_account"
         },
         {
           "name": "Emploi-Public — services de l'État",
@@ -39,245 +68,13 @@
           "official_source": true,
           "source_country": "MA",
           "source_eligibility": "morocco",
-          "strict_source_path": false
-        },
-        {
-          "name": "ONCF Recrutement",
-          "base_url": "https://www.oncf.etalent.ma/offres",
-          "enabled": true,
-          "fetch_limit_per_run": 8,
-          "extractor_type": "etalent",
-          "source_priority": "S",
-          "official_source": true,
-          "source_country": "MA",
-          "source_eligibility": "morocco",
           "strict_source_path": false,
-          "source_note": "Official ONCF eTalent adapter; accepts only real /offre/<id> vacancies. Empty listing is treated as healthy/no active offers."
-        },
-        {
-          "name": "ONDA Recrutement",
-          "base_url": "https://www.onda.ma/Je-d%C3%A9couvre-ONDA/Ressources-humaines/Recrutement",
-          "enabled": false,
-          "fetch_limit_per_run": 8,
-          "extractor_type": "auto",
-          "source_priority": "S",
-          "official_source": true,
-          "source_country": "MA",
-          "source_eligibility": "morocco",
-          "source_note": "Direct ONDA page is Cloudflare-blocked on GitHub runners; official ONDA competitions remain covered by the enabled Emploi-Public S+ official sources."
-        },
-        {
-          "name": "Maroc Telecom",
-          "base_url": "https://iam.csod.com/ux/ats/careersite/4/home?c=iam",
-          "enabled": true,
-          "fetch_limit_per_run": 8,
-          "extractor_type": "csod",
-          "source_priority": "S",
-          "official_source": true,
-          "source_country": "MA",
-          "source_eligibility": "morocco",
-          "strict_source_path": true,
-          "source_note": "Official Maroc Telecom Cornerstone adapter: search + full jobDetails + posting deadline APIs."
-        },
-        {
-          "name": "inwi",
-          "base_url": "https://jobs.inwi.ma/jobs",
-          "enabled": true,
-          "fetch_limit_per_run": 8,
-          "extractor_type": "inwi_jobs",
-          "source_priority": "S",
-          "official_source": true,
-          "source_country": "MA",
-          "source_eligibility": "morocco",
-          "strict_source_path": false,
-          "source_note": "Official inwi Teamtailor listing; adapter accepts only /jobs/<id>-<slug> vacancy detail URLs while load-more remains pagination only."
-        },
-        {
-          "name": "Capgemini Morocco",
-          "base_url": "https://careers.capgemini.com/search/?q=&locationsearch=Morocco",
-          "enabled": true,
-          "fetch_limit_per_run": 8,
-          "extractor_type": "capgemini_jobs",
-          "source_priority": "S",
-          "official_source": true,
-          "source_country": "MA",
-          "source_eligibility": "morocco",
-          "strict_source_path": false,
-          "source_note": "Official Capgemini careers search; adapter accepts only careers.capgemini.com/job/.../<id> detail URLs for Morocco."
-        },
-        {
-          "name": "Crédit du Maroc",
-          "base_url": "https://carriere.creditdumaroc.ma/offre-de-emploi/liste-offres.aspx?showSearchUrl=1",
-          "enabled": true,
-          "fetch_limit_per_run": 8,
-          "extractor_type": "credit_du_maroc_jobs",
-          "source_priority": "S",
-          "official_source": true,
-          "source_country": "MA",
-          "source_eligibility": "morocco",
-          "strict_source_path": false,
-          "source_note": "Official Crédit du Maroc careers listing; adapter accepts only /offre-de-emploi/emploi-..._<id>.aspx vacancies and captures listing reference/date for fresh-first priority."
-        },
-        {
-          "name": "OCP Group",
-          "base_url": "https://ocpgroup.wd103.myworkdayjobs.com/en-US/ocpcareers",
-          "enabled": true,
-          "fetch_limit_per_run": 8,
-          "extractor_type": "workday_api",
-          "source_priority": "A+",
-          "official_source": true,
-          "source_country": "MA",
-          "source_eligibility": "morocco",
-          "strict_source_path": false,
-          "source_note": "Official OCP Workday ATS public API adapter; replaces Cloudflare-blocked careers.ocpgroup.ma."
-        },
-        {
-          "name": "Orange Maroc",
-          "base_url": "https://orange.jobs/fr/fr/mea-morocco-job-search-results",
-          "enabled": true,
-          "fetch_limit_per_run": 8,
-          "extractor_type": "phenom_ddo",
-          "source_priority": "A+",
-          "official_source": true,
-          "source_country": "MA",
-          "source_eligibility": "morocco",
-          "strict_source_path": false,
-          "source_note": "Official Orange Phenom Morocco route; jobs are read from embedded phApp.ddo structured data with direct iCIMS apply URLs."
-        },
-        {
-          "name": "Orange Business Morocco",
-          "base_url": "https://orange.jobs/fr/fr/network-search-results",
-          "enabled": true,
-          "fetch_limit_per_run": 8,
-          "extractor_type": "phenom_ddo",
-          "source_priority": "A+",
-          "official_source": true,
-          "source_country": "MA",
-          "source_eligibility": "morocco",
-          "strict_source_path": false,
-          "source_note": "Official Orange Phenom technical/network route; runtime filters embedded jobs to Morocco and preserves direct iCIMS apply URLs."
-        },
-        {
-          "name": "Attijariwafa bank",
-          "base_url": "https://attijariwafabank.csod.com/ux/ats/careersite/4/home?c=attijariwafabank",
-          "enabled": true,
-          "fetch_limit_per_run": 8,
-          "extractor_type": "csod",
-          "source_priority": "A+",
-          "official_source": true,
-          "source_country": "MA",
-          "source_eligibility": "morocco",
-          "strict_source_path": false,
-          "source_note": "Official Attijariwafa Cornerstone adapter: search + full jobDetails + posting deadline APIs."
-        },
-        {
-          "name": "Autoroutes du Maroc",
-          "base_url": "https://adm.etalent.ma/offres",
-          "enabled": true,
-          "fetch_limit_per_run": 6,
-          "extractor_type": "etalent",
-          "source_priority": "A",
-          "official_source": true,
-          "source_country": "MA",
-          "source_eligibility": "morocco",
-          "strict_source_path": false,
-          "source_note": "Official ADM eTalent adapter; accepts only real /offre/<id> vacancies."
-        },
-        {
-          "name": "CIH Bank",
-          "base_url": "https://recrutement.cihbank.ma/front-offres.html",
-          "enabled": true,
-          "fetch_limit_per_run": 20,
-          "extractor_type": "cih_jobs",
-          "source_priority": "S",
-          "official_source": true,
-          "source_country": "MA",
-          "source_eligibility": "morocco",
-          "strict_source_path": false,
-          "source_note": "Official CIH Bank careers listing; adapter accepts only /<id>_offre-emploi-<slug>.html vacancies, captures official listing dates, and follows numeric page pagination."
-        },
-        {
-          "name": "ALTEN Maroc",
-          "base_url": "https://api.smartrecruiters.com/v1/companies/ALTEN/postings?country=ma",
-          "enabled": true,
-          "fetch_limit_per_run": 12,
-          "extractor_type": "smartrecruiters_api",
-          "source_priority": "A+",
-          "official_source": true,
-          "source_country": "MA",
-          "source_eligibility": "morocco",
-          "strict_source_path": false,
-          "source_note": "Official public ALTEN SmartRecruiters API, country=ma, verified HTTP 200 from Actions; preserve releasedDate and enrich from the matching posting ID. Avoid the employer HTML listing that returns 403 from Actions."
-        },
-        {
-          "name": "SQLI Maroc",
-          "base_url": "https://api.smartrecruiters.com/v1/companies/SQLI1/postings?country=ma",
-          "enabled": true,
-          "fetch_limit_per_run": 20,
-          "extractor_type": "smartrecruiters_api",
-          "source_priority": "A+",
-          "official_source": true,
-          "source_country": "MA",
-          "source_eligibility": "morocco",
-          "strict_source_path": false,
-          "source_note": "Official SQLI SmartRecruiters public API filtered to Morocco; preserve releasedDate and enrich only the matching posting ID."
-        },
-        {
-          "name": "Devoteam Maroc",
-          "base_url": "https://api.smartrecruiters.com/v1/companies/Devoteam/postings?country=ma",
-          "enabled": true,
-          "fetch_limit_per_run": 20,
-          "extractor_type": "smartrecruiters_api",
-          "source_priority": "A+",
-          "official_source": true,
-          "source_country": "MA",
-          "source_eligibility": "morocco",
-          "strict_source_path": false,
-          "source_note": "Official Devoteam SmartRecruiters public API filtered to Morocco; preserve releasedDate and enrich only the matching posting ID."
-        },
-        {
-          "name": "Inetum Maroc",
-          "base_url": "https://api.smartrecruiters.com/v1/companies/Inetum2/postings?country=ma",
-          "enabled": true,
-          "fetch_limit_per_run": 20,
-          "extractor_type": "smartrecruiters_api",
-          "source_priority": "S",
-          "official_source": true,
-          "source_country": "MA",
-          "source_eligibility": "morocco",
-          "strict_source_path": false,
-          "source_note": "Official Inetum SmartRecruiters public API filtered to Morocco; preserve releasedDate and enrich only the matching posting ID."
-        },
-        {
-          "name": "Bosch Morocco",
-          "base_url": "https://api.smartrecruiters.com/v1/companies/BoschGroup/postings?country=ma",
-          "enabled": true,
-          "fetch_limit_per_run": 20,
-          "extractor_type": "smartrecruiters_api",
-          "source_priority": "A+",
-          "official_source": true,
-          "source_country": "MA",
-          "source_eligibility": "morocco",
-          "strict_source_path": false,
-          "source_note": "Official Bosch SmartRecruiters public API filtered to Morocco. Bosch states that its applications are processed through SmartRecruiters; preserve releasedDate and enrich only the matching posting ID."
-        },
-        {
-          "name": "Wavestone Morocco",
-          "base_url": "https://api.smartrecruiters.com/v1/companies/Wavestone1/postings?country=ma",
-          "enabled": true,
-          "fetch_limit_per_run": 20,
-          "extractor_type": "smartrecruiters_api",
-          "source_priority": "S",
-          "official_source": true,
-          "source_country": "MA",
-          "source_eligibility": "morocco",
-          "strict_source_path": false,
-          "source_note": "Official Wavestone SmartRecruiters source for Morocco/Casablanca opportunities, including cybersecurity, cloud and internships; preserve releasedDate and enrich only the matching posting ID."
+          "required_apply_mode": "direct_job_specific_application_without_account"
         },
         {
           "name": "ANAPEC — offres nationales",
           "base_url": "https://www.anapec.org/sigec-app-rv/fr/chercheurs/resultat_recherche/tout:all",
-          "enabled": true,
+          "enabled": false,
           "fetch_limit_per_run": 30,
           "extractor_type": "anapec_jobs",
           "source_priority": "A+",
@@ -285,7 +82,9 @@
           "source_country": "MA",
           "source_eligibility": "morocco",
           "strict_source_path": false,
-          "source_note": "Official ANAPEC job-seeker vacancy search route. Runtime retries the Arabic official search route when the primary route times out or redirects; ANAPEC uses a dedicated Requests transport on GitHub Actions because aiohttp repeatedly stalls against this portal. Repeated network timeouts use progressive probe backoff so ANAPEC remains enabled without slowing every production cycle. Publication dates must come from the same official offer card/detail header; never infer them from discovery time or a start date."
+          "source_note": "Kept as requested, but paused: no verified source-specific account-free one-click application route. Re-enable only after a real GitHub-runner end-to-end test proves a live posting applies without registration.",
+          "required_apply_mode": "direct_job_specific_application_without_account",
+          "verification_state": "account_free_direct_apply_unverified"
         },
         {
           "name": "Emploi-Public — collectivités territoriales",
@@ -299,7 +98,8 @@
           "source_eligibility": "morocco",
           "strict_source_path": true,
           "verification_state": "pending_runner_scraper_smoke_test",
-          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient."
+          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient.",
+          "required_apply_mode": "direct_job_specific_application_without_account"
         },
         {
           "name": "OFPPT — offres d'emploi",
@@ -313,7 +113,8 @@
           "source_eligibility": "morocco",
           "strict_source_path": true,
           "verification_state": "pending_runner_scraper_smoke_test",
-          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient."
+          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient.",
+          "required_apply_mode": "direct_job_specific_application_without_account"
         },
         {
           "name": "ReKrute Maroc",
@@ -326,8 +127,9 @@
           "source_country": "MA",
           "source_eligibility": "morocco",
           "strict_source_path": true,
-          "verification_state": "pending_runner_scraper_smoke_test",
-          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient."
+          "verification_state": "registration_gate_or_unverified",
+          "source_note": "Discovery-only candidate. Do NOT enable: source registration or direct application without an account is not verified. Every individual job must pass the direct-apply gate.",
+          "required_apply_mode": "direct_job_specific_application_without_account"
         },
         {
           "name": "ReKrute IT",
@@ -340,8 +142,9 @@
           "source_country": "MA",
           "source_eligibility": "morocco",
           "strict_source_path": true,
-          "verification_state": "pending_runner_scraper_smoke_test",
-          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient."
+          "verification_state": "registration_gate_or_unverified",
+          "source_note": "Discovery-only candidate. Do NOT enable: source registration or direct application without an account is not verified. Every individual job must pass the direct-apply gate.",
+          "required_apply_mode": "direct_job_specific_application_without_account"
         },
         {
           "name": "MarocAnnonces — offres d'emploi",
@@ -355,7 +158,8 @@
           "source_eligibility": "morocco",
           "strict_source_path": true,
           "verification_state": "pending_runner_scraper_smoke_test",
-          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient."
+          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient.",
+          "required_apply_mode": "direct_job_specific_application_without_account"
         },
         {
           "name": "MonCallCenter Maroc",
@@ -368,8 +172,9 @@
           "source_country": "MA",
           "source_eligibility": "morocco",
           "strict_source_path": true,
-          "verification_state": "pending_runner_scraper_smoke_test",
-          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient."
+          "verification_state": "registration_gate_or_unverified",
+          "source_note": "Discovery-only candidate. Do NOT enable: source registration or direct application without an account is not verified. Every individual job must pass the direct-apply gate.",
+          "required_apply_mode": "direct_job_specific_application_without_account"
         },
         {
           "name": "Tanmia — offres d'emploi",
@@ -383,7 +188,8 @@
           "source_eligibility": "morocco",
           "strict_source_path": true,
           "verification_state": "pending_runner_scraper_smoke_test",
-          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient."
+          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient.",
+          "required_apply_mode": "direct_job_specific_application_without_account"
         },
         {
           "name": "Dreamjob — secteur privé",
@@ -397,7 +203,8 @@
           "source_eligibility": "morocco",
           "strict_source_path": true,
           "verification_state": "pending_runner_scraper_smoke_test",
-          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient."
+          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient.",
+          "required_apply_mode": "direct_job_specific_application_without_account"
         },
         {
           "name": "Dreamjob — stages",
@@ -411,7 +218,8 @@
           "source_eligibility": "morocco",
           "strict_source_path": true,
           "verification_state": "pending_runner_scraper_smoke_test",
-          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient."
+          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient.",
+          "required_apply_mode": "direct_job_specific_application_without_account"
         },
         {
           "name": "Dreamjob — informatique IT",
@@ -425,7 +233,8 @@
           "source_eligibility": "morocco",
           "strict_source_path": true,
           "verification_state": "pending_runner_scraper_smoke_test",
-          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient."
+          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient.",
+          "required_apply_mode": "direct_job_specific_application_without_account"
         },
         {
           "name": "Emploi.ma — recherche emplois",
@@ -438,8 +247,9 @@
           "source_country": "MA",
           "source_eligibility": "morocco",
           "strict_source_path": true,
-          "verification_state": "pending_runner_scraper_smoke_test",
-          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient."
+          "verification_state": "registration_gate_or_unverified",
+          "source_note": "Discovery-only candidate. Do NOT enable: source registration or direct application without an account is not verified. Every individual job must pass the direct-apply gate.",
+          "required_apply_mode": "direct_job_specific_application_without_account"
         }
       ]
     },
@@ -448,42 +258,6 @@
       "name": "Jobs Abroad",
       "label": "jobs-abroad",
       "sources": [
-        {
-          "name": "UN Careers",
-          "base_url": "https://careers.un.org/jobopening?language=en",
-          "enabled": false,
-          "fetch_limit_per_run": 8,
-          "extractor_type": "un_careers",
-          "source_priority": "S+",
-          "official_source": true,
-          "source_country": "GLOBAL",
-          "source_eligibility": "unknown",
-          "strict_source_path": false,
-          "source_note": "Disabled after live GitHub-runner audit: official UN Careers server HTML/API path exposed no usable Job IDs. Re-enable only when a stable public machine-readable endpoint is verified."
-        },
-        {
-          "name": "UNICEF Vacancies",
-          "base_url": "https://jobs.unicef.org/cw/en-us/",
-          "enabled": true,
-          "fetch_limit_per_run": 8,
-          "extractor_type": "auto",
-          "source_priority": "A+",
-          "official_source": true,
-          "source_country": "GLOBAL",
-          "source_eligibility": "unknown"
-        },
-        {
-          "name": "UN Volunteers",
-          "base_url": "https://app.unv.org/",
-          "enabled": false,
-          "fetch_limit_per_run": 8,
-          "extractor_type": "auto",
-          "source_priority": "A",
-          "official_source": true,
-          "source_country": "GLOBAL",
-          "source_eligibility": "unknown",
-          "source_note": "Official UVP listing is JavaScript-only on GitHub runners; disabled until a stable public machine-readable endpoint is available."
-        },
         {
           "name": "Canada Job Bank — foreign candidates",
           "base_url": "https://www.jobbank.gc.ca/findajob/foreign-candidates",
@@ -496,7 +270,8 @@
           "source_eligibility": "unknown",
           "strict_source_path": true,
           "verification_state": "pending_runner_scraper_smoke_test",
-          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient."
+          "source_note": "International candidates only; Job Bank Direct Apply requires Canadian residency/eligibility for some paths. Only publish a job with a verified external employer's account-free application form, never Job Bank account registration.",
+          "required_apply_mode": "direct_job_specific_application_without_account"
         },
         {
           "name": "Make it in Germany — job listings",
@@ -510,7 +285,8 @@
           "source_eligibility": "unknown",
           "strict_source_path": true,
           "verification_state": "pending_runner_scraper_smoke_test",
-          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient."
+          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient.",
+          "required_apply_mode": "direct_job_specific_application_without_account"
         },
         {
           "name": "Emirates — cabin crew",
@@ -524,7 +300,8 @@
           "source_eligibility": "unknown",
           "strict_source_path": true,
           "verification_state": "pending_runner_scraper_smoke_test",
-          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient."
+          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient.",
+          "required_apply_mode": "direct_job_specific_application_without_account"
         },
         {
           "name": "Accor — global careers",
@@ -538,7 +315,8 @@
           "source_eligibility": "unknown",
           "strict_source_path": true,
           "verification_state": "pending_runner_scraper_smoke_test",
-          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient."
+          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient.",
+          "required_apply_mode": "direct_job_specific_application_without_account"
         },
         {
           "name": "Bayt — UAE Jobs",
@@ -551,8 +329,9 @@
           "source_country": "GLOBAL",
           "source_eligibility": "unknown",
           "strict_source_path": true,
-          "verification_state": "pending_runner_scraper_smoke_test",
-          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient."
+          "verification_state": "registration_gate_or_unverified",
+          "source_note": "Discovery-only candidate. Do NOT enable: source registration or direct application without an account is not verified. Every individual job must pass the direct-apply gate.",
+          "required_apply_mode": "direct_job_specific_application_without_account"
         },
         {
           "name": "GulfTalent — UAE Jobs",
@@ -565,8 +344,9 @@
           "source_country": "GLOBAL",
           "source_eligibility": "unknown",
           "strict_source_path": true,
-          "verification_state": "pending_runner_scraper_smoke_test",
-          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient."
+          "verification_state": "registration_gate_or_unverified",
+          "source_note": "Discovery-only candidate. Do NOT enable: source registration or direct application without an account is not verified. Every individual job must pass the direct-apply gate.",
+          "required_apply_mode": "direct_job_specific_application_without_account"
         },
         {
           "name": "GOV.UK — Find a Job",
@@ -580,7 +360,8 @@
           "source_eligibility": "unknown",
           "strict_source_path": true,
           "verification_state": "pending_runner_scraper_smoke_test",
-          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient."
+          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient.",
+          "required_apply_mode": "direct_job_specific_application_without_account"
         }
       ]
     },
@@ -594,22 +375,7 @@
       "key": "visa-sponsorship",
       "name": "Visa Sponsorship",
       "label": "visa-sponsorship",
-      "sources": [
-        {
-          "name": "GOV.UK — register of licensed sponsors (verification only)",
-          "base_url": "https://www.gov.uk/government/publications/register-of-licensed-sponsors-workers",
-          "enabled": false,
-          "fetch_limit_per_run": 6,
-          "extractor_type": "auto",
-          "source_priority": "A",
-          "official_source": true,
-          "source_country": "GLOBAL",
-          "source_eligibility": "unknown",
-          "strict_source_path": true,
-          "verification_state": "pending_runner_scraper_smoke_test",
-          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient."
-        }
-      ]
+      "sources": []
     }
   ]
 }
