@@ -445,6 +445,75 @@ def is_application_url_bound_to_job(article, url):
     return is_verified_official_application_channel(article, candidate)
 
 
+
+# Account-free one-click rule: a reader must land on the application action for
+# this exact vacancy, never a careers search, account-registration or job detail.
+_DIRECT_APPLY_URL_RE = re.compile(
+    r"(?i)(?:/(?:apply|postuler|candidater|candidature/submit|applications?/new|"
+    r"applicationform)(?:/|[.?]|$)|[?&](?:apply|postuler|lJobID|jobId)=)"
+)
+_ACCOUNT_GATE_URL_RE = re.compile(
+    r"(?i)/(?:login|sign[-_]?in|sign[-_]?up|register|registration|"
+    r"inscription|connexion|auth(?:entication)?|create[-_]?account|"
+    r"mon[-_]?compte|candidate[-_]?account)(?:/|[.?]|$)"
+)
+_ACCOUNT_ONLY_HOSTS = (
+    "moncallcenter.ma",
+    "rekrute.com",
+)
+
+
+def _retired_job_source_names():
+    """Source removal must also prevent legacy ready jobs publishing."""
+    try:
+        payload = json.loads((BASE_DIR / "sources.json").read_text(encoding="utf-8"))
+        return {
+            str(name).strip().casefold()
+            for name in (payload.get("policy", {}).get("retired_source_names") or [])
+        }
+    except (OSError, ValueError, TypeError, AttributeError):
+        return set()
+
+
+def job_direct_application_policy(article):
+    """Reject listings, login routes, ambiguous action links and other jobs."""
+    source_name = str(article.get("source_name") or "").strip().casefold()
+    if source_name and source_name in _retired_job_source_names():
+        return "retired source is not approved for publishing"
+    url = str(article.get("job_application_url") or article.get("application_url") or "").strip()
+    if not url or not _public_http(url):
+        return "missing direct job-specific application URL"
+    if not is_job_specific_url(url) or not is_application_url_bound_to_job(article, url):
+        return "application URL is a generic portal or belongs to another vacancy"
+    candidate = canonicalize_job_url(url)
+    parsed = urlparse(candidate)
+    host = parsed.netloc.casefold().removeprefix("www.")
+    if host in _ACCOUNT_ONLY_HOSTS or any(host.endswith("." + h) for h in _ACCOUNT_ONLY_HOSTS):
+        return "application platform requires candidate account registration"
+    if _ACCOUNT_GATE_URL_RE.search(parsed.path) or re.search(
+        r"(?i)(?:^|[?&])(?:redirect|returnUrl|next)=[^&]*(?:login|register|signup)", parsed.query
+    ):
+        return "application URL leads to registration or sign-in"
+    kind = str(article.get("job_application_link_kind") or "").strip().lower()
+    if kind in {"official_application_channel", "official_job_page", "listing", "generic"}:
+        return "application URL is not the direct form/action"
+    detail = canonicalize_job_url(
+        article.get("job_detail_url") or article.get("canonical_url") or article.get("url")
+    )
+    if detail and detail == candidate and not _DIRECT_APPLY_URL_RE.search(url):
+        return "application URL points to the job description instead of the apply action"
+    explicit_apply = _application_action_exposes_url(article, url)
+    direct_kind = kind == "direct_apply"
+    direct_url = bool(_DIRECT_APPLY_URL_RE.search(url))
+    if not (explicit_apply or direct_kind or direct_url):
+        return "a verified job-specific apply action is missing"
+    # The URL/action check proves destination specificity, not that the employer
+    # will never ask users to create an account later in a multi-step workflow.
+    if article.get("job_application_requires_registration") is True:
+        return "application requires a registered candidate account"
+    return ""
+
+
 def _identity_strong_application_url(article, url):
     url = canonicalize_job_url(url)
     if not url or not is_job_specific_url(url):
@@ -1060,6 +1129,9 @@ def score_job(article, now=None):
         reasons.append("deadline passed")
     editorial_policy = job_publication_policy(article, now=now)
     reasons.extend(editorial_policy["reasons"])
+    direct_apply_reason = job_direct_application_policy(article)
+    if direct_apply_reason:
+        reasons.append(direct_apply_reason)
 
     # Ranking score is intentionally NOT a publication gate. A legitimate,
     # verified vacancy can score low simply because salary, diploma, location,
@@ -1093,6 +1165,7 @@ def score_job(article, now=None):
         "max_publish_age_hours": JOBS_MAX_PUBLISH_AGE_HOURS,
         "focus_priority": job_focus_priority(article),
         "publication_policy": editorial_policy,
+        "direct_application_policy_reason": direct_apply_reason,
         "points": points,
         "reasons": reasons,
         # Kept for compatibility/diagnostics only. This threshold no longer
