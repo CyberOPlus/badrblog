@@ -291,16 +291,15 @@ def resolve_identity_pending_articles(target_article_id=None):
     }
 
 def recover_public_competition_submission_evidence(max_articles=1):
-    """Read bounded official PDF evidence before selection can reject the job.
+    """Recover PDF facts BEFORE job selection without bypassing any hard gate.
 
-    The normal selected-article stage happens too late for jobs whose only
-    published apply address/deadline/diploma is on the official attached PDF.
-    Try one fresh notice per cycle, preserving all existing source/freshness
-    requirements and never substituting a homepage for an application action.
+    New official PDFs are read within a small per-cycle budget. Documents already
+    extracted by earlier versions are rechecked once with today's extraction
+    logic rather than being skipped forever. Only evidence-quality cooldowns
+    are lifted; AI and provider retry clocks stay in force.
     """
     queue = load_article_queue()
-    attempted = 0
-    recovered = 0
+    attempted = recovered = cached_rechecks = cooldowns_released = 0
     changed = False
     for article in queue.get("articles", []):
         if attempted >= max(0, int(max_articles)):
@@ -318,34 +317,73 @@ def recover_public_competition_submission_evidence(max_articles=1):
         freshness = job_publication_freshness(article)
         if not freshness["verified"] or not freshness["fresh"]:
             continue
+        education = job_qualification_policy(article)[0]
+        if education == "above_limit":
+            continue
         missing_facts = (
             not str(article.get("job_deadline") or "").strip()
-            or job_qualification_policy(article)[0] == "unverified"
+            or education == "unverified"
             or bool(job_direct_application_policy(article))
         )
         if not missing_facts:
             continue
-        # Already checked a complete PDF with no matching apply action? Leave
-        # the vacancy unpublishable; do not fetch the same evidence every run.
-        if (
+
+        completed = (
             article.get("job_document_text_read_complete") is True
             and int(article.get("job_document_text_attempted_documents") or 0) > 0
-        ):
+        )
+        if completed and int(article.get("job_pdf_submission_recheck_version") or 0) >= 1:
             continue
         attempted += 1
         try:
-            _prepare_identity_evidence(article)
-            recovered += int(
-                bool(article.get("job_deadline"))
+            if completed and article.get("job_document_texts"):
+                # The PDF was read, but its application URL/deadline might have
+                # been missed by an older parser. Never redownload unnecessarily.
+                promote_job_document_application_channel(article)
+                promote_job_document_deadline(article)
+                cached_rechecks += 1
+            elif completed:
+                # No readable evidence exists: do not invent a route or retry
+                # the same complete but empty document endlessly.
+                pass
+            else:
+                _prepare_identity_evidence(article)
+
+            article["job_pdf_submission_recheck_version"] = 1
+            changed = True
+            verified_now = bool(
+                str(article.get("job_deadline") or "").strip()
                 and job_qualification_policy(article)[0] == "below_bac3"
                 and not job_direct_application_policy(article)
             )
+            if verified_now:
+                recovered += 1
+                if article.get("candidate_failure_stage") == "quality-evidence":
+                    for field in (
+                        "candidate_retry_after",
+                        "candidate_failure_stage",
+                        "candidate_failure_reason",
+                        "candidate_failure_fingerprint",
+                        "candidate_failure_repeat_count",
+                        "candidate_failure_backoff_minutes",
+                        "candidate_failed_at",
+                        "job_quality_wait_fingerprint",
+                        "job_quality_wait_count",
+                    ):
+                        article.pop(field, None)
+                    cooldowns_released += 1
         except Exception as error:
             article["job_document_text_error"] = str(error)
-        changed = True
+            changed = True
+
     if changed:
         save_article_queue(queue)
-    return {"checked": attempted, "recovered": recovered}
+    return {
+        "checked": attempted,
+        "recovered": recovered,
+        "cached_rechecks": cached_rechecks,
+        "quality_cooldowns_released": cooldowns_released,
+    }
 
 
 def prepare_selected_articles_for_ai(target_article_id=None):
