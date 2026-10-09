@@ -142,7 +142,8 @@ class JobsWorkflowTests(unittest.TestCase):
         self.assertIn("JOBS_MODE=true", env_text)
         self.assertIn("JOBS_MAX_PUBLISH_AGE_HOURS=24", env_text)
         self.assertIn("JOBS_DISCOVERY_SEEN_MEMORY=5000", env_text)
-        self.assertIn("JOBS_FACEBOOK_MIN_INTERVAL_MINUTES=5", env_text)
+        self.assertIn("JOBS_FACEBOOK_MIN_INTERVAL_MINUTES=70", env_text)
+        self.assertIn("JOBS_WEEKLY_FACEBOOK_SCHEDULE_ENABLED=true", env_text)
         for retired in (
             "FAST_NEWS_MODE",
             "CATEGORY_ROTATION_MODE",
