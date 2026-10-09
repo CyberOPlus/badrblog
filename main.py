@@ -1701,11 +1701,14 @@ def _log_retry_next_candidate(failed_article, next_article, stage, reason):
 def _is_retryable_publish_deferral(reason, article=None):
     """Return True for a clean Blogger retry that should wait for the next cycle."""
     text = str(reason or "").strip().casefold()
-    numeric_permalink_retry = (
-        "blogger generated a numeric jobs permalink" in text
+    permalink_retry = (
+        (
+            "blogger generated a non-english jobs permalink" in text
+            or "blogger generated a numeric jobs permalink" in text
+        )
         and "deleted and will retry" in text
     )
-    if not numeric_permalink_retry:
+    if not permalink_retry:
         return False
     if isinstance(article, dict):
         try:

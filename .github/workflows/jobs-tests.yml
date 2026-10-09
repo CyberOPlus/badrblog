@@ -39,3 +39,7 @@ jobs:
       - name: Compile all tracked Python modules
         run: |
           git ls-files -z '*.py' | xargs -0 python -m py_compile
+      - name: Probe approved collectivités official listings (read only)
+        continue-on-error: true
+        timeout-minutes: 2
+        run: PYTHONPATH=. python scripts/probe_local_authorities.py

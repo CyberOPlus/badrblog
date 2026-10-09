@@ -14,6 +14,8 @@ from state_io import atomic_write_json
 
 import requests
 
+import job_core
+
 from article_queue import load_article_queue, save_article_queue, archive_published_queue_article
 from config import (
     FACEBOOK_AUTO_POST,
@@ -1705,7 +1707,9 @@ def get_facebook_limits_status(now=None, urgent=False):
     today_posts = [value for value in local_posts if value.date() == local_now.date()]
     last_post_time = max(local_posts) if local_posts else None
 
-    hard_daily_limit = (JOBS_FACEBOOK_MAX_POSTS_PER_DAY)
+    hard_daily_limit = JOBS_FACEBOOK_MAX_POSTS_PER_DAY
+    if job_core.JOBS_WEEKLY_FACEBOOK_SCHEDULE_ENABLED and local_now.weekday() >= 5:
+        hard_daily_limit = min(hard_daily_limit, 2)
     normal_daily_limit = (
         (hard_daily_limit)
     )
@@ -1737,7 +1741,15 @@ def get_facebook_limits_status(now=None, urgent=False):
 
     next_allowed = slot.get("next_slot", "")
     if interval_blocked and last_post_time:
-        next_allowed = (last_post_time + timedelta(minutes=safe_interval)).isoformat()
+        spacing_next = last_post_time + timedelta(minutes=safe_interval)
+        if spacing_next > local_now:
+            # Respect BOTH the engagement window and the safety interval.
+            first_possible_slot = facebook_slot_status(now=spacing_next.astimezone(timezone.utc), urgent=urgent)
+            next_allowed = first_possible_slot.get("next_slot") or spacing_next.isoformat()
+    if daily_blocked:
+        tomorrow = (local_now + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+        next_day_slot = facebook_slot_status(now=tomorrow.astimezone(timezone.utc), urgent=False)
+        next_allowed = next_day_slot.get("next_slot") or tomorrow.isoformat()
 
     return {
         "facebook_posts_today": len(today_posts),
