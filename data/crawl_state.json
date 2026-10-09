@@ -2,7 +2,7 @@
   "sources": {
     "https://www.emploi-public.ma/ar/%D9%82%D8%A7%D8%A6%D9%85%D8%A9-%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA?corps=0&procedure=0&region=0&stat=etab_publics": {
       "source_name": "Emploi-Public — établissements publics",
-      "last_crawled_at": "2026-10-09T12:14:45.883045Z",
+      "last_crawled_at": "2026-10-09T12:15:43.492338Z",
       "overlap_minutes": 10,
       "job_seen_ids": [
         "emploi_public:ccda0643-f056-4505-857a-545387c793dd",
@@ -1211,14 +1211,17 @@
       "discovery_max_pages": 12,
       "discovery_seen_streak": 8,
       "discovery_max_items": 250,
-      "job_discovery_resume": {},
-      "discovery_stop_reason": "seen_streak",
+      "job_discovery_resume": {
+        "kind": "html",
+        "url": "https://www.emploi-public.ma/ar/%D9%82%D8%A7%D8%A6%D9%85%D8%A9-%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA?corps=0&procedure=0&region=0&stat=etab_publics"
+      },
+      "discovery_stop_reason": "error",
       "discovery_pages_scanned": 1,
       "job_seen_ids_year": "2026"
     },
     "https://www.emploi-public.ma/ar/%D9%82%D8%A7%D8%A6%D9%85%D8%A9-%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA?corps=0&procedure=0&region=0&stat=service_etat": {
       "source_name": "Emploi-Public — services de l'État",
-      "last_crawled_at": "2026-10-09T12:14:45.884949Z",
+      "last_crawled_at": "2026-10-09T12:15:43.494341Z",
       "overlap_minutes": 10,
       "job_seen_ids": [
         "emploi_public:69b9e396-7963-478a-87e8-44a51ddc49b3",
@@ -4394,5 +4397,5 @@
   },
   "category_rotation": {},
   "source_rotation": {},
-  "updated_at": "2026-10-09T12:14:45"
+  "updated_at": "2026-10-09T12:15:43"
 }
