@@ -41,6 +41,7 @@ from job_core import (
     classify_urgency,
     job_deadline_time,
     job_publication_policy,
+    job_direct_application_policy,
     list_active_job_campaign_records,
     record_job_social_state,
 )
@@ -645,7 +646,7 @@ def _facebook_job_priority(article, now=None):
 
 
 def _eligible_for_facebook(article):
-    if not job_publication_policy(article)["passed"]:
+    if not job_publication_policy(article)["passed"] or job_direct_application_policy(article):
         return False
     if not _has_blogger_live_publish(article) or article.get("facebook_post_id"):
         return False
@@ -1787,6 +1788,9 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
             article,
             "Job publication policy blocked Facebook: " + "; ".join(editorial["reasons"]),
         )
+    direct_error = job_direct_application_policy(article)
+    if direct_error:
+        return _deferred_result(article, "Direct job application required: " + direct_error)
 
     if _job_facebook_expired(article):
         _mark_facebook_expired(article)
