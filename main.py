@@ -34,7 +34,11 @@ from article_queue import (
     save_article_queue,
 )
 from article_enricher import enrich_ready_articles
-from article_processor import prepare_selected_articles_for_ai, resolve_identity_pending_articles
+from article_processor import (
+    prepare_selected_articles_for_ai,
+    resolve_identity_pending_articles,
+    recover_public_competition_submission_evidence,
+)
 from article_scorer import score_new_articles
 from config import (
     ARTICLE_QUEUE_PATH,
@@ -2252,6 +2256,22 @@ def run_safe_cycle_only():
             "enrichment_failed_count": enrichment_failed_count,
             "step_reached": "ai-circuit-check",
         }
+
+    # Recover the official PDF's precise apply portal/email and deadline
+    # before the selection hard gates. Without this step a brand-new public
+    # competition can be deferred forever without reading its own PDF.
+    pdf_recovery = _run_timed_jobs_stage(
+        "official-pdf-submission-evidence",
+        stage_timings,
+        recover_public_competition_submission_evidence,
+        max_articles=1,
+    )
+    if pdf_recovery.get("checked"):
+        log_event(
+            "job_official_pdf_preselection_recovered",
+            checked=pdf_recovery.get("checked"),
+            recovered=pdf_recovery.get("recovered"),
+        )
 
     print("\n[4/7] plan-next --lock")
     selected = None

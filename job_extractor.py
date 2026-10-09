@@ -220,7 +220,7 @@ MONTH_NAME_TO_NUMBER = {
 DEADLINE_LABEL_PATTERN = (
     r"(?:آخر\s+أجل(?:\s+(?:للترشيح|لإيداع\s+الترشيحات))?|"
     r"اخر\s+اجل(?:\s+(?:للترشيح|لايداع\s+الترشيحات))?|"
-    r"إلى\s+غاية|الى\s+غاية|"
+    r"إلى\s+غاية|الى\s+غاية|وذلك\s+قبل|قبل\s*:?[\s]*|"
     r"date\s+limite(?:\s+(?:de\s+candidature|de\s+dépôt\s+des\s+candidatures|"
     r"de\s+depot\s+des\s+candidatures|d'inscription))?|"
     r"dernier\s+délai|dernier\s+delai|deadline|last\s+date|"
@@ -242,17 +242,18 @@ def _deadline_details_from_text(text):
 
     numeric_patterns = (
         rf"(?i){DEADLINE_LABEL_PATTERN}[^\d]{{0,40}}(\d{{1,2}}[/-]\d{{1,2}}[/-]\d{{4}})",
-        rf"(?i){DEADLINE_LABEL_PATTERN}[^\d]{{0,40}}(\d{{4}}-\d{{2}}-\d{{2}})",
+        rf"(?i){DEADLINE_LABEL_PATTERN}[^\d]{{0,40}}(\d{{4}}[/-]\d{{1,2}}[/-]\d{{1,2}})",
     )
     for pattern in numeric_patterns:
         match = re.search(pattern, value)
         if not match:
             continue
         raw = match.group(1)
-        if re.match(r"^\d{4}-\d{2}-\d{2}$", raw):
-            return raw, raw
         parts = re.split(r"[/-]", raw)
-        normalized = _iso_date(parts[2], parts[1], parts[0]) if len(parts) == 3 else ""
+        if len(parts) == 3 and len(parts[0]) == 4:
+            normalized = _iso_date(parts[0], parts[1], parts[2])
+        else:
+            normalized = _iso_date(parts[2], parts[1], parts[0]) if len(parts) == 3 else ""
         return normalized or raw, raw
 
     word_pattern = (

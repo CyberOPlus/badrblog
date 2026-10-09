@@ -798,7 +798,7 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
     if (
         application_url
         and not is_job_specific_url(application_url)
-        and application_kind != "official_application_channel"
+        and application_kind not in {"official_application_channel", "direct_email"}
     ):
         return QualityGateResult(
             False,
