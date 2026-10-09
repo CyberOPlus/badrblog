@@ -551,6 +551,36 @@ def _document_application_url_candidates(article):
     return sorted(candidates.values(), key=lambda row: row["score"], reverse=True)
 
 
+
+DOCUMENT_CANDIDATURE_EMAIL_RE = re.compile(
+    r"(?i)\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b"
+)
+DOCUMENT_EMAIL_APPLICATION_RE = re.compile(
+    r"(?i)(?:envoy(?:er|ez).{0,90}(?:candidature|cv|dossier)|"
+    r"candidature.{0,90}(?:e-?mail|courriel|adresse)|"
+    r"postul(?:er|ez).{0,90}(?:e-?mail|courriel)|"
+    r"ترس(?:ل|ال).{0,100}(?:ترشيح|ملف)|"
+    r"(?:إرسال|ارسال|بعث|تبعث|إيداع|ايداع).{0,100}(?:ترشيح|ملف|سيرة ذاتية)|"
+    r"(?:البريد الإلكتروني|البريد الالكتروني).{0,80}(?:ترشيح|الترشح|الملف))"
+)
+
+
+def _official_pdf_application_email(article):
+    """Only an address near explicit candidate submission instructions qualifies."""
+    for page in article.get("job_document_texts") or []:
+        if not isinstance(page, dict):
+            continue
+        text = str(page.get("text") or "")
+        for match in DOCUMENT_CANDIDATURE_EMAIL_RE.finditer(text):
+            context = re.sub(
+                r"\s+", " ",
+                text[max(0, match.start() - 150): min(len(text), match.end() + 150)],
+            )
+            if DOCUMENT_EMAIL_APPLICATION_RE.search(context):
+                return match.group(0).lower()
+    return ""
+
+
 def promote_job_document_application_channel(article):
     """Promote an official application channel printed in the verified PDF.
 
@@ -611,6 +641,19 @@ def promote_job_document_application_channel(article):
             page=candidate.get("page_number"),
         )
         return url
+
+    # If the official PDF prescribes email rather than a portal, expose the
+    # exact mailto action instead of sending readers to the host's home page.
+    verified_email = _official_pdf_application_email(article)
+    if verified_email:
+        article["job_application_email"] = verified_email
+        article["job_application_email_verified"] = True
+        article["job_application_url"] = "mailto:" + verified_email
+        article["job_application_link_kind"] = "direct_email"
+        article["job_application_is_specific"] = True
+        article["job_application_is_official_channel"] = False
+        article["job_application_source"] = "official_pdf"
+        return article["job_application_url"]
 
     return ""
 
