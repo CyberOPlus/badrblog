@@ -16,7 +16,7 @@ def posting(**overrides):
         "job_description": "Niveau d'études: Bac+2 demandé.",
         "job_published_at": "2026-10-09T11:00:00Z",
         "job_eligibility": "morocco",
-        "job_application_url": "https://example.org/jobs/123",
+        "job_application_url": "https://example.org/apply/12345",
         "url": "https://example.org/jobs/123",
         "job_title": "Technicien réseau",
         "title": "Technicien réseau",
