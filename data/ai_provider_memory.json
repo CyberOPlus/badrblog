@@ -753,16 +753,7 @@
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
   "global_circuit": {},
-  "provider_circuits": {
-    "mistral": {
-      "category": "quota",
-      "fingerprint": "16f0cdcebb62d34cab0f",
-      "opened_at": "2026-10-09T11:03:42",
-      "provider": "mistral",
-      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
-      "until": 1791565421.9987576
-    }
-  },
+  "provider_circuits": {},
   "stats": {
     "cloudflare:@cf/meta/llama-3.1-8b-instruct-fp8:be6dab2cd8": {
       "failures": 1,
