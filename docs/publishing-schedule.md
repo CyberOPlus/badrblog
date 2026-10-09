@@ -53,8 +53,9 @@ References:
 
 ## Non-negotiable publication gates
 
-1. Only sources expressly approved in `sources.json`. Unverified new source
-   candidates remain disabled. ANAPEC stays preserved but disabled while
+1. Only sources expressly approved in `sources.json`. Three verified Emploi Public
+   sections (public institutions, state services, local authorities) are enabled.
+   The local-authority section passed the 2026-10-09 GitHub runner listing/detail smoke; every individual job still needs proof of an application channel and diploma. Unverified other sources remain disabled. ANAPEC stays preserved but disabled while
    GitHub runner/direct-apply checks do not pass.
 2. Newly announced positions have a **verified publication time within
    24 hours**. Unverified/expired or duplicated vacancies are not published.
