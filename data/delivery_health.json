@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-09T08:50:13.288989+00:00",
-  "state": "source_degraded",
-  "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running.",
-  "hourly_target_met": false,
+  "updated_at": "2026-10-09T08:52:23.111760+00:00",
+  "state": "healthy",
+  "action": "Independent queues continue; each verified fresh job follows Blogger to Facebook.",
+  "hourly_target_met": true,
   "target_minutes": 60,
-  "last_facebook_posted_at": "2026-10-09T07:03:40",
-  "last_facebook_post_id": "103026497833721_1091318116596586",
-  "minutes_since_facebook": 106.6,
-  "last_blogger_publish_at": "2026-10-09T07:03:54.176646+00:00",
+  "last_facebook_posted_at": "2026-10-09T08:52:15",
+  "last_facebook_post_id": "103026497833721_1091379819923749",
+  "minutes_since_facebook": 0.1,
+  "last_blogger_publish_at": "2026-10-09T08:52:21.912071+00:00",
   "fresh_candidate_count": 8,
   "verified_ready_candidate_count": 0,
   "unverified_ready_candidate_count": 8,
@@ -59,14 +59,8 @@
       "action": "At least one provider generated a response."
     },
     "sources": {
-      "status": "degraded",
+      "status": "warning",
       "active_issues": [
-        {
-          "source_name": "ANAPEC — offres nationales",
-          "failure_count": 251,
-          "category": "network_timeout",
-          "retry_after": "2026-10-09T08:51:07Z"
-        },
         {
           "source_name": "CIH Bank",
           "failure_count": 1,
@@ -74,7 +68,7 @@
           "retry_after": "2026-10-09T11:32:26Z"
         }
       ],
-      "action": "ANAPEC is unreachable from GitHub-hosted runners; automatic probing continues after source cooldown while other official sources keep running."
+      "action": "One or more sources are cooling down after transient fetch failures."
     }
   },
   "services_checked_at": "2026-10-09T08:06:54.783013+00:00"
