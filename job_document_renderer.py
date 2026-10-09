@@ -552,6 +552,40 @@ def _document_application_url_candidates(article):
 
 
 
+
+def promote_job_document_deadline(article):
+    """Accept an unambiguous closing date explicitly labelled in official PDFs."""
+    if str(article.get("job_deadline") or "").strip():
+        return str(article["job_deadline"])
+    if not bool(article.get("official_source") or article.get("job_official_source")):
+        return ""
+    if str(article.get("job_notice_type") or "").strip().lower() != "competition":
+        return ""
+    # Reuse the same dated-label grammar as the job detail extractor, including
+    # YYYY/MM/DD and Arabic "وذلك قبل" as seen in Moroccan PDF announcements.
+    from job_extractor import _deadline_details_from_text
+    dates = {}
+    for page in article.get("job_document_texts") or []:
+        if not isinstance(page, dict):
+            continue
+        for line in str(page.get("text") or "").splitlines():
+            date_value, display = _deadline_details_from_text(line)
+            if date_value:
+                dates.setdefault(date_value, []).append({
+                    "page_number": page.get("page_number"),
+                    "display": display,
+                })
+    # Conflicting application closing dates may refer to different grades,
+    # or OCR mistakes. Do not choose a convenient future date.
+    if len(dates) != 1:
+        return ""
+    value, evidence = next(iter(dates.items()))
+    article["job_deadline"] = value
+    article["job_deadline_display"] = evidence[0]["display"]
+    article["job_deadline_source"] = "official_pdf"
+    return value
+
+
 DOCUMENT_CANDIDATURE_EMAIL_RE = re.compile(
     r"(?i)\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b"
 )
