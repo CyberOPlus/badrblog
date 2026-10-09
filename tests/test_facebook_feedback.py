@@ -64,6 +64,29 @@ class FacebookFeedbackTests(unittest.TestCase):
         incomplete = metrics._observation(row, base, NOW)
         self.assertIsNone(incomplete["interactions_observed"])
 
+    def test_automated_first_comment_does_not_count_as_audience_engagement(self):
+        row = {
+            "post_id": "123_1",
+            "published_at": (NOW - timedelta(days=2)).isoformat(),
+            "own_comment_recorded": True,
+        }
+        result_data = result("123_1", comments=1, reactions=0, shares=0)
+        obs = metrics._observation(row, result_data, NOW)
+        self.assertEqual(obs["comments"], 1)
+        self.assertEqual(obs["audience_comments"], 0)
+        self.assertEqual(obs["interactions_observed"], 0)
+        result_data["comments"]["summary"]["total_count"] = 4
+        obs = metrics._observation(row, result_data, NOW)
+        self.assertEqual(obs["audience_comments"], 3)
+        self.assertEqual(obs["interactions_observed"], 3)
+
+    def test_memory_and_queue_preserve_known_self_comment_status(self):
+        older = record(1)
+        older["facebook_comment_id"] = "comment-1"
+        queue = record(1)
+        latest = metrics._latest_posts(NOW, queue_articles=[queue], campaign_records=[older])
+        self.assertTrue(latest[0]["own_comment_recorded"])
+
     def test_collect_read_only_and_persist_one_sample(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "fb.json"
@@ -132,14 +155,36 @@ class FacebookFeedbackTests(unittest.TestCase):
         self.assertEqual(len(candidates), 1)
         self.assertEqual(candidates[0]["post_id"], "123_1")
 
-    def test_report_only_after_three_complete_observations_in_window(self):
+    def test_report_requires_mature_posts_and_multiple_days_per_window(self):
         posts = {
-            str(i): {"local_hour": 9, "interactions_observed": i * 2}
+            str(i): {
+                "local_hour": 9,
+                "local_date": f"2026-10-0{i}",
+                "published_at": f"2026-10-0{i}T09:00:00Z",
+                "interactions_observed": i * 2,
+                "metrics_version": 2,
+            }
             for i in range(1, 4)
         }
-        posts["4"] = {"local_hour": 19, "interactions_observed": 100}
-        outcome = metrics.summarize_performance(posts)
-        self.assertEqual(outcome, {"morning": {"samples": 3, "average_interactions": 4.0}})
+        posts["4"] = {
+            "local_hour": 19, "local_date": "2026-10-02",
+            "published_at": "2026-10-02T19:00:00Z",
+            "interactions_observed": 100, "metrics_version": 2,
+        }
+        result_summary = metrics.summarize_performance(posts, now=NOW)
+        self.assertEqual(
+            result_summary,
+            {"morning": {"samples": 3, "days": 3, "average_audience_interactions": 4.0}},
+        )
+        for row in posts.values():
+            row["local_date"] = "2026-10-08"
+        self.assertEqual(metrics.summarize_performance(posts, now=NOW), {})
+        self.assertEqual(metrics.summarize_performance({
+            "legacy": {"local_hour": 9, "local_date": "2026-10-01",
+                       "published_at": "2026-10-01T09:00:00Z",
+                       "interactions_observed": 999, "metrics_version": 1},
+        }, now=NOW), {})
+
 
 
 if __name__ == "__main__":
