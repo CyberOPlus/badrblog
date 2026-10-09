@@ -973,7 +973,7 @@ _EDUCATION_LABEL = re.compile(
     r"(?:dipl[oô]me|niveau\s+d['’]?[eé]tudes|niveau\s+scolaire|"
     r"formation\s+(?:requise|demand[eé]e)|profil\s+(?:recherch[eé]|demand[eé])|"
     r"qualification|education\s+(?:required|level)|"
-    r"الشهادة|المؤهل|المستوى\s+الدراسي|المستوى\s+التعليمي|الدبلوم|"
+    r"(?:ال)?شهادة|(?:ال)?مؤهل|المستوى\s+الدراسي|المستوى\s+التعليمي|(?:ال)?دبلوم|"
     r"شروط\s+(?:الترشح|التوظيف)|الاجازة|الإجازة)",
     re.IGNORECASE,
 )
