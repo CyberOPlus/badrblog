@@ -75,6 +75,7 @@ class JobsRuntimeTests(unittest.TestCase):
     def test_blogger_write_boundary_accepts_official_date_only_today(self):
         now = datetime(2026, 10, 1, 14, 36, tzinfo=timezone.utc)
         article = {
+            "job_application_url": "https://example.org/apply/12345",
             "official_source": True,
             "job_published_at": "2026-10-01",
             "source_published_at": "2026-10-01",
@@ -343,6 +344,7 @@ class JobsRuntimeTests(unittest.TestCase):
 
     def test_publish_blocks_while_official_pdf_pages_are_pending(self):
         article = {
+            "job_application_url": "https://example.org/apply/12345",
             "job_deadline": "2099-01-01",
             "job_diploma": "Bac+2",
             "job_document_render_status": "document_render_retry",
@@ -2014,7 +2016,7 @@ class JobsRuntimeTests(unittest.TestCase):
 
     def test_write_boundary_allows_exactly_twelve_hours_but_checks_deadline(self):
         now = datetime(2026, 10, 1, 12, 0, tzinfo=timezone.utc)
-        article = {"job_published_at": "2026-10-01T00:00:00Z", "job_deadline": "2026-10-16", "job_diploma": "Bac+2"}
+        article = {"job_published_at": "2026-10-01T00:00:00Z", "job_deadline": "2026-10-16", "job_diploma": "Bac+2", "job_application_url": "https://example.org/apply/12345"}
         with patch.object(draft, "JOBS_MODE", True):
             draft._assert_fresh_job_for_new_live_publish(article, now=now)
             article["job_deadline"] = "2026-09-30"
@@ -2217,6 +2219,7 @@ class JobsRuntimeTests(unittest.TestCase):
 
     def test_facebook_score_ranks_jobs_but_never_filters_them(self):
         base = {
+            "job_application_url": "https://example.org/apply/12345",
             "job_deadline": "2099-01-01",
             "job_diploma": "Bac+2",
             "status": "published",
@@ -4394,6 +4397,7 @@ class JobsRuntimeTests(unittest.TestCase):
 
     def test_required_cover_quality_failure_waits_for_renderer_without_ai_retry(self):
         article = {
+            "job_application_url": "https://example.org/apply/12345",
             "job_deadline": "2099-01-01",
             "job_diploma": "Bac+2",
             "id": "visual-quality-only",
@@ -5725,6 +5729,7 @@ class JobsRuntimeTests(unittest.TestCase):
 
     def test_retry_ready_failed_job_becomes_immediately_eligible_pending(self):
         article = {
+            "job_application_url": "https://example.org/apply/12345",
             "job_deadline": "2099-01-01",
             "job_diploma": "Bac+2",
             "id": "renderer-retry",

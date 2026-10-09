@@ -677,6 +677,7 @@ class JobVisualTests(unittest.TestCase):
     def test_verified_logo_render_failure_defers_article_without_raising(self):
         article = {
             "id": "job-logo-render-fail",
+            "job_application_url": "https://example.org/apply/12345",
             "job_deadline": "2099-01-01",
             "job_diploma": "Bac+2",
             "job_title": "مهندس نظم",

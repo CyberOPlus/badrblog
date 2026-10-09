@@ -32,7 +32,7 @@ from config import (
     JOBS_EXPECTED_BLOG_HOST,
     JOBS_MAX_PUBLISH_AGE_HOURS,
 )
-from job_core import job_deadline_time, job_publication_freshness, job_publication_policy
+from job_core import job_deadline_time, job_publication_freshness, job_publication_policy, job_direct_application_policy
 from production_logging import html_word_count, log_event
 from quality_gate import validate_before_publish
 from internal_link_cache import record_published_article
@@ -116,6 +116,9 @@ def _publish_quality_error(article, articles):
     article["job_editorial_policy"] = policy
     if not policy["passed"]:
         return "job publication policy blocked: " + "; ".join(policy["reasons"])
+    direct_error = job_direct_application_policy(article)
+    if direct_error:
+        return "direct job application required: " + direct_error
     words = _article_word_count(article)
     package = article.get("ai_input_package")
     if not isinstance(package, dict):
@@ -1049,6 +1052,9 @@ def _assert_fresh_job_for_new_live_publish(article, now=None):
     policy = job_publication_policy(article, now=current)
     if not policy["passed"]:
         raise RuntimeError("Job publication policy blocked: " + "; ".join(policy["reasons"]))
+    direct_error = job_direct_application_policy(article)
+    if direct_error:
+        raise RuntimeError("Direct job application required: " + direct_error)
 
 
 def _get_saved_post_by_id(service, article, mode=None):
