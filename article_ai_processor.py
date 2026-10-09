@@ -1792,6 +1792,14 @@ _JOB_SLUG_ARABIC_PHRASES = (
 )
 
 _JOB_SLUG_LATIN_MAP = {
+    "tawzif": "recruitment",
+    "twzyf": "recruitment",
+    "wadifa": "job",
+    "wadif": "job",
+    "wadaif": "jobs",
+    "moubarat": "competition",
+    "mobarate": "competition",
+    "moubara": "competition",
     "ingenieur": "engineer",
     "ingenieurs": "engineer",
     "technicien": "technician",
