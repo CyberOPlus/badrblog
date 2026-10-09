@@ -13,7 +13,10 @@ from job_document_renderer import (
     promote_job_document_deadline,
     promote_job_document_position_count,
 )
-from job_core import canonicalize_job_url, classify_identity, finalize_identity_evidence_stage
+from job_core import (
+    canonicalize_job_url, classify_identity, finalize_identity_evidence_stage,
+    job_publication_freshness, job_qualification_policy, job_direct_application_policy,
+)
 from verified_fact_manifest import build_verified_fact_manifest
 
 
@@ -286,6 +289,64 @@ def resolve_identity_pending_articles(target_article_id=None):
         "still_pending": still_pending,
         "evidence_errors": evidence_errors,
     }
+
+def recover_public_competition_submission_evidence(max_articles=1):
+    """Read bounded official PDF evidence before selection can reject the job.
+
+    The normal selected-article stage happens too late for jobs whose only
+    published apply address/deadline/diploma is on the official attached PDF.
+    Try one fresh notice per cycle, preserving all existing source/freshness
+    requirements and never substituting a homepage for an application action.
+    """
+    queue = load_article_queue()
+    attempted = 0
+    recovered = 0
+    changed = False
+    for article in queue.get("articles", []):
+        if attempted >= max(0, int(max_articles)):
+            break
+        if article.get("archived") or article.get("status") not in {"ready", "identity_pending"}:
+            continue
+        if article.get("content_fetch_status") != "success":
+            continue
+        if not bool(article.get("official_source") or article.get("job_official_source")):
+            continue
+        if str(article.get("job_notice_type") or "").strip().lower() != "competition":
+            continue
+        if not article.get("job_document_links"):
+            continue
+        freshness = job_publication_freshness(article)
+        if not freshness["verified"] or not freshness["fresh"]:
+            continue
+        missing_facts = (
+            not str(article.get("job_deadline") or "").strip()
+            or job_qualification_policy(article)[0] == "unverified"
+            or bool(job_direct_application_policy(article))
+        )
+        if not missing_facts:
+            continue
+        # Already checked a complete PDF with no matching apply action? Leave
+        # the vacancy unpublishable; do not fetch the same evidence every run.
+        if (
+            article.get("job_document_text_read_complete") is True
+            and int(article.get("job_document_text_attempted_documents") or 0) > 0
+        ):
+            continue
+        attempted += 1
+        try:
+            _prepare_identity_evidence(article)
+            recovered += int(
+                bool(article.get("job_deadline"))
+                and job_qualification_policy(article)[0] == "below_bac3"
+                and not job_direct_application_policy(article)
+            )
+        except Exception as error:
+            article["job_document_text_error"] = str(error)
+        changed = True
+    if changed:
+        save_article_queue(queue)
+    return {"checked": attempted, "recovered": recovered}
+
 
 def prepare_selected_articles_for_ai(target_article_id=None):
     """
