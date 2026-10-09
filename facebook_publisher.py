@@ -40,6 +40,7 @@ from job_core import (
     _parse_date as parse_job_date,
     classify_urgency,
     job_deadline_time,
+    job_publication_policy,
     list_active_job_campaign_records,
     record_job_social_state,
 )
@@ -644,6 +645,8 @@ def _facebook_job_priority(article, now=None):
 
 
 def _eligible_for_facebook(article):
+    if not job_publication_policy(article)["passed"]:
+        return False
     if not _has_blogger_live_publish(article) or article.get("facebook_post_id"):
         return False
     if _job_facebook_expired(article):
@@ -1777,6 +1780,13 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
             "article": None,
             "error": "No eligible published article without Facebook post found.",
         }
+
+    editorial = job_publication_policy(article)
+    if not editorial["passed"]:
+        return _deferred_result(
+            article,
+            "Job publication policy blocked Facebook: " + "; ".join(editorial["reasons"]),
+        )
 
     if _job_facebook_expired(article):
         _mark_facebook_expired(article)
