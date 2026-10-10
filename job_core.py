@@ -1167,6 +1167,15 @@ def job_publication_policy(article, now=None):
 
 def job_labels(article):
     labels = ["jobs"]
+    opportunity_kind = job_opportunity_kind(article)
+    if opportunity_kind == "internship":
+        labels.append("internships")
+    elif opportunity_kind == "scholarship":
+        labels.append("scholarships")
+    elif opportunity_kind == "training":
+        labels.append("training")
+    elif opportunity_kind == "apprenticeship":
+        labels.append("apprenticeships")
     eligibility = str(article.get("job_eligibility") or article.get("eligibility") or "").strip().lower()
     remote = bool(article.get("job_remote") or article.get("remote"))
     visa = bool(article.get("job_visa_sponsorship") or article.get("visa_sponsorship"))
