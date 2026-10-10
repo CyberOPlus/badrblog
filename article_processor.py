@@ -75,6 +75,7 @@ def _build_ai_input_package(article):
         "trusted_references": article.get("trusted_references", []),
         "related_posts": ([]),
         "labels": article.get("labels", []),
+        "opportunity_kind": article.get("opportunity_kind", "job"),
         "job_title": article.get("job_title", ""),
         "job_company": article.get("job_company", ""),
         "job_location": article.get("job_location", ""),
