@@ -1214,7 +1214,7 @@ def score_job(article, now=None):
     elif freshness["future"]:
         reasons.append("publication time is in the future")
     elif not freshness["fresh"]:
-        reasons.append(f"opportunity is older than {maximum_hours} hours")
+        reasons.append(f"job is older than {maximum_hours} hours" if job_opportunity_kind(article) == "job" else f"opportunity is older than {maximum_hours} hours")
 
     normalized_title = normalize_text(article.get("job_title") or article.get("title"))
     if normalized_title in {
