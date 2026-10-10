@@ -68,6 +68,10 @@ BLOCKED_IMAGE_HINTS = (
     "default_image",
     "defaultimage",
     "placeholder",
+    "logo-404",
+    "404-logo",
+    "missing-logo",
+    "no-logo",
 )
 
 OFFICIAL_SITE_LABELS = (

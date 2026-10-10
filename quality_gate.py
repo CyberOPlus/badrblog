@@ -609,6 +609,17 @@ def validate_ai_article_output(data, package=None):
     return validate_before_publish(article, check_duplicate=False)
 
 
+def _job_raw_url_text_reason(html_content):
+    """Reject visible raw URLs outside anchors; link hrefs are checked separately."""
+    soup = BeautifulSoup(str(html_content or ""), "html.parser")
+    for node in soup.find_all(["a", "script", "style", "noscript"]):
+        node.decompose()
+    visible_text = soup.get_text(" ", strip=True)
+    if re.search(r"(?i)(?:https?://|www\.)[^\s<>\"']+", visible_text):
+        return "Jobs article contains a raw URL outside a verified link"
+    return ""
+
+
 def validate_before_publish(article, existing_articles=None, check_duplicate=True):
     html_content = str(article.get("final_html") or article.get("blogger_article_html") or "").strip()
     seo_title = str(article.get("seo_title") or "").strip()
@@ -626,6 +637,9 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
     body_text = html_to_text(html_content)
     if _has_visible_json_or_markdown(html_content) or _has_visible_json_or_markdown(body_text):
         return QualityGateResult(False, "visible JSON/markdown found in article output", word_count)
+    raw_url_reason = _job_raw_url_text_reason(html_content)
+    if raw_url_reason:
+        return QualityGateResult(False, raw_url_reason, word_count)
     if _has_repeated_text_blocks(body_text):
         return QualityGateResult(False, "repeated text blocks found in article output", word_count)
     if _has_random_language_mixing(body_text):

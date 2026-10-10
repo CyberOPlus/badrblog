@@ -33,8 +33,14 @@ from config import (
     JOBS_MAX_PUBLISH_AGE_HOURS,
 )
 from production_logging import elapsed_ms, log_event
-from job_extractor import _deadline_from_text, extract_job_fields, unicef_job_content
+from job_extractor import (
+    _deadline_from_text,
+    extract_job_fields,
+    ofppt_official_document_links,
+    unicef_job_content,
+)
 from job_core import (
+    canonicalize_job_url,
     invalidate_identity_evidence,
     job_deadline_time,
     job_focus_priority,
@@ -851,6 +857,14 @@ def _apply_enrichment_from_html(article, html, url):
         # the actual job. Keep title, dates, links and text within this job.
         job_source_soup = BeautifulSoup(str(vacancy), "html.parser")
         soup = BeautifulSoup(str(vacancy), "html.parser")
+
+    parsed_detail_url = urlparse(str(url or "").strip())
+    is_ofppt_offer = parsed_detail_url.scheme == "https" and parsed_detail_url.hostname == "recrutement.ofppt.ma" and bool(re.fullmatch(r"/offre/\d+/?", parsed_detail_url.path, flags=re.I))
+    if is_ofppt_offer:
+        # Read the PDF bound to this exact official offer before rejecting its short HTML shell.
+        article["job_document_links"] = ofppt_official_document_links(job_source_soup, url)
+        if article["job_document_links"]:
+            article["job_document_source"] = "official_ofppt_detail"
     source_links_removed, affiliate_links_removed = _remove_unwanted_links(
         soup,
         url,
@@ -881,26 +895,37 @@ def _apply_enrichment_from_html(article, html, url):
         soup,
         min_success_chars,
     )
+    required_words = 40
+    if is_ofppt_offer and article.get("job_document_links") and (not full_text or len(full_text) < min_success_chars or _word_count(full_text) < required_words):
+        try:
+            from job_document_renderer import extract_job_document_texts
+            pages = extract_job_document_texts(article, max_documents=1, max_total_pages=24, max_chars_per_page=8000, max_total_chars=80000, max_ocr_pages=6, download_timeout=12, download_attempts=1, fast_fail=True)
+            pdf_text = _normalize_text("\n".join(str(page.get("text") or "") for page in pages if isinstance(page, dict)))
+            pdf_words = _word_count(pdf_text)
+            pdf_complete = article.get("job_document_text_read_complete") is True and not article.get("job_document_text_truncated") and int(article.get("job_document_text_download_failures") or 0) == 0
+            if pdf_complete and len(pdf_text) >= min_success_chars and pdf_words >= required_words:
+                full_text = pdf_text
+                text_method = "official_pdf"
+                tried_text_sources = list(tried_text_sources or []) + ["official_ofppt_pdf"]
+                log_event("ofppt_official_pdf_body_recovered", article_id=article.get("id"), source_url=url, pages=len(pages), chars=len(pdf_text), words=pdf_words, read_complete=True)
+            else:
+                log_event("ofppt_official_pdf_body_not_usable", article_id=article.get("id"), source_url=url, pages=len(pages), chars=len(pdf_text), words=pdf_words, read_complete=bool(article.get("job_document_text_read_complete")), truncated=bool(article.get("job_document_text_truncated")), download_failures=int(article.get("job_document_text_download_failures") or 0), ocr_unavailable=bool(article.get("job_document_ocr_unavailable")))
+        except Exception as error:
+            log_event("ofppt_official_pdf_body_failed", article_id=article.get("id"), source_url=url, error=error.__class__.__name__)
+
     preview = _trim_preview(full_text) if full_text else ""
     extracted_words = _word_count(full_text)
-    required_words = (40)
-    log_event(
-        "final_extracted_words",
-        title=article.get("title"),
-        source=article.get("source_name"),
-        source_url=url,
-        method=text_method or "none",
-        chars=len(full_text or ""),
-        words=str(extracted_words),
-    )
+    log_event("final_extracted_words", title=article.get("title"), source=article.get("source_name"), source_url=url, method=text_method or "none", chars=len(full_text or ""), words=str(extracted_words))
     if not full_text or len(full_text) < min_success_chars or extracted_words < required_words:
         tried = ", ".join(tried_text_sources) if tried_text_sources else "none"
-        return (
-            False,
-            "weak article body after fallbacks "
-            f"(best={len(full_text or '')} chars/{extracted_words} words; "
-            f"required={min_success_chars} chars/{required_words} words; tried={tried})",
-        )
+        reason = f"weak article body after fallbacks (best={len(full_text or '')} chars/{extracted_words} words; required={min_success_chars} chars/{required_words} words; tried={tried})"
+        article["content_fetch_status"] = "weak"
+        article["full_article_text"] = full_text or ""
+        article["full_article_text_chars"] = len(article["full_article_text"])
+        article["content_preview"] = preview
+        article["content_preview_chars"] = len(preview)
+        article["content_fetch_error"] = reason
+        return False, reason
     if text_method and text_method != "article_body":
         article["enrichment_fallback_used"] = text_method
         log_event(
@@ -924,6 +949,11 @@ def _apply_enrichment_from_html(article, html, url):
     article["source_tables_count"] = len(source_tables)
     article["source_tables_truncated"] = bool(source_tables_truncated)
     article.update(extract_job_fields(job_source_soup, article, url, full_text=full_text))
+    if is_ofppt_offer and article.get("job_document_links"):
+        document_urls = sorted({canonicalize_job_url(item.get("url")) for item in (article.get("job_document_links") or []) if isinstance(item, dict) and canonicalize_job_url(item.get("url"))})
+        if document_urls and article.get("job_document_text_read_complete") is True and not article.get("job_document_text_truncated") and int(article.get("job_document_text_download_failures") or 0) == 0:
+            # Preserve the complete PDF evidence so Phase 5 does not download it again.
+            article["identity_evidence_document_fingerprint"] = "|".join(document_urls)
     if vacancy is not None:
         article["fetched_title"] = article["job_title"]
     try:
@@ -1566,6 +1596,37 @@ def _jobs_enrichment_priority(article, queue_index=0, now=None):
     )
 
 
+def _enrichment_source_key(article):
+    parsed = urlparse(str((article or {}).get("url") or "").strip())
+    host = (parsed.hostname or "").casefold()
+    if host.startswith("www."):
+        host = host[4:]
+    return host or re.sub(r"\s+", " ", str((article or {}).get("source_name") or "unknown").casefold()).strip()
+
+
+def _select_diverse_enrichment_targets(targets, max_targets, now=None):
+    """Keep deadline/freshness priority while preventing one host from starving others."""
+    limit = max(0, int(max_targets or 0))
+    ranked = sorted(targets, key=lambda row: _jobs_enrichment_priority(row[1], row[0], now=now))
+    if len(ranked) <= limit:
+        return ranked, 0
+    selected, deferred, counts = [], [], {}
+    per_source_cap = 2
+    for row in ranked:
+        key = _enrichment_source_key(row[1])
+        if len(selected) < limit and counts.get(key, 0) < per_source_cap:
+            selected.append(row)
+            counts[key] = counts.get(key, 0) + 1
+        else:
+            deferred.append(row)
+    # If only one source has candidates, use the remaining budget rather than idling.
+    for row in deferred:
+        if len(selected) >= limit:
+            break
+        selected.append(row)
+    return selected, len(ranked) - len(selected)
+
+
 def enrich_ready_articles(force=False):
     """
     Enrich ready articles only. Existing successful enrichments are skipped
@@ -1662,16 +1723,12 @@ def enrich_ready_articles(force=False):
         targets.append((queue_index, article))
 
     if not force and len(targets) > JOBS_ENRICH_MAX_TARGETS_PER_CYCLE:
-        targets.sort(key=lambda row: _jobs_enrichment_priority(row[1], row[0]))
-        deferred_targets = len(targets) - JOBS_ENRICH_MAX_TARGETS_PER_CYCLE
-        targets = targets[:JOBS_ENRICH_MAX_TARGETS_PER_CYCLE]
-        log_event(
-            "jobs_enrichment_batch_limited",
-            selected=len(targets),
-            deferred=deferred_targets,
-            total_candidates=len(targets) + deferred_targets,
-            max_targets=JOBS_ENRICH_MAX_TARGETS_PER_CYCLE,
-        )
+        targets, deferred_targets = _select_diverse_enrichment_targets(targets, JOBS_ENRICH_MAX_TARGETS_PER_CYCLE, now=datetime.now(timezone.utc))
+        selected_source_counts = {}
+        for _index, article in targets:
+            key = _enrichment_source_key(article)
+            selected_source_counts[key] = selected_source_counts.get(key, 0) + 1
+        log_event("jobs_enrichment_batch_limited", selected=len(targets), deferred=deferred_targets, total_candidates=len(targets) + deferred_targets, max_targets=JOBS_ENRICH_MAX_TARGETS_PER_CYCLE, selected_sources=",".join(f"{host}:{count}" for host, count in sorted(selected_source_counts.items())))
 
     targets = [article for _index, article in targets]
 
@@ -1693,6 +1750,7 @@ def enrich_ready_articles(force=False):
                 continue
             if article.get("content_fetch_status") == "weak":
                 weak += 1
+                _record_enrichment_failure(article, error)
                 log_event(
                     "article_enrich_weak",
                     title=article.get("title"),
@@ -1721,6 +1779,7 @@ def enrich_ready_articles(force=False):
                 )
             elif article.get("content_fetch_status") == "weak":
                 weak += 1
+                _record_enrichment_failure(article, error or original_error)
                 log_event(
                     "article_enrich_weak",
                     title=article.get("title"),
@@ -1765,6 +1824,7 @@ def enrich_ready_articles(force=False):
                 )
             elif article.get("content_fetch_status") == "weak":
                 weak += 1
+                _record_enrichment_failure(article, error or original_error)
                 log_event(
                     "article_enrich_weak",
                     title=article.get("title"),

@@ -634,6 +634,31 @@ def _extract_job_action_links(soup, page_url, full_text=""):
     return rows[:30]
 
 
+def ofppt_official_document_links(soup, page_url):
+    """Return only the official PDF attached to the exact OFPPT offer page."""
+    parsed_page = urlparse(str(page_url or "").strip())
+    offer_match = re.fullmatch(r"/offre/(\d+)/?", parsed_page.path, flags=re.I)
+    if parsed_page.scheme != "https" or parsed_page.hostname != "recrutement.ofppt.ma" or not offer_match:
+        return []
+    offer_id = offer_match.group(1)
+    documents, seen = [], set()
+    for anchor in soup.select("a[href]"):
+        absolute = urljoin(page_url, str(anchor.get("href") or "").strip())
+        parsed = urlparse(absolute)
+        if parsed.scheme != "https" or parsed.hostname != "recrutement.ofppt.ma" or parsed.username or parsed.password:
+            continue
+        if not re.fullmatch(rf"/files/offer/{re.escape(offer_id)}/avis_concours/[^/]+\.pdf", parsed.path, flags=re.I):
+            continue
+        key = absolute.split("#", 1)[0]
+        if key in seen:
+            continue
+        seen.add(key)
+        documents.append({"url": absolute, "label": _text(anchor.get_text(" ", strip=True)) or "Avis de concours officiel", "kind": "document", "context": "official_ofppt_detail"})
+        if len(documents) >= 3:
+            break
+    return documents
+
+
 def _notice_type(title, body):
     title_text = str(title or "").casefold()
     haystack = f"{title} {body}".casefold()
@@ -730,21 +755,19 @@ def extract_job_fields(soup, article, page_url, full_text=""):
     if isinstance(employment, list):
         employment = ", ".join(_text(x) for x in employment if _text(x))
 
+    parsed_page = urlparse(str(page_url or "").strip())
+    is_ofppt_page = parsed_page.scheme == "https" and parsed_page.hostname == "recrutement.ofppt.ma" and bool(re.fullmatch(r"/offre/\d+/?", parsed_page.path, flags=re.I))
+    ofppt_documents = ofppt_official_document_links(soup, page_url) if is_ofppt_page else []
+    ofppt_source_verified = bool(article.get("official_source") or article.get("job_official_source")) and bool(ofppt_documents)
     notice_type = _notice_type(job_title, body)
     ats_provider = str(article.get("ats_provider") or "").strip().lower()
-    if (
-        notice_type == "vacancy"
-        and ats_provider == "emploi_public"
-    ):
+    if notice_type == "vacancy" and (ats_provider == "emploi_public" or ofppt_source_verified):
         notice_type = "competition"
-
-    # Emploi-Public is itself the official competition portal. Once that source
-    # identifies the page as a competition, treat the notice type as source-backed
-    # rather than a weak heuristic so deadline/application facts become mandatory
-    # in the verified manifest.
+    # A verified OFPPT offer PDF makes competition-specific evidence mandatory.
     notice_type_source = (
         "source"
-        if bool(article.get("official_source")) and ats_provider == "emploi_public"
+        if bool(article.get("official_source") or article.get("job_official_source"))
+        and (ats_provider == "emploi_public" or ofppt_source_verified)
         else "heuristic"
     )
 
@@ -774,7 +797,7 @@ def extract_job_fields(soup, article, page_url, full_text=""):
         ),
         None,
     )
-    documents = [row for row in action_links if row.get("kind") == "document"]
+    documents = ofppt_documents if is_ofppt_page else [row for row in action_links if row.get("kind") == "document"]
     structured_url = _text(node.get("url"))
 
     application_candidates = [

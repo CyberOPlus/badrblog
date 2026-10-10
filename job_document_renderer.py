@@ -81,8 +81,8 @@ def _document_should_render(item):
     return any(hint in signature for hint in PDF_HINTS)
 
 
-def _download_pdf(url, timeout=45, max_bytes=25 * 1024 * 1024, attempts=3):
-    """Download an official PDF patiently, retrying transient network failures."""
+def _download_pdf(url, timeout=45, max_bytes=25 * 1024 * 1024, attempts=3, fast_fail=False):
+    """Download an official PDF patiently, or with a bounded one-shot timeout."""
     headers = {
         "User-Agent": (
             "Mozilla/5.0 (compatible; CyberoPlusJobs/1.0; "
@@ -91,13 +91,14 @@ def _download_pdf(url, timeout=45, max_bytes=25 * 1024 * 1024, attempts=3):
         "Accept": "application/pdf,application/octet-stream;q=0.9,*/*;q=0.5",
     }
     attempts = max(1, min(int(attempts or 1), 4))
-    base_timeout = max(20, int(timeout or 45))
-    read_timeouts = (
-        max(30, base_timeout - 15),
-        max(45, base_timeout),
-        max(60, base_timeout + 15),
-        max(75, base_timeout + 30),
-    )
+    if fast_fail:
+        base_timeout = max(5, min(20, int(timeout or 12)))
+        read_timeouts = (base_timeout,) * 4
+        connect_timeout = max(3, min(5, base_timeout))
+    else:
+        base_timeout = max(20, int(timeout or 45))
+        read_timeouts = (max(30, base_timeout - 15), max(45, base_timeout), max(60, base_timeout + 15), max(75, base_timeout + 30))
+        connect_timeout = 15
     last_error = None
 
     for attempt in range(1, attempts + 1):
@@ -106,7 +107,7 @@ def _download_pdf(url, timeout=45, max_bytes=25 * 1024 * 1024, attempts=3):
             response = requests.get(
                 url,
                 headers=headers,
-                timeout=(15, read_timeout),
+                timeout=(connect_timeout, read_timeout),
                 stream=True,
                 allow_redirects=True,
             )
@@ -310,6 +311,9 @@ def extract_job_document_texts(
     max_chars_per_page=8000,
     max_total_chars=80000,
     max_ocr_pages=None,
+    download_timeout=45,
+    download_attempts=3,
+    fast_fail=False,
 ):
     """Extract official PDF text as pre-AI evidence, using OCR for scanned pages.
 
@@ -367,7 +371,7 @@ def extract_job_document_texts(
         )
         attempted_documents += 1
         try:
-            payload = _download_pdf(url)
+            payload = _download_pdf(url, timeout=download_timeout, attempts=download_attempts, fast_fail=fast_fail)
             document = fitz.open(stream=payload, filetype="pdf")
         except Exception as error:
             download_failures += 1
