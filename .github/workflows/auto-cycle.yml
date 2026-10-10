@@ -19,7 +19,7 @@ name: Jobs Auto Cycle
 # Arabic-only social repair restart marker.
 # Post-repair restart marker; idempotent.
 # Five-minute Jobs discovery/publishing. Cron provides steady 24/7 cycles without dispatch storms.
-# Facebook pending items use repaired AI-only social schema retries.   Facebook/social repairs may restart this chain safely.
+# Facebook pending items use repaired AI-only social schema retries. Social repairs remain safe to retry.
 # Workflow edits intentionally restart production so runtime repairs are picked up immediately.    AI recovery verified 2026-10-02.
 # Social AI queue repair verified; failed captions stay retryable without blocking Blogger.
 # Cron and the independent watchdog provide restart/recovery without recursive dispatch.
@@ -41,7 +41,7 @@ on:
 
 concurrency:
   # Let the active worker finish publishing and persist its state. All triggers,
-  # including upgrades, share the same lock; the successor checks out latest main.
+  # including upgrades, share the same lock; each run checks out latest main.
   group: jobs-production-refs/heads/main
   cancel-in-progress: false
 
@@ -728,6 +728,6 @@ jobs:
       - name: Report delivery blockers
         if: always()
         # State has already been saved. Make a real external blocker visible
-        # without preventing the independent successor/watchdog from retrying.
+        # without preventing the independent schedule/watchdog from retrying.
         run: python delivery_monitor.py --cached
 
