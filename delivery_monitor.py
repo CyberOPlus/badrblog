@@ -377,6 +377,20 @@ def delivery_status(now=None, services=None, ai_circuit=None):
              row.get("status") not in {"published", "skipped"} and
              job_publication_freshness(row, now=now).get("fresh")]
     fresh_ready = [row for row in fresh if row.get("status") == "ready"]
+    quality_blockers = {}
+    for row in fresh_ready:
+        reasons = [str(reason or "").strip() for reason in (row.get("job_quality_reasons") or [])]
+        if row.get("content_fetch_status") != "success":
+            reasons.append("source detail not fetched")
+        if row.get("identity_evidence_stage_status") != "complete":
+            reasons.append("identity evidence incomplete")
+        if not reasons and row.get("job_hard_gate_passed") is not True:
+            reasons.append("publication hard gates incomplete")
+        for reason in set(filter(None, reasons)):
+            quality_blockers[reason] = quality_blockers.get(reason, 0) + 1
+    blockers = [{"reason": label, "count": count}
+                for label, count in sorted(quality_blockers.items(),
+                                           key=lambda item: (-item[1], item[0]))[:10]]
     # A queue status alone does not make a job publishable. Mirror the
     # publisher/watchdog hard gates so incomplete eligibility evidence cannot
     # produce a false one-hour delivery blocker.
@@ -446,6 +460,7 @@ def delivery_status(now=None, services=None, ai_circuit=None):
             "fresh_candidate_count": len(fresh),
             "verified_ready_candidate_count": len(verified_ready),
             "unverified_ready_candidate_count": len(fresh_ready) - len(verified_ready),
+            "ready_quality_blockers": blockers,
             "facebook_pending_count": len(pending),
             "oldest_facebook_pending_minutes": round(oldest_pending, 1),
             "oldest_ready_candidate_minutes": round(oldest_candidate, 1),
