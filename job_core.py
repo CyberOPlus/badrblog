@@ -977,17 +977,17 @@ _EDUCATION_LABEL = re.compile(
     re.IGNORECASE,
 )
 _EDUCATION_HIGH = re.compile(
-    r"\\bbac\\s*\\+\\s*(?:[4-9]|[1-9]\\d+)\\b|"
-    r"\\b(?:master|mastere|master's|m[12]\\s+degree|ingenieur\\s+d['’]etat|"
-    r"doctorat|doctorate|phd|mba|bac\\s*plus\\s*(?:quatre|cinq))\\b|"
-    r"(?:الماستر|الماجستير|الدكتوراه|مهندس\\s+دولة|باك\\s*\\+\\s*[٤٥٦٧٨٩])",
+    r"\bbac\s*\+\s*(?:[4-9]|[1-9]\d+)\b|"
+    r"\b(?:master|mastere|master's|m[12]\s+degree|ingenieur\s+d['’]etat|"
+    r"doctorat|doctorate|phd|mba|bac\s*plus\s*(?:quatre|cinq))\b|"
+    r"(?:الماستر|الماجستير|الدكتوراه|مهندس\s+دولة|باك\s*\+\s*[٤٥٦٧٨٩])",
     re.IGNORECASE,
 )
 _EDUCATION_BACHELOR = re.compile(
-    r"\\bbac\\s*\\+\\s*3\\b|\\bbac\\s*plus\\s*trois\\b|"
-    r"\\b(?:licence(?!\\s+de\\s+conduire\\b)|bachelor(?:'s)?|"
-    r"licenciatura|licence\\s+professionnelle)\\b|"
-    r"(?:الاجازة|الإجازة|باك\\s*\\+\\s*٣)",
+    r"\bbac\s*\+\s*3\b|\bbac\s*plus\s*trois\b|"
+    r"\b(?:licence(?!\s+de\s+conduire\b)|bachelor(?:'s)?|"
+    r"licenciatura|licence\s+professionnelle)\b|"
+    r"(?:الاجازة|الإجازة|باك\s*\+\s*٣)",
     re.IGNORECASE,
 )
 _EDUCATION_LOW = re.compile(
