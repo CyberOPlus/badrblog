@@ -415,6 +415,9 @@ def delivery_status(now=None, services=None, ai_circuit=None):
             )
     else:
         state, action = "healthy", "Independent queues continue; each verified fresh job follows Blogger to Facebook."
+    coverage = discovery_coverage(now=now)
+    if state in {"no_fresh_candidate", "no_verified_candidate", "healthy"} and coverage["status"] in {"starved", "stalled_discovery"}:
+        state, action = "coverage_" + coverage["status"], coverage["action"]
     return {"updated_at": now.isoformat(), "state": state, "action": action,
             "hourly_target_met": target_met, "target_minutes": TARGET_MINUTES,
             "last_facebook_posted_at": latest.get("facebook_posted_at", ""),
@@ -427,7 +430,7 @@ def delivery_status(now=None, services=None, ai_circuit=None):
             "facebook_pending_count": len(pending),
             "oldest_facebook_pending_minutes": round(oldest_pending, 1),
             "oldest_ready_candidate_minutes": round(oldest_candidate, 1),
-            "pending_first_comments": len(comments), "services": services}
+            "pending_first_comments": len(comments), "services": services, "coverage": coverage}
 
 
 def run_monitor(force=False):
@@ -470,6 +473,8 @@ def emit_report(report):
             handle.write(f"- Sources: `{report.get('services', {}).get('sources', {}).get('status', 'unknown')}`\n")
     if report.get("state") in BLOCKING_STATES:
         print("::error::" + report.get("action", "Delivery blocker needs attention."))
+    elif str(report.get("state") or "").startswith("coverage_"):
+        print("::warning::" + report.get("action", "Discovery starvation or workflow stalling."))
     elif report.get("state") == "source_degraded":
         print("::warning::" + report.get("action", "A critical source is degraded."))
     elif not report.get("hourly_target_met"):
