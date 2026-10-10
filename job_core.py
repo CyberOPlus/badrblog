@@ -47,9 +47,8 @@ GOOD_ELIGIBILITY = {"morocco", "remote_morocco", "abroad_open", "visa_confirmed"
 TOP_SOURCE_PRIORITIES = {"s+", "s", "a+"}
 
 
-# Editorial priority only. These patterns never make an invalid or stale job
-# publishable; they only move the user's preferred technical/student roles ahead
-# of other equally fresh verified opportunities.
+# Technical and student roles receive only a light tie-break preference.
+# No sector is excluded: freshness, eligibility, source diversity and verified facts win.
 _CYBER_FOCUS_PATTERNS = (
     r"\bcyber(?:security|securite|sécurité)?\b",
     r"\bcybers[eé]curit[eé]\b",
@@ -117,7 +116,7 @@ _STUDENT_FOCUS_PATTERNS = (
 
 
 def job_focus_priority(article):
-    """Rank cyber/IT/developer and internship opportunities ahead of general jobs."""
+    """Optional sector tie-break, never a mandatory technical focus."""
     text = " ".join(
         str(article.get(key) or "")
         for key in (
@@ -967,8 +966,8 @@ def job_deadline_time(article):
 
 
 
-# Publication policy: only vacancies with a verified, still-open application
-# deadline and evidence of a qualification strictly below Bac+3 may publish.
+# Publication policy: require an open deadline and verified qualification of
+# Bac+3 / Licence / Bachelor (or equivalent) or lower. Higher-only posts fail.
 _EDUCATION_LABEL = re.compile(
     r"(?:dipl[oô]me|niveau\s+d['’]?[eé]tudes|niveau\s+scolaire|"
     r"formation\s+(?:requise|demand[eé]e)|profil\s+(?:recherch[eé]|demand[eé])|"
@@ -978,11 +977,17 @@ _EDUCATION_LABEL = re.compile(
     re.IGNORECASE,
 )
 _EDUCATION_HIGH = re.compile(
-    r"\bbac\s*\+\s*(?:[3-9]|[1-9]\d+)\b|"
-    r"\b(?:licence(?!\s+de\s+conduire\b)|bachelor|master|"
-    r"mastere|maitrise|ingenieur|doctorat|doctorate|phd|mba|"
-    r"bac\s*plus\s*(?:trois|quatre|cinq))\b|"
-    r"(?:الاجازة|الماستر|الدكتوراه|مهندس\s+دولة|باك\s*\+\s*[٣٤٥٦٧٨٩])",
+    r"\bbac\s*\+\s*(?:[4-9]|[1-9]\d+)\b|"
+    r"\b(?:master|mastere|master's|m[12]\s+degree|ingenieur|"
+    r"doctorat|doctorate|phd|mba|bac\s*plus\s*(?:quatre|cinq))\b|"
+    r"(?:(?:ال)?ماستر|الماجستير|الدكتوراه|مهندس\s+دولة|باك\s*\+\s*[٤٥٦٧٨٩])",
+    re.IGNORECASE,
+)
+_EDUCATION_BACHELOR = re.compile(
+    r"\bbac\s*\+\s*3\b|\bbac\s*plus\s*trois\b|"
+    r"\b(?:licence(?!\s+de\s+conduire\b)|bachelor(?:'s)?|"
+    r"licenciatura|licence\s+professionnelle)\b|"
+    r"(?:الاجازة|الإجازة|باك\s*\+\s*٣)",
     re.IGNORECASE,
 )
 _EDUCATION_LOW = re.compile(
@@ -1040,15 +1045,17 @@ def job_qualification_evidence(article):
 
 
 def job_qualification_policy(article):
-    """Return (state, evidence); pass only if source proves < Bac+3."""
+    """Return (state, evidence); require proven Bachelor/Licence or lower."""
     evidence = job_qualification_evidence(article)
     normalized = [_education_plain(value) for value in evidence]
-    # An explicit Bac+3+ requirement anywhere in the scoped evidence blocks
-    # mixed multi-position announcements, including Bac+2/Bac+5 listings.
+    # An explicit higher-than-Bac+3 requirement blocks mixed multi-position
+    # calls too; do not falsely advertise a Bac+5-only position to a Bac+2 reader.
     for value, original in zip(normalized, evidence):
         if _EDUCATION_HIGH.search(value):
             return "above_limit", original
     for value, original in zip(normalized, evidence):
+        if _EDUCATION_BACHELOR.search(value):
+            return "bac3", original
         if _EDUCATION_LOW.search(value):
             return "below_bac3", original
     return "unverified", ""
@@ -1070,9 +1077,9 @@ def job_publication_policy(article, now=None):
         reasons.append("application registration deadline passed")
     education, evidence = job_qualification_policy(article)
     if education == "above_limit":
-        reasons.append("required diploma is Bac+3 or higher")
-    elif education != "below_bac3":
-        reasons.append("required diploma below Bac+3 is not verified")
+        reasons.append("required diploma is above Bac+3")
+    elif education not in {"below_bac3", "bac3"}:
+        reasons.append("required diploma Bac+3 or below is not verified")
     return {
         "passed": not reasons,
         "reasons": reasons,
@@ -1126,7 +1133,7 @@ def score_job(article, now=None):
         if fresh and publication_age_hours is not None and publication_age_hours <= 12
         else 0
     )
-    points["preferred_tech_or_student"] = 10 if job_focus_priority(article) > 0 else 0
+    points["preferred_tech_or_student"] = 3 if job_focus_priority(article) > 0 else 0
 
     priority = str(article.get("source_priority") or "").strip().lower()
     points["trusted_priority_source"] = 10 if priority in TOP_SOURCE_PRIORITIES else 0
@@ -1835,22 +1842,16 @@ def prepare_job_candidate(article, now=None):
 
 
 def _source_rotation_key(article):
-    """Stable publication-rotation key for a configured source."""
+    """Rotate by actual originating website, not its different category names."""
     article = article or {}
-    source_name = re.sub(
-        r"\s+",
-        " ",
-        str(article.get("source_name") or "").strip().casefold(),
-    )
-    if source_name:
-        return source_name
-
     source_url = str(article.get("source_url") or "").strip()
     try:
-        host = urlparse(source_url).netloc.casefold()
+        host = (urlparse(source_url).hostname or "").casefold().removeprefix("www.")
     except Exception:
         host = ""
-    return host or source_url.casefold()
+    if host:
+        return host
+    return re.sub(r"\s+", " ", str(article.get("source_name") or "").strip().casefold())
 
 
 def _source_publish_history_from_memory(limit=500):
@@ -1885,8 +1886,11 @@ def _source_last_publish_epoch(article, history):
     key = _source_rotation_key(article)
     if not key:
         return 0.0
-    parsed = _parse_date((history or {}).get(key))
-    return parsed.timestamp() if parsed else 0.0
+    # Recognize legacy history persisted under display names during migration.
+    legacy_key = re.sub(r"\s+", " ", str((article or {}).get("source_name") or "").strip().casefold())
+    dates = [_parse_date((history or {}).get(source_key)) for source_key in {key, legacy_key} if source_key]
+    timestamps = [value.timestamp() for value in dates if value]
+    return max(timestamps, default=0.0)
 
 
 def _defer_quality_candidate(article, quality, now=None):
@@ -1981,7 +1985,8 @@ def select_best_job_from_queue(queue, now=None):
         # Urgent/closing-soon notices remain first. Otherwise rotate fairly
         # across sources: a source that has never published (or published least
         # recently) gets the next turn, while focus/freshness/quality still rank
-        # jobs inside that fair source choice.
+        # jobs inside that fair source choice. Newer general jobs outrank
+        # older technical jobs from the same source.
         published = _parse_date(
             article.get("job_published_at")
             or article.get("source_published_at")
@@ -1996,8 +2001,8 @@ def select_best_job_from_queue(queue, now=None):
             (
                 priority,
                 source_fairness,
-                focus_priority,
                 published_epoch,
+                focus_priority,
                 discovered_epoch,
                 quality["score"],
                 article,

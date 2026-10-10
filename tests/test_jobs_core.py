@@ -1980,7 +1980,7 @@ class JobsCoreTests(unittest.TestCase):
                 job_core.job_focus_priority(general),
             )
 
-    def test_jobs_queue_prefers_technical_role_within_same_fresh_window(self):
+    def test_jobs_queue_prefers_newer_verified_general_role_over_older_tech(self):
         now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
         general = sample_job(
             id="general-newer",
@@ -2016,7 +2016,35 @@ class JobsCoreTests(unittest.TestCase):
                 now=now,
             )
 
-        self.assertEqual(selected["id"], "technical-older")
+        self.assertEqual(selected["id"], "general-newer")
+
+    def test_bachelor_licence_and_equivalent_are_included_but_master_excluded(self):
+        for diploma in ("Bac+3", "Licence", "Licence professionnelle", "Bachelor", "الإجازة", "Bac+2", "Technicien spécialisé", "Baccalauréat"):
+            with self.subTest(diploma=diploma):
+                state, evidence = job_core.job_qualification_policy({"job_diploma": diploma})
+                self.assertIn(state, {"bac3", "below_bac3"})
+                self.assertTrue(evidence)
+        for diploma in ("Bac+4", "Bac+5", "Master", "Doctorat", "ماستر"):
+            with self.subTest(diploma=diploma):
+                state, _ = job_core.job_qualification_policy({"job_diploma": diploma})
+                self.assertEqual(state, "above_limit")
+        self.assertEqual(job_core.job_qualification_policy({"job_diploma": "Licence de conduire"})[0], "unverified")
+        self.assertEqual(job_core.job_qualification_policy({"job_diploma": "Bac+2 ou Master"})[0], "above_limit")
+
+    def test_publication_policy_accepts_licence_and_keeps_open_deadline(self):
+        candidate = sample_job(job_diploma="Bac+3", job_deadline="2026-10-25")
+        accepted = job_core.job_publication_policy(candidate, now=datetime(2026, 10, 10, tzinfo=timezone.utc))
+        self.assertTrue(accepted["passed"])
+        self.assertEqual(accepted["education"], "bac3")
+        candidate["job_deadline"] = "2026-10-09"
+        self.assertFalse(job_core.job_publication_policy(candidate, now=datetime(2026, 10, 10, tzinfo=timezone.utc))["passed"])
+
+    def test_source_rotation_groups_different_lists_on_same_website(self):
+        a = {"source_name": "State competitions", "source_url": "https://www.emploi-public.ma/ar/liste?x=1"}
+        b = {"source_name": "Municipal competitions", "source_url": "https://emploi-public.ma/fr/liste?x=2"}
+        c = {"source_name": "inwi Careers", "source_url": "https://jobs.inwi.ma/jobs"}
+        self.assertEqual(job_core._source_rotation_key(a), job_core._source_rotation_key(b))
+        self.assertNotEqual(job_core._source_rotation_key(a), job_core._source_rotation_key(c))
 
     def test_jobs_queue_rotates_to_least_recently_published_source(self):
         now = datetime(2026, 10, 2, 12, 0, tzinfo=timezone.utc)

@@ -1,4 +1,4 @@
-"""Hard publishing requirements: a future application deadline and < Bac+3."""
+"""Hard publishing requirements: a future deadline and qualification up to Licence/Bac+3."""
 import unittest
 from datetime import datetime, timezone
 
@@ -45,9 +45,15 @@ class PublicationRequirementsTests(unittest.TestCase):
         self.assertFalse(result["passed"])
         self.assertTrue(result["permanent_reject"])
 
-    def test_bac3_or_higher_is_blocked(self):
-        for value in ("Bac+3", "Bac + 5", "Licence professionnelle", "Bachelor",
-                      "Master", "Diplôme ingénieur", "الإجازة", "الماستر"):
+    def test_bac3_licence_bachelor_are_accepted(self):
+        for value in ("Bac+3", "Licence professionnelle", "Bachelor", "الإجازة"):
+            with self.subTest(level=value):
+                result = job_publication_policy(posting(job_diploma=value), now=NOW)
+                self.assertTrue(result["passed"])
+                self.assertEqual(result["education"], "bac3")
+
+    def test_above_bachelor_remains_rejected(self):
+        for value in ("Bac + 5", "Master", "Diplôme ingénieur", "الماستر"):
             with self.subTest(level=value):
                 result = job_publication_policy(posting(job_diploma=value), now=NOW)
                 self.assertFalse(result["passed"])
@@ -71,17 +77,17 @@ class PublicationRequirementsTests(unittest.TestCase):
         self.assertFalse(result["passed"])
 
     def test_scoring_never_overrides_hard_gates(self):
-        result = score_job(posting(job_deadline="", job_diploma="Bac+3"), now=NOW)
+        result = score_job(posting(job_deadline="", job_diploma="Master"), now=NOW)
         self.assertFalse(result["passed"])
         self.assertIn("application closing deadline is missing or invalid", result["reasons"])
-        self.assertIn("required diploma is Bac+3 or higher", result["reasons"])
+        self.assertIn("required diploma is above Bac+3", result["reasons"])
 
     def test_fresh_job_rechecked_before_blogger_write(self):
         good = posting(official_source=True)
         _assert_fresh_job_for_new_live_publish(good, now=NOW)
         with self.assertRaisesRegex(RuntimeError, "policy blocked"):
             _assert_fresh_job_for_new_live_publish(
-                posting(official_source=True, job_diploma="Bac+3"), now=NOW
+                posting(official_source=True, job_diploma="Master"), now=NOW
             )
 
 
