@@ -139,20 +139,30 @@ def discovery_coverage(now=None, registry=None, crawl_state=None, run_rows=None,
             break
         empty_streak += 1
     minutes_idle = _age(state.get("last_publish_at"), now)
-    drought = empty_streak >= 3 and (minutes_idle is None or minutes_idle >= 360)
+    discovered_in_runs = sum(max(0, int(row.get("candidates_found") or 0)) for row in active)
+    published_in_runs = sum(bool(row.get("published_url") or row.get("blogger_post_url")) for row in active)
+    # Discovering links does not mean that Blogger delivered anything.
+    no_publish = (minutes_idle is None or minutes_idle >= 360) and published_in_runs == 0
+    blocked_publication = no_publish and discovered_in_runs > 0
+    drought = empty_streak >= 3 and no_publish
     no_scans = bool(sources) and recent_scans == 0
-    status = "stalled_discovery" if no_scans else ("starved" if drought else "ok")
+    status = ("stalled_discovery" if no_scans else "blocked_publication"
+              if blocked_publication else "starved" if drought else "ok")
     action = (
-        "No enabled source has been scanned within 90 minutes; inspect scheduled Actions and source errors."
+        "No enabled source was successfully scanned within 90 minutes; inspect source fetch errors and scheduler."
         if no_scans else
-        "Three or more consecutive successful scans found no candidates, and Blogger has not published in 6 hours; investigate source coverage and rejections."
+        "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers."
+        if blocked_publication else
+        "Three or more consecutive successful scans found no candidates, and Blogger has not published in 6 hours; investigate sources."
         if drought else
-        "Discovery coverage is monitored separately from workflow success."
+        "Discovery coverage is monitored separately from actual publishing."
     )
     return {
         "status": status, "action": action, "enabled_feeds": len(sources),
         "enabled_domains": len(domains), "scanned_recently": recent_scans,
-        "stale_sources": stale[:15], "recent_new_discoveries": discoveries,
+        "stale_sources": stale[:15], "failed_recent_sources": failed_scans[:15],
+        "recent_new_discoveries": discoveries, "recent_cycle_candidates": discovered_in_runs,
+        "recent_cycle_publishes": published_in_runs,
         "successful_empty_cycle_streak": empty_streak,
         "minutes_without_blogger": round(minutes_idle, 1) if minutes_idle is not None else None,
         "last_blogger_publish_at": state.get("last_publish_at", ""),
