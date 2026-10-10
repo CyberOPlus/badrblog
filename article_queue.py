@@ -1184,6 +1184,7 @@ def add_articles_to_queue(discovered_articles):
                 "category_label": category_label,
                 "category_hint": category_hint,
                 "source_priority": article.get("source_priority", ""),
+                "opportunity_kind": article.get("opportunity_kind", "job"),
                 "official_source": bool(article.get("official_source", False)),
                 "source_country": article.get("source_country", ""),
                 "source_eligibility": article.get("source_eligibility", ""),
