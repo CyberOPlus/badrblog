@@ -399,18 +399,22 @@ def delivery_status(now=None, services=None, ai_circuit=None):
         for row in verified_ready
     ]
     oldest_candidate = max((age for age in candidate_ages if age is not None), default=0)
-    target_met = facebook_age is not None and facebook_age <= TARGET_MINUTES
+    # Production has a daily Facebook cap and spacing; don't demand an
+    # impossible post every 60 minutes while limiting output to four per day.
+    delivery_target = max(TARGET_MINUTES, JOBS_FACEBOOK_MIN_INTERVAL_MINUTES,
+                          (1440 + JOBS_FACEBOOK_MAX_POSTS_PER_DAY - 1) // JOBS_FACEBOOK_MAX_POSTS_PER_DAY)
+    target_met = facebook_age is not None and facebook_age <= delivery_target
     if services.get("facebook", {}).get("status") not in {None, "ok"}:
         state, action = "facebook_external_problem", services["facebook"].get("action", "Check Facebook access.")
     elif services.get("ai", {}).get("status") in {"unavailable", "config", "cooldown"}:
         state, action = "waiting_provider", services["ai"].get("action", "Restore AI access.")
     elif uncertain:
         state, action = "facebook_delivery_uncertain", "Reconcile uncertain Facebook delivery before retrying that item."
-    elif pending and oldest_pending >= TARGET_MINUTES:
+    elif pending and oldest_pending >= delivery_target:
         state, action = "facebook_stalled", "A Blogger article has waited at least one hour for Facebook; inspect its delivery error."
     elif comments:
         state, action = "facebook_comment_pending", "Retry missing first comments containing application/article links."
-    elif oldest_candidate >= TARGET_MINUTES:
+    elif oldest_candidate >= delivery_target:
         state, action = "candidate_stalled", "A verified ready job has waited at least one hour before Facebook; inspect the publisher's blocking reason."
     elif (services.get("sources") or {}).get("status") == "degraded":
         state, action = "source_degraded", services["sources"].get(
@@ -431,10 +435,10 @@ def delivery_status(now=None, services=None, ai_circuit=None):
     else:
         state, action = "healthy", "Independent queues continue; each verified fresh job follows Blogger to Facebook."
     coverage = discovery_coverage(now=now)
-    if state in {"no_fresh_candidate", "no_verified_candidate", "healthy"} and coverage["status"] in {"starved", "stalled_discovery"}:
+    if state in {"no_fresh_candidate", "no_verified_candidate", "healthy"} and coverage["status"] in {"starved", "stalled_discovery", "blocked_publication"}:
         state, action = "coverage_" + coverage["status"], coverage["action"]
     return {"updated_at": now.isoformat(), "state": state, "action": action,
-            "hourly_target_met": target_met, "target_minutes": TARGET_MINUTES,
+            "hourly_target_met": target_met, "target_minutes": delivery_target,
             "last_facebook_posted_at": latest.get("facebook_posted_at", ""),
             "last_facebook_post_id": latest.get("facebook_post_id", ""),
             "minutes_since_facebook": round(facebook_age, 1) if facebook_age is not None else None,
