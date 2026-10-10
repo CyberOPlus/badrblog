@@ -44,6 +44,19 @@ class PublicationRequirementsTests(unittest.TestCase):
         row["official_source"] = False
         self.assertFalse(job_publication_policy(row, now=NOW)["passed"])
 
+    def test_verified_official_new_private_vacancy_can_omit_unspecified_deadline(self):
+        row = posting(job_deadline="", official_source=True)
+        row["job_action_links"] = [{"kind": "apply", "url": row["job_application_url"]}]
+        self.assertTrue(job_publication_policy(row, now=NOW)["passed"])
+        row["job_published_at"] = "2026-10-06T08:00:00Z"
+        self.assertFalse(job_publication_policy(row, now=NOW)["passed"])
+        row["job_published_at"] = "2026-10-09T11:00:00Z"
+        row["job_action_links"] = []
+        self.assertFalse(job_publication_policy(row, now=NOW)["passed"])
+        row["job_action_links"] = [{"kind": "apply", "url": row["job_application_url"]}]
+        row["job_notice_status"] = "closed"
+        self.assertFalse(job_publication_policy(row, now=NOW)["passed"])
+
     def test_scholarship_without_deadline_cannot_be_invented_as_rolling(self):
         row = posting(opportunity_kind="scholarship", official_source=True,
                       job_deadline="", job_application_rolling_verified=True,
