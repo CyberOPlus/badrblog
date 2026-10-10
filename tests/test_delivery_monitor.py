@@ -120,8 +120,12 @@ class DeliveryReliabilityTests(unittest.TestCase):
         self.assertEqual(report["enabled_feeds"], 1)
         self.assertEqual(report["scanned_recently"], 1)
         runs[-1]["candidates_found"] = 1
+        # Discoveries without any successful Blogger publish now remain an alarm.
         self.assertEqual(monitor.discovery_coverage(now=now, registry=registry, crawl_state=crawl,
-            run_rows=runs, state={"last_publish_at": "2026-10-09T09:00:00Z"})["status"], "ok")
+            run_rows=runs, state={"last_publish_at": "2026-10-09T09:00:00Z"})["status"], "blocked_publication")
+        runs[-1]["published_url"] = "https://blog.example.ma/new.html"
+        self.assertEqual(monitor.discovery_coverage(now=now, registry=registry, crawl_state=crawl,
+            run_rows=runs, state={"last_publish_at": "2026-10-10T11:50:00Z"})["status"], "ok")
 
     def test_uncrawled_enabled_sources_trigger_stalled_discovery(self):
         now = datetime(2026, 10, 10, 12, tzinfo=timezone.utc)
