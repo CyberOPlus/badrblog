@@ -1264,6 +1264,7 @@ def _compact_prompt_package(package):
         # job_application_url and job_document_links instead.
         "title",
         "job_title", "job_company", "job_location", "job_country",
+        "opportunity_kind",
         "job_contract_type", "job_salary",
         "job_deadline", "job_deadline_display",
         "job_exam_date", "job_exam_date_display",
@@ -1370,6 +1371,7 @@ TITLE — MOROCCAN EDITORIAL HOUSE STYLE
 - Candidate list: foreground "لائحة/لوائح المدعوين" or the equivalent verified invitation/acceptance stage; include written/oral stage only when verified and useful.
 - Results: foreground "النتائج" or equivalent. final_results MUST explicitly signal finality with wording such as "النتائج النهائية" / "الناجحين بصفة نهائية" when that final status is verified.
 - Private/company vacancy: prefer company + "تعلن عن توظيف" / "توظف" / "وظائف" + the real role; add location only when verified and useful.
+- If opportunity_kind is scholarship, internship, training or apprenticeship, write a correctly named scholarship, internship or training announcement — never disguise it as employment. Include only verified eligibility, benefits, duration, open dates and application instructions. Respect a verified rolling admission; do not invent a closing date.
 - Keep a verified total count or short role breakdown in the title when it is a major reader-facing fact; do not stuff every specialty, condition, diploma or deadline into the headline.
 - Preserve a useful official acronym after the institution name when it helps recognition. Never append domains, page slugs, raw IDs, ATS/source references or source-chain fragments.
 - Avoid source boilerplate such as ceremonial openings, legal phrasing or duplicated "إعلان/تعلن/تنظم" chains. Rewrite to a clean editorial headline.
