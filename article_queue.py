@@ -22,6 +22,7 @@ from job_core import (
     _parse_date as _parse_job_date,
     invalidate_identity_evidence,
     job_publication_freshness,
+    job_freshness_limit_hours,
     is_application_url_bound_to_job,
     is_foreign_job_detail_url,
     job_deadline_time,
@@ -681,7 +682,11 @@ def _unpublished_queue_expired(article, now=None):
         current = current.replace(tzinfo=timezone.utc)
     else:
         current = current.astimezone(timezone.utc)
-    return (current - anchor).total_seconds() > UNPUBLISHED_QUEUE_RETENTION_HOURS * 3600
+    # Longer-lived verified internships/training/grants must not be purged after
+    # the vacancy-only 24h queue retention. An extra day permits date-only
+    # official notices without fabricating an exact publication hour.
+    retention_hours = max(UNPUBLISHED_QUEUE_RETENTION_HOURS, job_freshness_limit_hours(article) + (24 if job_freshness_limit_hours(article) > 24 else 0))
+    return (current - anchor).total_seconds() > retention_hours * 3600
 
 
 def _fresh_queue_sort_key(article):
@@ -1090,7 +1095,6 @@ def _known_stale_job(article, now=None):
     freshness = job_publication_freshness(
         article,
         now=now,
-        max_age_hours=JOBS_MAX_PUBLISH_AGE_HOURS,
     )
     if not freshness["verified"]:
         return False
