@@ -19,11 +19,12 @@ from production_logging import _clean_value
 class JobsWorkflowTests(unittest.TestCase):
     def test_workflow_cron_and_facebook_safety_are_current(self):
         text = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")
-        self.assertIn("# Continuous single-worker Jobs discovery/publishing.", text)
+        self.assertIn("# Five-minute Jobs discovery/publishing.", text)
+        self.assertIn('cron: "*/5 * * * *"', text)
         self.assertIn("workflow_dispatch:", text)
         self.assertIn("  push:\n", text)
-        self.assertIn("Continue Jobs auto-cycle", text)
-        self.assertIn("createWorkflowDispatch", text)
+        self.assertNotIn("Continue Jobs auto-cycle", text)
+        self.assertNotIn("createWorkflowDispatch", text)
         self.assertIn("group: jobs-production-refs/heads/main", text)
         self.assertIn("auto-cycle:\n    if: github.ref == 'refs/heads/main'", text)
         self.assertIn("cancel-in-progress: false", text)
@@ -61,26 +62,24 @@ class JobsWorkflowTests(unittest.TestCase):
         self.assertIn('"MISTRAL_TIMEOUT_SECONDS": "60"', text)
         self.assertIn('"CLOUDFLARE_TIMEOUT_SECONDS": "60"', text)
         watchdog = Path(".github/workflows/jobs-watchdog.yml").read_text(encoding="utf-8")
-        self.assertIn("workflow_run:", watchdog)
-        self.assertIn('workflows: ["Jobs Auto Cycle"]', watchdog)
-        self.assertIn("types: [completed]", watchdog)
-        self.assertIn("branches: [main]", watchdog)
+        self.assertIn("workflow_dispatch:", watchdog)
+        self.assertNotIn("workflow_run:", watchdog)
         self.assertNotIn('workflows: ["Jobs Core Tests"]', watchdog)
         self.assertNotIn('workflows: ["Jobs Auto Cycle", "Jobs Core Tests"]', watchdog)
         self.assertNotIn("Pace completion chain", watchdog)
         self.assertNotIn("run: sleep 120", watchdog)
         self.assertIn("github.rest.git.getBlob", watchdog)
-        self.assertIn('context.eventName === "workflow_run"', watchdog)
+        self.assertNotIn('context.eventName === "workflow_run"', watchdog)
         self.assertLess(
             watchdog.index("if (active)"),
-            watchdog.index('context.eventName === "workflow_run"'),
+            watchdog.index("if (latest && failedConclusions.has(latest.conclusion))"),
         )
         self.assertNotIn("prefer_jobs_queue_snapshot", text)
 
         watchdog = Path(".github/workflows/jobs-watchdog.yml").read_text(encoding="utf-8")
         watchdog_cron = 'cron: "4,10,16,22,28,34,40,46,52,58 * * * *"'
         self.assertIn(watchdog_cron, watchdog)
-        self.assertIn("Backup only: continuous auto-cycle is primary.", watchdog)
+        self.assertIn("Backup only: the five-minute cron auto-cycle is primary.", watchdog)
         self.assertIn("if (ageMinutes < 4)", watchdog)
         self.assertIn("} else if (ageMinutes <= 8) {", watchdog)
         self.assertIn("github.rest.actions.createWorkflowDispatch", watchdog)

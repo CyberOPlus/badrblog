@@ -304,12 +304,13 @@ class DeliveryReliabilityTests(unittest.TestCase):
         self.assertIn("Facebook", saved["warning"])
         self.assertEqual(saved["facebook_queue_failures"], 1)
 
-    def test_blocker_reporting_is_after_checkpoint_and_before_successor(self):
+    def test_blocker_reporting_follows_checkpoint_without_recursive_dispatch(self):
         text = Path(".github/workflows/auto-cycle.yml").read_text()
         self.assertLess(text.index("name: Persist Jobs runtime state"), text.index("name: Report delivery blockers"))
-        self.assertLess(text.index("name: Report delivery blockers"), text.index("name: Continue Jobs auto-cycle"))
         self.assertIn('"data/delivery_health.json"', text)
-        self.assertIn("if: always() && github.ref == 'refs/heads/main'", text[text.index("name: Continue Jobs auto-cycle"):])
+        self.assertNotIn("name: Continue Jobs auto-cycle", text)
+        self.assertNotIn("createWorkflowDispatch", text)
+        self.assertIn('cron: "*/5 * * * *"', text)
 
 
 if __name__ == "__main__":

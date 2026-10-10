@@ -18,14 +18,16 @@ name: Jobs Auto Cycle
 # Same-provider Facebook quality repair restart marker.
 # Arabic-only social repair restart marker.
 # Post-repair restart marker; idempotent.
-# Continuous single-worker Jobs discovery/publishing.
-# Facebook pending items use repaired AI-only social schema retries.   Facebook/social repairs may restart this chain safely.
+# Five-minute Jobs discovery/publishing. Cron provides steady 24/7 cycles without dispatch storms.
+# Facebook pending items use repaired AI-only social schema retries. Social repairs remain safe to retry.
 # Workflow edits intentionally restart production so runtime repairs are picked up immediately.    AI recovery verified 2026-10-02.
 # Social AI queue repair verified; failed captions stay retryable without blocking Blogger.
-# Each run finishes its current job and queues exactly one successor run.
+# Cron and the independent watchdog provide restart/recovery without recursive dispatch.
 # The concurrency lock below prevents two production cycles from overlapping.
 
 on:
+  schedule:
+    - cron: "*/5 * * * *"
   push:
     branches: [main]
     paths:
@@ -39,7 +41,7 @@ on:
 
 concurrency:
   # Let the active worker finish publishing and persist its state. All triggers,
-  # including upgrades, share the same lock; the successor checks out latest main.
+  # including upgrades, share the same lock; each run checks out latest main.
   group: jobs-production-refs/heads/main
   cancel-in-progress: false
 
@@ -726,20 +728,6 @@ jobs:
       - name: Report delivery blockers
         if: always()
         # State has already been saved. Make a real external blocker visible
-        # without preventing the independent successor/watchdog from retrying.
+        # without preventing the independent schedule/watchdog from retrying.
         run: python delivery_monitor.py --cached
 
-      - name: Continue Jobs auto-cycle
-        if: always() && github.ref == 'refs/heads/main'
-        uses: actions/github-script@v8
-        with:
-          script: |
-            const { owner, repo } = context.repo;
-            await github.rest.actions.createWorkflowDispatch({
-              owner,
-              repo,
-              workflow_id: "auto-cycle.yml",
-              ref: "main",
-              inputs: { verify: "false" },
-            });
-            core.info("Queued exactly one successor Jobs Auto Cycle run.");
