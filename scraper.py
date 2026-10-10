@@ -3895,6 +3895,8 @@ async def _discover_latest_article_links_async(enabled_sources, persist_state=Tr
                 result.get("known_ids_before", 0) + len(result["links"]),
             ),
             "discovery_last_new_count": len(result["links"]),
+            "discovery_last_status": "failed" if result["error"] else "success",
+            "discovery_last_error": str(result["error"] or "")[:150],
             "discovery_page_size_hint": fetch_limit,
             "discovery_max_pages": result.get("discovery_max_pages"),
             "discovery_seen_streak": result.get("discovery_seen_streak"),
