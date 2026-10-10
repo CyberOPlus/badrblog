@@ -56,6 +56,7 @@ jobs:
     permissions:
       actions: write
       contents: write
+      issues: write
 
     steps:
       - name: Checkout repository
@@ -724,6 +725,56 @@ jobs:
             data/source_health.json
             data/automation_heartbeat.json
             logs/auto_cycle_runs.jsonl
+
+      - name: Escalate a sustained Jobs publishing drought once
+        if: always()
+        continue-on-error: true
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const fs = require("fs");
+            let report = {};
+            try {
+              report = JSON.parse(fs.readFileSync("data/delivery_health.json", "utf8"));
+            } catch (e) {
+              core.warning("Missing Jobs delivery-health data: " + String(e));
+              return;
+            }
+            const coverage = report.coverage || {};
+            const status = String(coverage.status || "");
+            const problem = new Set(["starved", "stalled_discovery"]).has(status);
+            const title = "Jobs bot: publication drought or source discovery stalled";
+            const { owner, repo } = context.repo;
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner, repo, state: "open", per_page: 100,
+            });
+            const found = issues.find(item => !item.pull_request && item.title === title);
+            if (problem) {
+              core.warning(coverage.action || "Jobs discovery needs investigation.");
+              if (!found) {
+                await github.rest.issues.create({
+                  owner, repo, title,
+                  body: [
+                    "Automatic Jobs coverage alarm. This is **not** evidence that GitHub Actions failed.",
+                    "Coverage state: " + status,
+                    "Active website domains: " + (coverage.enabled_domains || 0),
+                    "Enabled feeds: " + (coverage.enabled_feeds || 0),
+                    "Recent scans: " + (coverage.scanned_recently || 0),
+                    "Consecutive successful runs with zero candidates: " + (coverage.successful_empty_cycle_streak || 0),
+                    "Latest actual Blogger post: " + (coverage.last_blogger_publish_at || "unknown"),
+                    "Recommended: inspect the latest source crawls, parser extraction, qualification gates and actual publishing log.",
+                  ].join("\n\n"),
+                });
+              }
+            } else if (found) {
+              const publishedAt = Date.parse(coverage.last_blogger_publish_at || "");
+              if (Number.isFinite(publishedAt) && publishedAt > Date.parse(found.created_at)) {
+                await github.rest.issues.update({
+                  owner, repo, issue_number: found.number, state: "closed",
+                  state_reason: "completed",
+                });
+              }
+            }
 
       - name: Report delivery blockers
         if: always()
