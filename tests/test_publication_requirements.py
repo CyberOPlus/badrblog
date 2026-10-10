@@ -35,6 +35,17 @@ class PublicationRequirementsTests(unittest.TestCase):
         self.assertTrue(job_publication_freshness(grant, now=NOW)["fresh"])
         self.assertFalse(job_publication_freshness(same_job, now=NOW)["fresh"])
 
+    def test_aggregator_date_is_not_fake_official_publication_evidence(self):
+        from job_core import job_publication_freshness
+        row = posting(official_source=False, job_published_at="",
+                      source_published_at="2026-10-09",
+                      published_at_source="third_party_listing_date_only")
+        self.assertFalse(job_publication_freshness(row, now=NOW)["verified"])
+        row["job_published_at"] = "2026-10-09T09:30:00Z"
+        self.assertFalse(job_publication_freshness(row, now=NOW)["verified"])
+        row["job_official_publication_verified"] = True
+        self.assertTrue(job_publication_freshness(row, now=NOW)["verified"])
+
     def test_rolling_training_needs_explicit_official_evidence(self):
         row = posting(opportunity_kind="training", job_deadline="", official_source=True)
         self.assertFalse(job_publication_policy(row, now=NOW)["passed"])
