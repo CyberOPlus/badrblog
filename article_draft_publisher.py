@@ -1044,7 +1044,7 @@ def _assert_fresh_job_for_new_live_publish(article, now=None):
         raise RuntimeError("Job publication time is not verified; refusing new live publication.")
     if freshness["future"] or not freshness["fresh"]:
         raise RuntimeError(
-            f"Opportunity is outside the type-specific freshness window; "
+            f"Job publication age is outside the 24-hour window; " if not (article.get("opportunity_kind") or article.get("job_opportunity_kind")) or str(article.get("opportunity_kind") or article.get("job_opportunity_kind")).lower() in {"job", "jobs", "vacancy", "competition"} else f"Opportunity is outside the type-specific freshness window; "
             "refusing new live publication."
         )
     notice_type = str(article.get("job_notice_type") or "vacancy").strip().lower()
