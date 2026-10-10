@@ -26,6 +26,43 @@ def posting(**overrides):
 
 
 class PublicationRequirementsTests(unittest.TestCase):
+    def test_internship_and_scholarship_have_longer_verified_freshness_windows(self):
+        from job_core import job_publication_freshness
+        internship = posting(opportunity_kind="internship", job_published_at="2026-10-06T12:00:00Z")
+        grant = posting(opportunity_kind="scholarship", job_published_at="2026-09-20T12:00:00Z")
+        same_job = posting(opportunity_kind="job", job_published_at="2026-10-06T12:00:00Z")
+        self.assertTrue(job_publication_freshness(internship, now=NOW)["fresh"])
+        self.assertTrue(job_publication_freshness(grant, now=NOW)["fresh"])
+        self.assertFalse(job_publication_freshness(same_job, now=NOW)["fresh"])
+
+    def test_rolling_training_needs_explicit_official_evidence(self):
+        row = posting(opportunity_kind="training", job_deadline="", official_source=True)
+        self.assertFalse(job_publication_policy(row, now=NOW)["passed"])
+        row["job_application_rolling_verified"] = True
+        row["job_application_rolling_evidence"] = "Official source says admissions are open continuously"
+        self.assertTrue(job_publication_policy(row, now=NOW)["passed"])
+        row["official_source"] = False
+        self.assertFalse(job_publication_policy(row, now=NOW)["passed"])
+
+    def test_verified_official_new_private_vacancy_can_omit_unspecified_deadline(self):
+        row = posting(job_deadline="", official_source=True)
+        row["job_action_links"] = [{"kind": "apply", "url": row["job_application_url"]}]
+        self.assertTrue(job_publication_policy(row, now=NOW)["passed"])
+        row["job_published_at"] = "2026-10-06T08:00:00Z"
+        self.assertFalse(job_publication_policy(row, now=NOW)["passed"])
+        row["job_published_at"] = "2026-10-09T11:00:00Z"
+        row["job_action_links"] = []
+        self.assertFalse(job_publication_policy(row, now=NOW)["passed"])
+        row["job_action_links"] = [{"kind": "apply", "url": row["job_application_url"]}]
+        row["job_notice_status"] = "closed"
+        self.assertFalse(job_publication_policy(row, now=NOW)["passed"])
+
+    def test_scholarship_without_deadline_cannot_be_invented_as_rolling(self):
+        row = posting(opportunity_kind="scholarship", official_source=True,
+                      job_deadline="", job_application_rolling_verified=True,
+                      job_application_rolling_evidence="No closing date found")
+        self.assertFalse(job_publication_policy(row, now=NOW)["passed"])
+
     def test_valid_bac2_with_future_deadline(self):
         result = job_publication_policy(posting(), now=NOW)
         self.assertTrue(result["passed"])

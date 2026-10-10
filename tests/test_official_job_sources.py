@@ -12,6 +12,24 @@ from official_job_sources import (anapec_detail_html, parse_anapec_links,
 
 
 class OfficialJobSourcesTests(unittest.TestCase):
+    def test_ofppt_parser_only_accepts_real_official_notices(self):
+        page = """<a href="/offre/3802">Formateur en génie mécanique</a>
+        <a href="/offres">All jobs</a>
+        <a href="https://other.example/offre/9999">Impostor</a>
+        <a href="/offre/3803">Chargé de gestion</a>"""
+        found = scraper._parse_ofppt_job_links(page, "https://recrutement.ofppt.ma/offres")
+        self.assertEqual(len(found), 2)
+        self.assertTrue(found[0]["url"].endswith("/offre/3802"))
+        self.assertNotIn("source_published_at", found[0])
+
+    def test_accor_morocco_parser_only_accepts_detail_jid(self):
+        page = """<a href="/global/en/job/valet-de-chambre-in-casablanca-morocco-jid-83352">Valet de chambre</a>
+        <a href="/global/en/jobs">All jobs</a>
+        <a href="https://fake.example/global/en/job/false-jid-333">Wrong site</a>"""
+        found = scraper._parse_accor_morocco_job_links(page, "https://careers.accor.com/global/en/morocco")
+        self.assertEqual(len(found), 1)
+        self.assertEqual(found[0]["title"], "Valet de chambre")
+
     def test_tanmia_parser_discovers_only_real_dated_vacancy_cards(self):
         document = '''
         <h3><a href="https://tanmia.ma/09-10-2026/89155/">Laboratory & Diagnostic Officer</a></h3>

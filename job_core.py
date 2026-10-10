@@ -455,8 +455,8 @@ def is_application_url_bound_to_job(article, url):
 
 
 
-# Account-free one-click rule: a reader must land on the application action for
-# this exact vacancy, never a careers search, account-registration or job detail.
+# A verified vacancy-specific employer action may require an account later.
+# Generic sign-in / register paths are never a valid landing page.
 _DIRECT_APPLY_URL_RE = re.compile(
     r"(?i)(?:/(?:apply|postuler|candidater|candidature/submit|applications?/new|"
     r"applicationform)(?:/|[.?]|$)|[?&](?:apply|postuler|lJobID|jobId)=)"
@@ -508,14 +508,15 @@ def job_direct_application_policy(article):
     candidate = canonicalize_job_url(url)
     parsed = urlparse(candidate)
     host = parsed.netloc.casefold().removeprefix("www.")
-    if host in _ACCOUNT_ONLY_HOSTS or any(host.endswith("." + h) for h in _ACCOUNT_ONLY_HOSTS):
-        return "application platform requires candidate account registration"
+    account_platform = (
+        host in _ACCOUNT_ONLY_HOSTS
+        or any(host.endswith("." + h) for h in _ACCOUNT_ONLY_HOSTS)
+        or article.get("job_application_requires_registration") is True
+    )
     if _ACCOUNT_GATE_URL_RE.search(parsed.path) or re.search(
         r"(?i)(?:^|[?&])(?:redirect|returnUrl|next)=[^&]*(?:login|register|signup)", parsed.query
     ):
-        return "application URL leads to registration or sign-in"
-    if article.get("job_application_requires_registration") is True:
-        return "application requires a registered candidate account"
+        return "application URL leads to generic registration or sign-in"
     kind = str(article.get("job_application_link_kind") or "").strip().lower()
     # An official PDF may explicitly designate one centralized portal for THIS
     # competition (e.g. recrutement.enssup.gov.ma). It is the official action,
@@ -549,8 +550,9 @@ def job_direct_application_policy(article):
     direct_url = bool(_DIRECT_APPLY_URL_RE.search(url))
     if not (explicit_apply or direct_kind or direct_url):
         return "a verified job-specific apply action is missing"
-    # The URL/action check proves destination specificity, not that the employer
-    # will never ask users to create an account later in a multi-step workflow.
+    if account_platform and not _application_action_exposes_url(article, url):
+        return "account-required platform needs a verified apply action on this vacancy"
+    # A candidate may need an account later. The article should disclose that.
     return ""
 
 
@@ -854,6 +856,75 @@ def _parse_date(value):
     return None
 
 
+OPPORTUNITY_FRESHNESS_HOURS = {
+    "job": JOBS_MAX_PUBLISH_AGE_HOURS,
+    "internship": 168,
+    "scholarship": 720,
+    "training": 720,
+    "apprenticeship": 168,
+}
+
+
+def job_opportunity_kind(article):
+    """Classify editorial scope only; type alone proves no eligibility."""
+    raw = str(
+        (article or {}).get("opportunity_kind")
+        or (article or {}).get("job_opportunity_kind")
+        or "job"
+    ).strip().casefold()
+    aliases = {
+        "jobs": "job", "vacancy": "job", "competition": "job",
+        "internships": "internship", "stage": "internship",
+        "scholarships": "scholarship", "bourse": "scholarship",
+        "vocational_training": "training", "formation": "training",
+        "apprenticeships": "apprenticeship",
+    }
+    if raw == "mixed":
+        text = " ".join(str((article or {}).get(k) or "") for k in
+                        ("job_title", "title", "job_contract_type"))
+        if re.search(r"\b(?:stages?|stagiaires?|internship|interns?|pfe)\b|تدريب|متدرب", text, re.I):
+            return "internship"
+        return "job"
+    value = aliases.get(raw, raw)
+    return value if value in OPPORTUNITY_FRESHNESS_HOURS else "job"
+
+
+def job_freshness_limit_hours(article):
+    return OPPORTUNITY_FRESHNESS_HOURS[job_opportunity_kind(article)]
+
+
+def verified_rolling_application(article):
+    """Do not interpret a missing deadline as rolling without official proof."""
+    return (
+        job_opportunity_kind(article) in {"internship", "training", "apprenticeship"}
+        and bool((article or {}).get("official_source") or (article or {}).get("job_official_source"))
+        and (article or {}).get("job_application_rolling_verified") is True
+        and bool(str((article or {}).get("job_application_rolling_evidence") or "").strip())
+    )
+
+
+def verified_open_ended_private_application(article, now=None):
+    """Permit a recent, official vacancy with a proven specific live apply action.
+
+    No missing publication date is ever treated as fresh; nothing is invented
+    about the closing date. Generic portals and aggregator listings cannot pass.
+    """
+    if job_opportunity_kind(article) not in {"job", "internship"}:
+        return False
+    if str((article or {}).get("job_notice_type") or "vacancy").casefold() != "vacancy":
+        return False
+    if not bool((article or {}).get("official_source") or (article or {}).get("job_official_source")):
+        return False
+    if str((article or {}).get("job_notice_status") or "").casefold() in {"closed", "expired", "archived", "cancelled"}:
+        return False
+    url = str((article or {}).get("job_application_url") or "").strip()
+    if not _application_action_exposes_url(article, url):
+        return False
+    if str((article or {}).get("job_application_link_kind") or "").casefold() not in {"direct_apply", ""}:
+        return False
+    return bool(job_publication_freshness(article, now=now).get("fresh"))
+
+
 def job_publication_freshness(article, now=None, max_age_hours=None):
     """
     Validate publication freshness without inventing a posting time.
@@ -876,12 +947,12 @@ def job_publication_freshness(article, now=None, max_age_hours=None):
 
     try:
         max_hours = float(
-            JOBS_MAX_PUBLISH_AGE_HOURS
+            job_freshness_limit_hours(article)
             if max_age_hours is None
             else max_age_hours
         )
     except (TypeError, ValueError):
-        max_hours = float(JOBS_MAX_PUBLISH_AGE_HOURS)
+        max_hours = float(job_freshness_limit_hours(article))
 
     if not raw:
         return {
@@ -918,7 +989,7 @@ def job_publication_freshness(article, now=None, max_age_hours=None):
                 }
             return {
                 "verified": True,
-                "fresh": publication_day == current_day,
+                "fresh": 0 <= (current_day - publication_day).days * 24 < max_hours,
                 "future": False,
                 "date_only": True,
                 "age_hours": None,
@@ -1072,7 +1143,8 @@ def job_publication_policy(article, now=None):
     raw_deadline = str(article.get("job_deadline") or "").strip()
     deadline = job_deadline_time(article) if raw_deadline else None
     if deadline is None:
-        reasons.append("application closing deadline is missing or invalid")
+        if not verified_rolling_application(article) and not verified_open_ended_private_application(article, now=current):
+            reasons.append("application closing deadline is missing or invalid")
     elif deadline <= current:
         reasons.append("application registration deadline passed")
     education, evidence = job_qualification_policy(article)
@@ -1095,6 +1167,15 @@ def job_publication_policy(article, now=None):
 
 def job_labels(article):
     labels = ["jobs"]
+    opportunity_kind = job_opportunity_kind(article)
+    if opportunity_kind == "internship":
+        labels.append("internships")
+    elif opportunity_kind == "scholarship":
+        labels.append("scholarships")
+    elif opportunity_kind == "training":
+        labels.append("training")
+    elif opportunity_kind == "apprenticeship":
+        labels.append("apprenticeships")
     eligibility = str(article.get("job_eligibility") or article.get("eligibility") or "").strip().lower()
     remote = bool(article.get("job_remote") or article.get("remote"))
     visa = bool(article.get("job_visa_sponsorship") or article.get("visa_sponsorship"))
@@ -1124,7 +1205,8 @@ def score_job(article, now=None):
     freshness = job_publication_freshness(article, now=now)
     publication_age_hours = freshness["age_hours"]
     fresh = bool(freshness["fresh"])
-    points[f"fresh_under_{JOBS_MAX_PUBLISH_AGE_HOURS}h"] = 15 if fresh else 0
+    maximum_hours = job_freshness_limit_hours(article)
+    points[f"fresh_under_{maximum_hours}h"] = 15 if fresh else 0
     # Exact timestamps <=12h are preferred, while verified jobs remain
     # publishable up to the 24h safety ceiling. Date-only records never invent
     # an hour just to gain this priority bonus.
@@ -1169,7 +1251,7 @@ def score_job(article, now=None):
     elif freshness["future"]:
         reasons.append("publication time is in the future")
     elif not freshness["fresh"]:
-        reasons.append(f"job is older than {JOBS_MAX_PUBLISH_AGE_HOURS} hours")
+        reasons.append(f"job is older than {maximum_hours} hours" if job_opportunity_kind(article) == "job" else f"opportunity is older than {maximum_hours} hours")
 
     normalized_title = normalize_text(article.get("job_title") or article.get("title"))
     if normalized_title in {
@@ -1218,7 +1300,7 @@ def score_job(article, now=None):
         "hard_gate_passed": hard_gate_passed,
         "publication_age_hours": round(publication_age_hours, 2) if publication_age_hours is not None else None,
         "publication_date_only": bool(freshness["date_only"]),
-        "max_publish_age_hours": JOBS_MAX_PUBLISH_AGE_HOURS,
+        "max_publish_age_hours": maximum_hours,
         "focus_priority": job_focus_priority(article),
         "publication_policy": editorial_policy,
         "direct_application_policy_reason": direct_apply_reason,
