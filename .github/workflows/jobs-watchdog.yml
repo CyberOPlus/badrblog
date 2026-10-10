@@ -1,16 +1,11 @@
 name: Jobs Watchdog
 
-# Backup only: continuous auto-cycle is primary. The watchdog wakes every six
-# minutes, exits immediately when a worker is alive, and restarts production
-# only if the chain died or a publishable backlog is genuinely stalled.
+# Backup only: the five-minute cron auto-cycle is primary. The watchdog wakes
+# every six minutes and recovers missing runs or a genuinely stalled backlog.
 on:
   schedule:
     - cron: "4,10,16,22,28,34,40,46,52,58 * * * *"
   workflow_dispatch:
-  workflow_run:
-    workflows: ["Jobs Auto Cycle"]
-    types: [completed]
-    branches: [main]
 
 concurrency:
   group: jobs-watchdog-${{ github.ref }}
@@ -64,11 +59,7 @@ jobs:
               "action_required",
               "startup_failure",
             ]);
-            if (context.eventName === "workflow_run") {
-              // Normal runs already queued their successor. If none is active,
-              // recover the chain immediately instead of depending on cron.
-              core.warning("Completed auto-cycle has no active successor; dispatching recovery run.");
-            } else if (latest && failedConclusions.has(latest.conclusion)) {
+            if (latest && failedConclusions.has(latest.conclusion)) {
               if (ageMinutes < 4) {
                 core.info(
                   `Latest auto-cycle failed recently; allowing a short recovery window before retry.`
