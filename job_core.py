@@ -879,6 +879,12 @@ def job_opportunity_kind(article):
         "vocational_training": "training", "formation": "training",
         "apprenticeships": "apprenticeship",
     }
+    if raw == "mixed":
+        text = " ".join(str((article or {}).get(k) or "") for k in
+                        ("job_title", "title", "job_contract_type"))
+        if re.search(r"\b(?:stages?|stagiaires?|internship|interns?|pfe)\b|تدريب|متدرب", text, re.I):
+            return "internship"
+        return "job"
     value = aliases.get(raw, raw)
     return value if value in OPPORTUNITY_FRESHNESS_HOURS else "job"
 
