@@ -1,4 +1,4 @@
-"""Regressions: only requested sources and direct vacancy-specific application actions."""
+"""Regressions: carefully curated sources and direct vacancy-specific applications."""
 import json
 import unittest
 from pathlib import Path
@@ -30,10 +30,14 @@ def article(**kwargs):
 
 
 class DirectApplySourcesTests(unittest.TestCase):
-    def test_source_registry_contains_only_user_requested_job_sources(self):
+    def test_source_registry_covers_varied_sectors_and_keeps_unverified_grants_disabled(self):
         registry = json.loads((Path(__file__).resolve().parents[1] / "sources.json").read_text(encoding="utf-8"))
         names = {s["name"] for cat in registry["categories"] for s in cat["sources"]}
-        self.assertEqual(len(names), 21)
+        self.assertEqual(len(names), 33)
+        self.assertIn("Tanmia — offres d\'emploi", names)
+        self.assertIn("inwi — جميع الوظائف بالمغرب", names)
+        self.assertIn("OFPPT — منح متدربي التكوين", names)
+        self.assertFalse(next(s for cat in registry["categories"] for s in cat["sources"] if s["name"] == "OFPPT — منح متدربي التكوين")["enabled"])
         self.assertIn("ANAPEC — offres nationales", names)
         self.assertIn("Emploi-Public — services de l'État", names)
         self.assertIn("ReKrute Maroc", names)
