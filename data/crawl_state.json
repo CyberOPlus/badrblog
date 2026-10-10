@@ -2,7 +2,7 @@
   "sources": {
     "https://www.emploi-public.ma/ar/%D9%82%D8%A7%D8%A6%D9%85%D8%A9-%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA?corps=0&procedure=0&region=0&stat=etab_publics": {
       "source_name": "Emploi-Public — établissements publics",
-      "last_crawled_at": "2026-10-10T11:01:45.436622Z",
+      "last_crawled_at": "2026-10-10T11:46:33.936548Z",
       "overlap_minutes": 10,
       "job_seen_ids": [
         "emploi_public:487e7703-e826-485a-b01e-bf8585501e5d",
@@ -1226,7 +1226,7 @@
     },
     "https://www.emploi-public.ma/ar/%D9%82%D8%A7%D8%A6%D9%85%D8%A9-%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA?corps=0&procedure=0&region=0&stat=service_etat": {
       "source_name": "Emploi-Public — services de l'État",
-      "last_crawled_at": "2026-10-10T11:01:45.433436Z",
+      "last_crawled_at": "2026-10-10T11:46:33.934456Z",
       "overlap_minutes": 10,
       "job_seen_ids": [
         "emploi_public:33430ef7-321a-4ce4-acff-30e169845af6",
@@ -2420,8 +2420,8 @@
       "job_seen_ids_year": "2026"
     },
     "https://jobs.inwi.ma/jobs": {
-      "source_name": "inwi",
-      "last_crawled_at": "2026-10-09T11:32:14.571920Z",
+      "source_name": "inwi — جميع الوظائف بالمغرب",
+      "last_crawled_at": "2026-10-10T11:46:33.932464Z",
       "overlap_minutes": 10,
       "job_seen_ids": [
         "teamtailor:8487789",
@@ -2542,7 +2542,7 @@
       ],
       "job_seen_ids_count": 115,
       "discovery_last_new_count": 0,
-      "discovery_page_size_hint": 8,
+      "discovery_page_size_hint": 20,
       "discovery_max_pages": 12,
       "discovery_seen_streak": 8,
       "discovery_max_items": 250,
@@ -4405,7 +4405,7 @@
     },
     "https://www.emploi-public.ma/ar/%D9%82%D8%A7%D8%A6%D9%85%D8%A9-%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA?corps=0&procedure=avis&region=0&stat=collec": {
       "source_name": "Emploi-Public — collectivités territoriales",
-      "last_crawled_at": "2026-10-10T11:01:45.439014Z",
+      "last_crawled_at": "2026-10-10T11:46:33.938624Z",
       "overlap_minutes": 10,
       "job_seen_ids": [
         "emploi_public:33430ef7-321a-4ce4-acff-30e169845af6",
@@ -4462,9 +4462,111 @@
       "discovery_stop_reason": "seen_streak",
       "discovery_pages_scanned": 1,
       "job_seen_ids_year": "2026"
+    },
+    "https://recrutement.ofppt.ma/offres?page=1": {
+      "source_name": "OFPPT — offres d'emploi",
+      "last_crawled_at": "2026-10-10T11:46:33.919766Z",
+      "overlap_minutes": 10,
+      "job_seen_ids": [
+        "url:https://recrutement.ofppt.ma/offre/3804",
+        "url:https://recrutement.ofppt.ma/offre/3803",
+        "url:https://recrutement.ofppt.ma/offre/3802",
+        "url:https://recrutement.ofppt.ma/offre/3801",
+        "url:https://recrutement.ofppt.ma/offre/3800",
+        "url:https://recrutement.ofppt.ma/offre/3799",
+        "url:https://recrutement.ofppt.ma/offre/3798",
+        "url:https://recrutement.ofppt.ma/offre/3797",
+        "url:https://recrutement.ofppt.ma/offre/3796",
+        "url:https://recrutement.ofppt.ma/offre/3795"
+      ],
+      "job_seen_ids_count": 10,
+      "discovery_last_new_count": 10,
+      "discovery_page_size_hint": 15,
+      "discovery_max_pages": 2,
+      "discovery_seen_streak": 8,
+      "discovery_max_items": 25,
+      "job_discovery_resume": {
+        "kind": "html",
+        "url": "https://recrutement.ofppt.ma/offres?page=3"
+      },
+      "discovery_stop_reason": "max_pages",
+      "discovery_pages_scanned": 2,
+      "job_seen_ids_year": "2026"
+    },
+    "https://tanmia.ma/offres-demploi/": {
+      "source_name": "Tanmia — offres d'emploi",
+      "last_crawled_at": "2026-10-10T11:46:33.923659Z",
+      "overlap_minutes": 10,
+      "job_seen_ids": [
+        "url:https://tanmia.ma/09-10-2026/89155",
+        "url:https://tanmia.ma/08-10-2026/89153",
+        "url:https://tanmia.ma/07-10-2026/89118",
+        "url:https://tanmia.ma/07-10-2026/89108",
+        "url:https://tanmia.ma/07-10-2026/89094",
+        "url:https://tanmia.ma/02-10-2026/89031",
+        "url:https://tanmia.ma/02-10-2026/88973"
+      ],
+      "job_seen_ids_count": 7,
+      "discovery_last_new_count": 7,
+      "discovery_page_size_hint": 6,
+      "discovery_max_pages": 2,
+      "discovery_seen_streak": 8,
+      "discovery_max_items": 20,
+      "job_discovery_resume": {
+        "kind": "html",
+        "url": "https://tanmia.ma/09-10-2026/89157/"
+      },
+      "discovery_stop_reason": "max_pages",
+      "discovery_pages_scanned": 2,
+      "job_seen_ids_year": "2026"
+    },
+    "https://www.dreamjob.ma/stage/": {
+      "source_name": "Dreamjob — stages",
+      "last_crawled_at": "2026-10-10T11:46:33.926142Z",
+      "overlap_minutes": 10,
+      "job_seen_ids": [],
+      "job_seen_ids_count": 0,
+      "discovery_last_new_count": 0,
+      "discovery_page_size_hint": 6,
+      "discovery_max_pages": 1,
+      "discovery_seen_streak": 8,
+      "discovery_max_items": 15,
+      "job_discovery_resume": {
+        "kind": "html",
+        "url": "https://www.dreamjob.ma/stage/"
+      },
+      "discovery_stop_reason": "error",
+      "discovery_pages_scanned": 1,
+      "job_seen_ids_year": "2026"
+    },
+    "https://careers.accor.com/global/en/morocco": {
+      "source_name": "Accor — عروض فنادق المغرب",
+      "last_crawled_at": "2026-10-10T11:46:33.928066Z",
+      "overlap_minutes": 10,
+      "job_seen_ids": [
+        "url:https://careers.accor.com/global/en/job/director-of-sales-mice-in-fairmont-royal-palm-marrakech-marrakesh-morocco-jid-83351",
+        "url:https://careers.accor.com/global/en/job/valet-de-chambre-in-casablanca-morocco-jid-113333",
+        "url:https://careers.accor.com/global/en/job/sales-manager-in-moevenpick-hotel-and-casino-malabata-tanger-tangie-jid-113241",
+        "url:https://careers.accor.com/global/en/job/responsable-formation-et-qualite-in-sofitel-agadir-thalassa-sea-and-spa-agadir-morocco-jid-98106",
+        "url:https://careers.accor.com/global/en/job/superviseur-d-etage-h-f-in-fairmont-la-marina-rabat-sale-hotel-and-residences-jid-110685",
+        "url:https://careers.accor.com/global/en/job/chef-de-partie-in-fairmont-royal-palm-marrakech-marrakesh-morocco-jid-97392",
+        "url:https://careers.accor.com/global/en/job/hotesse-caissiere-in-fairmont-la-marina-rabat-sale-hotel-and-residences-jid-102919",
+        "url:https://careers.accor.com/global/en/job/chef-de-rang-in-fairmont-la-marina-rabat-sale-hotel-and-residences-jid-102920",
+        "url:https://careers.accor.com/global/en/job/femme-de-chambre-in-fairmont-taghazout-bay-taghazout-morocco-jid-94333"
+      ],
+      "job_seen_ids_count": 9,
+      "discovery_last_new_count": 9,
+      "discovery_page_size_hint": 15,
+      "discovery_max_pages": 1,
+      "discovery_seen_streak": 8,
+      "discovery_max_items": 250,
+      "job_discovery_resume": {},
+      "discovery_stop_reason": "end",
+      "discovery_pages_scanned": 1,
+      "job_seen_ids_year": "2026"
     }
   },
   "category_rotation": {},
   "source_rotation": {},
-  "updated_at": "2026-10-10T11:01:45"
+  "updated_at": "2026-10-10T11:46:34"
 }
