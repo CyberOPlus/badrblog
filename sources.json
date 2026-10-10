@@ -10,8 +10,8 @@
     "deadline_required_for_every_new_job": true,
     "maximum_required_education": "bachelor_licence_bac_plus_3_or_equivalent_or_lower",
     "unknown_education_or_deadline": "do_not_publish",
-    "application_link_policy": "direct_verified_job_specific_apply_form_only",
-    "registration_required": "reject_at_job_level",
+    "application_link_policy": "verified_opportunity_specific_official_action; account_creation_after_following_specific_action_allowed; generic_login_or_listing_denied",
+    "registration_required": "accept_when_specific_official_apply_action_is_verified_disclose_account_requirement",
     "generic_search_login_listing_page": "never_publish",
     "source_allowlist_mode": "verified_diverse_sources_for_moroccans_and_arabic_speakers",
     "retired_source_names": [
@@ -47,7 +47,15 @@
     ],
     "international_eligibility": "verify_eligible_moroccan_or_explicitly_open_to_international_candidates_per_opportunity",
     "discovery_only_sources": "may_be_crawled_but_never_publish_without_official_fact_application_and_eligibility_verification",
-    "source_rotation": "rotate_by_website_domain_after_verified_priority_and_urgency"
+    "source_rotation": "rotate_by_website_domain_after_verified_priority_and_urgency",
+    "maximum_publish_age_by_kind_hours": {
+      "job": 24,
+      "internship": 168,
+      "scholarship": 720,
+      "training": 720,
+      "apprenticeship": 168
+    },
+    "rolling_deadline": "allowed_only_for_official_internship_training_apprenticeship_with_explicit_source_evidence"
   },
   "categories": [
     {
@@ -114,17 +122,19 @@
         {
           "name": "OFPPT — offres d'emploi",
           "base_url": "https://recrutement.ofppt.ma/offres?page=1",
-          "enabled": false,
-          "fetch_limit_per_run": 6,
-          "extractor_type": "auto",
+          "enabled": true,
+          "fetch_limit_per_run": 15,
+          "extractor_type": "ofppt_jobs",
           "source_priority": "A",
           "official_source": true,
           "source_country": "MA",
           "source_eligibility": "morocco",
-          "strict_source_path": true,
-          "verification_state": "listing_detail_confirmed_but_publication_time_and_accountfree_apply_unverified",
-          "source_note": "Official recruitment listing and concrete /offre/{id} page verified 2026-10-10. Candidate account registration is required on many applications and no verified source publication timestamp; keep disabled until both publication evidence and job-specific permitted application route can be proven.",
-          "required_apply_mode": "direct_job_specific_application_without_account"
+          "strict_source_path": false,
+          "verification_state": "official_listing_detail_confirmed_dates_apply_gate_remain_mandatory",
+          "source_note": "Official dated-deadline listings and real /offre/ID detail pages verified 2026-10-10. Publish only with independently verified opening/publication date, qualification, specific application action and still-open deadline. Registered candidate account permitted only after verified notice-specific application path.",
+          "required_apply_mode": "verified_job_specific_action_account_optional",
+          "discovery_max_pages": 2,
+          "discovery_max_items": 25
         },
         {
           "name": "ReKrute Maroc",
@@ -222,7 +232,7 @@
         {
           "name": "Dreamjob — stages",
           "base_url": "https://www.dreamjob.ma/stage/",
-          "enabled": false,
+          "enabled": true,
           "fetch_limit_per_run": 6,
           "extractor_type": "auto",
           "source_priority": "B",
@@ -230,9 +240,12 @@
           "source_country": "MA",
           "source_eligibility": "morocco",
           "strict_source_path": true,
-          "verification_state": "pending_runner_scraper_smoke_test",
-          "source_note": "Candidate preserved from 2026-10-09 source research. DISABLED until adapter, live GitHub-runner HTTP/detail parse, real opening/closing dates, education (< Bac+3), and foreign eligibility (where relevant) pass. Generic listing HTTP 200 is insufficient.",
-          "required_apply_mode": "direct_job_specific_application_without_account"
+          "verification_state": "public_third_party_listing_confirmed_official_application_recheck_mandatory",
+          "source_note": "Public Moroccan internship listing confirmed 2026-10-10. Discovery only: third-party listing must never be counted as official source evidence; check each employer's own official notice and action. Stage page also contains ordinary jobs, so classify each detail independently.",
+          "required_apply_mode": "direct_job_specific_application_without_account",
+          "discovery_max_pages": 1,
+          "discovery_max_items": 15,
+          "opportunity_kind": "internship"
         },
         {
           "name": "Dreamjob — informatique IT",
@@ -390,6 +403,22 @@
           "verification_state": "official_source_found_adapter_and_per_opportunity_application_evidence_pending",
           "source_note": "Verified official directory or program information, not yet verified as a machine-readable stream of current dated applicant-eligible openings. Do not auto-post or infer grant availability.",
           "required_apply_mode": "verified_opportunity_specific_official_application"
+        },
+        {
+          "name": "Accor — عروض فنادق المغرب",
+          "base_url": "https://careers.accor.com/global/en/morocco",
+          "enabled": true,
+          "extractor_type": "accor_morocco_jobs",
+          "fetch_limit_per_run": 15,
+          "discovery_max_pages": 1,
+          "strict_source_path": false,
+          "source_priority": "A+",
+          "official_source": true,
+          "source_country": "MA",
+          "source_eligibility": "morocco",
+          "verification_state": "official_morocco_landing_page_and_job_detail_verified_2026-10-10",
+          "source_note": "Official Morocco landing page carries local hotel roles in multiple sectors. Detail job location and official application, qualifying diploma, date and deadline must independently pass hard gates; no auto-assumed publish timestamp.",
+          "required_apply_mode": "verified_job_specific_action_account_optional"
         }
       ]
     },
