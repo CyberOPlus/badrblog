@@ -762,6 +762,7 @@ jobs:
                     "Recent successful scans: " + (coverage.scanned_recently || 0),
                     "Recent sources with errors: " + (coverage.failed_recent_sources || []).join(", "),
                     "Recently discovered candidates: " + (coverage.recent_cycle_candidates || 0),
+                    "Top verification blockers: " + JSON.stringify((report.ready_quality_blockers || []).slice(0, 5)),
                     "Consecutive successful runs with zero candidates: " + (coverage.successful_empty_cycle_streak || 0),
                     "Latest actual Blogger post: " + (coverage.last_blogger_publish_at || "unknown"),
                     "Recommended: inspect the latest source crawls, parser extraction, qualification gates and actual publishing log.",
