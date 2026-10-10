@@ -52,6 +52,32 @@ class DeliveryReliabilityTests(unittest.TestCase):
             return monitor.delivery_status(now=datetime(2026, 10, 3, 10, tzinfo=timezone.utc),
                                            services=services or {})
 
+    def test_empty_successful_cycles_trigger_actionable_coverage_warning(self):
+        now = datetime(2026, 10, 10, 12, tzinfo=timezone.utc)
+        url = "https://jobs.example.com/list"
+        registry = {"categories": [{"sources": [{"name": "Example jobs", "base_url": url, "enabled": True}]}]}
+        crawl = {"sources": {url: {"last_crawled_at": "2026-10-10T11:55:00Z",
+                                    "discovery_last_new_count": 0}}}
+        runs = [{"finished_at": f"2026-10-10T11:{n:02d}:00Z",
+                 "sources_checked": 1, "candidates_found": 0, "success": True}
+                for n in (30, 40, 50)]
+        report = monitor.discovery_coverage(now=now, registry=registry, crawl_state=crawl,
+            run_rows=runs, state={"last_publish_at": "2026-10-09T09:00:00Z"})
+        self.assertEqual(report["status"], "starved")
+        self.assertEqual(report["successful_empty_cycle_streak"], 3)
+        self.assertEqual(report["enabled_feeds"], 1)
+        self.assertEqual(report["scanned_recently"], 1)
+        runs[-1]["candidates_found"] = 1
+        self.assertEqual(monitor.discovery_coverage(now=now, registry=registry, crawl_state=crawl,
+            run_rows=runs, state={"last_publish_at": "2026-10-09T09:00:00Z"})["status"], "ok")
+
+    def test_uncrawled_enabled_sources_trigger_stalled_discovery(self):
+        now = datetime(2026, 10, 10, 12, tzinfo=timezone.utc)
+        report = monitor.discovery_coverage(now=now,
+            registry={"categories": [{"sources": [{"name": "Uncrawled", "base_url": "https://site.ma/jobs", "enabled": True}]}]},
+            crawl_state={"sources": {}}, run_rows=[], state={})
+        self.assertEqual(report["status"], "stalled_discovery")
+
     def test_idle_worker_does_not_claim_hourly_delivery_is_healthy(self):
         result = self.status([])
         self.assertEqual(result["state"], "no_fresh_candidate")
