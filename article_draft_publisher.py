@@ -32,7 +32,7 @@ from config import (
     JOBS_EXPECTED_BLOG_HOST,
     JOBS_MAX_PUBLISH_AGE_HOURS,
 )
-from job_core import job_deadline_time, job_publication_freshness, job_publication_policy, job_direct_application_policy
+from job_core import job_deadline_time, job_publication_freshness, job_publication_policy, job_direct_application_policy, job_opportunity_kind
 from production_logging import html_word_count, log_event
 from quality_gate import validate_before_publish
 from internal_link_cache import record_published_article
@@ -1044,8 +1044,10 @@ def _assert_fresh_job_for_new_live_publish(article, now=None):
         raise RuntimeError("Job publication time is not verified; refusing new live publication.")
     if freshness["future"] or not freshness["fresh"]:
         raise RuntimeError(
-            f"Job publication age is outside the 24-hour window; " if not (article.get("opportunity_kind") or article.get("job_opportunity_kind")) or str(article.get("opportunity_kind") or article.get("job_opportunity_kind")).lower() in {"job", "jobs", "vacancy", "competition"} else f"Opportunity is outside the type-specific freshness window; "
-            "refusing new live publication."
+            ("Job publication age is outside the 24-hour window; "
+             if job_opportunity_kind(article) == "job"
+             else "Opportunity is outside the type-specific freshness window; ")
+            + "refusing new live publication."
         )
     notice_type = str(article.get("job_notice_type") or "vacancy").strip().lower()
     deadline = job_deadline_time(article)
