@@ -1489,6 +1489,50 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIn("under-24h", ids)
         self.assertIn("published-old", ids)
 
+    def test_queue_retains_recent_verified_training_and_internship_evidence(self):
+        """The job-only 24h archival must not silently destroy 7/30-day leads."""
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        now = datetime(2026, 10, 10, 12, tzinfo=timezone.utc)
+        rows = [
+            {"id": "job-old", "status": "ready", "opportunity_kind": "job",
+             "official_source": True, "source_published_at": "2026-10-08T10:00:00Z",
+             "discovered_at": "2026-10-08T12:00:00Z"},
+            {"id": "stage-current", "status": "ready", "opportunity_kind": "internship",
+             "official_source": True, "source_published_at": "2026-10-06T10:00:00Z",
+             "discovered_at": "2026-10-06T11:00:00Z"},
+            {"id": "grant-current", "status": "ready", "opportunity_kind": "scholarship",
+             "official_source": True, "source_published_at": "2026-09-20T10:00:00Z",
+             "discovered_at": "2026-09-20T11:00:00Z"},
+            {"id": "grant-expired", "status": "ready", "opportunity_kind": "scholarship",
+             "official_source": True, "source_published_at": "2026-09-01T10:00:00Z",
+             "discovered_at": "2026-09-01T11:00:00Z"},
+        ]
+        with TemporaryDirectory() as temp:
+            queue_path = Path(temp) / "jobs_article_queue.json"
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path):
+                article_queue.save_article_queue({"articles": rows, "notifications": {}})
+                result = article_queue.archive_expired_queue_articles(now=now)
+                kept = article_queue.load_article_queue()["articles"]
+        surviving = {row["id"] for row in kept if not row.get("archived")}
+        self.assertIn("stage-current", surviving)
+        self.assertIn("grant-current", surviving)
+        self.assertNotIn("job-old", surviving)
+        self.assertNotIn("grant-expired", surviving)
+        self.assertGreaterEqual(result["purged_over_24h"], 1)
+
+    def test_queue_discovery_does_not_cut_grants_to_job_24h_window(self):
+        now = datetime(2026, 10, 10, 12, tzinfo=timezone.utc)
+        self.assertFalse(article_queue._known_stale_job({
+            "opportunity_kind": "scholarship", "official_source": True,
+            "source_published_at": "2026-09-20T10:00:00Z",
+        }, now=now))
+        self.assertTrue(article_queue._known_stale_job({
+            "opportunity_kind": "job", "official_source": True,
+            "source_published_at": "2026-09-20T10:00:00Z",
+        }, now=now))
+
     def test_queue_save_is_noop_when_payload_is_unchanged(self):
         from pathlib import Path
         from tempfile import TemporaryDirectory
