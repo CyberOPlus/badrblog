@@ -270,7 +270,7 @@ jobs:
               "JOBS_PILOT_ROLLOUT_GRACE_CAP": "12",
               "JOBS_ACTIVE_START_HOUR": "0",
               "JOBS_ACTIVE_END_HOUR": "24",
-              "JOBS_MIN_PUBLISH_INTERVAL_MINUTES": "20",
+              "JOBS_MIN_PUBLISH_INTERVAL_MINUTES": "12",
               "WHATSAPP_CHANNEL_URL": "https://whatsapp.com/channel/0029VaDv5d05vKADlup5761h",
               "GEMINI_API_KEY": os.environ.get("GEMINI_API_KEY", ""),
               "GEMINI_MODEL": "gemini-2.5-flash",
@@ -331,7 +331,7 @@ jobs:
               "MIN_MINUTES_BETWEEN_DRAFTS": "0",
               "MAX_LIVE_POSTS_PER_DAY": "12",
               "TARGET_LIVE_POSTS_PER_DAY": "8",
-              "MIN_MINUTES_BETWEEN_LIVE_POSTS": "20",
+              "MIN_MINUTES_BETWEEN_LIVE_POSTS": "12",
               "AI_PROVIDER": "auto",
           }
           Path(".env").write_text(
