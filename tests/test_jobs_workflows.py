@@ -36,7 +36,7 @@ class JobsWorkflowTests(unittest.TestCase):
         self.assertIn('"SAFE_CYCLE_MAX_ARTICLES": "1"', text)
         self.assertIn('"MAX_LIVE_POSTS_PER_DAY": "12"', text)
         self.assertIn('"TARGET_LIVE_POSTS_PER_DAY": "8"', text)
-        self.assertIn('"MIN_MINUTES_BETWEEN_LIVE_POSTS": "20"', text)
+        self.assertIn('"MIN_MINUTES_BETWEEN_LIVE_POSTS": "12"', text)
         self.assertIn('"META_GRAPH_API_VERSION": "v26.0"', text)
         self.assertIn('"JOBS_MIN_PUBLISH_INTERVAL_MINUTES": "20"', text)
         self.assertIn("continue-on-error: true", text)
