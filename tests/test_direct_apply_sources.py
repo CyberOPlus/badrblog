@@ -33,7 +33,8 @@ class DirectApplySourcesTests(unittest.TestCase):
     def test_source_registry_covers_varied_sectors_and_keeps_unverified_grants_disabled(self):
         registry = json.loads((Path(__file__).resolve().parents[1] / "sources.json").read_text(encoding="utf-8"))
         names = {s["name"] for cat in registry["categories"] for s in cat["sources"]}
-        self.assertEqual(len(names), 33)
+        self.assertEqual(len(names), 34)
+        self.assertIn("Accor — عروض فنادق المغرب", names)
         self.assertIn("Tanmia — offres d\'emploi", names)
         self.assertIn("inwi — جميع الوظائف بالمغرب", names)
         self.assertIn("OFPPT — منح متدربي التكوين", names)
@@ -60,11 +61,12 @@ class DirectApplySourcesTests(unittest.TestCase):
                     job_application_link_kind="",
                 )))
 
-    def test_candidate_account_platform_blocked_even_on_apply_path(self):
-        reason = job_core.job_direct_application_policy(article(
-            job_application_url="https://www.moncallcenter.ma/apply/12345"
-        ))
-        self.assertIn("registration", reason)
+    def test_account_platform_requires_a_real_job_specific_apply_action(self):
+        url = "https://www.moncallcenter.ma/apply/12345"
+        row = article(job_application_url=url, job_application_requires_registration=True)
+        self.assertIn("verified apply action", job_core.job_direct_application_policy(row))
+        row["job_action_links"] = [{"kind": "apply", "url": url}]
+        self.assertEqual(job_core.job_direct_application_policy(row), "")
 
     def test_removed_source_in_stored_queue_never_passes(self):
         reason = job_core.job_direct_application_policy(article(source_name="Orange Business Morocco"))
@@ -83,10 +85,14 @@ class DirectApplySourcesTests(unittest.TestCase):
                       job_action_links=[{"kind": "apply", "url": "https://example.org/forms/job-12345"}])
         self.assertEqual(job_core.job_direct_application_policy(row), "")
 
-    def test_registration_signal_overrides_apply_url(self):
-        self.assertTrue(job_core.job_direct_application_policy(article(
-            job_application_requires_registration=True
-        )))
+    def test_registration_is_allowed_only_after_a_verified_specific_apply_link(self):
+        url = "https://example.org/apply/12345"
+        row = article(job_application_requires_registration=True)
+        self.assertTrue(job_core.job_direct_application_policy(row))
+        row["job_action_links"] = [{"kind": "apply", "url": url}]
+        self.assertEqual(job_core.job_direct_application_policy(row), "")
+        row["job_application_url"] = "https://example.org/login?job_id=12345"
+        self.assertIn("sign-in", job_core.job_direct_application_policy(row))
 
     def test_scoring_never_approves_generic_job_page(self):
         now = datetime(2026, 10, 9, 11, tzinfo=timezone.utc)
