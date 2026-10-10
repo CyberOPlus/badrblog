@@ -354,7 +354,7 @@ def recover_public_competition_submission_evidence(max_articles=1):
             changed = True
             verified_now = bool(
                 str(article.get("job_deadline") or "").strip()
-                and job_qualification_policy(article)[0] == "below_bac3"
+                and job_qualification_policy(article)[0] in {"below_bac3", "bac3"}
                 and not job_direct_application_policy(article)
             )
             if verified_now:
