@@ -903,6 +903,28 @@ def verified_rolling_application(article):
     )
 
 
+def verified_open_ended_private_application(article, now=None):
+    """Permit a recent, official vacancy with a proven specific live apply action.
+
+    No missing publication date is ever treated as fresh; nothing is invented
+    about the closing date. Generic portals and aggregator listings cannot pass.
+    """
+    if job_opportunity_kind(article) not in {"job", "internship"}:
+        return False
+    if str((article or {}).get("job_notice_type") or "vacancy").casefold() != "vacancy":
+        return False
+    if not bool((article or {}).get("official_source") or (article or {}).get("job_official_source")):
+        return False
+    if str((article or {}).get("job_notice_status") or "").casefold() in {"closed", "expired", "archived", "cancelled"}:
+        return False
+    url = str((article or {}).get("job_application_url") or "").strip()
+    if not _application_action_exposes_url(article, url):
+        return False
+    if str((article or {}).get("job_application_link_kind") or "").casefold() not in {"direct_apply", ""}:
+        return False
+    return bool(job_publication_freshness(article, now=now).get("fresh"))
+
+
 def job_publication_freshness(article, now=None, max_age_hours=None):
     """
     Validate publication freshness without inventing a posting time.
@@ -1121,7 +1143,7 @@ def job_publication_policy(article, now=None):
     raw_deadline = str(article.get("job_deadline") or "").strip()
     deadline = job_deadline_time(article) if raw_deadline else None
     if deadline is None:
-        if not verified_rolling_application(article):
+        if not verified_rolling_application(article) and not verified_open_ended_private_application(article, now=current):
             reasons.append("application closing deadline is missing or invalid")
     elif deadline <= current:
         reasons.append("application registration deadline passed")
