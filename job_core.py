@@ -854,6 +854,47 @@ def _parse_date(value):
     return None
 
 
+OPPORTUNITY_FRESHNESS_HOURS = {
+    "job": JOBS_MAX_PUBLISH_AGE_HOURS,
+    "internship": 168,
+    "scholarship": 720,
+    "training": 720,
+    "apprenticeship": 168,
+}
+
+
+def job_opportunity_kind(article):
+    """Classify editorial scope only; type alone proves no eligibility."""
+    raw = str(
+        (article or {}).get("opportunity_kind")
+        or (article or {}).get("job_opportunity_kind")
+        or "job"
+    ).strip().casefold()
+    aliases = {
+        "jobs": "job", "vacancy": "job", "competition": "job",
+        "internships": "internship", "stage": "internship",
+        "scholarships": "scholarship", "bourse": "scholarship",
+        "vocational_training": "training", "formation": "training",
+        "apprenticeships": "apprenticeship",
+    }
+    value = aliases.get(raw, raw)
+    return value if value in OPPORTUNITY_FRESHNESS_HOURS else "job"
+
+
+def job_freshness_limit_hours(article):
+    return OPPORTUNITY_FRESHNESS_HOURS[job_opportunity_kind(article)]
+
+
+def verified_rolling_application(article):
+    """Do not interpret a missing deadline as rolling without official proof."""
+    return (
+        job_opportunity_kind(article) in {"internship", "training", "apprenticeship"}
+        and bool((article or {}).get("official_source") or (article or {}).get("job_official_source"))
+        and (article or {}).get("job_application_rolling_verified") is True
+        and bool(str((article or {}).get("job_application_rolling_evidence") or "").strip())
+    )
+
+
 def job_publication_freshness(article, now=None, max_age_hours=None):
     """
     Validate publication freshness without inventing a posting time.
@@ -876,12 +917,12 @@ def job_publication_freshness(article, now=None, max_age_hours=None):
 
     try:
         max_hours = float(
-            JOBS_MAX_PUBLISH_AGE_HOURS
+            job_freshness_limit_hours(article)
             if max_age_hours is None
             else max_age_hours
         )
     except (TypeError, ValueError):
-        max_hours = float(JOBS_MAX_PUBLISH_AGE_HOURS)
+        max_hours = float(job_freshness_limit_hours(article))
 
     if not raw:
         return {
@@ -918,7 +959,7 @@ def job_publication_freshness(article, now=None, max_age_hours=None):
                 }
             return {
                 "verified": True,
-                "fresh": publication_day == current_day,
+                "fresh": 0 <= (current_day - publication_day).days * 24 < max_hours,
                 "future": False,
                 "date_only": True,
                 "age_hours": None,
