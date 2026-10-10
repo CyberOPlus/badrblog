@@ -1865,6 +1865,53 @@ def _parse_tanmia_job_links(document, source_url, per_source_limit=None):
     return jobs
 
 
+def _parse_ofppt_job_links(document, source_url, per_source_limit=None):
+    """Only actual official OFPPT /offre/ID notices, never generic forms."""
+    soup = BeautifulSoup(document or "", "html.parser")
+    limit = max(1, int(per_source_limit or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE))
+    rows, seen = [], set()
+    for anchor in soup.select("a[href]"):
+        url = urljoin(source_url, str(anchor.get("href") or ""))
+        parsed = urlparse(url)
+        if (parsed.hostname or "").casefold() != "recrutement.ofppt.ma":
+            continue
+        if not re.fullmatch(r"/offre/\d+", parsed.path.rstrip("/"), re.I):
+            continue
+        title = _normalize_text(anchor.get_text(" ", strip=True))
+        if len(title) < 8 or url in seen:
+            continue
+        seen.add(url)
+        rows.append({"title": title, "url": url})
+        if len(rows) >= limit:
+            break
+    return rows
+
+
+def _parse_accor_morocco_job_links(document, source_url, per_source_limit=None):
+    """Collect only Accor's Morocco landing-page job links, not global results."""
+    soup = BeautifulSoup(document or "", "html.parser")
+    limit = max(1, int(per_source_limit or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE))
+    rows, seen = [], set()
+    for anchor in soup.select("a[href]"):
+        url = urljoin(source_url, str(anchor.get("href") or ""))
+        parsed = urlparse(url)
+        if (parsed.hostname or "").casefold() != "careers.accor.com":
+            continue
+        if not re.fullmatch(r"/global/en/job/[^/]+-jid-\d+", parsed.path, re.I):
+            continue
+        # This curated local landing page displays Moroccan opportunities.
+        # Detail-level location, qualification, dates and application still
+        # need independent verification before the publish gate can pass.
+        title = _normalize_text(anchor.get_text(" ", strip=True))
+        if len(title) < 8 or url in seen:
+            continue
+        seen.add(url)
+        rows.append({"title": title, "url": url})
+        if len(rows) >= limit:
+            break
+    return rows
+
+
 def _parse_emploi_public_links(document, source_url, per_source_limit=None):
     """Extract only official Emploi-Public competition detail pages."""
     soup = _get_soup_from_document(document, source_url)
@@ -3067,8 +3114,15 @@ async def _collect_article_links_for_source_async(
             ),
         }
 
-    if extractor_mode in {"emploi_public", "tanmia_jobs"}:
-        parser = _parse_tanmia_job_links if extractor_mode == "tanmia_jobs" else _parse_emploi_public_links
+    if extractor_mode in {"emploi_public", "tanmia_jobs", "ofppt_jobs", "accor_morocco_jobs"}:
+        parser = {
+            "emploi_public": _parse_emploi_public_links,
+            "tanmia_jobs": _parse_tanmia_job_links,
+            "ofppt_jobs": _parse_ofppt_job_links,
+            "accor_morocco_jobs": _parse_accor_morocco_job_links,
+            "ofppt_jobs": _parse_ofppt_job_links,
+            "accor_morocco_jobs": _parse_accor_morocco_job_links,
+        }[extractor_mode]
         links, error, status_code, discovery_meta = await _collect_paginated_html_links_async(
             session,
             source_url,
@@ -3422,7 +3476,7 @@ def _collect_article_links_for_source(
     resume_state = resume_state if isinstance(resume_state, dict) else {}
     if extractor_mode == "smartrecruiters_api":
         return _collect_smartrecruiters_sync(source_url, known_ids, max_pages, max_items, resume_state)
-    if extractor_mode in {'emploi_public', 'tanmia_jobs', 'capgemini_jobs', 'etalent', 'ats_listing', 'inwi_jobs', 'credit_du_maroc_jobs', 'cih_jobs', 'alten_jobs', 'anapec_jobs'}:
+    if extractor_mode in {'emploi_public', 'tanmia_jobs', 'ofppt_jobs', 'accor_morocco_jobs', 'capgemini_jobs', 'etalent', 'ats_listing', 'inwi_jobs', 'credit_du_maroc_jobs', 'cih_jobs', 'alten_jobs', 'anapec_jobs'}:
         parser = {
             "anapec_jobs": parse_anapec_links,
             "alten_jobs": _parse_alten_job_links,
