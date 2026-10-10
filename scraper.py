@@ -1822,6 +1822,49 @@ def _get_soup_from_document(document, article_url):
     return BeautifulSoup(html, "html.parser")
 
 
+def _parse_tanmia_job_links(document, source_url, per_source_limit=None):
+    """Discover ONLY dated Tanmia job detail cards, not navigation or events.
+
+    Tanmia is an aggregator. Its dates do NOT become official job timestamps,
+    and each detail needs independent employer/application verification.
+    """
+    soup = _get_soup_from_document(document, source_url)
+    if not soup:
+        return []
+    limit = max(1, int(per_source_limit or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE))
+    jobs, seen = [], set()
+    for heading in soup.find_all(["h2", "h3", "h4"]):
+        anchor = heading.find("a", href=True)
+        if anchor is None:
+            continue
+        url = urljoin(source_url, str(anchor.get("href") or ""))
+        parsed = urlparse(url)
+        if (parsed.hostname or "").lower().removeprefix("www.") != "tanmia.ma":
+            continue
+        match = re.fullmatch(r"/(\d{2})-(\d{2})-(20\d{2})/(\d+)/?", parsed.path)
+        if not match:
+            continue
+        title = _normalize_text(anchor.get_text(" ", strip=True))
+        if len(title) < 8 or url in seen:
+            continue
+        day, month, year, reference = match.groups()
+        try:
+            source_day = datetime(int(year), int(month), int(day)).date().isoformat()
+        except ValueError:
+            continue
+        seen.add(url)
+        jobs.append({
+            "title": title,
+            "url": url,
+            "source_published_at": source_day,
+            "published_at_source": "third_party_listing_date_only",
+            "ats_reference": "",
+        })
+        if len(jobs) >= limit:
+            break
+    return jobs
+
+
 def _parse_emploi_public_links(document, source_url, per_source_limit=None):
     """Extract only official Emploi-Public competition detail pages."""
     soup = _get_soup_from_document(document, source_url)
@@ -3024,11 +3067,12 @@ async def _collect_article_links_for_source_async(
             ),
         }
 
-    if extractor_mode == "emploi_public":
+    if extractor_mode in {"emploi_public", "tanmia_jobs"}:
+        parser = _parse_tanmia_job_links if extractor_mode == "tanmia_jobs" else _parse_emploi_public_links
         links, error, status_code, discovery_meta = await _collect_paginated_html_links_async(
             session,
             source_url,
-            _parse_emploi_public_links,
+            parser,
             known_ids=known_ids,
             page_size=per_source_limit,
             max_pages=max_pages,
@@ -3043,7 +3087,7 @@ async def _collect_article_links_for_source_async(
         return [_link_to_article_dict(link, source_url) for link in links], error, status_code, {
             "normal_links_found": len(links),
             "feed_links_found": 0,
-            "method_used": "emploi_public" if links else ("failed:emploi_public" if error else "emploi_public"),
+            "method_used": extractor_mode if links else (f"failed:{extractor_mode}" if error else extractor_mode),
             "tried_feed_urls": [],
             "discovery_meta": discovery_meta,
             "discovery_resume": (
@@ -3378,11 +3422,12 @@ def _collect_article_links_for_source(
     resume_state = resume_state if isinstance(resume_state, dict) else {}
     if extractor_mode == "smartrecruiters_api":
         return _collect_smartrecruiters_sync(source_url, known_ids, max_pages, max_items, resume_state)
-    if extractor_mode in {'emploi_public', 'capgemini_jobs', 'etalent', 'ats_listing', 'inwi_jobs', 'credit_du_maroc_jobs', 'cih_jobs', 'alten_jobs', 'anapec_jobs'}:
+    if extractor_mode in {'emploi_public', 'tanmia_jobs', 'capgemini_jobs', 'etalent', 'ats_listing', 'inwi_jobs', 'credit_du_maroc_jobs', 'cih_jobs', 'alten_jobs', 'anapec_jobs'}:
         parser = {
             "anapec_jobs": parse_anapec_links,
             "alten_jobs": _parse_alten_job_links,
             "emploi_public": _parse_emploi_public_links,
+            "tanmia_jobs": _parse_tanmia_job_links,
             "capgemini_jobs": _parse_capgemini_job_links,
             "etalent": _parse_etalent_links,
             "ats_listing": _parse_etalent_links,
