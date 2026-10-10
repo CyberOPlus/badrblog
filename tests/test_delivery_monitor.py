@@ -52,6 +52,58 @@ class DeliveryReliabilityTests(unittest.TestCase):
             return monitor.delivery_status(now=datetime(2026, 10, 3, 10, tzinfo=timezone.utc),
                                            services=services or {})
 
+    def test_real_publication_drought_alerts_despite_healthy_discovery(self):
+        now = datetime(2026, 10, 10, 12, tzinfo=timezone.utc)
+        url = "https://jobs.example.ma/list"
+        registry = {"categories": [{"sources": [{"name": "Good source", "base_url": url, "enabled": True}]}]}
+        crawl = {"sources": {url: {"last_crawled_at": "2026-10-10T11:57:00Z",
+                                    "discovery_last_status": "success", "discovery_last_new_count": 26}}}
+        runs = [{"finished_at": "2026-10-10T11:55:00Z", "success": True,
+                 "sources_checked": 1, "candidates_found": 26}]
+        report = monitor.discovery_coverage(now=now, registry=registry, crawl_state=crawl,
+            run_rows=runs, state={"last_publish_at": "2026-10-09T10:00:00Z"})
+        self.assertEqual(report["status"], "blocked_publication")
+        self.assertEqual(report["recent_cycle_candidates"], 26)
+        self.assertEqual(report["recent_cycle_publishes"], 0)
+        self.assertEqual(report["scanned_recently"], 1)
+        runs[0]["published_url"] = "https://blog.example.ma/new"
+        self.assertEqual(monitor.discovery_coverage(now=now, registry=registry, crawl_state=crawl,
+            run_rows=runs, state={"last_publish_at": "2026-10-10T11:55:00Z"})["status"], "ok")
+
+    def test_failed_source_probe_is_not_counted_as_successful_scan(self):
+        now = datetime(2026, 10, 10, 12, tzinfo=timezone.utc)
+        url = "https://jobs.example.ma/list"
+        report = monitor.discovery_coverage(now=now,
+            registry={"categories": [{"sources": [{"name": "Blocked", "base_url": url, "enabled": True}]}]},
+            crawl_state={"sources": {url: {"last_crawled_at": "2026-10-10T11:55:00Z",
+                                             "discovery_last_status": "failed"}}},
+            run_rows=[], state={})
+        self.assertEqual(report["status"], "stalled_discovery")
+        self.assertEqual(report["failed_recent_sources"], ["Blocked"])
+
+    def test_transient_fetch_retries_once_but_access_denial_never_retries(self):
+        from unittest.mock import AsyncMock
+        for responses, expected_calls in (
+            ([("", "http 503", 503), ("ok", "", 200)], 2),
+            ([("", "http 403", 403)], 1),
+        ):
+            fetch = AsyncMock(side_effect=responses)
+            with self.subTest(responses=responses), patch.object(scraper, "MAX_SOURCE_RETRIES", 1), patch.object(
+                scraper, "_fetch_text_once_async", fetch
+            ), patch.object(scraper.asyncio, "sleep", new=AsyncMock()):
+                result = asyncio.run(scraper._fetch_text_async(None, "https://example.ma/jobs"))
+                self.assertEqual(result, responses[-1])
+                self.assertEqual(fetch.await_count, expected_calls)
+
+    def test_facebook_health_target_obeys_daily_cap_without_posting_extra(self):
+        rows = [{"facebook_post_id": "page_post", "facebook_posted_at": "2026-10-03T08:30:00Z"}]
+        with patch.object(monitor, "JOBS_FACEBOOK_MAX_POSTS_PER_DAY", 4), patch.object(
+            monitor, "JOBS_FACEBOOK_MIN_INTERVAL_MINUTES", 70
+        ):
+            report = self.status(rows)
+        self.assertTrue(report["hourly_target_met"])
+        self.assertEqual(report["target_minutes"], 360)
+
     def test_empty_successful_cycles_trigger_actionable_coverage_warning(self):
         now = datetime(2026, 10, 10, 12, tzinfo=timezone.utc)
         url = "https://jobs.example.com/list"
@@ -68,8 +120,12 @@ class DeliveryReliabilityTests(unittest.TestCase):
         self.assertEqual(report["enabled_feeds"], 1)
         self.assertEqual(report["scanned_recently"], 1)
         runs[-1]["candidates_found"] = 1
+        # Discoveries without any successful Blogger publish now remain an alarm.
         self.assertEqual(monitor.discovery_coverage(now=now, registry=registry, crawl_state=crawl,
-            run_rows=runs, state={"last_publish_at": "2026-10-09T09:00:00Z"})["status"], "ok")
+            run_rows=runs, state={"last_publish_at": "2026-10-09T09:00:00Z"})["status"], "blocked_publication")
+        runs[-1]["published_url"] = "https://blog.example.ma/new.html"
+        self.assertEqual(monitor.discovery_coverage(now=now, registry=registry, crawl_state=crawl,
+            run_rows=runs, state={"last_publish_at": "2026-10-10T11:50:00Z"})["status"], "ok")
 
     def test_uncrawled_enabled_sources_trigger_stalled_discovery(self):
         now = datetime(2026, 10, 10, 12, tzinfo=timezone.utc)

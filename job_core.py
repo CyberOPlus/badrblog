@@ -969,7 +969,17 @@ def job_publication_freshness(article, now=None, max_age_hours=None):
         (article or {}).get("official_source")
         or (article or {}).get("job_official_source")
     )
-    if date_only and official:
+    provenance = str((article or {}).get("published_at_source") or "").casefold()
+    independently_verified = (article or {}).get("job_official_publication_verified") is True
+    if ((date_only and not official and not independently_verified)
+            or ("third_party" in provenance and not independently_verified)):
+        # Aggregator listing dates are not employer publication dates. Do not
+        # silently convert YYYY-MM-DD to an invented official timestamp.
+        return {
+            "verified": False, "fresh": False, "future": False,
+            "date_only": date_only, "age_hours": None, "raw": raw,
+        }
+    if date_only and (official or independently_verified):
         try:
             publication_day = datetime.fromisoformat(raw).date()
         except ValueError:

@@ -55,6 +55,7 @@ from config import (
     RETRY_DELAY,
     SCRAPE_DELAY_SECONDS,
     SOURCE_TIMEOUT_SECONDS,
+    MAX_SOURCE_RETRIES,
 )
 from runtime_state import (
     is_source_cooled_down,
@@ -1298,7 +1299,7 @@ def _fallback_feed_urls(source_url, feed_url=None):
     ]
 
 
-async def _fetch_text_async(session, url):
+async def _fetch_text_once_async(session, url):
     if _is_anapec_url(url):
         timeout_seconds = _source_fetch_timeout_seconds(url)
         log_event(
@@ -1349,6 +1350,22 @@ async def _fetch_text_async(session, url):
             elapsed_ms=elapsed_ms(started),
         )
         return "", error.__class__.__name__, None
+
+
+async def _fetch_text_async(session, url):
+    """Retry only transient source transport failures, never access blocks."""
+    if _is_anapec_url(url):
+        return await _fetch_text_once_async(session, url)
+    for attempt in range(max(0, min(2, int(MAX_SOURCE_RETRIES))) + 1):
+        body, error, status = await _fetch_text_once_async(session, url)
+        transient = (
+            bool(error) and (status is None or status in {408, 429, 500, 502, 503, 504})
+        )
+        if not transient or attempt >= max(0, min(2, int(MAX_SOURCE_RETRIES))):
+            return body, error, status
+        log_event("source_transient_fetch_retry", url=url, error=error,
+                  status=status, attempt=attempt + 1)
+        await asyncio.sleep(0.4 * (attempt + 1))
 
 
 async def _collect_paginated_html_links_async(
@@ -3120,8 +3137,6 @@ async def _collect_article_links_for_source_async(
             "tanmia_jobs": _parse_tanmia_job_links,
             "ofppt_jobs": _parse_ofppt_job_links,
             "accor_morocco_jobs": _parse_accor_morocco_job_links,
-            "ofppt_jobs": _parse_ofppt_job_links,
-            "accor_morocco_jobs": _parse_accor_morocco_job_links,
         }[extractor_mode]
         links, error, status_code, discovery_meta = await _collect_paginated_html_links_async(
             session,
@@ -3880,6 +3895,8 @@ async def _discover_latest_article_links_async(enabled_sources, persist_state=Tr
                 result.get("known_ids_before", 0) + len(result["links"]),
             ),
             "discovery_last_new_count": len(result["links"]),
+            "discovery_last_status": "failed" if result["error"] else "success",
+            "discovery_last_error": str(result["error"] or "")[:150],
             "discovery_page_size_hint": fetch_limit,
             "discovery_max_pages": result.get("discovery_max_pages"),
             "discovery_seen_streak": result.get("discovery_seen_streak"),
@@ -4185,6 +4202,8 @@ def discover_latest_article_links(sources, persist_state=True):
             ),
             "job_seen_ids_year": _discovery_memory_year(),
             "discovery_last_new_count": len(links),
+            "discovery_last_status": "failed" if error else "success",
+            "discovery_last_error": str(error or "")[:150],
             "discovery_page_size_hint": fetch_limit,
             "discovery_max_pages": discovery_max_pages,
             "discovery_seen_streak": discovery_seen_streak,

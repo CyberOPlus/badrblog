@@ -14,6 +14,7 @@ import requests
 
 from config import BASE_DIR, FACEBOOK_AUTO_POST, FACEBOOK_GRAPH_API_URL
 from config import FACEBOOK_PAGE_ID, FACEBOOK_PAGE_ACCESS_TOKEN
+from config import JOBS_FACEBOOK_MAX_POSTS_PER_DAY, JOBS_FACEBOOK_MIN_INTERVAL_MINUTES
 from article_queue import load_article_queue
 from job_core import job_publication_freshness, load_job_state
 from state_io import atomic_write_json
@@ -97,14 +98,18 @@ def discovery_coverage(now=None, registry=None, crawl_state=None, run_rows=None,
     domains.discard(None)
     records = crawl_state.get("sources") or {}
     recent_scans = 0
+    failed_scans = []
     stale = []
     discoveries = 0
     for source in sources:
         record = records.get(source.get("base_url")) or {}
         minutes = _age(record.get("last_crawled_at"), now)
         if minutes is not None and minutes <= 90:
-            recent_scans += 1
-            discoveries += int(record.get("discovery_last_new_count") or 0)
+            if record.get("discovery_last_status") == "failed":
+                failed_scans.append(str(source.get("name") or ""))
+            else:
+                recent_scans += 1
+                discoveries += int(record.get("discovery_last_new_count") or 0)
         else:
             stale.append(str(source.get("name") or ""))
     if run_rows is None:
@@ -134,20 +139,30 @@ def discovery_coverage(now=None, registry=None, crawl_state=None, run_rows=None,
             break
         empty_streak += 1
     minutes_idle = _age(state.get("last_publish_at"), now)
-    drought = empty_streak >= 3 and (minutes_idle is None or minutes_idle >= 360)
+    discovered_in_runs = sum(max(0, int(row.get("candidates_found") or 0)) for row in active)
+    published_in_runs = sum(bool(row.get("published_url") or row.get("blogger_post_url")) for row in active)
+    # Discovering links does not mean that Blogger delivered anything.
+    no_publish = (minutes_idle is None or minutes_idle >= 360) and published_in_runs == 0
+    blocked_publication = no_publish and discovered_in_runs > 0
+    drought = empty_streak >= 3 and no_publish
     no_scans = bool(sources) and recent_scans == 0
-    status = "stalled_discovery" if no_scans else ("starved" if drought else "ok")
+    status = ("stalled_discovery" if no_scans else "blocked_publication"
+              if blocked_publication else "starved" if drought else "ok")
     action = (
-        "No enabled source has been scanned within 90 minutes; inspect scheduled Actions and source errors."
+        "No enabled source was successfully scanned within 90 minutes; inspect source fetch errors and scheduler."
         if no_scans else
-        "Three or more consecutive successful scans found no candidates, and Blogger has not published in 6 hours; investigate source coverage and rejections."
+        "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers."
+        if blocked_publication else
+        "Three or more consecutive successful scans found no candidates, and Blogger has not published in 6 hours; investigate sources."
         if drought else
-        "Discovery coverage is monitored separately from workflow success."
+        "Discovery coverage is monitored separately from actual publishing."
     )
     return {
         "status": status, "action": action, "enabled_feeds": len(sources),
         "enabled_domains": len(domains), "scanned_recently": recent_scans,
-        "stale_sources": stale[:15], "recent_new_discoveries": discoveries,
+        "stale_sources": stale[:15], "failed_recent_sources": failed_scans[:15],
+        "recent_new_discoveries": discoveries, "recent_cycle_candidates": discovered_in_runs,
+        "recent_cycle_publishes": published_in_runs,
         "successful_empty_cycle_streak": empty_streak,
         "minutes_without_blogger": round(minutes_idle, 1) if minutes_idle is not None else None,
         "last_blogger_publish_at": state.get("last_publish_at", ""),
@@ -362,6 +377,20 @@ def delivery_status(now=None, services=None, ai_circuit=None):
              row.get("status") not in {"published", "skipped"} and
              job_publication_freshness(row, now=now).get("fresh")]
     fresh_ready = [row for row in fresh if row.get("status") == "ready"]
+    quality_blockers = {}
+    for row in fresh_ready:
+        reasons = [str(reason or "").strip() for reason in (row.get("job_quality_reasons") or [])]
+        if row.get("content_fetch_status") != "success":
+            reasons.append("source detail not fetched")
+        if row.get("identity_evidence_stage_status") != "complete":
+            reasons.append("identity evidence incomplete")
+        if not reasons and row.get("job_hard_gate_passed") is not True:
+            reasons.append("publication hard gates incomplete")
+        for reason in set(filter(None, reasons)):
+            quality_blockers[reason] = quality_blockers.get(reason, 0) + 1
+    blockers = [{"reason": label, "count": count}
+                for label, count in sorted(quality_blockers.items(),
+                                           key=lambda item: (-item[1], item[0]))[:10]]
     # A queue status alone does not make a job publishable. Mirror the
     # publisher/watchdog hard gates so incomplete eligibility evidence cannot
     # produce a false one-hour delivery blocker.
@@ -384,18 +413,22 @@ def delivery_status(now=None, services=None, ai_circuit=None):
         for row in verified_ready
     ]
     oldest_candidate = max((age for age in candidate_ages if age is not None), default=0)
-    target_met = facebook_age is not None and facebook_age <= TARGET_MINUTES
+    # Production has a daily Facebook cap and spacing; don't demand an
+    # impossible post every 60 minutes while limiting output to four per day.
+    delivery_target = max(TARGET_MINUTES, JOBS_FACEBOOK_MIN_INTERVAL_MINUTES,
+                          (1440 + JOBS_FACEBOOK_MAX_POSTS_PER_DAY - 1) // JOBS_FACEBOOK_MAX_POSTS_PER_DAY)
+    target_met = facebook_age is not None and facebook_age <= delivery_target
     if services.get("facebook", {}).get("status") not in {None, "ok"}:
         state, action = "facebook_external_problem", services["facebook"].get("action", "Check Facebook access.")
     elif services.get("ai", {}).get("status") in {"unavailable", "config", "cooldown"}:
         state, action = "waiting_provider", services["ai"].get("action", "Restore AI access.")
     elif uncertain:
         state, action = "facebook_delivery_uncertain", "Reconcile uncertain Facebook delivery before retrying that item."
-    elif pending and oldest_pending >= TARGET_MINUTES:
+    elif pending and oldest_pending >= delivery_target:
         state, action = "facebook_stalled", "A Blogger article has waited at least one hour for Facebook; inspect its delivery error."
     elif comments:
         state, action = "facebook_comment_pending", "Retry missing first comments containing application/article links."
-    elif oldest_candidate >= TARGET_MINUTES:
+    elif oldest_candidate >= delivery_target:
         state, action = "candidate_stalled", "A verified ready job has waited at least one hour before Facebook; inspect the publisher's blocking reason."
     elif (services.get("sources") or {}).get("status") == "degraded":
         state, action = "source_degraded", services["sources"].get(
@@ -416,10 +449,10 @@ def delivery_status(now=None, services=None, ai_circuit=None):
     else:
         state, action = "healthy", "Independent queues continue; each verified fresh job follows Blogger to Facebook."
     coverage = discovery_coverage(now=now)
-    if state in {"no_fresh_candidate", "no_verified_candidate", "healthy"} and coverage["status"] in {"starved", "stalled_discovery"}:
+    if state in {"no_fresh_candidate", "no_verified_candidate", "healthy"} and coverage["status"] in {"starved", "stalled_discovery", "blocked_publication"}:
         state, action = "coverage_" + coverage["status"], coverage["action"]
     return {"updated_at": now.isoformat(), "state": state, "action": action,
-            "hourly_target_met": target_met, "target_minutes": TARGET_MINUTES,
+            "hourly_target_met": target_met, "target_minutes": delivery_target,
             "last_facebook_posted_at": latest.get("facebook_posted_at", ""),
             "last_facebook_post_id": latest.get("facebook_post_id", ""),
             "minutes_since_facebook": round(facebook_age, 1) if facebook_age is not None else None,
@@ -427,6 +460,7 @@ def delivery_status(now=None, services=None, ai_circuit=None):
             "fresh_candidate_count": len(fresh),
             "verified_ready_candidate_count": len(verified_ready),
             "unverified_ready_candidate_count": len(fresh_ready) - len(verified_ready),
+            "ready_quality_blockers": blockers,
             "facebook_pending_count": len(pending),
             "oldest_facebook_pending_minutes": round(oldest_pending, 1),
             "oldest_ready_candidate_minutes": round(oldest_candidate, 1),

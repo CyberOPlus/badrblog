@@ -270,7 +270,7 @@ jobs:
               "JOBS_PILOT_ROLLOUT_GRACE_CAP": "12",
               "JOBS_ACTIVE_START_HOUR": "0",
               "JOBS_ACTIVE_END_HOUR": "24",
-              "JOBS_MIN_PUBLISH_INTERVAL_MINUTES": "20",
+              "JOBS_MIN_PUBLISH_INTERVAL_MINUTES": "12",
               "WHATSAPP_CHANNEL_URL": "https://whatsapp.com/channel/0029VaDv5d05vKADlup5761h",
               "GEMINI_API_KEY": os.environ.get("GEMINI_API_KEY", ""),
               "GEMINI_MODEL": "gemini-2.5-flash",
@@ -312,10 +312,10 @@ jobs:
               "JOBS_MAX_PUBLISH_AGE_HOURS": "24",
               "MIN_ARTICLE_WORDS": "120",
               "MIN_EXTRACTED_CHARS": "80",
-              "MAX_SOURCE_RETRIES": "0",
+              "MAX_SOURCE_RETRIES": "1",
               "SOURCE_RETRY_DELAY_SECONDS": "0",
-              "SOURCE_TIMEOUT_SECONDS": "6",
-              "ARTICLE_TIMEOUT_SECONDS": "8",
+              "SOURCE_TIMEOUT_SECONDS": "12",
+              "ARTICLE_TIMEOUT_SECONDS": "12",
               "AI_TOTAL_TIME_BUDGET_SECONDS": "300",
               "JOBS_AI_MAX_OUTPUT_TOKENS": "3072",
               "GEMINI_TIMEOUT_SECONDS": "90",
@@ -331,7 +331,7 @@ jobs:
               "MIN_MINUTES_BETWEEN_DRAFTS": "0",
               "MAX_LIVE_POSTS_PER_DAY": "12",
               "TARGET_LIVE_POSTS_PER_DAY": "8",
-              "MIN_MINUTES_BETWEEN_LIVE_POSTS": "20",
+              "MIN_MINUTES_BETWEEN_LIVE_POSTS": "12",
               "AI_PROVIDER": "auto",
           }
           Path(".env").write_text(
@@ -742,7 +742,7 @@ jobs:
             }
             const coverage = report.coverage || {};
             const status = String(coverage.status || "");
-            const problem = new Set(["starved", "stalled_discovery"]).has(status);
+            const problem = new Set(["starved", "stalled_discovery", "blocked_publication"]).has(status);
             const title = "Jobs bot: publication drought or source discovery stalled";
             const { owner, repo } = context.repo;
             const issues = await github.paginate(github.rest.issues.listForRepo, {
@@ -759,7 +759,10 @@ jobs:
                     "Coverage state: " + status,
                     "Active website domains: " + (coverage.enabled_domains || 0),
                     "Enabled feeds: " + (coverage.enabled_feeds || 0),
-                    "Recent scans: " + (coverage.scanned_recently || 0),
+                    "Recent successful scans: " + (coverage.scanned_recently || 0),
+                    "Recent sources with errors: " + (coverage.failed_recent_sources || []).join(", "),
+                    "Recently discovered candidates: " + (coverage.recent_cycle_candidates || 0),
+                    "Top verification blockers: " + JSON.stringify((report.ready_quality_blockers || []).slice(0, 5)),
                     "Consecutive successful runs with zero candidates: " + (coverage.successful_empty_cycle_streak || 0),
                     "Latest actual Blogger post: " + (coverage.last_blogger_publish_at || "unknown"),
                     "Recommended: inspect the latest source crawls, parser extraction, qualification gates and actual publishing log.",
