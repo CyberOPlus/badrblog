@@ -1,16 +1,26 @@
 {
-  "updated_at": "2026-10-10T11:48:14.860252+00:00",
-  "state": "no_verified_candidate",
-  "action": "Hourly target missed: fresh ready queue items exist, but none has completed all publication verification gates.",
+  "updated_at": "2026-10-10T12:10:23.190206+00:00",
+  "state": "coverage_blocked_publication",
+  "action": "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers.",
   "hourly_target_met": false,
-  "target_minutes": 60,
+  "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-09T10:54:04",
   "last_facebook_post_id": "103026497833721_1091452636583134",
-  "minutes_since_facebook": 1494.2,
+  "minutes_since_facebook": 1516.3,
   "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00",
   "fresh_candidate_count": 1,
   "verified_ready_candidate_count": 0,
   "unverified_ready_candidate_count": 1,
+  "ready_quality_blockers": [
+    {
+      "reason": "identity evidence incomplete",
+      "count": 1
+    },
+    {
+      "reason": "required diploma Bac+3 or below is not verified",
+      "count": 1
+    }
+  ],
   "facebook_pending_count": 0,
   "oldest_facebook_pending_minutes": 0,
   "oldest_ready_candidate_minutes": 0,
@@ -71,22 +81,25 @@
           "source_name": "OFPPT — offres d'emploi",
           "failure_count": 1,
           "category": "source_error",
-          "retry_after": "2026-10-10T12:03:08Z"
+          "retry_after": "2026-10-10T12:25:21Z"
         }
       ],
       "action": "One or more sources are cooling down after transient fetch failures."
     }
   },
   "coverage": {
-    "status": "ok",
-    "action": "Discovery coverage is monitored separately from workflow success.",
+    "status": "blocked_publication",
+    "action": "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers.",
     "enabled_feeds": 8,
     "enabled_domains": 6,
     "scanned_recently": 8,
     "stale_sources": [],
-    "recent_new_discoveries": 26,
+    "failed_recent_sources": [],
+    "recent_new_discoveries": 10,
+    "recent_cycle_candidates": 36,
+    "recent_cycle_publishes": 0,
     "successful_empty_cycle_streak": 0,
-    "minutes_without_blogger": 1494.1,
+    "minutes_without_blogger": 1516.2,
     "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00"
   },
   "services_checked_at": "2026-10-10T11:48:14.859786+00:00"
