@@ -1,26 +1,17 @@
 {
-  "updated_at": "2026-10-10T12:10:23.190206+00:00",
+  "updated_at": "2026-10-10T15:19:32.008724+00:00",
   "state": "coverage_blocked_publication",
   "action": "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers.",
   "hourly_target_met": false,
   "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-09T10:54:04",
   "last_facebook_post_id": "103026497833721_1091452636583134",
-  "minutes_since_facebook": 1516.3,
+  "minutes_since_facebook": 1705.5,
   "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00",
-  "fresh_candidate_count": 1,
+  "fresh_candidate_count": 0,
   "verified_ready_candidate_count": 0,
-  "unverified_ready_candidate_count": 1,
-  "ready_quality_blockers": [
-    {
-      "reason": "identity evidence incomplete",
-      "count": 1
-    },
-    {
-      "reason": "required diploma Bac+3 or below is not verified",
-      "count": 1
-    }
-  ],
+  "unverified_ready_candidate_count": 0,
+  "ready_quality_blockers": [],
   "facebook_pending_count": 0,
   "oldest_facebook_pending_minutes": 0,
   "oldest_ready_candidate_minutes": 0,
@@ -73,15 +64,15 @@
       "active_issues": [
         {
           "source_name": "Dreamjob — stages",
-          "failure_count": 1,
+          "failure_count": 2,
           "category": "http_block",
-          "retry_after": "2026-10-10T14:46:33Z"
+          "retry_after": "2026-10-10T18:18:47Z"
         },
         {
           "source_name": "OFPPT — offres d'emploi",
           "failure_count": 1,
           "category": "source_error",
-          "retry_after": "2026-10-10T12:25:21Z"
+          "retry_after": "2026-10-10T15:34:26Z"
         }
       ],
       "action": "One or more sources are cooling down after transient fetch failures."
@@ -92,15 +83,17 @@
     "action": "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers.",
     "enabled_feeds": 8,
     "enabled_domains": 6,
-    "scanned_recently": 8,
+    "scanned_recently": 7,
     "stale_sources": [],
-    "failed_recent_sources": [],
-    "recent_new_discoveries": 10,
-    "recent_cycle_candidates": 36,
+    "failed_recent_sources": [
+      "Dreamjob — stages"
+    ],
+    "recent_new_discoveries": 11,
+    "recent_cycle_candidates": 47,
     "recent_cycle_publishes": 0,
     "successful_empty_cycle_streak": 0,
-    "minutes_without_blogger": 1516.2,
+    "minutes_without_blogger": 1705.4,
     "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00"
   },
-  "services_checked_at": "2026-10-10T11:48:14.859786+00:00"
+  "services_checked_at": "2026-10-10T15:19:32.008212+00:00"
 }
