@@ -78,6 +78,82 @@ def _age(value, now):
     return max(0.0, (now - dt).total_seconds() / 60) if dt else None
 
 
+def discovery_coverage(now=None, registry=None, crawl_state=None, run_rows=None, state=None):
+    """Monitor real discovery and actual Blogger posts, not successful Actions."""
+    now = now or datetime.now(timezone.utc)
+    def load(path):
+        try:
+            data = json.loads(Path(path).read_text(encoding="utf-8"))
+            return data if isinstance(data, dict) else {}
+        except (OSError, ValueError, TypeError):
+            return {}
+    registry = registry if registry is not None else load(BASE_DIR / "sources.json")
+    crawl_state = crawl_state if crawl_state is not None else load(BASE_DIR / "data" / "crawl_state.json")
+    state = state if state is not None else load_job_state()
+    sources = [s for cat in registry.get("categories", [])
+               for s in cat.get("sources", []) if isinstance(s, dict) and s.get("enabled") is True]
+    from urllib.parse import urlparse
+    domains = {urlparse(str(s.get("base_url") or "")).hostname for s in sources}
+    domains.discard(None)
+    records = crawl_state.get("sources") or {}
+    recent_scans = 0
+    stale = []
+    discoveries = 0
+    for source in sources:
+        record = records.get(source.get("base_url")) or {}
+        minutes = _age(record.get("last_crawled_at"), now)
+        if minutes is not None and minutes <= 90:
+            recent_scans += 1
+            discoveries += int(record.get("discovery_last_new_count") or 0)
+        else:
+            stale.append(str(source.get("name") or ""))
+    if run_rows is None:
+        try:
+            lines = (BASE_DIR / "logs" / "auto_cycle_runs.jsonl").read_text(encoding="utf-8").splitlines()[-60:]
+        except OSError:
+            lines = []
+        run_rows = []
+        for line in lines:
+            try:
+                row = json.loads(line)
+                if isinstance(row, dict):
+                    run_rows.append(row)
+            except ValueError:
+                continue
+    active = []
+    for row in run_rows:
+        timestamp = _date(row.get("finished_at") or row.get("timestamp"))
+        if timestamp and timestamp <= now and (now - timestamp).total_seconds() <= 21600:
+            active.append(row)
+    active.sort(key=lambda x: str(x.get("finished_at") or x.get("timestamp") or ""))
+    empty_streak = 0
+    for row in reversed(active[-20:]):
+        if not row.get("success") or int(row.get("sources_checked") or 0) < 1:
+            break
+        if int(row.get("candidates_found") or 0) > 0 or row.get("published_url"):
+            break
+        empty_streak += 1
+    minutes_idle = _age(state.get("last_publish_at"), now)
+    drought = empty_streak >= 3 and (minutes_idle is None or minutes_idle >= 360)
+    no_scans = bool(sources) and recent_scans == 0
+    status = "stalled_discovery" if no_scans else ("starved" if drought else "ok")
+    action = (
+        "No enabled source has been scanned within 90 minutes; inspect scheduled Actions and source errors."
+        if no_scans else
+        "Three or more consecutive successful scans found no candidates, and Blogger has not published in 6 hours; investigate source coverage and rejections."
+        if drought else
+        "Discovery coverage is monitored separately from workflow success."
+    )
+    return {
+        "status": status, "action": action, "enabled_feeds": len(sources),
+        "enabled_domains": len(domains), "scanned_recently": recent_scans,
+        "stale_sources": stale[:15], "recent_new_discoveries": discoveries,
+        "successful_empty_cycle_streak": empty_streak,
+        "minutes_without_blogger": round(minutes_idle, 1) if minutes_idle is not None else None,
+        "last_blogger_publish_at": state.get("last_publish_at", ""),
+    }
+
+
 def probe_sources(now=None):
     """Surface active source-level blockers without making the whole publisher fail."""
     now = now or datetime.now(timezone.utc)
