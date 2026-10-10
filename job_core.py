@@ -978,9 +978,9 @@ _EDUCATION_LABEL = re.compile(
 )
 _EDUCATION_HIGH = re.compile(
     r"\bbac\s*\+\s*(?:[4-9]|[1-9]\d+)\b|"
-    r"\b(?:master|mastere|master's|m[12]\s+degree|ingenieur\s+d['’]etat|"
+    r"\b(?:master|mastere|master's|m[12]\s+degree|ingenieur|"
     r"doctorat|doctorate|phd|mba|bac\s*plus\s*(?:quatre|cinq))\b|"
-    r"(?:الماستر|الماجستير|الدكتوراه|مهندس\s+دولة|باك\s*\+\s*[٤٥٦٧٨٩])",
+    r"(?:ال?ماستر|الماجستير|الدكتوراه|مهندس\s+دولة|باك\s*\+\s*[٤٥٦٧٨٩])",
     re.IGNORECASE,
 )
 _EDUCATION_BACHELOR = re.compile(
