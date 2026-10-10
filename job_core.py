@@ -455,8 +455,8 @@ def is_application_url_bound_to_job(article, url):
 
 
 
-# Account-free one-click rule: a reader must land on the application action for
-# this exact vacancy, never a careers search, account-registration or job detail.
+# A verified vacancy-specific employer action may require an account later.
+# Generic sign-in / register paths are never a valid landing page.
 _DIRECT_APPLY_URL_RE = re.compile(
     r"(?i)(?:/(?:apply|postuler|candidater|candidature/submit|applications?/new|"
     r"applicationform)(?:/|[.?]|$)|[?&](?:apply|postuler|lJobID|jobId)=)"
@@ -508,14 +508,15 @@ def job_direct_application_policy(article):
     candidate = canonicalize_job_url(url)
     parsed = urlparse(candidate)
     host = parsed.netloc.casefold().removeprefix("www.")
-    if host in _ACCOUNT_ONLY_HOSTS or any(host.endswith("." + h) for h in _ACCOUNT_ONLY_HOSTS):
-        return "application platform requires candidate account registration"
+    account_platform = (
+        host in _ACCOUNT_ONLY_HOSTS
+        or any(host.endswith("." + h) for h in _ACCOUNT_ONLY_HOSTS)
+        or article.get("job_application_requires_registration") is True
+    )
     if _ACCOUNT_GATE_URL_RE.search(parsed.path) or re.search(
         r"(?i)(?:^|[?&])(?:redirect|returnUrl|next)=[^&]*(?:login|register|signup)", parsed.query
     ):
-        return "application URL leads to registration or sign-in"
-    if article.get("job_application_requires_registration") is True:
-        return "application requires a registered candidate account"
+        return "application URL leads to generic registration or sign-in"
     kind = str(article.get("job_application_link_kind") or "").strip().lower()
     # An official PDF may explicitly designate one centralized portal for THIS
     # competition (e.g. recrutement.enssup.gov.ma). It is the official action,
@@ -549,8 +550,9 @@ def job_direct_application_policy(article):
     direct_url = bool(_DIRECT_APPLY_URL_RE.search(url))
     if not (explicit_apply or direct_kind or direct_url):
         return "a verified job-specific apply action is missing"
-    # The URL/action check proves destination specificity, not that the employer
-    # will never ask users to create an account later in a multi-step workflow.
+    if account_platform and not _application_action_exposes_url(article, url):
+        return "account-required platform needs a verified apply action on this vacancy"
+    # A candidate may need an account later. The article should disclose that.
     return ""
 
 
@@ -1113,7 +1115,8 @@ def job_publication_policy(article, now=None):
     raw_deadline = str(article.get("job_deadline") or "").strip()
     deadline = job_deadline_time(article) if raw_deadline else None
     if deadline is None:
-        reasons.append("application closing deadline is missing or invalid")
+        if not verified_rolling_application(article):
+            reasons.append("application closing deadline is missing or invalid")
     elif deadline <= current:
         reasons.append("application registration deadline passed")
     education, evidence = job_qualification_policy(article)
@@ -1165,7 +1168,8 @@ def score_job(article, now=None):
     freshness = job_publication_freshness(article, now=now)
     publication_age_hours = freshness["age_hours"]
     fresh = bool(freshness["fresh"])
-    points[f"fresh_under_{JOBS_MAX_PUBLISH_AGE_HOURS}h"] = 15 if fresh else 0
+    maximum_hours = job_freshness_limit_hours(article)
+    points[f"fresh_under_{maximum_hours}h"] = 15 if fresh else 0
     # Exact timestamps <=12h are preferred, while verified jobs remain
     # publishable up to the 24h safety ceiling. Date-only records never invent
     # an hour just to gain this priority bonus.
@@ -1210,7 +1214,7 @@ def score_job(article, now=None):
     elif freshness["future"]:
         reasons.append("publication time is in the future")
     elif not freshness["fresh"]:
-        reasons.append(f"job is older than {JOBS_MAX_PUBLISH_AGE_HOURS} hours")
+        reasons.append(f"opportunity is older than {maximum_hours} hours")
 
     normalized_title = normalize_text(article.get("job_title") or article.get("title"))
     if normalized_title in {
@@ -1259,7 +1263,7 @@ def score_job(article, now=None):
         "hard_gate_passed": hard_gate_passed,
         "publication_age_hours": round(publication_age_hours, 2) if publication_age_hours is not None else None,
         "publication_date_only": bool(freshness["date_only"]),
-        "max_publish_age_hours": JOBS_MAX_PUBLISH_AGE_HOURS,
+        "max_publish_age_hours": maximum_hours,
         "focus_priority": job_focus_priority(article),
         "publication_policy": editorial_policy,
         "direct_application_policy_reason": direct_apply_reason,
