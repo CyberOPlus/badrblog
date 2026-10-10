@@ -171,16 +171,18 @@
           "base_url": "https://tanmia.ma/offres-demploi/",
           "enabled": true,
           "fetch_limit_per_run": 6,
-          "extractor_type": "auto",
+          "extractor_type": "tanmia_jobs",
           "source_priority": "B",
           "official_source": false,
           "source_country": "MA",
           "source_eligibility": "morocco",
           "strict_source_path": false,
           "verification_state": "listing_and_detail_public_verified_2026-10-10",
-          "source_note": "Verified 2026-10-10 listing and independent job detail pages. Discovery only unless the actual employer, precise date, eligibility, deadline, qualification and verified specific application path pass every hard gate; third-party listings are not official evidence.",
+          "source_note": "Verified 2026-10-10 listing and independent job detail pages. Discovery only unless the actual employer, precise date, eligibility, deadline, qualification and verified specific application path pass every hard gate; third-party listings are not official evidence. Dated article URL /DD-MM-YYYY/ID is parsed explicitly; no invented posting hour.",
           "required_apply_mode": "direct_job_specific_application_without_account",
-          "discovery_only": true
+          "discovery_only": true,
+          "discovery_max_pages": 2,
+          "discovery_max_items": 20
         },
         {
           "name": "Dreamjob — secteur privé",
