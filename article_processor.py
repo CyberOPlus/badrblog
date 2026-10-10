@@ -15,7 +15,7 @@ from job_document_renderer import (
 )
 from job_core import (
     canonicalize_job_url, classify_identity, finalize_identity_evidence_stage,
-    job_publication_freshness, job_qualification_policy, job_direct_application_policy,
+    job_publication_freshness, job_qualification_policy, job_direct_application_policy, job_opportunity_kind,
 )
 from verified_fact_manifest import build_verified_fact_manifest
 
@@ -75,7 +75,7 @@ def _build_ai_input_package(article):
         "trusted_references": article.get("trusted_references", []),
         "related_posts": ([]),
         "labels": article.get("labels", []),
-        "opportunity_kind": article.get("opportunity_kind", "job"),
+        "opportunity_kind": job_opportunity_kind(article),
         "job_title": article.get("job_title", ""),
         "job_company": article.get("job_company", ""),
         "job_location": article.get("job_location", ""),
