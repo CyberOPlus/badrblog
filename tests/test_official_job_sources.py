@@ -12,6 +12,21 @@ from official_job_sources import (anapec_detail_html, parse_anapec_links,
 
 
 class OfficialJobSourcesTests(unittest.TestCase):
+    def test_tanmia_parser_discovers_only_real_dated_vacancy_cards(self):
+        document = '''
+        <h3><a href="https://tanmia.ma/09-10-2026/89155/">Laboratory & Diagnostic Officer</a></h3>
+        <h3><a href="/08-10-2026/89101/">Senior Driver G3 Rabat</a></h3>
+        <h3><a href="https://evil.example/09-10-2026/89188/">False outside-site job</a></h3>
+        <h3><a href="/evenements/">Events and other news</a></h3>
+        <h3><a href="/45-99-2026/89156/">Impossible dated post</a></h3>
+        '''
+        rows = scraper._parse_tanmia_job_links(document, "https://tanmia.ma/offres-demploi/")
+        self.assertEqual(len(rows), 2)
+        self.assertEqual(rows[0]["source_published_at"], "2026-10-09")
+        self.assertEqual(rows[0]["published_at_source"], "third_party_listing_date_only")
+        self.assertEqual(rows[1]["source_published_at"], "2026-10-08")
+        self.assertNotIn("job_application_url", rows[0])
+
     def test_anapec_offer_ids_dates_and_host_are_bound_to_each_card(self):
         document = '''<table><tr><td><a href="/sigec-app-rv/fr/entreprises/bloc_offre_home/1152572/resultat_recherche">Développeur informatique</a></td><td>Date de publication : 03/10/2026</td></tr>
         <tr><td><a href="/sigec-app-rv/fr/entreprises/bloc_offre_home/1152573/resultat_recherche">Technicien réseaux</a></td></tr></table>
