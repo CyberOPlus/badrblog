@@ -5320,11 +5320,12 @@ class JobsRuntimeTests(unittest.TestCase):
             ["expired", "fresh"],
         )
 
-    def test_jobs_auto_cycle_uses_continuous_successor_chain(self):
+    def test_jobs_auto_cycle_uses_five_minute_schedule_without_dispatch_loop(self):
         workflow = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")
-        self.assertIn("# Continuous single-worker Jobs discovery/publishing.", workflow)
-        self.assertIn("Continue Jobs auto-cycle", workflow)
-        self.assertIn("createWorkflowDispatch", workflow)
+        self.assertIn('cron: "*/5 * * * *"', workflow)
+        self.assertIn("workflow_dispatch:", workflow)
+        self.assertNotIn("Continue Jobs auto-cycle", workflow)
+        self.assertNotIn("createWorkflowDispatch", workflow)
         self.assertIn("cancel-in-progress: false", workflow)
 
     def test_next_auto_cycle_tick_matches_workflow_minutes(self):
