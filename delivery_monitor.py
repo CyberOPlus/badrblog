@@ -14,6 +14,7 @@ import requests
 
 from config import BASE_DIR, FACEBOOK_AUTO_POST, FACEBOOK_GRAPH_API_URL
 from config import FACEBOOK_PAGE_ID, FACEBOOK_PAGE_ACCESS_TOKEN
+from config import JOBS_FACEBOOK_MAX_POSTS_PER_DAY, JOBS_FACEBOOK_MIN_INTERVAL_MINUTES
 from article_queue import load_article_queue
 from job_core import job_publication_freshness, load_job_state
 from state_io import atomic_write_json
@@ -97,14 +98,18 @@ def discovery_coverage(now=None, registry=None, crawl_state=None, run_rows=None,
     domains.discard(None)
     records = crawl_state.get("sources") or {}
     recent_scans = 0
+    failed_scans = []
     stale = []
     discoveries = 0
     for source in sources:
         record = records.get(source.get("base_url")) or {}
         minutes = _age(record.get("last_crawled_at"), now)
         if minutes is not None and minutes <= 90:
-            recent_scans += 1
-            discoveries += int(record.get("discovery_last_new_count") or 0)
+            if record.get("discovery_last_status") == "failed":
+                failed_scans.append(str(source.get("name") or ""))
+            else:
+                recent_scans += 1
+                discoveries += int(record.get("discovery_last_new_count") or 0)
         else:
             stale.append(str(source.get("name") or ""))
     if run_rows is None:
