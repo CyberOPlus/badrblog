@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-14T18:00:08.769855+00:00",
+  "updated_at": "2026-10-14T18:41:44.745943+00:00",
   "state": "coverage_blocked_publication",
   "action": "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers.",
   "hourly_target_met": false,
   "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-09T10:54:04",
   "last_facebook_post_id": "103026497833721_1091452636583134",
-  "minutes_since_facebook": 7626.1,
+  "minutes_since_facebook": 7667.7,
   "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00",
   "fresh_candidate_count": 6,
   "verified_ready_candidate_count": 0,
   "unverified_ready_candidate_count": 6,
   "ready_quality_blockers": [
     {
-      "reason": "identity evidence incomplete",
-      "count": 6
+      "reason": "application URL is not the direct form/action",
+      "count": 5
     },
     {
-      "reason": "application URL is not the direct form/action",
+      "reason": "identity evidence incomplete",
       "count": 5
     },
     {
@@ -85,7 +85,7 @@
           "source_name": "OFPPT — offres d'emploi",
           "failure_count": 1,
           "category": "source_error",
-          "retry_after": "2026-10-14T18:14:45Z"
+          "retry_after": "2026-10-14T18:56:25Z"
         }
       ],
       "action": "One or more sources are cooling down after transient fetch failures."
@@ -101,11 +101,11 @@
     "failed_recent_sources": [
       "Dreamjob — stages"
     ],
-    "recent_new_discoveries": 15,
-    "recent_cycle_candidates": 38,
+    "recent_new_discoveries": 10,
+    "recent_cycle_candidates": 48,
     "recent_cycle_publishes": 0,
     "successful_empty_cycle_streak": 0,
-    "minutes_without_blogger": 7626.0,
+    "minutes_without_blogger": 7667.6,
     "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00"
   },
   "services_checked_at": "2026-10-14T18:00:08.769338+00:00"
