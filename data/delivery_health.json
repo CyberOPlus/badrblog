@@ -1,17 +1,22 @@
 {
-  "updated_at": "2026-10-14T08:56:40.621928+00:00",
+  "updated_at": "2026-10-14T13:07:47.207481+00:00",
   "state": "coverage_blocked_publication",
   "action": "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers.",
   "hourly_target_met": false,
   "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-09T10:54:04",
   "last_facebook_post_id": "103026497833721_1091452636583134",
-  "minutes_since_facebook": 7082.6,
+  "minutes_since_facebook": 7333.7,
   "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00",
-  "fresh_candidate_count": 0,
+  "fresh_candidate_count": 1,
   "verified_ready_candidate_count": 0,
-  "unverified_ready_candidate_count": 0,
-  "ready_quality_blockers": [],
+  "unverified_ready_candidate_count": 1,
+  "ready_quality_blockers": [
+    {
+      "reason": "application URL is not the direct form/action",
+      "count": 1
+    }
+  ],
   "facebook_pending_count": 0,
   "oldest_facebook_pending_minutes": 0,
   "oldest_ready_candidate_minutes": 0,
@@ -64,15 +69,15 @@
       "active_issues": [
         {
           "source_name": "Dreamjob — stages",
-          "failure_count": 19,
+          "failure_count": 20,
           "category": "http_block",
-          "retry_after": "2026-10-14T10:43:44Z"
+          "retry_after": "2026-10-14T16:07:06Z"
         },
         {
           "source_name": "OFPPT — offres d'emploi",
           "failure_count": 1,
           "category": "source_error",
-          "retry_after": "2026-10-14T09:11:35Z"
+          "retry_after": "2026-10-14T13:22:40Z"
         }
       ],
       "action": "One or more sources are cooling down after transient fetch failures."
@@ -88,12 +93,12 @@
     "failed_recent_sources": [
       "Dreamjob — stages"
     ],
-    "recent_new_discoveries": 10,
-    "recent_cycle_candidates": 30,
+    "recent_new_discoveries": 12,
+    "recent_cycle_candidates": 32,
     "recent_cycle_publishes": 0,
     "successful_empty_cycle_streak": 0,
-    "minutes_without_blogger": 7082.5,
+    "minutes_without_blogger": 7333.6,
     "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00"
   },
-  "services_checked_at": "2026-10-14T08:56:40.621425+00:00"
+  "services_checked_at": "2026-10-14T13:07:47.207027+00:00"
 }

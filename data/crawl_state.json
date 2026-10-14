@@ -2,9 +2,10 @@
   "sources": {
     "https://www.emploi-public.ma/ar/%D9%82%D8%A7%D8%A6%D9%85%D8%A9-%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA?corps=0&procedure=0&region=0&stat=etab_publics": {
       "source_name": "Emploi-Public — établissements publics",
-      "last_crawled_at": "2026-10-14T08:55:57.197971Z",
+      "last_crawled_at": "2026-10-14T13:07:06.903380Z",
       "overlap_minutes": 10,
       "job_seen_ids": [
+        "emploi_public:3ee73017-d2cf-4d63-ae05-5b4be0b966d5",
         "emploi_public:664ad6a3-9ea8-4320-9a6f-c9b7bf448102",
         "emploi_public:9c4b6d8c-28e7-4f7c-b00c-c83c3eac3d25",
         "emploi_public:d5c3df82-9962-4c32-a74d-8f3478e54fc7",
@@ -1242,8 +1243,8 @@
         "emploi_public:9a94116e-9e7d-4bdc-a6e7-488da6b71140",
         "emploi_public:9c69cede-80d5-433b-9605-511e6ee8c10e"
       ],
-      "job_seen_ids_count": 1236,
-      "discovery_last_new_count": 0,
+      "job_seen_ids_count": 1237,
+      "discovery_last_new_count": 1,
       "discovery_page_size_hint": 12,
       "discovery_max_pages": 12,
       "discovery_seen_streak": 8,
@@ -1256,7 +1257,7 @@
     },
     "https://www.emploi-public.ma/ar/%D9%82%D8%A7%D8%A6%D9%85%D8%A9-%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA?corps=0&procedure=0&region=0&stat=service_etat": {
       "source_name": "Emploi-Public — services de l'État",
-      "last_crawled_at": "2026-10-14T08:55:57.195753Z",
+      "last_crawled_at": "2026-10-14T13:07:06.901125Z",
       "overlap_minutes": 10,
       "job_seen_ids": [
         "emploi_public:1c493a75-6e8d-4e35-8bf3-d2a0789da502",
@@ -2464,7 +2465,7 @@
     },
     "https://jobs.inwi.ma/jobs": {
       "source_name": "inwi — جميع الوظائف بالمغرب",
-      "last_crawled_at": "2026-10-14T08:55:57.193622Z",
+      "last_crawled_at": "2026-10-14T13:07:06.899105Z",
       "overlap_minutes": 10,
       "job_seen_ids": [
         "teamtailor:8531521",
@@ -4451,7 +4452,7 @@
     },
     "https://www.emploi-public.ma/ar/%D9%82%D8%A7%D8%A6%D9%85%D8%A9-%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA?corps=0&procedure=avis&region=0&stat=collec": {
       "source_name": "Emploi-Public — collectivités territoriales",
-      "last_crawled_at": "2026-10-14T08:55:57.200293Z",
+      "last_crawled_at": "2026-10-14T13:07:06.905763Z",
       "overlap_minutes": 10,
       "job_seen_ids": [
         "emploi_public:1c493a75-6e8d-4e35-8bf3-d2a0789da502",
@@ -4527,9 +4528,19 @@
     },
     "https://recrutement.ofppt.ma/offres?page=1": {
       "source_name": "OFPPT — offres d'emploi",
-      "last_crawled_at": "2026-10-14T08:55:57.183061Z",
+      "last_crawled_at": "2026-10-14T13:07:06.892032Z",
       "overlap_minutes": 10,
       "job_seen_ids": [
+        "url:https://recrutement.ofppt.ma/offre/3434",
+        "url:https://recrutement.ofppt.ma/offre/3433",
+        "url:https://recrutement.ofppt.ma/offre/3432",
+        "url:https://recrutement.ofppt.ma/offre/3431",
+        "url:https://recrutement.ofppt.ma/offre/3430",
+        "url:https://recrutement.ofppt.ma/offre/3429",
+        "url:https://recrutement.ofppt.ma/offre/3428",
+        "url:https://recrutement.ofppt.ma/offre/3427",
+        "url:https://recrutement.ofppt.ma/offre/3426",
+        "url:https://recrutement.ofppt.ma/offre/3425",
         "url:https://recrutement.ofppt.ma/offre/3444",
         "url:https://recrutement.ofppt.ma/offre/3443",
         "url:https://recrutement.ofppt.ma/offre/3442",
@@ -4901,7 +4912,7 @@
         "url:https://recrutement.ofppt.ma/offre/3796",
         "url:https://recrutement.ofppt.ma/offre/3795"
       ],
-      "job_seen_ids_count": 370,
+      "job_seen_ids_count": 380,
       "discovery_last_new_count": 10,
       "discovery_page_size_hint": 15,
       "discovery_max_pages": 2,
@@ -4909,7 +4920,7 @@
       "discovery_max_items": 25,
       "job_discovery_resume": {
         "kind": "html",
-        "url": "https://recrutement.ofppt.ma/offres?page=75"
+        "url": "https://recrutement.ofppt.ma/offres?page=77"
       },
       "discovery_stop_reason": "max_pages",
       "discovery_pages_scanned": 2,
@@ -4918,9 +4929,10 @@
     },
     "https://tanmia.ma/offres-demploi/": {
       "source_name": "Tanmia — offres d'emploi",
-      "last_crawled_at": "2026-10-14T08:55:57.189424Z",
+      "last_crawled_at": "2026-10-14T13:07:06.895102Z",
       "overlap_minutes": 10,
       "job_seen_ids": [
+        "url:https://tanmia.ma/14-10-2026/89285",
         "url:https://tanmia.ma/12-10-2026/89217",
         "url:https://tanmia.ma/09-10-2026/89155",
         "url:https://tanmia.ma/08-10-2026/89153",
@@ -4930,15 +4942,15 @@
         "url:https://tanmia.ma/02-10-2026/89031",
         "url:https://tanmia.ma/02-10-2026/88973"
       ],
-      "job_seen_ids_count": 8,
-      "discovery_last_new_count": 0,
+      "job_seen_ids_count": 9,
+      "discovery_last_new_count": 1,
       "discovery_page_size_hint": 6,
       "discovery_max_pages": 2,
       "discovery_seen_streak": 8,
       "discovery_max_items": 20,
       "job_discovery_resume": {
         "kind": "html",
-        "url": "https://tanmia.ma/12-10-2026/89222/"
+        "url": "https://tanmia.ma/14-10-2026/89290/"
       },
       "discovery_stop_reason": "max_pages",
       "discovery_pages_scanned": 2,
@@ -4948,7 +4960,7 @@
     },
     "https://www.dreamjob.ma/stage/": {
       "source_name": "Dreamjob — stages",
-      "last_crawled_at": "2026-10-14T07:43:44.784791Z",
+      "last_crawled_at": "2026-10-14T13:07:06.888994Z",
       "overlap_minutes": 10,
       "job_seen_ids": [],
       "job_seen_ids_count": 0,
@@ -4969,7 +4981,7 @@
     },
     "https://careers.accor.com/global/en/morocco": {
       "source_name": "Accor — عروض فنادق المغرب",
-      "last_crawled_at": "2026-10-14T08:55:57.191601Z",
+      "last_crawled_at": "2026-10-14T13:07:06.897118Z",
       "overlap_minutes": 10,
       "job_seen_ids": [
         "url:https://careers.accor.com/global/en/job/guest-relations-manager-in-fairmont-la-marina-rabat-sale-hotel-and-residences-jid-113665",
@@ -5002,5 +5014,5 @@
   },
   "category_rotation": {},
   "source_rotation": {},
-  "updated_at": "2026-10-14T08:55:57"
+  "updated_at": "2026-10-14T13:07:07"
 }
