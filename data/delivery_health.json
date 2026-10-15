@@ -1,17 +1,30 @@
 {
-  "updated_at": "2026-10-15T14:19:37.352270+00:00",
+  "updated_at": "2026-10-15T18:23:13.635520+00:00",
   "state": "coverage_blocked_publication",
   "action": "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers.",
   "hourly_target_met": false,
   "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-09T10:54:04",
   "last_facebook_post_id": "103026497833721_1091452636583134",
-  "minutes_since_facebook": 8845.6,
+  "minutes_since_facebook": 9089.2,
   "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00",
-  "fresh_candidate_count": 0,
+  "fresh_candidate_count": 4,
   "verified_ready_candidate_count": 0,
-  "unverified_ready_candidate_count": 0,
-  "ready_quality_blockers": [],
+  "unverified_ready_candidate_count": 4,
+  "ready_quality_blockers": [
+    {
+      "reason": "required diploma Bac+3 or below is not verified",
+      "count": 4
+    },
+    {
+      "reason": "identity evidence incomplete",
+      "count": 3
+    },
+    {
+      "reason": "application URL is not the direct form/action",
+      "count": 1
+    }
+  ],
   "facebook_pending_count": 0,
   "oldest_facebook_pending_minutes": 0,
   "oldest_ready_candidate_minutes": 0,
@@ -64,15 +77,15 @@
       "active_issues": [
         {
           "source_name": "Dreamjob — stages",
-          "failure_count": 25,
+          "failure_count": 26,
           "category": "http_block",
-          "retry_after": "2026-10-15T17:15:41Z"
+          "retry_after": "2026-10-15T21:22:45Z"
         },
         {
           "source_name": "OFPPT — offres d'emploi",
-          "failure_count": 2,
+          "failure_count": 1,
           "category": "source_error",
-          "retry_after": "2026-10-15T14:34:35Z"
+          "retry_after": "2026-10-15T18:38:07Z"
         }
       ],
       "action": "One or more sources are cooling down after transient fetch failures."
@@ -88,12 +101,12 @@
     "failed_recent_sources": [
       "Dreamjob — stages"
     ],
-    "recent_new_discoveries": 10,
-    "recent_cycle_candidates": 22,
+    "recent_new_discoveries": 14,
+    "recent_cycle_candidates": 26,
     "recent_cycle_publishes": 0,
-    "successful_empty_cycle_streak": 1,
-    "minutes_without_blogger": 8845.4,
+    "successful_empty_cycle_streak": 0,
+    "minutes_without_blogger": 9089.0,
     "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00"
   },
-  "services_checked_at": "2026-10-15T14:16:22.708176+00:00"
+  "services_checked_at": "2026-10-15T18:23:13.635087+00:00"
 }
