@@ -1,30 +1,17 @@
 {
-  "updated_at": "2026-10-15T23:49:48.346356+00:00",
+  "updated_at": "2026-10-16T01:44:38.563933+00:00",
   "state": "coverage_blocked_publication",
   "action": "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers.",
   "hourly_target_met": false,
   "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-09T10:54:04",
   "last_facebook_post_id": "103026497833721_1091452636583134",
-  "minutes_since_facebook": 9415.7,
+  "minutes_since_facebook": 9530.6,
   "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00",
-  "fresh_candidate_count": 3,
+  "fresh_candidate_count": 0,
   "verified_ready_candidate_count": 0,
-  "unverified_ready_candidate_count": 3,
-  "ready_quality_blockers": [
-    {
-      "reason": "identity evidence incomplete",
-      "count": 2
-    },
-    {
-      "reason": "required diploma Bac+3 or below is not verified",
-      "count": 2
-    },
-    {
-      "reason": "application URL is not the direct form/action",
-      "count": 1
-    }
-  ],
+  "unverified_ready_candidate_count": 0,
+  "ready_quality_blockers": [],
   "facebook_pending_count": 0,
   "oldest_facebook_pending_minutes": 0,
   "oldest_ready_candidate_minutes": 0,
@@ -58,7 +45,7 @@
           ]
         },
         "openrouter": {
-          "status": "ok",
+          "status": "timeout",
           "secret_names": [
             "OPENROUTER_API_KEY"
           ]
@@ -77,15 +64,15 @@
       "active_issues": [
         {
           "source_name": "Dreamjob — stages",
-          "failure_count": 27,
+          "failure_count": 28,
           "category": "http_block",
-          "retry_after": "2026-10-16T00:34:19Z"
+          "retry_after": "2026-10-16T04:43:42Z"
         },
         {
           "source_name": "OFPPT — offres d'emploi",
           "failure_count": 1,
           "category": "source_error",
-          "retry_after": "2026-10-16T00:04:04Z"
+          "retry_after": "2026-10-16T01:59:21Z"
         }
       ],
       "action": "One or more sources are cooling down after transient fetch failures."
@@ -97,16 +84,16 @@
     "enabled_feeds": 8,
     "enabled_domains": 6,
     "scanned_recently": 7,
-    "stale_sources": [
+    "stale_sources": [],
+    "failed_recent_sources": [
       "Dreamjob — stages"
     ],
-    "failed_recent_sources": [],
-    "recent_new_discoveries": 10,
-    "recent_cycle_candidates": 34,
+    "recent_new_discoveries": 18,
+    "recent_cycle_candidates": 38,
     "recent_cycle_publishes": 0,
     "successful_empty_cycle_streak": 0,
-    "minutes_without_blogger": 9415.6,
+    "minutes_without_blogger": 9530.5,
     "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00"
   },
-  "services_checked_at": "2026-10-15T23:49:48.345951+00:00"
+  "services_checked_at": "2026-10-16T01:44:38.563486+00:00"
 }
