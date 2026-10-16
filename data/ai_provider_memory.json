@@ -79,17 +79,6 @@
       "retry_until": 1791459101.8485239,
       "scope": "provider"
     },
-    "47179c7313354fadc97d": {
-      "category": "format",
-      "count": 1,
-      "first_seen_at": "2026-10-02T19:52:03",
-      "last_seen_at": "2026-10-02T19:52:03",
-      "last_seen_epoch": 1790970723.4218078,
-      "provider": "cloudflare,gemini,groq,mistral,openrouter",
-      "reason": "html_content ended before a tag was closed",
-      "retry_until": 1790971623.4218078,
-      "scope": "global"
-    },
     "4733bfc9fd4308092f81": {
       "category": "quality",
       "count": 4,
@@ -188,17 +177,6 @@
       "reason": "gemini provider failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai",
       "retry_until": 1791435276.5383656,
       "scope": "global"
-    },
-    "556d26370fe5ef0c3347": {
-      "category": "format",
-      "count": 1,
-      "first_seen_at": "2026-10-02T19:52:03",
-      "last_seen_at": "2026-10-02T19:52:03",
-      "last_seen_epoch": 1790970723.4201622,
-      "provider": "cloudflare",
-      "reason": "html_content ended before a tag was closed",
-      "retry_until": 1790971623.4201622,
-      "scope": "provider"
     },
     "5b709862868b0869e45a": {
       "category": "quality",
@@ -598,26 +576,26 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 6.5293,
+      "avg_time": 6.5183,
       "failures": 24,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-09T11:03:07",
-      "last_success_at": "2026-10-16T19:00:03",
+      "last_success_at": "2026-10-16T21:58:31",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 553,
-      "total_success_time": 3610.6757
+      "successes": 554,
+      "total_success_time": 3611.1465
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 8.9134,
+      "avg_time": 8.8832,
       "failures": 57,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-10-09T11:11:10",
-      "last_success_at": "2026-10-16T19:00:03",
+      "last_success_at": "2026-10-16T21:58:30",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 273,
-      "total_success_time": 2433.3457
+      "successes": 274,
+      "total_success_time": 2433.9883
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
       "avg_time": 3.6045,
@@ -631,15 +609,15 @@
       "total_success_time": 400.0958
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.2029,
+      "avg_time": 1.2004,
       "failures": 129,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-09T11:11:13",
-      "last_success_at": "2026-10-16T19:00:03",
+      "last_success_at": "2026-10-16T21:58:30",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 366,
-      "total_success_time": 440.2456
+      "successes": 367,
+      "total_success_time": 440.5316
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.16,
@@ -660,15 +638,15 @@
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 10.4016,
+      "avg_time": 10.3608,
       "failures": 90,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-09T11:12:43",
-      "last_success_at": "2026-10-16T19:00:05",
+      "last_success_at": "2026-10-16T21:58:32",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 233,
-      "total_success_time": 2423.5695
+      "successes": 234,
+      "total_success_time": 2424.4261
     }
   }
 }
