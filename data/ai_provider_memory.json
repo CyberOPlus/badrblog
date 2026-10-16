@@ -365,17 +365,6 @@
       "retry_until": 1791320909.9548702,
       "scope": "global"
     },
-    "86f72c111e032e2b604a": {
-      "category": "empty",
-      "count": 1,
-      "first_seen_at": "2026-10-02T14:49:00",
-      "last_seen_at": "2026-10-02T14:49:00",
-      "last_seen_epoch": 1790952540.395437,
-      "provider": "cloudflare,gemini,groq,mistral,openrouter",
-      "reason": "groq provider failed: groq returned an empty response.",
-      "retry_until": 1790953140.3930118,
-      "scope": "global"
-    },
     "9b8ec695d1ca9e549f46": {
       "category": "quota",
       "count": 47,
@@ -620,26 +609,26 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 6.5509,
+      "avg_time": 6.5403,
       "failures": 24,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-09T11:03:07",
-      "last_success_at": "2026-10-16T11:43:46",
+      "last_success_at": "2026-10-16T15:34:49",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 551,
-      "total_success_time": 3609.5406
+      "successes": 552,
+      "total_success_time": 3610.2652
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 8.9747,
+      "avg_time": 8.944,
       "failures": 57,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-10-09T11:11:10",
-      "last_success_at": "2026-10-16T11:43:44",
+      "last_success_at": "2026-10-16T15:34:48",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 271,
-      "total_success_time": 2432.1489
+      "successes": 272,
+      "total_success_time": 2432.7784
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
       "avg_time": 3.6045,
@@ -653,15 +642,15 @@
       "total_success_time": 400.0958
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.206,
+      "avg_time": 1.2051,
       "failures": 129,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-09T11:11:13",
-      "last_success_at": "2026-10-16T11:43:44",
+      "last_success_at": "2026-10-16T15:34:49",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 364,
-      "total_success_time": 438.9827
+      "successes": 365,
+      "total_success_time": 439.8464
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.16,
@@ -682,15 +671,15 @@
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 10.4786,
+      "avg_time": 10.4386,
       "failures": 90,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-09T11:12:43",
-      "last_success_at": "2026-10-16T11:43:47",
+      "last_success_at": "2026-10-16T15:34:51",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 231,
-      "total_success_time": 2420.5657
+      "successes": 232,
+      "total_success_time": 2421.7646
     }
   }
 }
