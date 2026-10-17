@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T12:25:13.010357+00:00",
+  "updated_at": "2026-10-17T15:47:21.411226+00:00",
   "state": "coverage_blocked_publication",
   "action": "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers.",
   "hourly_target_met": false,
@@ -45,7 +45,7 @@
           ]
         },
         "openrouter": {
-          "status": "ok",
+          "status": "empty",
           "secret_names": [
             "OPENROUTER_API_KEY"
           ]
@@ -64,15 +64,15 @@
       "active_issues": [
         {
           "source_name": "Dreamjob — stages",
-          "failure_count": 36,
+          "failure_count": 37,
           "category": "http_block",
-          "retry_after": "2026-10-17T15:24:44Z"
+          "retry_after": "2026-10-17T18:46:46Z"
         },
         {
           "source_name": "OFPPT — offres d'emploi",
           "failure_count": 1,
           "category": "source_error",
-          "retry_after": "2026-10-17T12:40:04Z"
+          "retry_after": "2026-10-17T16:02:17Z"
         }
       ],
       "action": "One or more sources are cooling down after transient fetch failures."
@@ -83,17 +83,20 @@
     "action": "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers.",
     "enabled_feeds": 8,
     "enabled_domains": 6,
-    "scanned_recently": 7,
+    "scanned_recently": 4,
     "stale_sources": [],
     "failed_recent_sources": [
+      "Emploi-Public — établissements publics",
+      "Emploi-Public — services de l'État",
+      "Emploi-Public — collectivités territoriales",
       "Dreamjob — stages"
     ],
     "recent_new_discoveries": 10,
     "recent_cycle_candidates": 20,
     "recent_cycle_publishes": 0,
     "successful_empty_cycle_streak": 0,
-    "minutes_without_blogger": 11611.0,
+    "minutes_without_blogger": 11813.2,
     "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00"
   },
-  "services_checked_at": "2026-10-17T12:25:13.009949+00:00"
+  "services_checked_at": "2026-10-17T15:47:21.410745+00:00"
 }
