@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T20:35:45.459596+00:00",
+  "updated_at": "2026-10-17T22:20:23.764206+00:00",
   "state": "coverage_blocked_publication",
   "action": "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers.",
   "hourly_target_met": false,
@@ -45,7 +45,7 @@
           ]
         },
         "openrouter": {
-          "status": "ok",
+          "status": "empty",
           "secret_names": [
             "OPENROUTER_API_KEY"
           ]
@@ -72,7 +72,7 @@
           "source_name": "OFPPT — offres d'emploi",
           "failure_count": 1,
           "category": "source_error",
-          "retry_after": "2026-10-17T20:50:44Z"
+          "retry_after": "2026-10-17T22:35:20Z"
         }
       ],
       "action": "One or more sources are cooling down after transient fetch failures."
@@ -84,16 +84,16 @@
     "enabled_feeds": 8,
     "enabled_domains": 6,
     "scanned_recently": 7,
-    "stale_sources": [],
-    "failed_recent_sources": [
+    "stale_sources": [
       "Dreamjob — stages"
     ],
+    "failed_recent_sources": [],
     "recent_new_discoveries": 10,
     "recent_cycle_candidates": 40,
     "recent_cycle_publishes": 0,
     "successful_empty_cycle_streak": 0,
-    "minutes_without_blogger": 12101.6,
+    "minutes_without_blogger": 12206.2,
     "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00"
   },
-  "services_checked_at": "2026-10-17T20:14:22.370267+00:00"
+  "services_checked_at": "2026-10-17T22:20:23.763762+00:00"
 }
