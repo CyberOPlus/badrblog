@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-19T01:30:00.241509+00:00",
+  "updated_at": "2026-10-19T05:59:12.089784+00:00",
   "state": "coverage_blocked_publication",
   "action": "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers.",
   "hourly_target_met": false,
@@ -26,7 +26,7 @@
       "status": "ok",
       "providers": {
         "gemini": {
-          "status": "outage",
+          "status": "ok",
           "secret_names": [
             "GEMINI_API_KEY"
           ]
@@ -64,15 +64,15 @@
       "active_issues": [
         {
           "source_name": "Dreamjob — stages",
-          "failure_count": 45,
+          "failure_count": 46,
           "category": "http_block",
-          "retry_after": "2026-10-19T04:01:14Z"
+          "retry_after": "2026-10-19T08:58:34Z"
         },
         {
           "source_name": "OFPPT — offres d'emploi",
           "failure_count": 1,
           "category": "source_error",
-          "retry_after": "2026-10-19T01:44:58Z"
+          "retry_after": "2026-10-19T06:14:04Z"
         }
       ],
       "action": "One or more sources are cooling down after transient fetch failures."
@@ -89,11 +89,11 @@
       "Dreamjob — stages"
     ],
     "recent_new_discoveries": 10,
-    "recent_cycle_candidates": 68,
+    "recent_cycle_candidates": 38,
     "recent_cycle_publishes": 0,
     "successful_empty_cycle_streak": 0,
-    "minutes_without_blogger": 13835.8,
+    "minutes_without_blogger": 14105.0,
     "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00"
   },
-  "services_checked_at": "2026-10-19T01:02:03.945746+00:00"
+  "services_checked_at": "2026-10-19T05:59:12.089347+00:00"
 }
