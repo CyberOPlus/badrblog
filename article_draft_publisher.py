@@ -1204,11 +1204,11 @@ def _apply_jobposting_schema(service, post, article, mode):
         str(body.get("content") or ""),
         flags=re.I | re.S,
     ).strip()
-    if not str(article.get("job_location") or "").strip() and not article.get(
-        "job_remote"
-    ):
+    if not article.get("job_remote"):
         derived_location = jobposting_location_fallback(article)
-        if derived_location:
+        if derived_location and derived_location != str(
+            article.get("job_location") or ""
+        ).strip():
             article["job_location"] = derived_location
             article["job_location_source"] = "official_document_text"
             log_event(
