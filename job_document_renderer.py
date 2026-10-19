@@ -197,6 +197,42 @@ def _document_identity_priority(item, article):
     return score
 
 
+def _is_non_document_error(error):
+    return "not a PDF" in str(error or "")
+
+
+def _drop_non_document_link(article, url):
+    """Forget a link once its payload proves it is not an official document.
+
+    ATS pages expose helper endpoints (Accor's ``/candidateshortlist``) that the
+    link classifier labels as documents but which return HTML. Counting such a
+    link as failed evidence keeps identity verification and page rendering
+    incomplete forever, so drop it and let the evidence stage recompute.
+    """
+    key = _canonical_key(url)
+    if not key:
+        return False
+    links = article.get("job_document_links") or []
+    kept = [
+        item for item in links
+        if not (isinstance(item, dict) and _canonical_key(item.get("url")) == key)
+    ]
+    if len(kept) == len(links):
+        return False
+    article["job_document_links"] = kept
+    for field in (
+        "identity_evidence_document_fingerprint",
+        "identity_evidence_stage_status",
+    ):
+        article.pop(field, None)
+    log_event(
+        "job_document_non_pdf_link_ignored",
+        article_id=article.get("id"),
+        url=url,
+    )
+    return True
+
+
 def _eligible_documents(article, max_documents=3):
     documents = article.get("job_document_links") or []
     candidates = []
@@ -370,6 +406,8 @@ def extract_job_document_texts(
             payload = _download_pdf(url)
             document = fitz.open(stream=payload, filetype="pdf")
         except Exception as error:
+            if _is_non_document_error(error) and _drop_non_document_link(article, url):
+                continue
             download_failures += 1
             log_event(
                 "job_document_text_skipped",
@@ -920,6 +958,8 @@ def render_job_document_pages(
                 }
                 new_pages += 1
         except Exception as error:
+            if _is_non_document_error(error) and _drop_non_document_link(article, url):
+                continue
             render_failures += 1
             failed_urls.append(url)
             log_event(

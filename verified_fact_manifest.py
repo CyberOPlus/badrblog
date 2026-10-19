@@ -2,6 +2,7 @@
 # verified_fact_manifest.py - Jobs fact contract and validation
 # ============================================================
 
+import html
 import re
 from datetime import datetime
 
@@ -674,15 +675,19 @@ def build_verified_fact_manifest(article):
 def _fact_present(text, category, fact):
     value = fact.get("value")
     aliases = [value] + list(fact.get("aliases") or [])
-    normalized = _normalize(text)
+    # Article bodies are HTML: href quotes and query-string ampersands arrive
+    # escaped ("&amp;"). Compare the decoded text so a correctly cited URL is
+    # not reported as missing facts and sent back through expensive repairs.
+    decoded = html.unescape(str(text or ""))
+    normalized = _normalize(decoded)
 
     if category in {"application", "documents", "detail"}:
         key = canonicalize_url(value) or str(value or "")
         urls = {
             canonicalize_url(match) or match
-            for match in re.findall(r"https?://[^\s<>'\"]+", str(text or ""))
+            for match in re.findall(r"https?://[^\s<>'\"]+", decoded)
         }
-        return key in urls or str(value or "") in str(text or "")
+        return key in urls or str(value or "") in decoded
 
     if category == "positions":
         try:

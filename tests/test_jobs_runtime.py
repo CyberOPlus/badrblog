@@ -667,6 +667,56 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(after, before)
         self.assertEqual(article["job_document_render_failures"], 1)
 
+    def test_non_pdf_document_link_is_dropped_instead_of_blocking_evidence(self):
+        article = {
+            "id": "non-pdf-doc",
+            "content_fetch_status": "success",
+            "job_detail_url": "https://careers.example.com/jobs/chef",
+            "source_tables": [],
+            "job_document_links": [{
+                "url": "https://careers.example.com/candidateshortlist",
+                "label": "ملف رسمي",
+                "kind": "document",
+            }],
+        }
+        with patch.object(
+            job_document_renderer,
+            "_download_pdf",
+            side_effect=ValueError("official document is not a PDF"),
+        ):
+            texts = job_document_renderer.extract_job_document_texts(article)
+        self.assertEqual(texts, [])
+        self.assertEqual(article["job_document_links"], [])
+        self.assertEqual(article["job_document_text_download_failures"], 0)
+        self.assertTrue(article["job_document_text_read_complete"])
+        job_core.finalize_identity_evidence_stage(article)
+        self.assertEqual(article["identity_evidence_stage_status"], "complete")
+
+        render_article = {
+            "id": "non-pdf-doc-render",
+            "seo_slug": "non-pdf-doc-render",
+            "job_document_links": [{
+                "url": "https://careers.example.com/candidateshortlist",
+                "label": "ملف رسمي",
+                "kind": "document",
+            }],
+        }
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        with TemporaryDirectory() as temporary:
+            with patch.object(
+                job_document_renderer,
+                "_download_pdf",
+                side_effect=ValueError("official document is not a PDF"),
+            ):
+                pages = job_document_renderer.render_job_document_pages(
+                    render_article, output_root=Path(temporary)
+                )
+        self.assertEqual(pages, [])
+        self.assertEqual(render_article["job_document_links"], [])
+        self.assertEqual(render_article.get("job_document_render_failures", 0), 0)
+
     def test_pdf_batch_progress_does_not_exhaust_failure_retry_limit(self):
         from pathlib import Path
         from tempfile import TemporaryDirectory
@@ -3803,6 +3853,30 @@ class JobsRuntimeTests(unittest.TestCase):
         )
         self.assertEqual(blocking, [])
         self.assertTrue(any("salary" in warning for warning in warnings))
+
+    def test_manifest_accepts_html_escaped_application_url(self):
+        fact = {
+            "value": "https://bkam.csod.com/ats/careersite/search.aspx?site=11&c=bkam",
+            "source": "official_detail_page",
+            "confidence": "high",
+            "blocking": True,
+            "required_in_output": True,
+            "aliases": [],
+            "meta": {},
+        }
+        escaped = (
+            '<p>قدّم عبر الرابط: '
+            '<a href="https://bkam.csod.com/ats/careersite/search.aspx?site=11&amp;c=bkam">'
+            "منصة التقديم</a></p>"
+        )
+        self.assertTrue(fact_manifest._fact_present(escaped, "application", fact))
+        manifest = {"facts": {"application": [fact]}, "warnings": []}
+        blocking, _warnings = fact_manifest.validate_output_against_manifest(
+            manifest,
+            "توظيف مكلف بتتبع ملفات التأمينات",
+            escaped,
+        )
+        self.assertEqual(blocking, [])
 
     def test_manifest_contradicting_high_position_count_blocks(self):
         manifest = {
