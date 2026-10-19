@@ -63,17 +63,6 @@
       "retry_until": 1791313337.1433086,
       "scope": "global"
     },
-    "35e01508bd964ea4f93b": {
-      "category": "quality",
-      "count": 1,
-      "first_seen_at": "2026-10-05T17:20:25",
-      "last_seen_at": "2026-10-05T17:20:25",
-      "last_seen_epoch": 1791220825.101361,
-      "provider": "cloudflare",
-      "reason": "SEO title length must be 28-150 characters; got 27",
-      "retry_until": 1791221125.101361,
-      "scope": "quality"
-    },
     "3f10428423b3283c782e": {
       "category": "format",
       "count": 1,
@@ -577,15 +566,6 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1792450270.1421719
-    },
-    "openrouter": {
-      "category": "format",
-      "fingerprint": "6fb53a41acd0a93d6960",
-      "model": "cohere/north-mini-code:free",
-      "opened_at": "2026-10-19T17:15:27",
-      "provider": "openrouter",
-      "reason": "AI article response returned incomplete JSON.",
-      "until": 1792431927.5840266
     }
   },
   "stats": {
@@ -619,15 +599,15 @@
       "total_success_time": 3685.5712
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 8.6725,
+      "avg_time": 8.7103,
       "failures": 57,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-10-09T11:11:10",
-      "last_success_at": "2026-10-19T17:15:43",
+      "last_success_at": "2026-10-19T17:25:33",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 303,
-      "total_success_time": 2627.7802
+      "successes": 304,
+      "total_success_time": 2647.9352
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
       "avg_time": 3.6025,

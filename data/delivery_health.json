@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-19T17:15:44.991152+00:00",
+  "updated_at": "2026-10-19T17:25:39.556950+00:00",
   "state": "coverage_blocked_publication",
   "action": "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers.",
   "hourly_target_met": false,
@@ -14,7 +14,7 @@
   "ready_quality_blockers": [
     {
       "reason": "identity evidence incomplete",
-      "count": 6
+      "count": 5
     },
     {
       "reason": "application URL is not the direct form/action",
@@ -76,6 +76,12 @@
           "failure_count": 48,
           "category": "http_block",
           "retry_after": "2026-10-19T19:33:48Z"
+        },
+        {
+          "source_name": "OFPPT — offres d'emploi",
+          "failure_count": 1,
+          "category": "source_error",
+          "retry_after": "2026-10-19T17:39:59Z"
         }
       ],
       "action": "One or more sources are cooling down after transient fetch failures."
@@ -94,8 +100,8 @@
     "recent_new_discoveries": 0,
     "recent_cycle_candidates": 24,
     "recent_cycle_publishes": 0,
-    "successful_empty_cycle_streak": 2,
-    "minutes_without_blogger": 14781.6,
+    "successful_empty_cycle_streak": 0,
+    "minutes_without_blogger": 14791.5,
     "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00"
   },
   "services_checked_at": "2026-10-19T16:34:40.097104+00:00"
