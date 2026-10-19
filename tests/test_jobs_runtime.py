@@ -21,6 +21,7 @@ import article_processor
 import facebook_publisher as facebook
 import job_core
 import job_document_renderer
+import jobposting
 import main
 import quality_gate
 import runtime_state
@@ -4029,6 +4030,56 @@ class JobsRuntimeTests(unittest.TestCase):
         )
         self.assertEqual(
             article["ai_input_package"]["job_document_rendered_pages"], 1
+        )
+
+    def test_verified_link_injection_cleans_orphans_and_stays_single(self):
+        detail = (
+            "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/"
+            "%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/"
+            "d0a32a44-0138-4be0-bc53-8159712e6edc"
+        )
+        manifest = {
+            "facts": {
+                "detail": [{
+                    "value": detail,
+                    "confidence": "high",
+                    "required_in_output": True,
+                    "aliases": [],
+                }],
+            }
+        }
+        package = {"verified_fact_manifest": manifest}
+        html = (
+            "<ul><li><strong>تفاصيل الإعلان الرسمي:</strong> </li></ul>"
+            '<ul class="jobVerifiedLinks"><li><strong>تفاصيل الإعلان الرسمي:</strong> </li></ul>'
+            "<h2>تفاصيل المباراة</h2><p>نص المقال.</p>"
+        )
+        once = ai.ensure_required_verified_links(html, package, "عنوان")
+        twice = ai.ensure_required_verified_links(once, package, "عنوان")
+        self.assertEqual(twice.count("jobVerifiedLinks"), 1)
+        self.assertEqual(twice.count("تفاصيل الإعلان الرسمي:"), 1)
+        self.assertIn(detail, twice)
+
+    def test_jobposting_location_fallback_reads_official_document_text(self):
+        french = {
+            "job_document_texts": [{
+                "text": "1 CHARGE DE SUIVI D'ASSURANCES\n(Poste basé à Rabat)\nMission :",
+            }],
+        }
+        self.assertEqual(
+            jobposting.jobposting_location_fallback(french), "Rabat"
+        )
+        arabic = {
+            "job_document_texts": [{
+                "text": "مقر العمل: الرباط\nالمهام الرئيسية:",
+            }],
+        }
+        self.assertEqual(
+            jobposting.jobposting_location_fallback(arabic), "الرباط"
+        )
+        existing = {"job_location": "Casablanca"}
+        self.assertEqual(
+            jobposting.jobposting_location_fallback(existing), "Casablanca"
         )
 
     def test_manifest_contradicting_high_position_count_blocks(self):

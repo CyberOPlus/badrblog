@@ -1575,6 +1575,28 @@ def ensure_required_verified_links(html_content, package=None, title=""):
     """
     html_content = str(html_content or "")
     title = str(title or "")
+    soup = BeautifulSoup(html_content, "html.parser")
+
+    # Formatting can run several times (selection, publish retry, social sync).
+    # Each pass strips the anchor but leaves the label item behind, so clear
+    # earlier injection leftovers before rebuilding one clean block.
+    cleaned = False
+    verified_labels = set(_VERIFIED_LINK_LABELS.values())
+    for item in soup.find_all("li"):
+        strong = item.find("strong")
+        label = strong.get_text(" ", strip=True) if strong is not None else ""
+        if label not in verified_labels:
+            continue
+        if item.find("a", href=True):
+            continue
+        parent = item.parent
+        item.decompose()
+        if parent is not None and parent.name == "ul" and not parent.find("li"):
+            parent.decompose()
+        cleaned = True
+    if cleaned:
+        html_content = str(soup)
+
     missing = _missing_required_verified_links(html_content, package, title)
     if not missing:
         return html_content

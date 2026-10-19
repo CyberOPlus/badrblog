@@ -44,7 +44,11 @@ from google_indexing import notify_job_url
 from job_document_renderer import render_job_document_pages
 from company_logo_resolver import refresh_company_logo, verified_company_logo
 from utils.facebook_image_generator import generate_job_article_cover
-from jobposting import append_jobposting, jobposting_validation_errors
+from jobposting import (
+    append_jobposting,
+    jobposting_location_fallback,
+    jobposting_validation_errors,
+)
 
 TEMPORARY_BLOGGER_HTTP_STATUSES = {429, 500, 502, 503, 504}
 
@@ -1200,6 +1204,18 @@ def _apply_jobposting_schema(service, post, article, mode):
         str(body.get("content") or ""),
         flags=re.I | re.S,
     ).strip()
+    if not str(article.get("job_location") or "").strip() and not article.get(
+        "job_remote"
+    ):
+        derived_location = jobposting_location_fallback(article)
+        if derived_location:
+            article["job_location"] = derived_location
+            article["job_location_source"] = "official_document_text"
+            log_event(
+                "jobposting_location_derived",
+                article_id=article.get("id"),
+                location=derived_location,
+            )
     errors = jobposting_validation_errors(article)
     article_url = str(
         post.get("url")

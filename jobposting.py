@@ -189,6 +189,68 @@ def jobposting_validation_errors(article):
     return errors
 
 
+_LOCATION_PATTERNS = (
+    re.compile(r"\(\s*poste\s+bas[ée]e?\s+à\s+([^)\n.;]{2,60})", re.I),
+    re.compile(r"\bposte\s+bas[ée]e?\s+à\s+([^\n.;]{2,60})", re.I),
+    re.compile(r"\blieu\s+d['’]affectation\s*:\s*([^\n.;]{2,60})", re.I),
+    re.compile(r"\baffectation\s*:\s*([^\n.;]{2,60})", re.I),
+    re.compile(r"\blieu\s*:\s*([^\n.;]{2,60})", re.I),
+    re.compile(r"مقر\s+العمل\s*[:：]\s*([^\n،.;<]{2,60})"),
+    re.compile(r"مكان\s+العمل\s*[:：]\s*([^\n،.;<]{2,60})"),
+)
+
+_NON_CITY_LOCATION_RE = re.compile(
+    r"(?i)\b(entretien|concours|test|examen|maroc|morocco)\b|المغرب|المباراة"
+)
+
+
+def _clean_location(value):
+    text = _plain(value)
+    text = re.sub(r"[)\]}>]+$", "", text).strip(" -–—:،.,")
+    text = re.sub(r"\s+", " ", text)
+    if len(text) < 2 or len(text) > 80:
+        return ""
+    if _NON_CITY_LOCATION_RE.search(text):
+        return ""
+    return text
+
+
+def jobposting_location_fallback(article):
+    """Derive the workplace city from the verified official document text.
+
+    Schema.org JobPosting requires a job location for Google Jobs. Enrichment
+    often leaves job_location empty even when the official notice states it
+    ("Poste basé à Rabat", "مقر العمل: الرباط"), so read the already-verified
+    document text instead of inventing a value or dropping the schema.
+    """
+    article = article or {}
+    existing = str(article.get("job_location") or "").strip()
+    if existing:
+        return existing
+    if article.get("job_remote"):
+        return ""
+
+    texts = []
+    for row in article.get("job_document_texts") or []:
+        if isinstance(row, dict):
+            value = str(row.get("text") or "").strip()
+            if value:
+                texts.append(value)
+        elif isinstance(row, str):
+            texts.append(row)
+    blob = "\n".join(texts)
+    if not blob:
+        return ""
+    for pattern in _LOCATION_PATTERNS:
+        match = pattern.search(blob)
+        if not match:
+            continue
+        location = _clean_location(match.group(1))
+        if location:
+            return location
+    return ""
+
+
 def build_jobposting(article, article_url):
     data = {
         "@context": "https://schema.org",
