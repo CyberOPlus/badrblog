@@ -1,15 +1,15 @@
 {
-  "updated_at": "2026-10-19T18:15:26.602220+00:00",
-  "state": "coverage_blocked_publication",
-  "action": "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers.",
+  "updated_at": "2026-10-19T18:20:52.434634+00:00",
+  "state": "healthy",
+  "action": "Independent queues continue; each verified fresh job follows Blogger to Facebook.",
   "hourly_target_met": false,
   "target_minutes": 360,
   "last_facebook_posted_at": "",
   "last_facebook_post_id": "",
   "minutes_since_facebook": null,
-  "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00",
-  "fresh_candidate_count": 4,
-  "verified_ready_candidate_count": 1,
+  "last_blogger_publish_at": "2026-10-19T18:20:50.999122+00:00",
+  "fresh_candidate_count": 3,
+  "verified_ready_candidate_count": 0,
   "unverified_ready_candidate_count": 3,
   "ready_quality_blockers": [
     {
@@ -21,9 +21,9 @@
       "count": 1
     }
   ],
-  "facebook_pending_count": 0,
-  "oldest_facebook_pending_minutes": 0,
-  "oldest_ready_candidate_minutes": 0.1,
+  "facebook_pending_count": 1,
+  "oldest_facebook_pending_minutes": 0.2,
+  "oldest_ready_candidate_minutes": 0,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -82,8 +82,8 @@
     }
   },
   "coverage": {
-    "status": "blocked_publication",
-    "action": "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers.",
+    "status": "ok",
+    "action": "Discovery coverage is monitored separately from actual publishing.",
     "enabled_feeds": 8,
     "enabled_domains": 6,
     "scanned_recently": 7,
@@ -93,10 +93,10 @@
     "failed_recent_sources": [],
     "recent_new_discoveries": 0,
     "recent_cycle_candidates": 24,
-    "recent_cycle_publishes": 0,
+    "recent_cycle_publishes": 1,
     "successful_empty_cycle_streak": 0,
-    "minutes_without_blogger": 14841.3,
-    "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00"
+    "minutes_without_blogger": 0.0,
+    "last_blogger_publish_at": "2026-10-19T18:20:50.999122+00:00"
   },
   "services_checked_at": "2026-10-19T17:39:26.870823+00:00"
 }
