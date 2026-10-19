@@ -133,6 +133,42 @@ class JobsCoreTests(unittest.TestCase):
             quality_gate._job_unverified_external_link_reason(invalid_html, package),
         )
 
+    def test_quality_gate_accepts_escaped_and_lowercase_evidence_urls(self):
+        application_url = (
+            "https://bkam.csod.com/ats/careersite/search.aspx?site=11&c=bkam"
+        )
+        detail_url = (
+            "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/"
+            "%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/"
+            "d0a32a44-0138-4be0-bc53-8159712e6edc"
+        )
+        package = {
+            "job_application_url": application_url,
+            "job_detail_url": detail_url,
+            "job_document_links": [],
+            "job_action_links": [],
+        }
+        escaped = (
+            '<p><a href="https://bkam.csod.com/ats/careersite/search.aspx?site=11&amp;c=bkam">'
+            "منصة التقديم</a></p>"
+        )
+        self.assertEqual(
+            quality_gate._job_unverified_external_link_reason(escaped, package),
+            "",
+        )
+        lowercase = f'<p><a href="{detail_url.lower()}">التفاصيل</a></p>'
+        self.assertEqual(
+            quality_gate._job_unverified_external_link_reason(lowercase, package),
+            "",
+        )
+        from urllib.parse import unquote
+
+        decoded = f'<p><a href="{unquote(detail_url)}">التفاصيل</a></p>'
+        self.assertEqual(
+            quality_gate._job_unverified_external_link_reason(decoded, package),
+            "",
+        )
+
     def test_emploi_public_recovers_official_pdf_routes_from_visible_labels(self):
         notice_id = "ee457511-2cf7-4178-bcb7-b09cd1638bca"
         detail = f"https://www.emploi-public.ma/ar/تفاصيل/المباريات/{notice_id}"

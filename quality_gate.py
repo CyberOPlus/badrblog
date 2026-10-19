@@ -2,6 +2,7 @@
 # quality_gate.py - Final Blogger pre-publish quality gate
 # ============================================================
 
+import html
 import re
 from dataclasses import dataclass
 
@@ -14,7 +15,7 @@ from duplicate_utils import (
     title_hash,
     topic_signature,
 )
-from production_logging import html_to_text, html_word_count
+from production_logging import html_to_text, html_word_count, log_event
 from job_core import is_application_url_bound_to_job, is_job_specific_url
 from verified_fact_manifest import build_verified_fact_manifest, validate_output_against_manifest
 from config import (
@@ -326,10 +327,12 @@ def _job_unverified_external_link_reason(html_content, verification_context):
     allowed.update(_verified_document_text_urls(package))
 
     for href in re.findall(r"<a\b[^>]*\bhref=['\"]([^'\"]+)['\"]", html_content, flags=re.I):
+        href = html.unescape(href).strip()
         if not re.match(r"^https?://", href, flags=re.I):
             continue
         key = canonicalize_url(href) or href
         if key not in allowed:
+            log_event("jobs_unverified_external_link", url=href[:300])
             return "Jobs article contains an external URL not present in verified application/document evidence"
     return ""
 

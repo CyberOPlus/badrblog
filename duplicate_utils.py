@@ -4,7 +4,7 @@
 
 import hashlib
 import re
-from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
+from urllib.parse import parse_qsl, quote, unquote, urlencode, urlparse, urlunparse
 
 from production_logging import html_to_text
 
@@ -35,6 +35,10 @@ def canonicalize_url(url):
     scheme = parsed.scheme.lower()
     netloc = parsed.netloc.lower()
     path = re.sub(r"/{2,}", "/", parsed.path or "/")
+    # Percent escapes are case-insensitive (RFC 3986) and models sometimes
+    # emit the decoded Arabic form of a path: normalize both spellings to one
+    # canonical URL so verified evidence links are not rejected as unverified.
+    path = quote(unquote(path), safe="/:@!$&'()*+,;=-._~")
     if path != "/":
         path = path.rstrip("/")
 
