@@ -238,20 +238,24 @@ def _clean_location(value):
     return text
 
 
+def _normalize_place(value):
+    text = _plain(value).casefold()
+    text = re.sub(r"[^\w\u0600-\u06ff\s'’\-–]", " ", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
 def jobposting_location_fallback(article):
     """Derive the workplace city from the verified official document text.
 
     Schema.org JobPosting requires a job location for Google Jobs. Enrichment
-    often leaves job_location empty even when the official notice states it
-    ("Poste basé à Rabat", "مقر العمل: الرباط"), so read the already-verified
-    document text instead of inventing a value or dropping the schema.
+    sometimes leaves job_location empty or picks the wrong city, while the
+    official notice states the assignment ("Poste basé à Rabat",
+    "Affectation : Errachidia"). Prefer the verified document evidence.
     """
     article = article or {}
     existing = str(article.get("job_location") or "").strip()
-    if existing:
-        return existing
     if article.get("job_remote"):
-        return ""
+        return existing
 
     texts = []
     for row in article.get("job_document_texts") or []:
@@ -263,15 +267,25 @@ def jobposting_location_fallback(article):
             texts.append(row)
     blob = "\n".join(texts)
     if not blob:
-        return ""
+        return existing
+
+    if existing and _normalize_place(existing) in _normalize_place(blob):
+        return existing
+
     for pattern in _LOCATION_PATTERNS:
         match = pattern.search(blob)
         if not match:
             continue
         location = _clean_location(match.group(1))
+        if not location:
+            continue
+        # "Affectation : Direction ..., siège de l'OFPPT - Casablanca"
+        parts = re.split(r"\s[-–—]\s", location)
+        if len(parts) > 1:
+            location = _clean_location(parts[-1])
         if location:
             return location
-    return ""
+    return existing
 
 
 def build_jobposting(article, article_url):

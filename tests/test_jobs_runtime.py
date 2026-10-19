@@ -50,15 +50,18 @@ def setUpModule():
     _ORIGINAL_STATE_PATHS = {
         "queue": article_queue.ARTICLE_QUEUE_PATH,
         "memory": ai.AI_PROVIDER_MEMORY_PATH,
+        "job_memory": job_core.MEMORY_DIR,
     }
     article_queue.ARTICLE_QUEUE_PATH = sandbox / "jobs_article_queue.json"
     ai.AI_PROVIDER_MEMORY_PATH = sandbox / "ai_provider_memory.json"
+    job_core.MEMORY_DIR = sandbox / "job_memory"
 
 
 def tearDownModule():
     if _ORIGINAL_STATE_PATHS:
         article_queue.ARTICLE_QUEUE_PATH = _ORIGINAL_STATE_PATHS["queue"]
         ai.AI_PROVIDER_MEMORY_PATH = _ORIGINAL_STATE_PATHS["memory"]
+        job_core.MEMORY_DIR = _ORIGINAL_STATE_PATHS["job_memory"]
     if _STATE_SANDBOX is not None:
         _STATE_SANDBOX.cleanup()
 
@@ -4080,6 +4083,27 @@ class JobsRuntimeTests(unittest.TestCase):
         existing = {"job_location": "Casablanca"}
         self.assertEqual(
             jobposting.jobposting_location_fallback(existing), "Casablanca"
+        )
+
+    def test_jobposting_location_prefers_official_assignment_over_enrichment(self):
+        wrong = {
+            "job_location": "Fes",
+            "job_document_texts": [{
+                "text": "Avis de concours. Affectation : Errachidia.",
+            }],
+        }
+        self.assertEqual(
+            jobposting.jobposting_location_fallback(wrong), "Errachidia"
+        )
+        matched = {
+            "job_location": "Casablanca",
+            "job_document_texts": [{
+                "text": "Affectation : Direction Afrique et International, "
+                        "siège de l'OFPPT - Casablanca.",
+            }],
+        }
+        self.assertEqual(
+            jobposting.jobposting_location_fallback(matched), "Casablanca"
         )
 
     def test_jobposting_uses_first_observation_for_undated_official_notice(self):
