@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-19T17:42:10.179576+00:00",
+  "updated_at": "2026-10-19T17:59:24.930074+00:00",
   "state": "coverage_blocked_publication",
   "action": "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers.",
   "hourly_target_met": false,
@@ -8,13 +8,13 @@
   "last_facebook_post_id": "",
   "minutes_since_facebook": null,
   "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00",
-  "fresh_candidate_count": 7,
-  "verified_ready_candidate_count": 0,
-  "unverified_ready_candidate_count": 7,
+  "fresh_candidate_count": 5,
+  "verified_ready_candidate_count": 1,
+  "unverified_ready_candidate_count": 4,
   "ready_quality_blockers": [
     {
       "reason": "application URL is not the direct form/action",
-      "count": 4
+      "count": 2
     },
     {
       "reason": "identity evidence incomplete",
@@ -23,7 +23,7 @@
   ],
   "facebook_pending_count": 0,
   "oldest_facebook_pending_minutes": 0,
-  "oldest_ready_candidate_minutes": 0,
+  "oldest_ready_candidate_minutes": 0.9,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -76,12 +76,6 @@
           "failure_count": 48,
           "category": "http_block",
           "retry_after": "2026-10-19T19:33:48Z"
-        },
-        {
-          "source_name": "OFPPT — offres d'emploi",
-          "failure_count": 4,
-          "category": "source_error",
-          "retry_after": "2026-10-19T17:56:38Z"
         }
       ],
       "action": "One or more sources are cooling down after transient fetch failures."
@@ -101,7 +95,7 @@
     "recent_cycle_candidates": 24,
     "recent_cycle_publishes": 0,
     "successful_empty_cycle_streak": 0,
-    "minutes_without_blogger": 14808.0,
+    "minutes_without_blogger": 14825.2,
     "last_blogger_publish_at": "2026-10-09T10:54:10.827987+00:00"
   },
   "services_checked_at": "2026-10-19T17:39:26.870823+00:00"
