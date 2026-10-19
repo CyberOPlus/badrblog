@@ -295,6 +295,16 @@ GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
 FAST_OPENROUTER_MODELS = [
     "openrouter/free",
+    # Free-first rotation: when the free router is throttled, pay-per-use
+    # models ordered by real output cost keep Jobs publishing (cents/article).
+    # These are the six models requested by the owner; they are NOT free on
+    # OpenRouter, so they only run after openrouter/free fails.
+    "deepseek/deepseek-v4.1-flash",
+    "z-ai/glm-5.3-flash",
+    "deepseek/deepseek-v4-flash",
+    "z-ai/glm-5.3",
+    "qwen/qwen3.8-27b",
+    "google/gemini-3.8-flash",
 ]
 OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", FAST_OPENROUTER_MODELS[0]).strip()
 _configured_openrouter_models = _env_csv("OPENROUTER_MODELS")

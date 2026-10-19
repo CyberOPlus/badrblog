@@ -276,7 +276,7 @@ jobs:
               "GEMINI_MODEL": "gemini-2.5-flash",
               "OPENROUTER_API_KEY": os.environ.get("OPENROUTER_API_KEY", ""),
               "OPENROUTER_MODEL": "openrouter/free",
-              "OPENROUTER_MODELS": "openrouter/free",
+              "OPENROUTER_MODELS": "openrouter/free,deepseek/deepseek-v4.1-flash,z-ai/glm-5.3-flash,deepseek/deepseek-v4-flash,z-ai/glm-5.3,qwen/qwen3.8-27b,google/gemini-3.8-flash",
               "OPENROUTER_APP_NAME": "Jobs Automation",
               "GROQ_API_KEY": os.environ.get("GROQ_API_KEY", ""),
               "GROQ_MODEL": "openai/gpt-oss-20b",
