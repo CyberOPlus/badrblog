@@ -76,6 +76,7 @@ from config import (
 )
 from production_logging import elapsed_ms, html_word_count, log_event
 from job_core import is_application_url_bound_to_job, is_job_specific_url
+from jobposting import jobposting_location_fallback
 from quality_gate import validate_ai_article_output
 from verified_fact_manifest import build_verified_fact_manifest, fact_is_present
 
@@ -1344,6 +1345,7 @@ SOURCE OF TRUTH
 - job_document_texts contains page-numbered text/OCR from official PDFs. Use every material candidate-facing fact that is explicit there and belongs to THIS notice/job scope: grades/roles, position breakdowns, specialties, eligibility, diplomas, age limits, tests, required application documents, locations, deadlines, application instructions and current status.
 - An official PDF may cover several grades, roles or linked competitions. Use job_title/detail-page evidence to keep facts bound to the current role/grade; do not import another grade/role's count, diploma, specialty or conditions unless this notice is explicitly an aggregate multi-role campaign.
 - Do not copy legal boilerplate or the PDF verbatim. Do not guess from broken OCR. If evidence is unclear, omit the uncertain claim.
+- job_location is the verified workplace city when present. Use it consistently; never substitute a different city taken from source metadata, the listing page or an unrelated table.
 - Never invent salary, count, date, degree, experience, age, location, contract, eligibility, remote status, visa sponsorship, URL, email, phone, requirement or status.
 - A missing field is absent, not "غير محدد". A zero/false extractor default is intentionally omitted from this prompt unless it was positively verified.
 
@@ -3743,6 +3745,30 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             }
 
     package = article["ai_input_package"]
+    official_location = jobposting_location_fallback(
+        {
+            **article,
+            "job_document_texts": (
+                package.get("job_document_texts")
+                or article.get("job_document_texts")
+                or []
+            ),
+        }
+    )
+    current_location = str(
+        article.get("job_location") or package.get("job_location") or ""
+    ).strip()
+    if official_location and official_location != current_location:
+        article["job_location"] = official_location
+        article["job_location_source"] = "official_document_text"
+        package["job_location"] = official_location
+        log_event(
+            "job_location_corrected_from_official_text",
+            article_id=article.get("id"),
+            previous=current_location,
+            corrected=official_location,
+        )
+
     prompt = ""
     previous_data = None
     last_error = None

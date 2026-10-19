@@ -213,13 +213,13 @@ def jobposting_validation_errors(article):
 
 
 _LOCATION_PATTERNS = (
-    re.compile(r"\(\s*poste\s+bas[ée]e?\s+à\s+([^)\n.;]{2,60})", re.I),
-    re.compile(r"\bposte\s+bas[ée]e?\s+à\s+([^\n.;]{2,60})", re.I),
-    re.compile(r"\blieu\s+d['’]affectation\s*:\s*([^\n.;]{2,60})", re.I),
-    re.compile(r"\baffectation\s*:\s*([^\n.;]{2,60})", re.I),
-    re.compile(r"\blieu\s*:\s*([^\n.;]{2,60})", re.I),
-    re.compile(r"مقر\s+العمل\s*[:：]\s*([^\n،.;<]{2,60})"),
-    re.compile(r"مكان\s+العمل\s*[:：]\s*([^\n،.;<]{2,60})"),
+    re.compile(r"\(\s*poste\s+bas[ée]e?\s+à\s+([^)\n.;]{2,120})", re.I),
+    re.compile(r"\bposte\s+bas[ée]e?\s+à\s+([^\n.;]{2,120})", re.I),
+    re.compile(r"\blieu\s+d['’]affectation\s*:\s*([^\n.;]{2,120})", re.I),
+    re.compile(r"\baffectation\s*:\s*([^\n.;]{2,120})", re.I),
+    re.compile(r"\blieu\s*:\s*([^\n.;]{2,120})", re.I),
+    re.compile(r"مقر\s+العمل\s*[:：]\s*([^\n،.;<]{2,120})"),
+    re.compile(r"مكان\s+العمل\s*[:：]\s*([^\n،.;<]{2,120})"),
 )
 
 _NON_CITY_LOCATION_RE = re.compile(
@@ -236,12 +236,6 @@ def _clean_location(value):
     if _NON_CITY_LOCATION_RE.search(text):
         return ""
     return text
-
-
-def _normalize_place(value):
-    text = _plain(value).casefold()
-    text = re.sub(r"[^\w\u0600-\u06ff\s'’\-–]", " ", text)
-    return re.sub(r"\s+", " ", text).strip()
 
 
 def jobposting_location_fallback(article):
@@ -267,9 +261,6 @@ def jobposting_location_fallback(article):
             texts.append(row)
     blob = "\n".join(texts)
     if not blob:
-        return existing
-
-    if existing and _normalize_place(existing) in _normalize_place(blob):
         return existing
 
     for pattern in _LOCATION_PATTERNS:
