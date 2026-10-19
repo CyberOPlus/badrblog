@@ -4082,6 +4082,33 @@ class JobsRuntimeTests(unittest.TestCase):
             jobposting.jobposting_location_fallback(existing), "Casablanca"
         )
 
+    def test_jobposting_uses_first_observation_for_undated_official_notice(self):
+        article = {
+            "job_notice_type": "competition",
+            "job_title": "Formateur",
+            "job_company": "OFPPT",
+            "job_description": "مباراة توظيف",
+            "job_published_at": "",
+            "source_published_at": "",
+            "discovered_at": "2026-10-19T16:33:48",
+            "official_source": True,
+            "job_official_source": True,
+            "job_location": "Errachidia",
+            "job_country": "MA",
+            "job_deadline": "2026-10-30",
+        }
+        errors = jobposting.jobposting_validation_errors(article)
+        self.assertNotIn("missing datePosted", errors)
+        data = jobposting.build_jobposting(article, "https://example.org/post")
+        self.assertEqual(data["datePosted"], "2026-10-19")
+
+        article["official_source"] = False
+        article["job_official_source"] = False
+        self.assertIn(
+            "missing datePosted",
+            jobposting.jobposting_validation_errors(article),
+        )
+
     def test_manifest_contradicting_high_position_count_blocks(self):
         manifest = {
             "facts": {

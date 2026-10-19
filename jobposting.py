@@ -67,6 +67,29 @@ def _date_value(value):
         return match.group(1) if match else ""
 
 
+def _date_posted_value(article):
+    """Date the job is advertised as posted in JobPosting metadata."""
+    raw = str(
+        (article or {}).get("job_published_at")
+        or (article or {}).get("source_published_at")
+        or ""
+    ).strip()
+    if raw:
+        return _date_value(raw)
+    # Official notices (OFPPT) sometimes expose no publication date at all.
+    # The crawler's first observation is the best available upper bound; it is
+    # structured metadata only and is never shown as a publication date in the
+    # article. Without it Google would drop a real, open job from Jobs.
+    if not (
+        (article or {}).get("official_source")
+        or (article or {}).get("job_official_source")
+    ):
+        return ""
+    discovered = _date_value((article or {}).get("discovered_at"))
+    match = re.match(r"^(\d{4}-\d{2}-\d{2})", discovered)
+    return match.group(1) if match else ""
+
+
 def _employment_type(value):
     text = str(value or "").strip().casefold()
     if not text:
@@ -168,7 +191,7 @@ def jobposting_validation_errors(article):
     title = str(article.get("job_title") or article.get("seo_title") or article.get("title") or "").strip()
     company = str(article.get("job_company") or "").strip()
     description = _plain(article.get("job_description") or article.get("final_html") or "")
-    date_posted = _date_value(article.get("job_published_at") or article.get("source_published_at"))
+    date_posted = _date_posted_value(article)
     location = str(article.get("job_location") or "").strip()
     country = str(article.get("job_country") or "").strip()
     remote = bool(article.get("job_remote"))
@@ -257,7 +280,7 @@ def build_jobposting(article, article_url):
         "@type": "JobPosting",
         "title": article.get("job_title") or article.get("seo_title") or article.get("title", ""),
         "description": _plain(article.get("job_description") or article.get("final_html", "")),
-        "datePosted": _date_value(article.get("job_published_at") or article.get("source_published_at")),
+        "datePosted": _date_posted_value(article),
         "url": article_url,
         "hiringOrganization": {
             "@type": "Organization",
