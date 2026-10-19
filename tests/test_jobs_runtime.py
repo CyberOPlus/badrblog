@@ -1,6 +1,7 @@
 """Regressions for unattended Jobs delivery; no external requests or publishing."""
 import json
 import re
+import tempfile
 import copy
 import unittest
 from contextlib import ExitStack, redirect_stdout
@@ -26,6 +27,35 @@ import runtime_state
 import social_ai_processor as social_ai
 import verified_fact_manifest as fact_manifest
 import jobs_adaptive_controller as adaptive
+
+_STATE_SANDBOX = None
+_ORIGINAL_STATE_PATHS = {}
+
+
+def setUpModule():
+    """Keep runtime state writes inside a sandbox.
+
+    The production cycle repairs jobs_article_queue.json and the AI provider
+    memory in place. Running the suite must never rewrite those live files:
+    the GitHub Actions workflow persists them and the watchdog reads them.
+    """
+    global _STATE_SANDBOX, _ORIGINAL_STATE_PATHS
+    _STATE_SANDBOX = tempfile.TemporaryDirectory(prefix="jobs-runtime-tests-")
+    sandbox = Path(_STATE_SANDBOX.name)
+    _ORIGINAL_STATE_PATHS = {
+        "queue": article_queue.ARTICLE_QUEUE_PATH,
+        "memory": ai.AI_PROVIDER_MEMORY_PATH,
+    }
+    article_queue.ARTICLE_QUEUE_PATH = sandbox / "jobs_article_queue.json"
+    ai.AI_PROVIDER_MEMORY_PATH = sandbox / "ai_provider_memory.json"
+
+
+def tearDownModule():
+    if _ORIGINAL_STATE_PATHS:
+        article_queue.ARTICLE_QUEUE_PATH = _ORIGINAL_STATE_PATHS["queue"]
+        ai.AI_PROVIDER_MEMORY_PATH = _ORIGINAL_STATE_PATHS["memory"]
+    if _STATE_SANDBOX is not None:
+        _STATE_SANDBOX.cleanup()
 
 
 class JobsRuntimeTests(unittest.TestCase):
@@ -1941,6 +1971,97 @@ class JobsRuntimeTests(unittest.TestCase):
             saved["articles"][0]["archive_reason"],
             "job_deadline_passed",
         )
+
+    def test_legacy_ofppt_rows_get_deadline_before_normal_cleanup(self):
+        queue = {
+            "articles": [{
+                "id": "legacy-ofppt",
+                "url": "https://recrutement.ofppt.ma/offre/3064",
+                "source_name": "OFPPT — offres d'emploi",
+                "status": "ready",
+                "content_fetch_status": "failed",
+            }]
+        }
+        response = MagicMock(status_code=200)
+        response.text = """
+        <div id="offer-container">
+          <h1>Formateur en Froid et Génie Thermique <span>(Expirée)</span></h1>
+          <table id="offer-infos"><tbody>
+            <tr><td>Référence</td><td>RH 88/25</td></tr>
+            <tr><td>Dernier Délai</td><td>27.06.2025</td></tr>
+          </tbody></table>
+        </div>
+        """
+        with patch.object(main, "JOBS_MODE", True), \
+             patch.dict(main.os.environ, {"GITHUB_ACTIONS": "true"}), \
+             patch.object(main, "load_article_queue", return_value=queue), \
+             patch.object(main, "save_article_queue") as save, \
+             patch.object(main.requests, "get", return_value=response) as get:
+            stats = main._reconcile_ofppt_queue_deadlines(max_items=1)
+        self.assertEqual(stats["checked"], 1)
+        self.assertEqual(stats["expired"], 1)
+        self.assertEqual(queue["articles"][0]["job_deadline"], "2025-06-27")
+        self.assertEqual(queue["articles"][0]["job_notice_status"], "expired")
+        save.assert_called_once()
+        get.assert_called_once()
+
+    def test_live_publish_embeds_valid_jobposting_schema(self):
+        article = {
+            "id": "schema-job",
+            "job_title": "Développeur Java",
+            "job_company": "ALTEN MAROC",
+            "job_location": "Rabat",
+            "job_country": "MA",
+            "job_published_at": "2026-10-19T08:00:00+00:00",
+            "job_notice_type": "vacancy",
+            "job_application_url": "https://example.com/apply/123",
+            "job_application_link_kind": "direct_apply",
+            "final_html": "<p>Développement de services Java et tests automatisés.</p>",
+            "seo_title": "ALTEN توظف مطور Java",
+        }
+        post = {
+            "id": "post-schema",
+            "url": "https://cyberopluss.blogspot.com/2026/10/alten-java.html",
+        }
+        request = MagicMock()
+        request.execute.return_value = dict(post)
+        service = MagicMock()
+        service.posts.return_value.update.return_value = request
+
+        with patch.object(draft, "_effective_publish_mode", return_value="live"):
+            updated = draft._apply_jobposting_schema(service, post, article, "live")
+
+        body = service.posts.return_value.update.call_args.kwargs["body"]
+        self.assertIn('id="jobs-jobposting"', body["content"])
+        self.assertIn('"@type":"JobPosting"', body["content"])
+        self.assertIn('"datePosted":"2026-10-19T08:00:00+00:00"', body["content"])
+        self.assertEqual(article["jobposting_schema_status"], "embedded")
+        self.assertEqual(updated["url"], post["url"])
+
+    def test_live_publish_skips_invalid_jobposting_schema(self):
+        article = {
+            "id": "schema-invalid",
+            "job_title": "Développeur Java",
+            "final_html": "<p>Description</p>",
+            "job_notice_type": "vacancy",
+            "seo_title": "ALTEN توظف مطور Java",
+        }
+        post = {
+            "id": "post-invalid",
+            "url": "https://cyberopluss.blogspot.com/2026/10/alten-java.html",
+        }
+        request = MagicMock()
+        request.execute.return_value = dict(post)
+        service = MagicMock()
+        service.posts.return_value.update.return_value = request
+
+        with patch.object(draft, "_effective_publish_mode", return_value="live"):
+            draft._apply_jobposting_schema(service, post, article, "live")
+
+        body = service.posts.return_value.update.call_args.kwargs["body"]
+        self.assertNotIn("jobs-jobposting", body["content"])
+        self.assertEqual(article["jobposting_schema_status"], "skipped_invalid")
+        self.assertIn("missing hiring organization", article["jobposting_schema_errors"])
 
     def test_old_jobs_listing_with_future_deadline_is_archived_by_publication_age(self):
         from pathlib import Path

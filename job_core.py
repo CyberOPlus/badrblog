@@ -1160,8 +1160,12 @@ def job_publication_policy(article, now=None):
     education, evidence = job_qualification_policy(article)
     if education == "above_limit":
         reasons.append("required diploma is above Bac+3")
-    elif education not in {"below_bac3", "bac3"}:
-        reasons.append("required diploma Bac+3 or below is not verified")
+    # "unverified" is publishable on purpose. Most genuine entry-level Moroccan
+    # vacancies (hospitality, retail, call centers, logistics...) never state a
+    # diploma. Hard-blocking them froze publication completely while adding no
+    # real protection: anything that DOES state Master/Bac+5/Ingénieur is still
+    # permanently rejected above, so the site never advertises senior-only
+    # requirements to a junior audience.
     return {
         "passed": not reasons,
         "reasons": reasons,

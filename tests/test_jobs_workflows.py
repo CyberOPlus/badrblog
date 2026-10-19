@@ -193,7 +193,7 @@ class JobsWorkflowTests(unittest.TestCase):
         sleep.assert_called_once()
 
     def test_jobs_state_and_secrets_are_persisted_separately(self):
-        workflow = Path(".github/workflows/auto-cycle.yml").read_text()
+        workflow = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")
         for required in ("jobs_article_queue.json", "data/job_memory", "data/crawl_state.json",
                          "data/job_state.json", "data/job_visual_state.json", "merge_jobs_queue_snapshot",
                          "Persist Jobs runtime state", "rm -f .env client_secret.json data/token.json"):

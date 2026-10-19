@@ -63,9 +63,10 @@ References:
    GitHub runner/direct-apply checks do not pass.
 2. Newly announced positions have a **verified publication time within
    24 hours**. Unverified/expired or duplicated vacancies are not published.
-3. Verified **open application closing deadline** and **qualification strictly
-   below Bac+3** (Bac, Bac+1, Bac+2 or the evidenced equivalent).
-   Unknown or mixed higher-level requirements do not pass.
+3. Verified **open application closing deadline**. Any diploma requirement
+   **explicitly above Bac+3** (Master, Bac+5, Ingénieur, Doctorat...) is a
+   permanent reject; jobs that simply do not state a diploma publish as
+   open-level so a junior audience keeps a flowing feed of real opportunities.
 4. A specific apply form/official PDF-prescribed platform or official
    submission email must be shown as the actionable link. Never send candidates
    through source portals, registration detours, or inferred links.

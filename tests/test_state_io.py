@@ -18,9 +18,9 @@ class StateIOTests(unittest.TestCase):
         with TemporaryDirectory() as temporary:
             path = Path(temporary) / "data" / "state.json"
             state_io.atomic_write_json(path, {"seen": ["وظيفة/1"]})
-            self.assertEqual(json.loads(path.read_text()), {"seen": ["وظيفة/1"]})
+            self.assertEqual(json.loads(path.read_text(encoding="utf-8")), {"seen": ["وظيفة/1"]})
             state_io.atomic_write_json(path, {"seen": ["وظيفة/1", "وظيفة/2"]})
-            self.assertEqual(len(json.loads(path.read_text())["seen"]), 2)
+            self.assertEqual(len(json.loads(path.read_text(encoding="utf-8"))["seen"]), 2)
             self.assertEqual(list(path.parent.iterdir()), [path])
 
     def test_invalid_serialization_preserves_last_checkpoint(self):
@@ -77,4 +77,4 @@ class StateIOTests(unittest.TestCase):
                     writer({"cooldowns": {"provider": "later"}})
                     with patch.object(state_io.os, "replace", side_effect=OSError("interrupted")):
                         writer({"cooldowns": {}})
-                self.assertEqual(json.loads(path.read_text()), {"cooldowns": {"provider": "later"}})
+                self.assertEqual(json.loads(path.read_text(encoding="utf-8")), {"cooldowns": {"provider": "later"}})

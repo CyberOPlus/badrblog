@@ -1,4 +1,4 @@
-"""Hard publishing requirements: a future deadline and qualification up to Licence/Bac+3."""
+"""Hard publishing requirements: a future deadline and no diploma above Licence/Bac+3."""
 import unittest
 from datetime import datetime, timezone
 
@@ -107,14 +107,17 @@ class PublicationRequirementsTests(unittest.TestCase):
                 self.assertFalse(result["passed"])
                 self.assertTrue(result["permanent_reject"])
 
-    def test_unverified_diploma_does_not_publish(self):
+    def test_unverified_diploma_publishes_as_open_level(self):
         result = job_publication_policy(posting(job_diploma="", job_description="", full_article_text="Poste informatique"), now=NOW)
-        self.assertFalse(result["passed"])
+        self.assertTrue(result["passed"])
         self.assertEqual(result["education"], "unverified")
 
     def test_bac2_in_unrelated_duty_does_not_prove_eligibility(self):
         result = job_publication_policy(posting(job_diploma="", job_description="Former des personnes Bac+2 en sécurité réseau"), now=NOW)
-        self.assertFalse(result["passed"])
+        # The duty mention must not be promoted to a verified diploma level...
+        self.assertEqual(result["education"], "unverified")
+        # ...and the article stays publishable only as an open-level posting.
+        self.assertTrue(result["passed"])
 
     def test_verified_low_qualification_from_full_text(self):
         result = job_publication_policy(posting(job_diploma="", job_description="", full_article_text="Profil recherché: Technicien spécialisé (Bac+2)"), now=NOW)

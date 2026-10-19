@@ -7,7 +7,8 @@ from unittest.mock import Mock, patch
 from bs4 import BeautifulSoup
 import article_enricher
 import scraper
-from official_job_sources import (anapec_detail_html, parse_anapec_links,
+from official_job_sources import (anapec_detail_html, ofppt_detail_evidence,
+                                  ofppt_detail_html, parse_anapec_links,
                                   smartrecruiters_detail_html, smartrecruiters_listing_rows)
 
 
@@ -21,6 +22,166 @@ class OfficialJobSourcesTests(unittest.TestCase):
         self.assertEqual(len(found), 2)
         self.assertTrue(found[0]["url"].endswith("/offre/3802"))
         self.assertNotIn("source_published_at", found[0])
+
+    def test_ofppt_listing_reads_deadline_and_skips_expired_cards(self):
+        page = """
+        <article class="offer-box">
+          <strong class="title"><a href="/offre/3808">Chef du Service Amérique et Asie</a></strong>
+          <p class="article-actions">Référence: RH 118/26
+            <i class="fa fa-circle"></i> Date d’expiration: 01.11.2026
+            <a href="/offre/3808">Détails de l'offre</a></p>
+        </article>
+        <article class="offer-box">
+          <strong class="title"><a href="/offre/3064">Formateur en Froid et Génie Thermique</a></strong>
+          <p class="article-actions">Référence: RH 88/25
+            <i class="fa fa-circle"></i> Date d’expiration: 27.06.2025
+            <a href="/offre/3064">Détails de l'offre</a></p>
+        </article>
+        """
+        found = scraper._parse_ofppt_job_links(
+            page,
+            "https://recrutement.ofppt.ma/offres?page=1",
+            now=datetime(2026, 10, 19, tzinfo=timezone.utc),
+        )
+        self.assertEqual(len(found), 1)
+        self.assertEqual(found[0]["job_deadline"], "2026-11-01")
+        self.assertEqual(found[0]["job_deadline_display"], "01.11.2026")
+        self.assertEqual(found[0]["job_external_reference"], "RH 118/26")
+        self.assertEqual(found[0]["job_notice_status"], "active")
+        self.assertNotIn("3064", found[0]["url"])
+
+    def test_ofppt_detail_extracts_table_pdf_and_specific_apply_action(self):
+        document = """
+        <div id="offer-container">
+          <h1>Chef du Service Amérique et Asie</h1>
+          <table id="offer-infos"><tbody>
+            <tr><td><strong>Référence</strong></td><td>RH 118/26</td></tr>
+            <tr><td><strong>Poste</strong></td><td>Chef du Service Amérique et Asie</td></tr>
+            <tr><td><strong>Dernier Délai</strong></td><td>01.11.2026</td></tr>
+          </tbody></table>
+          <table><tr><td>Avis de concours</td><td>
+            <a href="https://recrutement.ofppt.ma/files/offer/3808/avis.pdf?preview=Y">Télécharger</a>
+          </td></tr></table>
+          <a href="javascript:void(0)" onclick="return Offer.postuler(3808)">Postuler à cette offre</a>
+        </div>
+        """
+        evidence = ofppt_detail_evidence(
+            document, {}, "https://recrutement.ofppt.ma/offre/3808"
+        )
+        self.assertFalse(evidence["expired"])
+        self.assertEqual(evidence["reference"], "RH 118/26")
+        self.assertEqual(evidence["deadline"], "2026-11-01")
+        self.assertEqual(evidence["fields"]["job_application_url"],
+                         "https://recrutement.ofppt.ma/offre/3808/postuler")
+        self.assertEqual(evidence["fields"]["job_application_link_kind"], "direct_apply")
+        self.assertEqual(len(evidence["documents"]), 1)
+        article = {
+            "job_document_texts": [{"page_number": 1, "text": "Profil requis : Technicien Spécialisé."}]
+        }
+        rendered = ofppt_detail_html(document, article,
+                                     "https://recrutement.ofppt.ma/offre/3808",
+                                     evidence=evidence)
+        self.assertIn("Technicien Spécialisé", rendered)
+        self.assertIn("/offre/3808/postuler", evidence["fields"]["job_application_url"])
+        self.assertIn("avis.pdf", rendered)
+
+    def test_ofppt_detail_marks_expired_notice_and_skips_apply_action(self):
+        document = """
+        <div id="offer-container">
+          <h1>Formateur en Froid et Génie Thermique <span>(Expirée)</span></h1>
+          <table id="offer-infos"><tbody>
+            <tr><td>Référence</td><td>RH 88/25</td></tr>
+            <tr><td>Dernier Délai</td><td>27.06.2025</td></tr>
+          </tbody></table>
+        </div>
+        """
+        evidence = ofppt_detail_evidence(
+            document, {}, "https://recrutement.ofppt.ma/offre/3064"
+        )
+        self.assertTrue(evidence["expired"])
+        self.assertEqual(evidence["fields"]["job_notice_status"], "expired")
+        self.assertNotIn("job_application_url", evidence["fields"])
+
+    def test_ofppt_enrichment_uses_official_pdf_and_keeps_apply_action(self):
+        document = """
+        <div id="offer-container">
+          <h1>Formateur en Froid et Génie Thermique</h1>
+          <table id="offer-infos"><tbody>
+            <tr><td>Référence</td><td>RH 88/26</td></tr>
+            <tr><td>Poste</td><td>Formateur en Froid et Génie Thermique</td></tr>
+            <tr><td>Dernier Délai</td><td>01.11.2026</td></tr>
+          </tbody></table>
+          <table><tr><td>Avis de concours</td><td>
+            <a href="https://recrutement.ofppt.ma/files/offer/3900/avis.pdf">Télécharger</a>
+          </td></tr></table>
+        </div>
+        """
+        article = {
+            "id": "ofppt-3900",
+            "title": "Formateur en Froid et Génie Thermique",
+            "url": "https://recrutement.ofppt.ma/offre/3900",
+            "canonical_url": "https://recrutement.ofppt.ma/offre/3900",
+            "source_name": "OFPPT — offres d'emploi",
+            "official_source": True,
+        }
+        pdf_text = (
+            "L'Office lance un appel à candidatures pour le poste de Formateur. "
+            "Profil requis : être titulaire du diplôme de Technicien Spécialisé "
+            "ou équivalent dans le domaine du froid et de la climatisation. "
+            "Le formateur assure la planification, la conception et l'animation "
+            "des formations au profit des stagiaires. Les principales tâches "
+            "comprennent la dispensation des programmes, l'évaluation des "
+            "compétences et l'encadrement des stages en entreprise. "
+            "Les candidats doivent déposer leur dossier sur le site officiel "
+            "avant la date limite indiquée dans l'avis. "
+        )
+
+        def fake_documents(target, **_kwargs):
+            target["job_document_texts"] = [{"page_number": 1, "text": pdf_text}]
+            return target["job_document_texts"]
+
+        with patch.object(article_enricher, "extract_job_document_texts", side_effect=fake_documents), \
+             patch.object(article_enricher, "resolve_company_logo", return_value={}):
+            ok, error = article_enricher._apply_enrichment_from_html(
+                article, document, article["url"]
+            )
+
+        self.assertTrue(ok, error)
+        self.assertEqual(article["job_deadline"], "2026-11-01")
+        self.assertEqual(article["job_external_reference"], "RH 88/26")
+        self.assertEqual(
+            article["job_application_url"],
+            "https://recrutement.ofppt.ma/offre/3900/postuler",
+        )
+        self.assertEqual(article["job_application_link_kind"], "direct_apply")
+        self.assertIn("Technicien Spécialisé", article["full_article_text"])
+        self.assertEqual(article["content_fetch_status"], "success")
+
+    def test_ofppt_expired_offer_fails_before_fetching_pdf(self):
+        document = """
+        <div id="offer-container">
+          <h1>Formateur en Froid et Génie Thermique <span>(Expirée)</span></h1>
+          <table id="offer-infos"><tbody>
+            <tr><td>Référence</td><td>RH 88/25</td></tr>
+            <tr><td>Dernier Délai</td><td>27.06.2025</td></tr>
+          </tbody></table>
+        </div>
+        """
+        article = {
+            "id": "ofppt-3064",
+            "title": "Formateur en Froid et Génie Thermique",
+            "url": "https://recrutement.ofppt.ma/offre/3064",
+            "source_name": "OFPPT — offres d'emploi",
+        }
+        with patch.object(article_enricher, "extract_job_document_texts") as documents:
+            ok, error = article_enricher._apply_enrichment_from_html(
+                article, document, article["url"]
+            )
+        self.assertFalse(ok)
+        self.assertIn("expired", error)
+        self.assertEqual(article["job_deadline"], "2025-06-27")
+        self.assertEqual(article["job_notice_status"], "expired")
+        documents.assert_not_called()
 
     def test_accor_morocco_parser_only_accepts_detail_jid(self):
         page = """<a href="/global/en/job/valet-de-chambre-in-casablanca-morocco-jid-83352">Valet de chambre</a>

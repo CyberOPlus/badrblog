@@ -6,6 +6,7 @@ import io
 import json
 from datetime import datetime, timezone
 from pathlib import Path
+import tempfile
 from tempfile import TemporaryDirectory
 import unittest
 from unittest.mock import Mock, patch
@@ -14,6 +15,29 @@ import article_ai_processor as ai
 import delivery_monitor as monitor
 import main
 import scraper
+
+_STATE_SANDBOX = None
+_ORIGINAL_MEMORY_PATH = None
+
+
+def setUpModule():
+    """Sandbox the AI provider memory.
+
+    Reading the circuit status prunes expired cooldowns and saves the memory
+    file; delivery probes in this module must not rewrite the live file that
+    the production workflow persists.
+    """
+    global _STATE_SANDBOX, _ORIGINAL_MEMORY_PATH
+    _STATE_SANDBOX = tempfile.TemporaryDirectory(prefix="jobs-delivery-tests-")
+    _ORIGINAL_MEMORY_PATH = ai.AI_PROVIDER_MEMORY_PATH
+    ai.AI_PROVIDER_MEMORY_PATH = Path(_STATE_SANDBOX.name) / "ai_provider_memory.json"
+
+
+def tearDownModule():
+    if _ORIGINAL_MEMORY_PATH is not None:
+        ai.AI_PROVIDER_MEMORY_PATH = _ORIGINAL_MEMORY_PATH
+    if _STATE_SANDBOX is not None:
+        _STATE_SANDBOX.cleanup()
 
 
 class DeliveryReliabilityTests(unittest.TestCase):
@@ -379,7 +403,7 @@ class DeliveryReliabilityTests(unittest.TestCase):
              patch.object(main, "LOGS_DIR", Path(temp)), \
              patch.object(main, "AUTO_CYCLE_RUN_LOG", Path(temp)/"runs.jsonl"):
             main._append_auto_cycle_run_log(record)
-            saved = json.loads((Path(temp)/"runs.jsonl").read_text())
+            saved = json.loads((Path(temp)/"runs.jsonl").read_text(encoding="utf-8"))
         self.assertEqual(saved["failure_scope"], "external_auth_problem")
         self.assertEqual(saved["failure_fingerprint"], "fingerprint")
         self.assertEqual(saved["retry_after"], result["retry_after"])
@@ -387,7 +411,7 @@ class DeliveryReliabilityTests(unittest.TestCase):
         self.assertEqual(saved["facebook_queue_failures"], 1)
 
     def test_blocker_reporting_follows_checkpoint_without_recursive_dispatch(self):
-        text = Path(".github/workflows/auto-cycle.yml").read_text()
+        text = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")
         self.assertLess(text.index("name: Persist Jobs runtime state"), text.index("name: Report delivery blockers"))
         self.assertIn('"data/delivery_health.json"', text)
         self.assertNotIn("name: Continue Jobs auto-cycle", text)

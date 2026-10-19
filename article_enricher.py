@@ -18,7 +18,14 @@ from urllib.parse import (
 
 import requests
 from bs4 import BeautifulSoup
-from official_job_sources import anapec_detail_html, smartrecruiters_detail_html
+from official_job_sources import (
+    anapec_detail_html,
+    ofppt_detail_evidence,
+    ofppt_detail_html,
+    ofppt_offer_id,
+    smartrecruiters_detail_html,
+)
+from job_document_renderer import extract_job_document_texts
 
 from article_queue import is_candidate_in_recent_failure, load_article_queue, save_article_queue
 from config import (
@@ -836,11 +843,37 @@ def _fetch_html_with_requests(url):
 
 
 def _apply_enrichment_from_html(article, html, url):
+    ofppt_evidence = None
     try:
         if article.get("ats_provider") == "anapec":
             html = anapec_detail_html(html, article, url)
         elif article.get("ats_provider") == "smartrecruiters":
             html = smartrecruiters_detail_html(html, article, url)
+        elif ofppt_offer_id(url):
+            ofppt_evidence = ofppt_detail_evidence(html, article, url)
+            article.update(ofppt_evidence.get("fields") or {})
+            if ofppt_evidence.get("expired"):
+                log_event(
+                    "ofppt_expired_offer_skipped",
+                    article_id=article.get("id"),
+                    url=url,
+                    deadline=ofppt_evidence.get("deadline"),
+                    reference=ofppt_evidence.get("reference"),
+                )
+                return False, "official OFPPT offer is expired"
+            if ofppt_evidence.get("documents"):
+                # The official PDF carries the qualification, tasks and
+                # application instructions that the tiny detail page omits.
+                try:
+                    extract_job_document_texts(article)
+                except Exception as error:
+                    log_event(
+                        "ofppt_document_text_failed",
+                        article_id=article.get("id"),
+                        url=url,
+                        error=error.__class__.__name__,
+                    )
+            html = ofppt_detail_html(html, article, url, evidence=ofppt_evidence)
     except (ValueError, TypeError, AttributeError):
         return False, "official posting detail could not be verified"
     soup = BeautifulSoup(html, "html.parser")
@@ -924,6 +957,18 @@ def _apply_enrichment_from_html(article, html, url):
     article["source_tables_count"] = len(source_tables)
     article["source_tables_truncated"] = bool(source_tables_truncated)
     article.update(extract_job_fields(job_source_soup, article, url, full_text=full_text))
+    if ofppt_evidence:
+        # The OFPPT table is authoritative for these fields; generic HTML
+        # extraction must not replace them with navigation links or guessed
+        # values. The detail page's own /postuler action is the verified
+        # application channel for active offers.
+        article.update(ofppt_evidence.get("fields") or {})
+        article["job_document_links"] = list(ofppt_evidence.get("documents") or [])
+        application_url = str(article.get("job_application_url") or "")
+        if application_url:
+            article["job_action_links"] = [
+                {"url": application_url, "label": "Postuler", "kind": "apply"}
+            ]
     if vacancy is not None:
         article["fetched_title"] = article["job_title"]
     try:

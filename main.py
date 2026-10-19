@@ -41,12 +41,16 @@ from article_processor import (
     recover_public_competition_submission_evidence,
 )
 from article_scorer import score_new_articles
+import requests
+
+from official_job_sources import ofppt_detail_evidence, ofppt_offer_id
 from config import (
     ARTICLE_QUEUE_PATH,
     AI_PROVIDER_MEMORY_PATH,
     CHECK_INTERVAL,
     CRAWL_STATE_PATH,
     FACEBOOK_AUTO_POST,
+    HEADERS,
     JOBS_FACEBOOK_FOLLOW_ARTICLE,
     FACEBOOK_STYLE_MEMORY_PATH,
     INTERNAL_LINK_CACHE_PATH,
@@ -2015,6 +2019,97 @@ def _process_job_target(selected, publish_mode):
     return result
 
 
+def _reconcile_ofppt_queue_deadlines(max_items=12):
+    """Backfill deadlines for legacy OFPPT queue rows and let cleanup archive them.
+
+    Older OFPPT cards were queued without the expiration date printed on the
+    listing/detail page. Without it, expired offers can never be archived by
+    the normal deadline cleanup and permanently consume enrichment slots.
+    This bounded repair runs only in GitHub Actions (or when explicitly
+    requested locally) so unit tests never make network calls.
+    """
+    empty = {"checked": 0, "updated": 0, "expired": 0, "failed": 0}
+    if not JOBS_MODE:
+        return empty
+    if not (
+        os.getenv("GITHUB_ACTIONS")
+        or os.getenv("JOBS_RECONCILE_OFPPT_QUEUE") == "1"
+    ):
+        return empty
+
+    queue = load_article_queue()
+    articles = queue.get("articles") or []
+    candidates = [
+        article
+        for article in articles
+        if not article.get("archived")
+        and article.get("status") in {"new", "identity_pending", "ready", "selected"}
+        and "OFPPT" in str(article.get("source_name") or "").upper()
+        and not article.get("job_deadline")
+        and ofppt_offer_id(article.get("url"))
+    ]
+    if not candidates:
+        return empty
+
+    checked = updated = expired = failed = 0
+    changed = False
+    for article in candidates[: max(1, int(max_items or 1))]:
+        checked += 1
+        try:
+            response = requests.get(
+                article["url"],
+                headers=HEADERS,
+                timeout=8,
+                allow_redirects=True,
+            )
+            if response.status_code >= 400:
+                failed += 1
+                continue
+            evidence = ofppt_detail_evidence(response.text, article, article["url"])
+        except (requests.RequestException, ValueError, TypeError):
+            failed += 1
+            continue
+
+        fields = evidence.get("fields") or {}
+        for key in (
+            "job_deadline",
+            "job_deadline_display",
+            "job_external_reference",
+            "job_notice_status",
+        ):
+            value = fields.get(key)
+            if value and article.get(key) != value:
+                article[key] = value
+                changed = True
+                updated += 1
+        if evidence.get("expired"):
+            if article.get("job_notice_status") != "expired":
+                article["job_notice_status"] = "expired"
+                changed = True
+            expired += 1
+        article["ofppt_deadline_reconciled_at"] = datetime.now(timezone.utc).isoformat(
+            timespec="seconds"
+        )
+
+    if changed:
+        save_article_queue(queue)
+    log_event(
+        "ofppt_queue_deadline_reconciled",
+        checked=checked,
+        updated=updated,
+        expired=expired,
+        failed=failed,
+        remaining=len(candidates) - checked,
+    )
+    return {
+        "checked": checked,
+        "updated": updated,
+        "expired": expired,
+        "failed": failed,
+        "remaining": len(candidates) - checked,
+    }
+
+
 def _run_timed_jobs_stage(stage_name, stage_timings, callback, *args, **kwargs):
     started = time.perf_counter()
     try:
@@ -2132,6 +2227,7 @@ def run_safe_cycle_only():
             stage_timings,
             run_fetch_only,
         )
+        _reconcile_ofppt_queue_deadlines()
         cleanup_stats = _run_timed_jobs_stage(
             "cleanup",
             stage_timings,
@@ -2182,6 +2278,7 @@ def run_safe_cycle_only():
 
     print("\n[1/7] fetch")
     fetch_stats = _run_timed_jobs_stage("fetch", stage_timings, run_fetch_only)
+    _reconcile_ofppt_queue_deadlines()
     source_warnings_count = len(fetch_stats.get("failed_sources") or [])
     quiet_sources_count = len(fetch_stats.get("zero_link_sources") or [])
     if source_warnings_count:

@@ -40,6 +40,7 @@ from google_indexing import notify_job_url
 from job_document_renderer import render_job_document_pages
 from company_logo_resolver import refresh_company_logo, verified_company_logo
 from utils.facebook_image_generator import generate_job_article_cover
+from jobposting import append_jobposting, jobposting_validation_errors
 
 TEMPORARY_BLOGGER_HTTP_STATUSES = {429, 500, 502, 503, 504}
 
@@ -1140,34 +1141,63 @@ def _publish_if_live(service, post, mode):
 
 
 def _apply_jobposting_schema(service, post, article, mode):
-    """Keep Blogger article bodies free of embedded JSON/JSON-LD scripts."""
+    """Embed validated JobPosting JSON-LD so Google Jobs can index the page.
+
+    Blogger preserves application/ld+json scripts in post bodies, but arbitrary
+    scripts are never accepted from the article. Strip everything first, then
+    append only the locally built, validated schema. Invalid jobs keep the
+    plain body and are reported instead of publishing misleading structured
+    data.
+    """
     if _effective_publish_mode(mode) != "live":
         return post
 
     body = _build_post_body(article)
-    body["content"] = re.sub(
-        r"<script\\b[^>]*>.*?</script>",
+    content = re.sub(
+        r"<script\b[^>]*>.*?</script>",
         "",
         str(body.get("content") or ""),
         flags=re.I | re.S,
     ).strip()
+    errors = jobposting_validation_errors(article)
+    article_url = str(
+        post.get("url")
+        or article.get("blogger_post_url")
+        or article.get("blogger_draft_url")
+        or ""
+    ).strip()
+    if not errors and article_url:
+        content = append_jobposting(content, article, article_url)
+    body["content"] = content
 
     request = service.posts().update(blogId=BLOG_ID, postId=post["id"], body=body)
     updated = _execute_blogger_request(
         request,
-        "restore SEO title without embedded scripts",
+        "embed validated JobPosting schema",
         safe_to_retry=True,
     )
     updated = _ensure_returned_post_url(service, updated)
 
-    article["jobposting_schema_status"] = "disabled_embedded_jsonld"
-    article.pop("jobposting_schema_errors", None)
-    article.pop("jobposting_schema_error", None)
-    log_event(
-        "jobposting_schema_disabled_in_article_body",
-        article_id=article.get("id"),
-        post_id=post.get("id"),
-    )
+    if errors:
+        article["jobposting_schema_status"] = "skipped_invalid"
+        article["jobposting_schema_errors"] = list(errors)
+        article.pop("jobposting_schema_error", None)
+        log_event(
+            "jobposting_schema_skipped",
+            article_id=article.get("id"),
+            post_id=post.get("id"),
+            errors="; ".join(errors),
+        )
+    else:
+        article["jobposting_schema_status"] = "embedded"
+        article.pop("jobposting_schema_errors", None)
+        article.pop("jobposting_schema_error", None)
+        log_event(
+            "jobposting_schema_embedded",
+            article_id=article.get("id"),
+            post_id=post.get("id"),
+            url=article_url,
+        )
     return updated
 
 def _apply_remote_post_identity(article, post, mode):

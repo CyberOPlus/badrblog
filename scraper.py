@@ -28,7 +28,11 @@ import requests
 from bs4 import BeautifulSoup
 from duplicate_utils import canonicalize_url
 from production_logging import elapsed_ms, log_event
-from official_job_sources import parse_anapec_links, smartrecruiters_listing_rows
+from official_job_sources import (
+    ofppt_listing_row,
+    parse_anapec_links,
+    smartrecruiters_listing_rows,
+)
 
 try:
     import aiohttp
@@ -1882,11 +1886,28 @@ def _parse_tanmia_job_links(document, source_url, per_source_limit=None):
     return jobs
 
 
-def _parse_ofppt_job_links(document, source_url, per_source_limit=None):
-    """Only actual official OFPPT /offre/ID notices, never generic forms."""
+def _parse_ofppt_job_links(document, source_url, per_source_limit=None, now=None):
+    """Only active official OFPPT /offre/ID notices, never expired cards."""
     soup = BeautifulSoup(document or "", "html.parser")
     limit = max(1, int(per_source_limit or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE))
     rows, seen = [], set()
+
+    # The current listing exposes the reference and expiration date on each
+    # card. Read them before detail fetch so expired rows never enter the
+    # durable queue and consume an enrichment slot.
+    cards = soup.select("article.offer-box")
+    if cards:
+        for card in cards:
+            row = ofppt_listing_row(card, source_url, now=now)
+            if not row or row["url"] in seen:
+                continue
+            seen.add(row["url"])
+            rows.append(row)
+            if len(rows) >= limit:
+                break
+        return rows
+
+    # Older markup and unit-test fixtures may expose plain anchors only.
     for anchor in soup.select("a[href]"):
         url = urljoin(source_url, str(anchor.get("href") or ""))
         parsed = urlparse(url)
@@ -1895,7 +1916,11 @@ def _parse_ofppt_job_links(document, source_url, per_source_limit=None):
         if not re.fullmatch(r"/offre/\d+", parsed.path.rstrip("/"), re.I):
             continue
         title = _normalize_text(anchor.get_text(" ", strip=True))
-        if len(title) < 8 or url in seen:
+        if (
+            len(title) < 8
+            or url in seen
+            or re.search(r"\(\s*expir[ée]e?\s*\)", title, re.I)
+        ):
             continue
         seen.add(url)
         rows.append({"title": title, "url": url})
@@ -3497,6 +3522,8 @@ def _collect_article_links_for_source(
             "alten_jobs": _parse_alten_job_links,
             "emploi_public": _parse_emploi_public_links,
             "tanmia_jobs": _parse_tanmia_job_links,
+            "ofppt_jobs": _parse_ofppt_job_links,
+            "accor_morocco_jobs": _parse_accor_morocco_job_links,
             "capgemini_jobs": _parse_capgemini_job_links,
             "etalent": _parse_etalent_links,
             "ats_listing": _parse_etalent_links,
