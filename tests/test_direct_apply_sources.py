@@ -2,12 +2,17 @@
 import json
 import unittest
 from pathlib import Path
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from unittest.mock import patch
 
 import job_core
 import article_draft_publisher as publisher
 import facebook_publisher
+
+
+# A plain 2099 fixture now reads as a publisher placeholder horizon, so keep a
+# genuinely future closing date that stays valid whenever the suite runs.
+FUTURE_DEADLINE = (datetime.now(timezone.utc) + timedelta(days=365)).date().isoformat()
 
 
 def article(**kwargs):
@@ -18,7 +23,7 @@ def article(**kwargs):
         "job_detail_url": "https://example.org/jobs/12345",
         "job_application_url": "https://example.org/apply/12345",
         "job_application_link_kind": "direct_apply",
-        "job_deadline": "2099-01-01",
+        "job_deadline": FUTURE_DEADLINE,
         "job_diploma": "Bac+2",
         "job_eligibility": "morocco",
         "job_title": "Technicien helpdesk",

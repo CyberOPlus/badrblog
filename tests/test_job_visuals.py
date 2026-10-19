@@ -1,5 +1,6 @@
 import tempfile
 import unittest
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from unittest.mock import patch
 
@@ -10,6 +11,10 @@ import article_draft_publisher
 import facebook_publisher
 import job_visual_policy as visual_policy
 import utils.facebook_image_generator as visuals
+
+
+# Keep a genuinely future closing date instead of a 2099 placeholder horizon.
+FUTURE_DEADLINE = (datetime.now(timezone.utc) + timedelta(days=365)).date().isoformat()
 
 
 class JobVisualTests(unittest.TestCase):
@@ -678,7 +683,7 @@ class JobVisualTests(unittest.TestCase):
         article = {
             "id": "job-logo-render-fail",
             "job_application_url": "https://example.org/apply/12345",
-            "job_deadline": "2099-01-01",
+            "job_deadline": FUTURE_DEADLINE,
             "job_diploma": "Bac+2",
             "job_title": "مهندس نظم",
             "job_company": "Example Company",

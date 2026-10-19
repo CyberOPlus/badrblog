@@ -74,6 +74,23 @@ class PublicationRequirementsTests(unittest.TestCase):
                       job_application_rolling_evidence="No closing date found")
         self.assertFalse(job_publication_policy(row, now=NOW)["passed"])
 
+    def test_placeholder_horizon_is_not_a_verified_deadline(self):
+        from job_core import deadline_horizon_is_placeholder, job_deadline_time
+
+        # Accor/SmartRecruiters publishes validThrough = datePosted + 100 years
+        # on evergreen vacancies. It must not become a displayed closing date;
+        # the verified open-ended lane decides publication instead.
+        placeholder = "2126-10-09T11:00:00+00:00"
+        self.assertTrue(deadline_horizon_is_placeholder(placeholder, now=NOW))
+        self.assertIsNone(job_deadline_time(posting(job_deadline=placeholder)))
+        self.assertFalse(deadline_horizon_is_placeholder("2026-10-12", now=NOW))
+
+        row = posting(job_deadline=placeholder, official_source=True)
+        row["job_action_links"] = [{"kind": "apply", "url": row["job_application_url"]}]
+        self.assertTrue(job_publication_policy(row, now=NOW)["passed"])
+        row["job_action_links"] = []
+        self.assertFalse(job_publication_policy(row, now=NOW)["passed"])
+
     def test_valid_bac2_with_future_deadline(self):
         result = job_publication_policy(posting(), now=NOW)
         self.assertTrue(result["passed"])

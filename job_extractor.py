@@ -8,6 +8,7 @@ from urllib.parse import unquote, urljoin, urlparse
 from bs4 import BeautifulSoup
 
 from job_core import (
+    deadline_horizon_is_placeholder,
     is_application_url_bound_to_job,
     is_foreign_job_detail_url,
     is_job_specific_url,
@@ -796,6 +797,12 @@ def extract_job_fields(soup, article, page_url, full_text=""):
             )
             break
     structured_deadline = _text(node.get("validThrough"))
+    if deadline_horizon_is_placeholder(structured_deadline):
+        # Evergreen postings often publish a placeholder horizon (Accor sets
+        # validThrough to datePosted + 100 years). Keep it out of the deadline
+        # gate and out of the article: the vacancy either passes the verified
+        # open-ended application lane or it does not publish.
+        structured_deadline = ""
     # Some official portals (notably Emploi-Public) keep labelled metadata
     # outside the content container selected as the article body. Read only
     # labelled date facts from the complete official page evidence so freshness

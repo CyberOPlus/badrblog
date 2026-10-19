@@ -28,6 +28,10 @@ import social_ai_processor as social_ai
 import verified_fact_manifest as fact_manifest
 import jobs_adaptive_controller as adaptive
 
+# Real closing dates close; a fixed 2099 fixture now reads as a publisher
+# placeholder horizon, so compute a genuinely future deadline at import time.
+FUTURE_DEADLINE = (datetime.now(timezone.utc) + timedelta(days=365)).date().isoformat()
+
 _STATE_SANDBOX = None
 _ORIGINAL_STATE_PATHS = {}
 
@@ -375,7 +379,7 @@ class JobsRuntimeTests(unittest.TestCase):
     def test_publish_blocks_while_official_pdf_pages_are_pending(self):
         article = {
             "job_application_url": "https://example.org/apply/12345",
-            "job_deadline": "2099-01-01",
+            "job_deadline": FUTURE_DEADLINE,
             "job_diploma": "Bac+2",
             "job_document_render_status": "document_render_retry",
             "job_document_links": [
@@ -2385,7 +2389,7 @@ class JobsRuntimeTests(unittest.TestCase):
     def test_facebook_score_ranks_jobs_but_never_filters_them(self):
         base = {
             "job_application_url": "https://example.org/apply/12345",
-            "job_deadline": "2099-01-01",
+            "job_deadline": FUTURE_DEADLINE,
             "job_diploma": "Bac+2",
             "status": "published",
             "publish_status": "published",
@@ -4563,7 +4567,7 @@ class JobsRuntimeTests(unittest.TestCase):
     def test_required_cover_quality_failure_waits_for_renderer_without_ai_retry(self):
         article = {
             "job_application_url": "https://example.org/apply/12345",
-            "job_deadline": "2099-01-01",
+            "job_deadline": FUTURE_DEADLINE,
             "job_diploma": "Bac+2",
             "id": "visual-quality-only",
             "url": "https://example.com/jobs/visual-quality",
@@ -5896,7 +5900,7 @@ class JobsRuntimeTests(unittest.TestCase):
     def test_retry_ready_failed_job_becomes_immediately_eligible_pending(self):
         article = {
             "job_application_url": "https://example.org/apply/12345",
-            "job_deadline": "2099-01-01",
+            "job_deadline": FUTURE_DEADLINE,
             "job_diploma": "Bac+2",
             "id": "renderer-retry",
             "status": "published",

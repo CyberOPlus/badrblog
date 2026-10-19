@@ -5,7 +5,7 @@ import json
 import os
 import re
 import unicodedata
-from datetime import datetime, time, timedelta, timezone
+from datetime import date, datetime, time, timedelta, timezone
 from pathlib import Path
 from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 from zoneinfo import ZoneInfo
@@ -1035,8 +1035,34 @@ def _public_http(url):
         return False
 
 
+def deadline_horizon_is_placeholder(value, now=None):
+    """Detect publisher placeholder horizons instead of real closing dates.
+
+    Accor/SmartRecruiters pages publish ``validThrough`` equal to the posting
+    date plus one hundred years on evergreen vacancies. That value is not a
+    verified application deadline: it must never be displayed to candidates nor
+    fed to the JobPosting schema, and the open-ended application lane decides
+    whether the vacancy can publish.
+    """
+    match = re.match(r"\s*(\d{4})-(\d{2})-(\d{2})", str(value or ""))
+    if not match:
+        return False
+    current = now or datetime.now(timezone.utc)
+    if current.tzinfo is None:
+        current = current.replace(tzinfo=timezone.utc)
+    else:
+        current = current.astimezone(timezone.utc)
+    try:
+        horizon = date(int(match.group(1)), int(match.group(2)), int(match.group(3)))
+    except ValueError:
+        return False
+    return horizon > (current.date() + timedelta(days=366 * 5))
+
+
 def job_deadline_time(article):
     raw = str(article.get("job_deadline") or "").strip()
+    if not raw or deadline_horizon_is_placeholder(raw):
+        return None
     if re.fullmatch(r"\d{4}-\d{2}-\d{2}", raw):
         try:
             day = datetime.fromisoformat(raw).date()

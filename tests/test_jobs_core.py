@@ -2258,6 +2258,67 @@ class JobsCoreTests(unittest.TestCase):
             for row in fields.get("job_action_links", [])
         ))
 
+    def test_extractor_ignores_placeholder_valid_through_horizon(self):
+        html = """
+        <html><head><script type="application/ld+json">
+        {
+          "@context":"https://schema.org",
+          "@type":"JobPosting",
+          "title":"Chef de partie sushi",
+          "hiringOrganization":{"name":"Accor"},
+          "jobLocation":{"address":{"addressLocality":"Taghazout","addressCountry":"MA"}},
+          "datePosted":"2026-10-19T10:22:58+00:00",
+          "validThrough":"2126-10-19T10:22:58+00:00",
+          "url":"https://careers.accor.com/global/en/job/chef-de-partie-sushi-jid-114448"
+        }
+        </script></head><body>
+          <a href="https://jobs.smartrecruiters.com/AccorHotel/744000156282289?oga=true">Postuler</a>
+        </body></html>
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        fields = job_extractor.extract_job_fields(
+            soup,
+            {
+                "source_name": "Accor",
+                "official_source": True,
+                "source_country": "MA",
+                "source_eligibility": "morocco",
+            },
+            "https://careers.accor.com/global/en/job/chef-de-partie-sushi-jid-114448",
+            full_text="Offre officielle à Taghazout.",
+        )
+        self.assertNotIn("job_deadline", fields)
+        self.assertNotIn("job_deadline_display", fields)
+
+    def test_extractor_keeps_real_future_closing_date(self):
+        html = """
+        <html><head><script type="application/ld+json">
+        {
+          "@context":"https://schema.org",
+          "@type":"JobPosting",
+          "title":"Technicien réseau",
+          "hiringOrganization":{"name":"Example"},
+          "jobLocation":{"address":{"addressLocality":"Rabat","addressCountry":"MA"}},
+          "datePosted":"2026-10-19T10:22:58+00:00",
+          "validThrough":"2026-11-30",
+          "url":"https://careers.example.com/jobs/technicien-reseau"
+        }
+        </script></head><body></body></html>
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        fields = job_extractor.extract_job_fields(
+            soup,
+            {
+                "source_name": "Example",
+                "official_source": True,
+                "source_country": "MA",
+                "source_eligibility": "morocco",
+            },
+            "https://careers.example.com/jobs/technicien-reseau",
+            full_text="Offre officielle à Rabat.",
+        )
+        self.assertEqual(fields["job_deadline"], "2026-11-30")
+
     def test_foreign_job_does_not_infer_moroccan_city_from_body_substring(self):
         html = """
         <html><head><script type="application/ld+json">
