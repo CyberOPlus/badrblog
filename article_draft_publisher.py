@@ -592,6 +592,17 @@ def _prepare_job_document_page_images(article, force_retry=False):
     )
     previous_pages = list(existing) if isinstance(existing, list) else []
     if existing and not force_retry and not article.get("job_document_pages_truncated"):
+        # Keep the package in sync. A quality/AI retry can rebuild the input
+        # package; HTML formatting reads page images from the package, so a
+        # stale package silently drops every official PDF page and fails the
+        # pre-publish visual gate.
+        article["job_document_page_images"] = list(previous_pages)
+        package["job_document_page_images"] = list(previous_pages)
+        package["job_document_rendered_pages"] = len(previous_pages)
+        render_status = str(article.get("job_document_render_status") or "").strip()
+        if render_status:
+            package["job_document_render_status"] = render_status
+        article["ai_input_package"] = package
         return existing
 
     document_links = article.get("job_document_links") or package.get("job_document_links") or []
