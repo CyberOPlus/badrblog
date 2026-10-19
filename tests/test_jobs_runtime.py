@@ -3878,6 +3878,54 @@ class JobsRuntimeTests(unittest.TestCase):
         )
         self.assertEqual(blocking, [])
 
+    def test_ai_manifest_injection_adds_missing_verified_official_links(self):
+        application = (
+            "https://bkam.csod.com/ats/careersite/search.aspx?site=11&c=bkam"
+        )
+        detail = (
+            "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/"
+            "%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/"
+            "d0a32a44-0138-4be0-bc53-8159712e6edc"
+        )
+        manifest = {
+            "facts": {
+                "application": [{
+                    "value": application,
+                    "confidence": "high",
+                    "required_in_output": True,
+                    "aliases": [],
+                }],
+                "detail": [{
+                    "value": detail,
+                    "confidence": "high",
+                    "required_in_output": True,
+                    "aliases": [],
+                }],
+            }
+        }
+        data = {
+            "title": "مباراة لتوظيف مكلف بتتبع ملفات التأمينات",
+            "html_content": "<h2>تفاصيل المباراة</h2><p>نص المقال.</p>",
+        }
+        ai._ensure_required_verified_facts(
+            data, {"verified_fact_manifest": manifest}
+        )
+        self.assertTrue(
+            fact_manifest.fact_is_present(
+                data["html_content"],
+                "application",
+                manifest["facts"]["application"][0],
+            )
+        )
+        self.assertTrue(
+            fact_manifest.fact_is_present(
+                data["html_content"],
+                "detail",
+                manifest["facts"]["detail"][0],
+            )
+        )
+        self.assertIn("jobVerifiedLinks", data["html_content"])
+
     def test_manifest_contradicting_high_position_count_blocks(self):
         manifest = {
             "facts": {

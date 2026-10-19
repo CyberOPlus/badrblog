@@ -77,6 +77,7 @@ from config import (
 from production_logging import elapsed_ms, html_word_count, log_event
 from job_core import is_application_url_bound_to_job, is_job_specific_url
 from quality_gate import validate_ai_article_output
+from verified_fact_manifest import fact_is_present
 
 MAX_AI_ATTEMPTS = max(1, MAX_AI_RETRIES)
 AI_MODEL_COOLDOWN_SECONDS = 30 * 60
@@ -1531,6 +1532,12 @@ _VERIFIED_FACT_LABELS = {
     "tests": "الاختبار:",
 }
 
+_VERIFIED_LINK_LABELS = {
+    "application": "رابط التقديم الرسمي:",
+    "detail": "تفاصيل الإعلان الرسمي:",
+    "documents": "الوثيقة الرسمية:",
+}
+
 
 def _ensure_required_verified_facts(data, package=None):
     """Insert missing high-confidence reader facts from the verified manifest."""
@@ -1567,31 +1574,76 @@ def _ensure_required_verified_facts(data, package=None):
                 continue
             missing.append((category, label, value))
 
-    if not missing:
+    # The manifest also makes official links mandatory in the output. Models
+    # frequently drop the long percent-encoded application/detail URLs, and the
+    # pre-publish gate (rightly) blocks the article when they are absent, so add
+    # the exact verified anchors instead of burning provider round-trips.
+    missing_links = []
+    for category, label in _VERIFIED_LINK_LABELS.items():
+        for fact in facts_by_category.get(category) or []:
+            if not isinstance(fact, dict):
+                continue
+            if not fact.get("required_in_output"):
+                continue
+            if str(fact.get("confidence") or "").strip().lower() != "high":
+                continue
+            value = str(fact.get("value") or "").strip()
+            if not value:
+                continue
+            if fact_is_present(f"{title}\n{html_content}", category, fact):
+                continue
+            missing_links.append((category, label, value))
+
+    if not missing and not missing_links:
         return data
 
     soup = BeautifulSoup(html_content, "html.parser")
-    block = soup.new_tag("ul")
-    block["class"] = ["jobVerifiedFacts"]
-    for _category, label, value in missing:
-        item = soup.new_tag("li")
-        strong = soup.new_tag("strong")
-        strong.string = label
-        item.append(strong)
-        item.append(" " + value)
-        block.append(item)
+    blocks = []
+    if missing:
+        block = soup.new_tag("ul")
+        block["class"] = ["jobVerifiedFacts"]
+        for _category, label, value in missing:
+            item = soup.new_tag("li")
+            strong = soup.new_tag("strong")
+            strong.string = label
+            item.append(strong)
+            item.append(" " + value)
+            block.append(item)
+        blocks.append(block)
+    if missing_links:
+        links_block = soup.new_tag("ul")
+        links_block["class"] = ["jobVerifiedLinks"]
+        seen_values = set()
+        for _category, label, value in missing_links:
+            if value in seen_values:
+                continue
+            seen_values.add(value)
+            item = soup.new_tag("li")
+            strong = soup.new_tag("strong")
+            strong.string = label
+            anchor = soup.new_tag("a", href=value)
+            anchor.string = "فتح الرابط"
+            item.append(strong)
+            item.append(" ")
+            item.append(anchor)
+            links_block.append(item)
+        blocks.append(links_block)
 
     first_heading = soup.find(["h2", "h3"])
     if first_heading is not None:
-        first_heading.insert_before(block)
+        for block in blocks:
+            first_heading.insert_before(block)
     else:
-        soup.append(block)
+        for block in blocks:
+            soup.append(block)
 
     data["html_content"] = str(soup)
     log_event(
         "ai_verified_manifest_facts_injected",
-        categories=",".join(category for category, _label, _value in missing),
-        count=len(missing),
+        categories=",".join(
+            category for category, _label, _value in missing + missing_links
+        ),
+        count=len(missing) + len(missing_links),
     )
     return data
 

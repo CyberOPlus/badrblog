@@ -723,6 +723,11 @@ def _fact_present(text, category, fact):
     return False
 
 
+def fact_is_present(text, category, fact):
+    """Public wrapper for pipelines that must detect missing manifest facts."""
+    return _fact_present(text, category, fact)
+
+
 def _explicit_sensitive_claims(text):
     normalized = _normalize(text)
     claims = {"positions": set(), "salary": set(), "experience": set(), "deadline": set()}
