@@ -738,7 +738,21 @@ def _prepare_job_article_cover(article):
         or package.get("job_article_cover_url")
         or ""
     ).strip()
-    if existing_cover and str(article.get("job_article_cover_status") or "") == "ready":
+    cover_status = str(
+        article.get("job_article_cover_status")
+        or package.get("job_article_cover_status")
+        or ""
+    ).strip()
+    if existing_cover and cover_status == "ready":
+        # The approved cover can outlive the AI input package (a quality retry
+        # rebuilds it). Restore the package fields so HTML formatting reinserts
+        # the cover instead of stripping every image and failing the publish
+        # gate with "job article must start with the generated cover image".
+        article["job_article_cover_url"] = existing_cover
+        article["job_article_cover_status"] = "ready"
+        package["main_image"] = existing_cover
+        package["job_article_cover_url"] = existing_cover
+        package["job_article_cover_status"] = "ready"
         return existing_cover
 
     job_title = str(

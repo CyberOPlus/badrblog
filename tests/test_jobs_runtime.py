@@ -3987,6 +3987,27 @@ class JobsRuntimeTests(unittest.TestCase):
             )
         )
 
+    def test_ready_cover_is_restored_into_ai_package_for_html_formatting(self):
+        cover = (
+            "https://raw.githubusercontent.com/CyberOPlus/badrblog/main/"
+            "assets/generated/job-articles/example.jpg"
+        )
+        article = {
+            "id": "cover-restore",
+            "job_article_cover_url": cover,
+            "job_article_cover_status": "ready",
+            "ai_input_package": {},
+        }
+        restored = draft._prepare_job_article_cover(article)
+        self.assertEqual(restored, cover)
+        self.assertEqual(article["ai_input_package"]["main_image"], cover)
+        self.assertEqual(
+            article["ai_input_package"]["job_article_cover_url"], cover
+        )
+        self.assertEqual(
+            article["ai_input_package"]["job_article_cover_status"], "ready"
+        )
+
     def test_manifest_contradicting_high_position_count_blocks(self):
         manifest = {
             "facts": {
