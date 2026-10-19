@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-10-19T19:21:03.320947+00:00",
+  "updated_at": "2026-10-19T19:35:49.618942+00:00",
   "state": "healthy",
   "action": "Independent queues continue; each verified fresh job follows Blogger to Facebook.",
   "hourly_target_met": true,
   "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-19T19:06:13",
   "last_facebook_post_id": "103026497833721_1100971205631277",
-  "minutes_since_facebook": 14.8,
-  "last_blogger_publish_at": "2026-10-19T19:21:02.108472+00:00",
-  "fresh_candidate_count": 4,
+  "minutes_since_facebook": 29.6,
+  "last_blogger_publish_at": "2026-10-19T19:35:48.237559+00:00",
+  "fresh_candidate_count": 3,
   "verified_ready_candidate_count": 0,
-  "unverified_ready_candidate_count": 4,
+  "unverified_ready_candidate_count": 3,
   "ready_quality_blockers": [
     {
       "reason": "identity evidence incomplete",
-      "count": 3
+      "count": 2
     },
     {
       "reason": "application URL is not the direct form/action",
       "count": 1
     }
   ],
-  "facebook_pending_count": 4,
-  "oldest_facebook_pending_minutes": 60.4,
+  "facebook_pending_count": 5,
+  "oldest_facebook_pending_minutes": 75.2,
   "oldest_ready_candidate_minutes": 0,
   "pending_first_comments": 0,
   "services": {
@@ -73,9 +73,9 @@
       "active_issues": [
         {
           "source_name": "Dreamjob — stages",
-          "failure_count": 48,
+          "failure_count": 49,
           "category": "http_block",
-          "retry_after": "2026-10-19T19:33:48Z"
+          "retry_after": "2026-10-19T22:35:17Z"
         }
       ],
       "action": "One or more sources are cooling down after transient fetch failures."
@@ -87,16 +87,16 @@
     "enabled_feeds": 8,
     "enabled_domains": 6,
     "scanned_recently": 7,
-    "stale_sources": [
+    "stale_sources": [],
+    "failed_recent_sources": [
       "Dreamjob — stages"
     ],
-    "failed_recent_sources": [],
     "recent_new_discoveries": 0,
     "recent_cycle_candidates": 11,
-    "recent_cycle_publishes": 5,
+    "recent_cycle_publishes": 6,
     "successful_empty_cycle_streak": 0,
     "minutes_without_blogger": 0.0,
-    "last_blogger_publish_at": "2026-10-19T19:21:02.108472+00:00"
+    "last_blogger_publish_at": "2026-10-19T19:35:48.237559+00:00"
   },
   "services_checked_at": "2026-10-19T18:46:39.329098+00:00"
 }

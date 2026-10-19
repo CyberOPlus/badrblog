@@ -24,6 +24,14 @@
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
       "until": 1792458370.5436125
+    },
+    "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
+      "failed_at": "2026-10-19T19:35:32",
+      "key_id": "fb4fab4ba1",
+      "model": "qwen/qwen3.8-27b",
+      "provider": "groq",
+      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_deman",
+      "until": 1792441236.318525
     }
   },
   "failure_fingerprints": {
@@ -161,13 +169,13 @@
     },
     "541464fd2507dff7335a": {
       "category": "quota",
-      "count": 4,
+      "count": 5,
       "first_seen_at": "2026-10-06T11:11:23",
-      "last_seen_at": "2026-10-09T11:03:07",
-      "last_seen_epoch": 1791543787.4689941,
+      "last_seen_at": "2026-10-19T19:35:32",
+      "last_seen_epoch": 1792438532.185998,
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_deman",
-      "retry_until": 1791565387.4689941,
+      "retry_until": 1792460132.185998,
       "scope": "provider"
     },
     "5536f2970a79bc5a87a5": {
@@ -578,6 +586,14 @@
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "until": 1792457480.9544058
     },
+    "groq": {
+      "category": "quota",
+      "fingerprint": "541464fd2507dff7335a",
+      "opened_at": "2026-10-19T19:35:32",
+      "provider": "groq",
+      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `qwen/qwen3.8-27b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_deman",
+      "until": 1792460132.185998
+    },
     "mistral": {
       "category": "quota",
       "fingerprint": "16f0cdcebb62d34cab0f",
@@ -607,15 +623,15 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 6.3499,
+      "avg_time": 6.3448,
       "failures": 24,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-09T11:03:07",
-      "last_success_at": "2026-10-19T18:46:28",
+      "last_success_at": "2026-10-19T19:35:48",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 582,
-      "total_success_time": 3695.6696
+      "successes": 585,
+      "total_success_time": 3711.7103
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 8.9113,
@@ -651,15 +667,15 @@
       "total_success_time": 457.9162
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
-      "avg_time": 1.1475,
-      "failures": 9,
+      "avg_time": 1.2091,
+      "failures": 10,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-09T11:03:07",
-      "last_success_at": "2026-10-19T19:21:02",
+      "last_failure_at": "2026-10-19T19:35:32",
+      "last_success_at": "2026-10-19T19:35:24",
       "model": "qwen/qwen3.8-27b",
       "provider": "groq",
-      "successes": 21,
-      "total_success_time": 24.0982
+      "successes": 22,
+      "total_success_time": 26.6009
     },
     "mistral:mistral-small-latest:8feed32495": {
       "failures": 18,
