@@ -3926,6 +3926,67 @@ class JobsRuntimeTests(unittest.TestCase):
         )
         self.assertIn("jobVerifiedLinks", data["html_content"])
 
+    def test_publisher_restores_verified_detail_link_removed_by_formatter(self):
+        application = (
+            "https://bkam.csod.com/ats/careersite/search.aspx?site=11&c=bkam"
+        )
+        detail = (
+            "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/"
+            "%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/"
+            "d0a32a44-0138-4be0-bc53-8159712e6edc"
+        )
+        document = (
+            "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/"
+            "%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/"
+            "d0a32a44-0138-4be0-bc53-8159712e6edc"
+        )
+        manifest = {
+            "facts": {
+                "application": [{
+                    "value": application,
+                    "confidence": "high",
+                    "required_in_output": True,
+                    "aliases": [],
+                }],
+                "detail": [{
+                    "value": detail,
+                    "confidence": "high",
+                    "required_in_output": True,
+                    "aliases": [],
+                }],
+                "documents": [{
+                    "value": document,
+                    "confidence": "high",
+                    "required_in_output": True,
+                    "aliases": [],
+                }],
+            }
+        }
+        article = {
+            "id": "detail-link-restore",
+            "title": "مباراة لتوظيف مكلف بتتبع ملفات التأمينات",
+            "seo_title": "مباراة لتوظيف مكلف بتتبع ملفات التأمينات",
+            "final_html": (
+                "<h2>تفاصيل المباراة</h2><p>نص المقال.</p>"
+                f'<p><a href="{detail}">الإعلان</a> '
+                f'<a href="{application}">التقديم</a> '
+                f'<a href="{document}">الوثيقة</a></p>'
+            ),
+            "verified_fact_manifest": manifest,
+            "job_application_url": application,
+            "job_application_link_kind": "direct_apply",
+            "job_detail_url": detail,
+            "job_document_links": [{"url": document}],
+        }
+        draft._sanitize_article_final_html(article, prepare_visuals=False)
+        self.assertTrue(
+            fact_manifest.fact_is_present(
+                article["final_html"],
+                "detail",
+                manifest["facts"]["detail"][0],
+            )
+        )
+
     def test_manifest_contradicting_high_position_count_blocks(self):
         manifest = {
             "facts": {

@@ -19,7 +19,11 @@ from article_queue import (
     load_article_queue,
     save_article_queue,
 )
-from article_ai_processor import format_phase3_article_html, validate_phase3_article_quality
+from article_ai_processor import (
+    ensure_required_verified_links,
+    format_phase3_article_html,
+    validate_phase3_article_quality,
+)
 from blogger_client import create_blogger_service, get_credentials, is_local_publisher
 from config import (
     BLOG_ID,
@@ -947,6 +951,18 @@ def _sanitize_article_final_html(article, prepare_visuals=True):
     )
 
     cleaned = re.sub(r"<script\b[^>]*>.*?</script>", "", cleaned, flags=re.I | re.S).strip()
+    # Formatting deliberately drops source hops and internal metadata, while
+    # the verified fact manifest still requires the official application,
+    # detail, and document links. Restore any missing verified link before the
+    # pre-publish gate reads the final HTML; otherwise valid articles are
+    # blocked forever and returned to the AI in a loop.
+    link_package = dict(article)
+    link_package.update(format_package)
+    cleaned = ensure_required_verified_links(
+        cleaned,
+        link_package,
+        article.get("seo_title") or article.get("title") or "",
+    )
     removed_count = 0
     link_stats = {
         "internal_cache_loaded": 0,

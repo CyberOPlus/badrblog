@@ -77,7 +77,7 @@ from config import (
 from production_logging import elapsed_ms, html_word_count, log_event
 from job_core import is_application_url_bound_to_job, is_job_specific_url
 from quality_gate import validate_ai_article_output
-from verified_fact_manifest import fact_is_present
+from verified_fact_manifest import build_verified_fact_manifest, fact_is_present
 
 MAX_AI_ATTEMPTS = max(1, MAX_AI_RETRIES)
 AI_MODEL_COOLDOWN_SECONDS = 30 * 60
@@ -1539,6 +1539,78 @@ _VERIFIED_LINK_LABELS = {
 }
 
 
+def _missing_required_verified_links(html_content, package=None, title=""):
+    """Return high-confidence official links the manifest requires in output."""
+    package = dict(package or {})
+    manifest = package.get("verified_fact_manifest")
+    if not isinstance(manifest, dict) or not manifest:
+        manifest = build_verified_fact_manifest(package)
+    facts_by_category = manifest.get("facts") or {}
+    text = f"{title}\n{html_content}"
+    missing = []
+    for category, label in _VERIFIED_LINK_LABELS.items():
+        for fact in facts_by_category.get(category) or []:
+            if not isinstance(fact, dict):
+                continue
+            if not fact.get("required_in_output"):
+                continue
+            if str(fact.get("confidence") or "").strip().lower() != "high":
+                continue
+            value = str(fact.get("value") or "").strip()
+            if not value:
+                continue
+            if fact_is_present(text, category, fact):
+                continue
+            missing.append((category, label, value))
+    return missing
+
+
+def ensure_required_verified_links(html_content, package=None, title=""):
+    """Insert verified official links that a formatting pass may have removed.
+
+    The Blogger formatter deliberately drops source hops and internal metadata,
+    while the manifest still requires the verified application/detail/document
+    links. Re-check after formatting so the pre-publish gate cannot block an
+    otherwise valid article forever.
+    """
+    html_content = str(html_content or "")
+    title = str(title or "")
+    missing = _missing_required_verified_links(html_content, package, title)
+    if not missing:
+        return html_content
+
+    soup = BeautifulSoup(html_content, "html.parser")
+    block = soup.new_tag("ul")
+    block["class"] = ["jobVerifiedLinks"]
+    seen_values = set()
+    for _category, label, value in missing:
+        if value in seen_values:
+            continue
+        seen_values.add(value)
+        item = soup.new_tag("li")
+        strong = soup.new_tag("strong")
+        strong.string = label
+        anchor = soup.new_tag("a", href=value)
+        anchor.string = "فتح الرابط"
+        item.append(strong)
+        item.append(" ")
+        item.append(anchor)
+        block.append(item)
+
+    first_heading = soup.find(["h2", "h3"])
+    if first_heading is not None:
+        first_heading.insert_before(block)
+    else:
+        soup.append(block)
+
+    log_event(
+        "ai_verified_manifest_links_injected",
+        categories=",".join(category for category, _label, _value in missing),
+        count=len(missing),
+    )
+    return str(soup)
+
+
 def _ensure_required_verified_facts(data, package=None):
     """Insert missing high-confidence reader facts from the verified manifest."""
     package = dict(package or {})
@@ -1574,32 +1646,8 @@ def _ensure_required_verified_facts(data, package=None):
                 continue
             missing.append((category, label, value))
 
-    # The manifest also makes official links mandatory in the output. Models
-    # frequently drop the long percent-encoded application/detail URLs, and the
-    # pre-publish gate (rightly) blocks the article when they are absent, so add
-    # the exact verified anchors instead of burning provider round-trips.
-    missing_links = []
-    for category, label in _VERIFIED_LINK_LABELS.items():
-        for fact in facts_by_category.get(category) or []:
-            if not isinstance(fact, dict):
-                continue
-            if not fact.get("required_in_output"):
-                continue
-            if str(fact.get("confidence") or "").strip().lower() != "high":
-                continue
-            value = str(fact.get("value") or "").strip()
-            if not value:
-                continue
-            if fact_is_present(f"{title}\n{html_content}", category, fact):
-                continue
-            missing_links.append((category, label, value))
-
-    if not missing and not missing_links:
-        return data
-
-    soup = BeautifulSoup(html_content, "html.parser")
-    blocks = []
     if missing:
+        soup = BeautifulSoup(html_content, "html.parser")
         block = soup.new_tag("ul")
         block["class"] = ["jobVerifiedFacts"]
         for _category, label, value in missing:
@@ -1609,41 +1657,27 @@ def _ensure_required_verified_facts(data, package=None):
             item.append(strong)
             item.append(" " + value)
             block.append(item)
-        blocks.append(block)
-    if missing_links:
-        links_block = soup.new_tag("ul")
-        links_block["class"] = ["jobVerifiedLinks"]
-        seen_values = set()
-        for _category, label, value in missing_links:
-            if value in seen_values:
-                continue
-            seen_values.add(value)
-            item = soup.new_tag("li")
-            strong = soup.new_tag("strong")
-            strong.string = label
-            anchor = soup.new_tag("a", href=value)
-            anchor.string = "فتح الرابط"
-            item.append(strong)
-            item.append(" ")
-            item.append(anchor)
-            links_block.append(item)
-        blocks.append(links_block)
 
-    first_heading = soup.find(["h2", "h3"])
-    if first_heading is not None:
-        for block in blocks:
+        first_heading = soup.find(["h2", "h3"])
+        if first_heading is not None:
             first_heading.insert_before(block)
-    else:
-        for block in blocks:
+        else:
             soup.append(block)
 
-    data["html_content"] = str(soup)
-    log_event(
-        "ai_verified_manifest_facts_injected",
-        categories=",".join(
-            category for category, _label, _value in missing + missing_links
-        ),
-        count=len(missing) + len(missing_links),
+        data["html_content"] = str(soup)
+        log_event(
+            "ai_verified_manifest_facts_injected",
+            categories=",".join(category for category, _label, _value in missing),
+            count=len(missing),
+        )
+
+    # The manifest also makes official links mandatory in the output. Models
+    # and the HTML formatter both drop long percent-encoded URLs, so re-check
+    # and reinsert them instead of burning provider round-trips.
+    data["html_content"] = ensure_required_verified_links(
+        data.get("html_content") or "",
+        package,
+        title,
     )
     return data
 
