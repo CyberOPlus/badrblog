@@ -46,6 +46,27 @@ class PublicationRequirementsTests(unittest.TestCase):
         row["job_official_publication_verified"] = True
         self.assertTrue(job_publication_freshness(row, now=NOW)["verified"])
 
+    def test_official_notice_without_date_uses_first_observation_window(self):
+        from job_core import job_publication_freshness
+
+        row = posting(
+            official_source=True,
+            job_published_at="",
+            discovered_at="2026-10-09T10:00:00Z",
+        )
+        freshness = job_publication_freshness(row, now=NOW)
+        self.assertTrue(freshness["verified"])
+        self.assertTrue(freshness["fresh"])
+        self.assertTrue(freshness.get("discovered"))
+
+        row["discovered_at"] = "2026-10-07T10:00:00Z"
+        self.assertFalse(job_publication_freshness(row, now=NOW)["fresh"])
+
+        row["official_source"] = False
+        row["job_official_source"] = False
+        row["discovered_at"] = "2026-10-09T10:00:00Z"
+        self.assertFalse(job_publication_freshness(row, now=NOW)["verified"])
+
     def test_rolling_training_needs_explicit_official_evidence(self):
         row = posting(opportunity_kind="training", job_deadline="", official_source=True)
         self.assertFalse(job_publication_policy(row, now=NOW)["passed"])

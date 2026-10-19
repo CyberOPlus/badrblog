@@ -933,6 +933,10 @@ def job_publication_freshness(article, now=None, max_age_hours=None):
     For those records, the exact hour is unknowable: the official date is fresh
     only while that same date is still current in the Jobs timezone. Real
     timestamps keep the strict hour-based window.
+
+    Official notices that expose no date at all may use the crawler's first
+    observation as a freshness upper bound; it is never presented as an
+    invented publication date.
     """
     raw = str(
         (article or {}).get("job_published_at")
@@ -944,6 +948,10 @@ def job_publication_freshness(article, now=None, max_age_hours=None):
         current = current.replace(tzinfo=timezone.utc)
     else:
         current = current.astimezone(timezone.utc)
+    official = bool(
+        (article or {}).get("official_source")
+        or (article or {}).get("job_official_source")
+    )
 
     try:
         max_hours = float(
@@ -955,6 +963,23 @@ def job_publication_freshness(article, now=None, max_age_hours=None):
         max_hours = float(job_freshness_limit_hours(article))
 
     if not raw:
+        # Some official notices (OFPPT) expose no publication date at all. The
+        # crawler's first observation of the specific official notice is a
+        # verified upper bound, not an invented posting time: only accept it
+        # when the crawler first saw the notice inside the freshness window.
+        discovered_raw = str((article or {}).get("discovered_at") or "").strip()
+        discovered_at = _parse_date(discovered_raw) if (official and discovered_raw) else None
+        if discovered_at is not None:
+            discovered_age_hours = (current - discovered_at).total_seconds() / 3600
+            return {
+                "verified": True,
+                "fresh": 0 <= discovered_age_hours <= max_hours,
+                "future": discovered_age_hours < 0,
+                "date_only": False,
+                "age_hours": discovered_age_hours,
+                "raw": discovered_raw,
+                "discovered": True,
+            }
         return {
             "verified": False,
             "fresh": False,
@@ -965,10 +990,6 @@ def job_publication_freshness(article, now=None, max_age_hours=None):
         }
 
     date_only = bool(re.fullmatch(r"\d{4}-\d{2}-\d{2}", raw))
-    official = bool(
-        (article or {}).get("official_source")
-        or (article or {}).get("job_official_source")
-    )
     provenance = str((article or {}).get("published_at_source") or "").casefold()
     independently_verified = (article or {}).get("job_official_publication_verified") is True
     if ((date_only and not official and not independently_verified)
