@@ -167,17 +167,6 @@
       "retry_until": 1791477268.7347944,
       "scope": "quality"
     },
-    "5ee766b270ba1b842ccd": {
-      "category": "quality",
-      "count": 2,
-      "first_seen_at": "2026-10-06T21:44:44",
-      "last_seen_at": "2026-10-06T22:07:27",
-      "last_seen_epoch": 1791324447.4136803,
-      "provider": "groq",
-      "reason": "manifest fact missing from Jobs output: detail=https://careers.capgemini.com/job/Stagiaire-Marketing-&-Communications/1444882433/",
-      "retry_until": 1791325047.4136803,
-      "scope": "quality"
-    },
     "601f42aeb7164c70a244": {
       "category": "quality",
       "count": 12,
@@ -521,26 +510,26 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 6.338,
+      "avg_time": 6.3293,
       "failures": 24,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-09T11:03:07",
-      "last_success_at": "2026-10-20T20:45:07",
+      "last_success_at": "2026-10-20T22:38:12",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 611,
-      "total_success_time": 3872.5104
+      "successes": 612,
+      "total_success_time": 3873.5293
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 8.9236,
+      "avg_time": 8.8998,
       "failures": 61,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-10-20T01:50:26",
-      "last_success_at": "2026-10-20T20:45:06",
+      "last_success_at": "2026-10-20T22:38:10",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 333,
-      "total_success_time": 2971.5582
+      "successes": 334,
+      "total_success_time": 2972.5426
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
       "avg_time": 3.5533,
@@ -554,15 +543,15 @@
       "total_success_time": 419.2929
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.1603,
+      "avg_time": 1.1584,
       "failures": 134,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-20T01:50:30",
-      "last_success_at": "2026-10-20T20:45:06",
+      "last_success_at": "2026-10-20T22:38:11",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 404,
-      "total_success_time": 468.7735
+      "successes": 405,
+      "total_success_time": 469.1582
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.2091,
@@ -610,15 +599,15 @@
       "total_success_time": 14.6661
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 9.5886,
+      "avg_time": 9.5713,
       "failures": 93,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-20T01:18:07",
-      "last_success_at": "2026-10-20T20:45:08",
+      "last_success_at": "2026-10-20T22:38:17",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 263,
-      "total_success_time": 2521.8048
+      "successes": 264,
+      "total_success_time": 2526.8221
     },
     "openrouter:qwen/qwen3.8-27b:1af698c9b3": {
       "failures": 1,
