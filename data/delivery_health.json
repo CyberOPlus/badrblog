@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-20T17:21:26.164889+00:00",
+  "updated_at": "2026-10-20T19:38:03.477852+00:00",
   "state": "facebook_stalled",
   "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
   "hourly_target_met": false,
   "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-20T06:05:31",
   "last_facebook_post_id": "103026497833721_1101331172261947",
-  "minutes_since_facebook": 675.9,
+  "minutes_since_facebook": 812.5,
   "last_blogger_publish_at": "2026-10-20T15:45:05.093008+00:00",
   "fresh_candidate_count": 7,
   "verified_ready_candidate_count": 0,
@@ -26,7 +26,7 @@
     }
   ],
   "facebook_pending_count": 9,
-  "oldest_facebook_pending_minutes": 1380.8,
+  "oldest_facebook_pending_minutes": 1517.4,
   "oldest_ready_candidate_minutes": 0,
   "pending_first_comments": 0,
   "services": {
@@ -77,15 +77,15 @@
       "active_issues": [
         {
           "source_name": "Dreamjob — stages",
-          "failure_count": 54,
+          "failure_count": 55,
           "category": "http_block",
-          "retry_after": "2026-10-20T18:43:50Z"
+          "retry_after": "2026-10-20T22:37:32Z"
         },
         {
           "source_name": "Emploi-Public — établissements publics",
           "failure_count": 1,
           "category": "source_error",
-          "retry_after": "2026-10-20T17:36:22Z"
+          "retry_after": "2026-10-20T19:52:55Z"
         }
       ],
       "action": "One or more sources are cooling down after transient fetch failures."
@@ -97,16 +97,16 @@
     "enabled_feeds": 8,
     "enabled_domains": 6,
     "scanned_recently": 7,
-    "stale_sources": [
+    "stale_sources": [],
+    "failed_recent_sources": [
       "Dreamjob — stages"
     ],
-    "failed_recent_sources": [],
-    "recent_new_discoveries": 3,
-    "recent_cycle_candidates": 20,
-    "recent_cycle_publishes": 3,
-    "successful_empty_cycle_streak": 0,
-    "minutes_without_blogger": 96.4,
+    "recent_new_discoveries": 0,
+    "recent_cycle_candidates": 10,
+    "recent_cycle_publishes": 1,
+    "successful_empty_cycle_streak": 1,
+    "minutes_without_blogger": 233.0,
     "last_blogger_publish_at": "2026-10-20T15:45:05.093008+00:00"
   },
-  "services_checked_at": "2026-10-20T17:21:26.164404+00:00"
+  "services_checked_at": "2026-10-20T19:38:03.477318+00:00"
 }

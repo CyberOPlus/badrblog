@@ -35,17 +35,6 @@
       "retry_until": 1792473096.0885174,
       "scope": "provider"
     },
-    "29ea1e8ece6336e46dc2": {
-      "category": "timeout",
-      "count": 1,
-      "first_seen_at": "2026-10-06T18:03:24",
-      "last_seen_at": "2026-10-06T18:03:24",
-      "last_seen_epoch": 1791309804.001618,
-      "provider": "cloudflare,gemini,groq,mistral,openrouter",
-      "reason": "cloudflare provider failed: ('Connection aborted.', Timeout('AI provider wall-clock timeout after 60s'))",
-      "retry_until": 1791313337.1433086,
-      "scope": "global"
-    },
     "2ca52d20b3f1bb0a8285": {
       "category": "format",
       "count": 2,
@@ -77,17 +66,6 @@
       "provider": "gemini",
       "reason": "manifest fact missing from Jobs output: application=https://bkam.csod.com/ats/careersite/search.aspx?site=11&c=bkam",
       "retry_until": 1792428992.3197954,
-      "scope": "quality"
-    },
-    "4733bfc9fd4308092f81": {
-      "category": "quality",
-      "count": 4,
-      "first_seen_at": "2026-10-06T15:35:15",
-      "last_seen_at": "2026-10-06T18:15:17",
-      "last_seen_epoch": 1791310517.2209692,
-      "provider": "cloudflare",
-      "reason": "manifest fact missing from Jobs output: detail=https://careers.capgemini.com/job/Stagiaire-Marketing-&-Communications/1444882433/",
-      "retry_until": 1791312917.2209692,
       "scope": "quality"
     },
     "474c0c3bf0cefaa18fa3": {
@@ -297,17 +275,6 @@
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "openrouter candidates are cooling down",
       "retry_until": 1791561362.7510142,
-      "scope": "global"
-    },
-    "83df4c959826d93b6e0b": {
-      "category": "cooldown",
-      "count": 16,
-      "first_seen_at": "2026-10-06T19:01:08",
-      "last_seen_at": "2026-10-06T19:08:29",
-      "last_seen_epoch": 1791313709.9548702,
-      "provider": "cloudflare,gemini,groq,mistral,openrouter",
-      "reason": "gemini candidates are cooling down",
-      "retry_until": 1791320909.9548702,
       "scope": "global"
     },
     "9b8ec695d1ca9e549f46": {
@@ -554,26 +521,26 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 6.3572,
+      "avg_time": 6.3475,
       "failures": 24,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-09T11:03:07",
-      "last_success_at": "2026-10-20T17:21:25",
+      "last_success_at": "2026-10-20T19:38:00",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 609,
-      "total_success_time": 3871.5382
+      "successes": 610,
+      "total_success_time": 3871.985
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 8.9641,
+      "avg_time": 8.939,
       "failures": 61,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-10-20T01:50:26",
-      "last_success_at": "2026-10-20T17:21:24",
+      "last_success_at": "2026-10-20T19:37:59",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 330,
-      "total_success_time": 2958.1494
+      "successes": 331,
+      "total_success_time": 2958.7943
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
       "avg_time": 3.5533,
@@ -587,15 +554,15 @@
       "total_success_time": 419.2929
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.164,
+      "avg_time": 1.1619,
       "failures": 134,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-20T01:50:30",
-      "last_success_at": "2026-10-20T17:21:24",
+      "last_success_at": "2026-10-20T19:38:00",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 402,
-      "total_success_time": 467.9148
+      "successes": 403,
+      "total_success_time": 468.2319
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.2091,
@@ -643,15 +610,15 @@
       "total_success_time": 14.6661
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 9.6457,
+      "avg_time": 9.6188,
       "failures": 93,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-20T01:18:07",
-      "last_success_at": "2026-10-20T17:21:25",
+      "last_success_at": "2026-10-20T19:38:03",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 261,
-      "total_success_time": 2517.5361
+      "successes": 262,
+      "total_success_time": 2520.1307
     },
     "openrouter:qwen/qwen3.8-27b:1af698c9b3": {
       "failures": 1,
