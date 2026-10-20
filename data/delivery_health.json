@@ -1,25 +1,20 @@
 {
-  "updated_at": "2026-10-19T23:13:10.740676+00:00",
-  "state": "healthy",
-  "action": "Independent queues continue; each verified fresh job follows Blogger to Facebook.",
-  "hourly_target_met": true,
+  "updated_at": "2026-10-20T01:20:44.381311+00:00",
+  "state": "facebook_stalled",
+  "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
+  "hourly_target_met": false,
   "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-19T19:06:13",
   "last_facebook_post_id": "103026497833721_1100971205631277",
-  "minutes_since_facebook": 247.0,
-  "last_blogger_publish_at": "2026-10-19T19:35:48.237559+00:00",
-  "fresh_candidate_count": 3,
-  "verified_ready_candidate_count": 0,
-  "unverified_ready_candidate_count": 3,
-  "ready_quality_blockers": [
-    {
-      "reason": "application URL is not the direct form/action",
-      "count": 1
-    }
-  ],
-  "facebook_pending_count": 5,
-  "oldest_facebook_pending_minutes": 292.5,
-  "oldest_ready_candidate_minutes": 0,
+  "minutes_since_facebook": 374.5,
+  "last_blogger_publish_at": "2026-10-20T01:20:24.296407+00:00",
+  "fresh_candidate_count": 1,
+  "verified_ready_candidate_count": 1,
+  "unverified_ready_candidate_count": 0,
+  "ready_quality_blockers": [],
+  "facebook_pending_count": 6,
+  "oldest_facebook_pending_minutes": 420.1,
+  "oldest_ready_candidate_minutes": 129.0,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -83,16 +78,16 @@
     "enabled_feeds": 8,
     "enabled_domains": 6,
     "scanned_recently": 7,
-    "stale_sources": [],
-    "failed_recent_sources": [
+    "stale_sources": [
       "Dreamjob — stages"
     ],
-    "recent_new_discoveries": 0,
-    "recent_cycle_candidates": 0,
-    "recent_cycle_publishes": 6,
-    "successful_empty_cycle_streak": 6,
-    "minutes_without_blogger": 217.4,
-    "last_blogger_publish_at": "2026-10-19T19:35:48.237559+00:00"
+    "failed_recent_sources": [],
+    "recent_new_discoveries": 8,
+    "recent_cycle_candidates": 8,
+    "recent_cycle_publishes": 3,
+    "successful_empty_cycle_streak": 0,
+    "minutes_without_blogger": 0.3,
+    "last_blogger_publish_at": "2026-10-20T01:20:24.296407+00:00"
   },
-  "services_checked_at": "2026-10-19T22:39:58.232184+00:00"
+  "services_checked_at": "2026-10-20T01:20:44.380999+00:00"
 }

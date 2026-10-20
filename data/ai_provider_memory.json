@@ -1,37 +1,45 @@
 {
   "avg_time": 0.5573,
   "cooldowns": {
-    "gemini:gemini-2.5-flash:64f603a8c0": {
-      "failed_at": "2026-10-19T23:09:58",
-      "key_id": "64f603a8c0",
-      "model": "gemini-2.5-flash",
-      "provider": "gemini",
-      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1792454101.5726447
-    },
-    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "failed_at": "2026-10-19T23:10:03",
-      "key_id": "fb4fab4ba1",
-      "model": "openai/gpt-oss-20b",
-      "provider": "groq",
-      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "until": 1792454104.4386709
-    },
-    "mistral:mistral-small-latest:8feed32495": {
-      "failed_at": "2026-10-19T23:11:36",
-      "key_id": "8feed32495",
-      "model": "mistral-small-latest",
-      "provider": "mistral",
-      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
-      "until": 1792454196.926647
-    },
-    "openrouter:openrouter/free:1af698c9b3": {
-      "failed_at": "2026-10-19T23:11:04",
+    "openrouter:deepseek/deepseek-v4-flash:1af698c9b3": {
+      "failed_at": "2026-10-20T01:19:03",
       "key_id": "1af698c9b3",
-      "model": "openrouter/free",
+      "model": "deepseek/deepseek-v4-flash",
       "provider": "openrouter",
       "reason": "OpenRouter returned an empty response.",
-      "until": 1792451765.2084486
+      "until": 1792459448.1972594
+    },
+    "openrouter:deepseek/deepseek-v4.1-flash:1af698c9b3": {
+      "failed_at": "2026-10-20T01:18:17",
+      "key_id": "1af698c9b3",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1792459400.3478038
+    },
+    "openrouter:qwen/qwen3.8-27b:1af698c9b3": {
+      "failed_at": "2026-10-20T01:19:50",
+      "key_id": "1af698c9b3",
+      "model": "qwen/qwen3.8-27b",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1792459491.3080492
+    },
+    "openrouter:z-ai/glm-5.3-flash:1af698c9b3": {
+      "failed_at": "2026-10-20T01:18:35",
+      "key_id": "1af698c9b3",
+      "model": "z-ai/glm-5.3-flash",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1792459415.7423615
+    },
+    "openrouter:z-ai/glm-5.3:1af698c9b3": {
+      "failed_at": "2026-10-20T01:19:23",
+      "key_id": "1af698c9b3",
+      "model": "z-ai/glm-5.3",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1792459465.441273
     }
   },
   "failure_fingerprints": {
@@ -589,22 +597,6 @@
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
   "global_circuit": {},
   "provider_circuits": {
-    "gemini": {
-      "category": "quota",
-      "fingerprint": "9b8ec695d1ca9e549f46",
-      "opened_at": "2026-10-19T23:09:58",
-      "provider": "gemini",
-      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1792472998.7776234
-    },
-    "groq": {
-      "category": "quota",
-      "fingerprint": "4b929cc3ad78785ed806",
-      "opened_at": "2026-10-19T23:10:03",
-      "provider": "groq",
-      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "until": 1792473003.4409506
-    },
     "mistral": {
       "category": "quota",
       "fingerprint": "16f0cdcebb62d34cab0f",
@@ -634,26 +626,26 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 6.391,
+      "avg_time": 6.3963,
       "failures": 24,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-09T11:03:07",
-      "last_success_at": "2026-10-19T23:13:09",
+      "last_success_at": "2026-10-20T01:20:42",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 595,
-      "total_success_time": 3802.6712
+      "successes": 605,
+      "total_success_time": 3869.7414
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 8.8824,
+      "avg_time": 8.8571,
       "failures": 60,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-10-19T23:09:58",
-      "last_success_at": "2026-10-19T23:09:56",
+      "last_success_at": "2026-10-20T01:20:41",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 316,
-      "total_success_time": 2806.8511
+      "successes": 317,
+      "total_success_time": 2807.7013
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
       "avg_time": 3.5803,
@@ -667,15 +659,15 @@
       "total_success_time": 415.3197
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.1663,
+      "avg_time": 1.165,
       "failures": 133,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-19T23:10:03",
-      "last_success_at": "2026-10-19T23:10:01",
+      "last_success_at": "2026-10-20T01:20:41",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 396,
-      "total_success_time": 461.8716
+      "successes": 397,
+      "total_success_time": 462.4955
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.2091,
@@ -695,25 +687,64 @@
       "model": "mistral-small-latest",
       "provider": "mistral"
     },
+    "openrouter:deepseek/deepseek-v4-flash:1af698c9b3": {
+      "failures": 1,
+      "key_id": "1af698c9b3",
+      "last_failure_at": "2026-10-20T01:19:03",
+      "model": "deepseek/deepseek-v4-flash",
+      "provider": "openrouter"
+    },
     "openrouter:deepseek/deepseek-v4.1-flash:1af698c9b3": {
       "avg_time": 32.04,
+      "failures": 1,
       "key_id": "1af698c9b3",
+      "last_failure_at": "2026-10-20T01:18:17",
       "last_success_at": "2026-10-19T23:12:58",
       "model": "deepseek/deepseek-v4.1-flash",
       "provider": "openrouter",
       "successes": 2,
       "total_success_time": 64.0801
     },
-    "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 9.8071,
-      "failures": 92,
+    "openrouter:google/gemini-3.8-flash:1af698c9b3": {
+      "avg_time": 14.6661,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-19T23:11:04",
-      "last_success_at": "2026-10-19T22:39:57",
+      "last_success_at": "2026-10-20T01:20:04",
+      "model": "google/gemini-3.8-flash",
+      "provider": "openrouter",
+      "successes": 1,
+      "total_success_time": 14.6661
+    },
+    "openrouter:openrouter/free:1af698c9b3": {
+      "avg_time": 9.7628,
+      "failures": 93,
+      "key_id": "1af698c9b3",
+      "last_failure_at": "2026-10-20T01:18:07",
+      "last_success_at": "2026-10-20T01:20:44",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 255,
-      "total_success_time": 2500.8071
+      "successes": 257,
+      "total_success_time": 2509.0503
+    },
+    "openrouter:qwen/qwen3.8-27b:1af698c9b3": {
+      "failures": 1,
+      "key_id": "1af698c9b3",
+      "last_failure_at": "2026-10-20T01:19:50",
+      "model": "qwen/qwen3.8-27b",
+      "provider": "openrouter"
+    },
+    "openrouter:z-ai/glm-5.3-flash:1af698c9b3": {
+      "failures": 1,
+      "key_id": "1af698c9b3",
+      "last_failure_at": "2026-10-20T01:18:35",
+      "model": "z-ai/glm-5.3-flash",
+      "provider": "openrouter"
+    },
+    "openrouter:z-ai/glm-5.3:1af698c9b3": {
+      "failures": 1,
+      "key_id": "1af698c9b3",
+      "last_failure_at": "2026-10-20T01:19:23",
+      "model": "z-ai/glm-5.3",
+      "provider": "openrouter"
     }
   }
 }
