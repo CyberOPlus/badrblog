@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-21T17:43:51.625754+00:00",
+  "updated_at": "2026-10-21T19:32:18.589417+00:00",
   "state": "facebook_stalled",
   "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
   "hourly_target_met": false,
   "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-20T20:44:58",
   "last_facebook_post_id": "103026497833721_1101931315535266",
-  "minutes_since_facebook": 1258.9,
-  "last_blogger_publish_at": "2026-10-21T17:43:43.390383+00:00",
+  "minutes_since_facebook": 1367.3,
+  "last_blogger_publish_at": "2026-10-21T19:32:11.713770+00:00",
   "fresh_candidate_count": 7,
   "verified_ready_candidate_count": 0,
   "unverified_ready_candidate_count": 7,
@@ -18,11 +18,11 @@
     },
     {
       "reason": "application URL is not the direct form/action",
-      "count": 1
+      "count": 2
     }
   ],
-  "facebook_pending_count": 11,
-  "oldest_facebook_pending_minutes": 2812.4,
+  "facebook_pending_count": 12,
+  "oldest_facebook_pending_minutes": 2920.8,
   "oldest_ready_candidate_minutes": 0,
   "pending_first_comments": 0,
   "services": {
@@ -73,9 +73,9 @@
       "active_issues": [
         {
           "source_name": "Dreamjob — stages",
-          "failure_count": 60,
+          "failure_count": 61,
           "category": "http_block",
-          "retry_after": "2026-10-21T18:30:05Z"
+          "retry_after": "2026-10-21T22:30:59Z"
         }
       ],
       "action": "One or more sources are cooling down after transient fetch failures."
@@ -87,16 +87,16 @@
     "enabled_feeds": 8,
     "enabled_domains": 6,
     "scanned_recently": 7,
-    "stale_sources": [
+    "stale_sources": [],
+    "failed_recent_sources": [
       "Dreamjob — stages"
     ],
-    "failed_recent_sources": [],
     "recent_new_discoveries": 1,
-    "recent_cycle_candidates": 12,
+    "recent_cycle_candidates": 10,
     "recent_cycle_publishes": 2,
     "successful_empty_cycle_streak": 0,
     "minutes_without_blogger": 0.1,
-    "last_blogger_publish_at": "2026-10-21T17:43:43.390383+00:00"
+    "last_blogger_publish_at": "2026-10-21T19:32:11.713770+00:00"
   },
-  "services_checked_at": "2026-10-21T17:43:51.625318+00:00"
+  "services_checked_at": "2026-10-21T19:32:18.588942+00:00"
 }
