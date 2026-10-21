@@ -1,32 +1,28 @@
 {
-  "updated_at": "2026-10-21T22:41:14.148954+00:00",
+  "updated_at": "2026-10-21T23:55:21.604668+00:00",
   "state": "facebook_stalled",
   "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
   "hourly_target_met": false,
   "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-20T20:44:58",
   "last_facebook_post_id": "103026497833721_1101931315535266",
-  "minutes_since_facebook": 1556.3,
-  "last_blogger_publish_at": "2026-10-21T20:56:54.020457+00:00",
-  "fresh_candidate_count": 6,
+  "minutes_since_facebook": 1630.4,
+  "last_blogger_publish_at": "2026-10-21T23:55:13.650932+00:00",
+  "fresh_candidate_count": 5,
   "verified_ready_candidate_count": 0,
-  "unverified_ready_candidate_count": 6,
+  "unverified_ready_candidate_count": 5,
   "ready_quality_blockers": [
     {
       "reason": "identity evidence incomplete",
-      "count": 6
-    },
-    {
-      "reason": "source detail not fetched",
-      "count": 6
+      "count": 5
     },
     {
       "reason": "application URL is not the direct form/action",
-      "count": 1
+      "count": 2
     }
   ],
-  "facebook_pending_count": 13,
-  "oldest_facebook_pending_minutes": 3109.7,
+  "facebook_pending_count": 14,
+  "oldest_facebook_pending_minutes": 3183.9,
   "oldest_ready_candidate_minutes": 0,
   "pending_first_comments": 0,
   "services": {
@@ -39,7 +35,7 @@
       "status": "ok",
       "providers": {
         "gemini": {
-          "status": "ok",
+          "status": "quota",
           "secret_names": [
             "GEMINI_API_KEY"
           ]
@@ -80,24 +76,6 @@
           "failure_count": 62,
           "category": "http_block",
           "retry_after": "2026-10-22T01:38:45Z"
-        },
-        {
-          "source_name": "Emploi-Public — établissements publics",
-          "failure_count": 2,
-          "category": "source_error",
-          "retry_after": "2026-10-21T22:56:09Z"
-        },
-        {
-          "source_name": "Emploi-Public — collectivités territoriales",
-          "failure_count": 1,
-          "category": "network_timeout",
-          "retry_after": "2026-10-21T22:43:45Z"
-        },
-        {
-          "source_name": "Emploi-Public — services de l'État",
-          "failure_count": 1,
-          "category": "network_timeout",
-          "retry_after": "2026-10-21T22:43:45Z"
         }
       ],
       "action": "One or more sources are cooling down after transient fetch failures."
@@ -108,20 +86,17 @@
     "action": "Discovery coverage is monitored separately from actual publishing.",
     "enabled_feeds": 8,
     "enabled_domains": 6,
-    "scanned_recently": 4,
+    "scanned_recently": 7,
     "stale_sources": [],
     "failed_recent_sources": [
-      "Emploi-Public — établissements publics",
-      "Emploi-Public — services de l'État",
-      "Emploi-Public — collectivités territoriales",
       "Dreamjob — stages"
     ],
     "recent_new_discoveries": 0,
-    "recent_cycle_candidates": 2,
+    "recent_cycle_candidates": 1,
     "recent_cycle_publishes": 3,
-    "successful_empty_cycle_streak": 1,
-    "minutes_without_blogger": 104.3,
-    "last_blogger_publish_at": "2026-10-21T20:56:54.020457+00:00"
+    "successful_empty_cycle_streak": 0,
+    "minutes_without_blogger": 0.1,
+    "last_blogger_publish_at": "2026-10-21T23:55:13.650932+00:00"
   },
-  "services_checked_at": "2026-10-21T22:41:14.148630+00:00"
+  "services_checked_at": "2026-10-21T23:55:21.604264+00:00"
 }
