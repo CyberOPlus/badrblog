@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-10-21T05:28:33.327430+00:00",
+  "updated_at": "2026-10-21T06:56:32.249603+00:00",
   "state": "facebook_stalled",
   "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
   "hourly_target_met": false,
   "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-20T20:44:58",
   "last_facebook_post_id": "103026497833721_1101931315535266",
-  "minutes_since_facebook": 523.6,
+  "minutes_since_facebook": 611.6,
   "last_blogger_publish_at": "2026-10-20T15:45:05.093008+00:00",
   "fresh_candidate_count": 0,
   "verified_ready_candidate_count": 0,
   "unverified_ready_candidate_count": 0,
   "ready_quality_blockers": [],
   "facebook_pending_count": 8,
-  "oldest_facebook_pending_minutes": 2077.1,
+  "oldest_facebook_pending_minutes": 2165.0,
   "oldest_ready_candidate_minutes": 0,
   "pending_first_comments": 0,
   "services": {
@@ -73,8 +73,8 @@
     }
   },
   "coverage": {
-    "status": "blocked_publication",
-    "action": "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers.",
+    "status": "starved",
+    "action": "Three or more consecutive successful scans found no candidates, and Blogger has not published in 6 hours; investigate sources.",
     "enabled_feeds": 8,
     "enabled_domains": 6,
     "scanned_recently": 7,
@@ -83,11 +83,11 @@
       "Dreamjob — stages"
     ],
     "recent_new_discoveries": 0,
-    "recent_cycle_candidates": 8,
+    "recent_cycle_candidates": 0,
     "recent_cycle_publishes": 0,
-    "successful_empty_cycle_streak": 2,
-    "minutes_without_blogger": 823.5,
+    "successful_empty_cycle_streak": 3,
+    "minutes_without_blogger": 911.5,
     "last_blogger_publish_at": "2026-10-20T15:45:05.093008+00:00"
   },
-  "services_checked_at": "2026-10-21T05:28:33.326861+00:00"
+  "services_checked_at": "2026-10-21T06:56:32.249161+00:00"
 }
