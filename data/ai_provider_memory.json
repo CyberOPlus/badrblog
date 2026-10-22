@@ -357,16 +357,7 @@
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
   "global_circuit": {},
-  "provider_circuits": {
-    "gemini": {
-      "category": "quota",
-      "fingerprint": "9b8ec695d1ca9e549f46",
-      "opened_at": "2026-10-21T23:55:12",
-      "provider": "gemini",
-      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1792648512.132374
-    }
-  },
+  "provider_circuits": {},
   "stats": {
     "cloudflare:@cf/meta/llama-3.1-8b-instruct-fp8:be6dab2cd8": {
       "failures": 1,
@@ -387,26 +378,26 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 6.2299,
+      "avg_time": 6.2209,
       "failures": 24,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-09T11:03:07",
-      "last_success_at": "2026-10-21T23:55:17",
+      "last_success_at": "2026-10-22T03:08:54",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 625,
-      "total_success_time": 3893.6915
+      "successes": 626,
+      "total_success_time": 3894.2695
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 8.9314,
+      "avg_time": 8.9084,
       "failures": 63,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-10-21T23:55:12",
-      "last_success_at": "2026-10-21T23:55:02",
+      "last_success_at": "2026-10-22T03:08:53",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 360,
-      "total_success_time": 3215.2937
+      "successes": 361,
+      "total_success_time": 3215.9398
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
       "avg_time": 3.5533,
@@ -420,15 +411,15 @@
       "total_success_time": 419.2929
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.1455,
+      "avg_time": 1.1434,
       "failures": 134,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-20T01:50:30",
-      "last_success_at": "2026-10-21T23:55:16",
+      "last_success_at": "2026-10-22T03:08:53",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 418,
-      "total_success_time": 478.8179
+      "successes": 419,
+      "total_success_time": 479.1005
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.2091,
@@ -476,15 +467,15 @@
       "total_success_time": 14.6661
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 9.3023,
+      "avg_time": 9.2757,
       "failures": 93,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-20T01:18:07",
-      "last_success_at": "2026-10-21T23:55:21",
+      "last_success_at": "2026-10-22T03:08:56",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 275,
-      "total_success_time": 2558.1274
+      "successes": 276,
+      "total_success_time": 2560.1017
     },
     "openrouter:qwen/qwen3.8-27b:1af698c9b3": {
       "failures": 1,
