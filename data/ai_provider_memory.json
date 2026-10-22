@@ -1,6 +1,15 @@
 {
   "avg_time": 0.5573,
-  "cooldowns": {},
+  "cooldowns": {
+    "mistral:mistral-small-latest:8feed32495": {
+      "failed_at": "2026-10-22T15:37:44",
+      "key_id": "8feed32495",
+      "model": "mistral-small-latest",
+      "provider": "mistral",
+      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
+      "until": 1792686168.0244598
+    }
+  },
   "failure_fingerprints": {
     "0bfbbde687f6e2ee0b50": {
       "category": "cooldown",
@@ -15,13 +24,13 @@
     },
     "16f0cdcebb62d34cab0f": {
       "category": "quota",
-      "count": 19,
+      "count": 20,
       "first_seen_at": "2026-10-01T14:53:22",
-      "last_seen_at": "2026-10-19T23:11:36",
-      "last_seen_epoch": 1792451496.0885174,
+      "last_seen_at": "2026-10-22T15:37:44",
+      "last_seen_epoch": 1792683464.2420921,
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
-      "retry_until": 1792473096.0885174,
+      "retry_until": 1792705064.2420921,
       "scope": "provider"
     },
     "2ca52d20b3f1bb0a8285": {
@@ -70,13 +79,13 @@
     },
     "4b929cc3ad78785ed806": {
       "category": "quota",
-      "count": 88,
+      "count": 89,
       "first_seen_at": "2026-09-30T23:22:02",
-      "last_seen_at": "2026-10-19T23:10:03",
-      "last_seen_epoch": 1792451403.4409506,
+      "last_seen_at": "2026-10-22T15:35:30",
+      "last_seen_epoch": 1792683330.1278887,
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "retry_until": 1792473003.4409506,
+      "retry_until": 1792704930.1278887,
       "scope": "provider"
     },
     "53c2ea580a9dbef51425": {
@@ -167,6 +176,17 @@
       "retry_until": 1791565387.663585,
       "scope": "provider"
     },
+    "7cd7c210360ee67a0f9e": {
+      "category": "quality",
+      "count": 1,
+      "first_seen_at": "2026-10-22T15:38:03",
+      "last_seen_at": "2026-10-22T15:38:03",
+      "last_seen_epoch": 1792683483.9468753,
+      "provider": "cloudflare",
+      "reason": "manifest fact missing from Jobs output: deadline=2026-11-07",
+      "retry_until": 1792683783.9468753,
+      "scope": "quality"
+    },
     "82ce5d050ecd9659a30b": {
       "category": "cooldown",
       "count": 226,
@@ -213,13 +233,13 @@
     },
     "9cd5bdcb42034dceea88": {
       "category": "timeout",
-      "count": 26,
+      "count": 27,
       "first_seen_at": "2026-10-01T20:10:12",
-      "last_seen_at": "2026-10-09T11:12:43",
-      "last_seen_epoch": 1791544363.9867651,
+      "last_seen_at": "2026-10-22T15:37:43",
+      "last_seen_epoch": 1792683463.893648,
       "provider": "openrouter",
       "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
-      "retry_until": 1791551563.9867651,
+      "retry_until": 1792690663.893648,
       "scope": "provider"
     },
     "a337cb8c4c90a13d6d08": {
@@ -299,6 +319,17 @@
       "retry_until": 1791488078.657091,
       "scope": "quality"
     },
+    "d15c8a5d2460c1216a2b": {
+      "category": "outage",
+      "count": 1,
+      "first_seen_at": "2026-10-22T15:35:26",
+      "last_seen_at": "2026-10-22T15:35:26",
+      "last_seen_epoch": 1792683326.0713294,
+      "provider": "gemini",
+      "reason": "504 The request timed out. Please try again.",
+      "retry_until": 1792683926.0713294,
+      "scope": "provider"
+    },
     "f01b7df2f1f831c39000": {
       "category": "quality",
       "count": 8,
@@ -335,7 +366,16 @@
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
   "global_circuit": {},
-  "provider_circuits": {},
+  "provider_circuits": {
+    "mistral": {
+      "category": "quota",
+      "fingerprint": "16f0cdcebb62d34cab0f",
+      "opened_at": "2026-10-22T15:37:44",
+      "provider": "mistral",
+      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
+      "until": 1792705064.2420921
+    }
+  },
   "stats": {
     "cloudflare:@cf/meta/llama-3.1-8b-instruct-fp8:be6dab2cd8": {
       "failures": 1,
@@ -356,26 +396,26 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 6.1857,
+      "avg_time": 6.2375,
       "failures": 24,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-09T11:03:07",
-      "last_success_at": "2026-10-22T14:05:49",
+      "last_success_at": "2026-10-22T15:38:09",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 630,
-      "total_success_time": 3897.0145
+      "successes": 635,
+      "total_success_time": 3960.8368
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 8.8493,
-      "failures": 64,
+      "avg_time": 8.8266,
+      "failures": 65,
       "key_id": "64f603a8c0",
-      "last_failure_at": "2026-10-22T08:35:17",
-      "last_success_at": "2026-10-22T14:05:48",
+      "last_failure_at": "2026-10-22T15:35:26",
+      "last_success_at": "2026-10-22T15:38:08",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 366,
-      "total_success_time": 3238.8377
+      "successes": 367,
+      "total_success_time": 3239.3626
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
       "avg_time": 3.5533,
@@ -389,15 +429,15 @@
       "total_success_time": 419.2929
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.1417,
-      "failures": 134,
+      "avg_time": 1.1464,
+      "failures": 135,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-20T01:50:30",
-      "last_success_at": "2026-10-22T14:05:49",
+      "last_failure_at": "2026-10-22T15:35:30",
+      "last_success_at": "2026-10-22T15:38:08",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 424,
-      "total_success_time": 484.094
+      "successes": 426,
+      "total_success_time": 488.3504
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.2091,
@@ -411,9 +451,9 @@
       "total_success_time": 26.6009
     },
     "mistral:mistral-small-latest:8feed32495": {
-      "failures": 19,
+      "failures": 20,
       "key_id": "8feed32495",
-      "last_failure_at": "2026-10-19T23:11:36",
+      "last_failure_at": "2026-10-22T15:37:44",
       "model": "mistral-small-latest",
       "provider": "mistral"
     },
@@ -445,15 +485,15 @@
       "total_success_time": 14.6661
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 9.1998,
-      "failures": 93,
+      "avg_time": 9.1716,
+      "failures": 94,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-20T01:18:07",
-      "last_success_at": "2026-10-22T14:05:51",
+      "last_failure_at": "2026-10-22T15:37:43",
+      "last_success_at": "2026-10-22T15:38:10",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 279,
-      "total_success_time": 2566.736
+      "successes": 280,
+      "total_success_time": 2568.0618
     },
     "openrouter:qwen/qwen3.8-27b:1af698c9b3": {
       "failures": 1,
