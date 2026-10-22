@@ -1,6 +1,15 @@
 {
   "avg_time": 0.5573,
-  "cooldowns": {},
+  "cooldowns": {
+    "gemini:gemini-2.5-flash:64f603a8c0": {
+      "failed_at": "2026-10-22T08:35:17",
+      "key_id": "64f603a8c0",
+      "model": "gemini-2.5-flash",
+      "provider": "gemini",
+      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "until": 1792660818.376831
+    }
+  },
   "failure_fingerprints": {
     "0bfbbde687f6e2ee0b50": {
       "category": "cooldown",
@@ -191,13 +200,13 @@
     },
     "9b8ec695d1ca9e549f46": {
       "category": "quota",
-      "count": 53,
+      "count": 54,
       "first_seen_at": "2026-09-30T23:21:59",
-      "last_seen_at": "2026-10-21T23:55:12",
-      "last_seen_epoch": 1792626912.132374,
+      "last_seen_at": "2026-10-22T08:35:17",
+      "last_seen_epoch": 1792658117.3333585,
       "provider": "gemini",
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "retry_until": 1792648512.132374,
+      "retry_until": 1792679717.3333585,
       "scope": "provider"
     },
     "9bf50cd92a6721e56451": {
@@ -357,7 +366,16 @@
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
   "global_circuit": {},
-  "provider_circuits": {},
+  "provider_circuits": {
+    "gemini": {
+      "category": "quota",
+      "fingerprint": "9b8ec695d1ca9e549f46",
+      "opened_at": "2026-10-22T08:35:17",
+      "provider": "gemini",
+      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "until": 1792679717.3333585
+    }
+  },
   "stats": {
     "cloudflare:@cf/meta/llama-3.1-8b-instruct-fp8:be6dab2cd8": {
       "failures": 1,
@@ -378,26 +396,26 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 6.2119,
+      "avg_time": 6.2036,
       "failures": 24,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-09T11:03:07",
-      "last_success_at": "2026-10-22T05:31:08",
+      "last_success_at": "2026-10-22T08:35:25",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 627,
-      "total_success_time": 3894.864
+      "successes": 628,
+      "total_success_time": 3895.8673
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 8.8852,
-      "failures": 63,
+      "avg_time": 8.8944,
+      "failures": 64,
       "key_id": "64f603a8c0",
-      "last_failure_at": "2026-10-21T23:55:12",
-      "last_success_at": "2026-10-22T05:31:07",
+      "last_failure_at": "2026-10-22T08:35:17",
+      "last_success_at": "2026-10-22T08:35:11",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 362,
-      "total_success_time": 3216.4359
+      "successes": 364,
+      "total_success_time": 3237.5475
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
       "avg_time": 3.5533,
@@ -411,15 +429,15 @@
       "total_success_time": 419.2929
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.1418,
+      "avg_time": 1.1456,
       "failures": 134,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-20T01:50:30",
-      "last_success_at": "2026-10-22T05:31:07",
+      "last_success_at": "2026-10-22T08:35:24",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 420,
-      "total_success_time": 479.5477
+      "successes": 422,
+      "total_success_time": 483.4291
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.2091,
