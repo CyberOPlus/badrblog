@@ -57,17 +57,6 @@
       "retry_until": 1792459260.041089,
       "scope": "provider"
     },
-    "4b27f0e6f34e06eef2e2": {
-      "category": "format",
-      "count": 8,
-      "first_seen_at": "2026-10-06T14:46:44",
-      "last_seen_at": "2026-10-08T18:34:38",
-      "last_seen_epoch": 1791484478.653961,
-      "provider": "openrouter:nvidia/nemotron-3.5-content-safety:free",
-      "reason": "AI article response returned incomplete JSON.",
-      "retry_until": 1791488078.653961,
-      "scope": "provider"
-    },
     "4b929cc3ad78785ed806": {
       "category": "quota",
       "count": 89,
@@ -167,17 +156,6 @@
       "retry_until": 1792679717.3333585,
       "scope": "provider"
     },
-    "9bf50cd92a6721e56451": {
-      "category": "timeout",
-      "count": 11,
-      "first_seen_at": "2026-10-05T14:39:07",
-      "last_seen_at": "2026-10-08T19:10:52",
-      "last_seen_epoch": 1791486652.0831454,
-      "provider": "cloudflare",
-      "reason": "('Connection aborted.', Timeout('AI provider wall-clock timeout after 60s'))",
-      "retry_until": 1791493852.0831454,
-      "scope": "provider"
-    },
     "9cd5bdcb42034dceea88": {
       "category": "timeout",
       "count": 27,
@@ -244,17 +222,6 @@
       "retry_until": 1792458366.9960763,
       "scope": "provider"
     },
-    "d15a24ae84ad2cd36273": {
-      "category": "quality",
-      "count": 15,
-      "first_seen_at": "2026-10-05T15:05:50",
-      "last_seen_at": "2026-10-08T18:34:38",
-      "last_seen_epoch": 1791484478.657091,
-      "provider": "openrouter",
-      "reason": "AI article response returned incomplete JSON.",
-      "retry_until": 1791488078.657091,
-      "scope": "quality"
-    },
     "d15c8a5d2460c1216a2b": {
       "category": "outage",
       "count": 1,
@@ -286,17 +253,6 @@
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "openrouter provider failed: OpenRouter returned an empty response.",
       "retry_until": 1791561362.7510142,
-      "scope": "global"
-    },
-    "f8d83b9dc799f3657708": {
-      "category": "cooldown",
-      "count": 8,
-      "first_seen_at": "2026-10-06T16:27:53",
-      "last_seen_at": "2026-10-08T18:35:00",
-      "last_seen_epoch": 1791484500.6014302,
-      "provider": "cloudflare,gemini,groq,mistral,openrouter",
-      "reason": "all configured AI providers are cooling down",
-      "retry_until": 1791491700.6014302,
       "scope": "global"
     }
   },
