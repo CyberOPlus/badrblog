@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-10-23T00:53:30.737860+00:00",
+  "updated_at": "2026-10-23T05:06:27.982403+00:00",
   "state": "facebook_stalled",
   "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
   "hourly_target_met": false,
   "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-22T18:31:36",
   "last_facebook_post_id": "103026497833721_1103665488695182",
-  "minutes_since_facebook": 381.9,
+  "minutes_since_facebook": 634.9,
   "last_blogger_publish_at": "2026-10-22T21:55:11.579843+00:00",
   "fresh_candidate_count": 0,
   "verified_ready_candidate_count": 0,
   "unverified_ready_candidate_count": 0,
   "ready_quality_blockers": [],
   "facebook_pending_count": 15,
-  "oldest_facebook_pending_minutes": 4682.0,
+  "oldest_facebook_pending_minutes": 4935.0,
   "oldest_ready_candidate_minutes": 0,
   "pending_first_comments": 0,
   "services": {
@@ -64,30 +64,30 @@
       "active_issues": [
         {
           "source_name": "Dreamjob — stages",
-          "failure_count": 67,
+          "failure_count": 68,
           "category": "http_block",
-          "retry_after": "2026-10-23T00:54:00Z"
+          "retry_after": "2026-10-23T08:06:22Z"
         }
       ],
       "action": "One or more sources are cooling down after transient fetch failures."
     }
   },
   "coverage": {
-    "status": "ok",
-    "action": "Discovery coverage is monitored separately from actual publishing.",
+    "status": "blocked_publication",
+    "action": "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers.",
     "enabled_feeds": 8,
     "enabled_domains": 6,
     "scanned_recently": 7,
-    "stale_sources": [
+    "stale_sources": [],
+    "failed_recent_sources": [
       "Dreamjob — stages"
     ],
-    "failed_recent_sources": [],
     "recent_new_discoveries": 0,
     "recent_cycle_candidates": 8,
-    "recent_cycle_publishes": 1,
-    "successful_empty_cycle_streak": 1,
-    "minutes_without_blogger": 178.3,
+    "recent_cycle_publishes": 0,
+    "successful_empty_cycle_streak": 2,
+    "minutes_without_blogger": 431.3,
     "last_blogger_publish_at": "2026-10-22T21:55:11.579843+00:00"
   },
-  "services_checked_at": "2026-10-23T00:22:32.333181+00:00"
+  "services_checked_at": "2026-10-23T05:06:27.981926+00:00"
 }
