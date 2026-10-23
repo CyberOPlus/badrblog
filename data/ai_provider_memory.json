@@ -1,23 +1,6 @@
 {
   "avg_time": 0.5573,
-  "cooldowns": {
-    "gemini:gemini-2.5-flash:64f603a8c0": {
-      "failed_at": "2026-10-23T19:22:11",
-      "key_id": "64f603a8c0",
-      "model": "gemini-2.5-flash",
-      "provider": "gemini",
-      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1792786035.1109734
-    },
-    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "failed_at": "2026-10-23T19:22:23",
-      "key_id": "fb4fab4ba1",
-      "model": "openai/gpt-oss-20b",
-      "provider": "groq",
-      "reason": "groq returned an empty response.",
-      "until": 1792783646.946044
-    }
-  },
+  "cooldowns": {},
   "failure_fingerprints": {
     "16f0cdcebb62d34cab0f": {
       "category": "quota",
@@ -142,13 +125,13 @@
     },
     "a337cb8c4c90a13d6d08": {
       "category": "article_input",
-      "count": 12,
+      "count": 13,
       "first_seen_at": "2026-10-02T10:45:11",
-      "last_seen_at": "2026-10-19T16:47:16",
-      "last_seen_epoch": 1792428436.0649173,
+      "last_seen_at": "2026-10-23T22:02:41",
+      "last_seen_epoch": 1792792961.3117228,
       "provider": "",
       "reason": "source/evidence problem: official document evidence could not be retrieved",
-      "retry_until": 1792450036.0649173,
+      "retry_until": 1792814561.3117228,
       "scope": "article_input"
     },
     "b2683a2f011d9f5c4939": {
@@ -198,16 +181,7 @@
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
   "global_circuit": {},
-  "provider_circuits": {
-    "gemini": {
-      "category": "quota",
-      "fingerprint": "9b8ec695d1ca9e549f46",
-      "opened_at": "2026-10-23T19:22:11",
-      "provider": "gemini",
-      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1792804931.5136845
-    }
-  },
+  "provider_circuits": {},
   "stats": {
     "cloudflare:@cf/meta/llama-3.1-8b-instruct-fp8:be6dab2cd8": {
       "failures": 1,
@@ -228,26 +202,26 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 6.1753,
+      "avg_time": 6.1664,
       "failures": 24,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-09T11:03:07",
-      "last_success_at": "2026-10-23T19:00:51",
+      "last_success_at": "2026-10-23T22:03:01",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 642,
-      "total_success_time": 3964.5339
+      "successes": 643,
+      "total_success_time": 3964.9802
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 8.9935,
+      "avg_time": 8.9718,
       "failures": 66,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-10-23T19:22:11",
-      "last_success_at": "2026-10-23T19:00:33",
+      "last_success_at": "2026-10-23T22:03:01",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 389,
-      "total_success_time": 3498.4555
+      "successes": 390,
+      "total_success_time": 3499.0056
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
       "avg_time": 3.5389,
@@ -261,15 +235,15 @@
       "total_success_time": 421.1346
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.138,
+      "avg_time": 1.1393,
       "failures": 136,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-23T19:22:23",
-      "last_success_at": "2026-10-23T19:22:13",
+      "last_success_at": "2026-10-23T22:03:01",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 434,
-      "total_success_time": 493.8723
+      "successes": 436,
+      "total_success_time": 496.731
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.2091,
@@ -317,15 +291,15 @@
       "total_success_time": 14.6661
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 9.0657,
+      "avg_time": 9.0413,
       "failures": 94,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-22T15:37:43",
-      "last_success_at": "2026-10-23T19:01:03",
+      "last_success_at": "2026-10-23T22:03:03",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 287,
-      "total_success_time": 2601.849
+      "successes": 288,
+      "total_success_time": 2603.8962
     },
     "openrouter:qwen/qwen3.8-27b:1af698c9b3": {
       "failures": 1,

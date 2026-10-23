@@ -1,15 +1,15 @@
 {
-  "updated_at": "2026-10-23T19:22:26.853892+00:00",
+  "updated_at": "2026-10-23T22:03:04.320015+00:00",
   "state": "facebook_stalled",
   "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
   "hourly_target_met": true,
   "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-23T19:00:38",
   "last_facebook_post_id": "103026497833721_1104619895266408",
-  "minutes_since_facebook": 21.8,
-  "last_blogger_publish_at": "2026-10-23T19:22:25.005644+00:00",
-  "fresh_candidate_count": 22,
-  "verified_ready_candidate_count": 1,
+  "minutes_since_facebook": 182.4,
+  "last_blogger_publish_at": "2026-10-23T22:02:55.915251+00:00",
+  "fresh_candidate_count": 21,
+  "verified_ready_candidate_count": 0,
   "unverified_ready_candidate_count": 21,
   "ready_quality_blockers": [
     {
@@ -19,11 +19,15 @@
     {
       "reason": "application URL is not the direct form/action",
       "count": 15
+    },
+    {
+      "reason": "source detail not fetched",
+      "count": 1
     }
   ],
-  "facebook_pending_count": 19,
-  "oldest_facebook_pending_minutes": 5761.5,
-  "oldest_ready_candidate_minutes": 533.3,
+  "facebook_pending_count": 20,
+  "oldest_facebook_pending_minutes": 5922.1,
+  "oldest_ready_candidate_minutes": 0,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -35,7 +39,7 @@
       "status": "ok",
       "providers": {
         "gemini": {
-          "status": "quota",
+          "status": "ok",
           "secret_names": [
             "GEMINI_API_KEY"
           ]
@@ -69,22 +73,9 @@
       "action": "At least one provider generated a response."
     },
     "sources": {
-      "status": "warning",
-      "active_issues": [
-        {
-          "source_name": "Dreamjob — stages",
-          "failure_count": 71,
-          "category": "http_block",
-          "retry_after": "2026-10-23T21:57:46Z"
-        },
-        {
-          "source_name": "Tanmia — offres d'emploi",
-          "failure_count": 1,
-          "category": "source_error",
-          "retry_after": "2026-10-23T19:36:05Z"
-        }
-      ],
-      "action": "One or more sources are cooling down after transient fetch failures."
+      "status": "ok",
+      "active_issues": [],
+      "action": "No active source cooldowns are currently blocking discovery."
     }
   },
   "coverage": {
@@ -93,16 +84,16 @@
     "enabled_feeds": 8,
     "enabled_domains": 6,
     "scanned_recently": 7,
-    "stale_sources": [],
-    "failed_recent_sources": [
+    "stale_sources": [
       "Dreamjob — stages"
     ],
+    "failed_recent_sources": [],
     "recent_new_discoveries": 0,
-    "recent_cycle_candidates": 29,
-    "recent_cycle_publishes": 4,
+    "recent_cycle_candidates": 16,
+    "recent_cycle_publishes": 3,
     "successful_empty_cycle_streak": 0,
-    "minutes_without_blogger": 0.0,
-    "last_blogger_publish_at": "2026-10-23T19:22:25.005644+00:00"
+    "minutes_without_blogger": 0.1,
+    "last_blogger_publish_at": "2026-10-23T22:02:55.915251+00:00"
   },
-  "services_checked_at": "2026-10-23T19:01:03.906217+00:00"
+  "services_checked_at": "2026-10-23T22:03:04.319506+00:00"
 }
