@@ -68,17 +68,6 @@
       "retry_until": 1792460132.185998,
       "scope": "provider"
     },
-    "5536f2970a79bc5a87a5": {
-      "category": "timeout",
-      "count": 17,
-      "first_seen_at": "2026-10-01T20:10:12",
-      "last_seen_at": "2026-10-09T11:12:43",
-      "last_seen_epoch": 1791544363.9899836,
-      "provider": "cloudflare,gemini,groq,mistral,openrouter",
-      "reason": "openrouter provider failed: (\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
-      "retry_until": 1791551563.9899836,
-      "scope": "global"
-    },
     "6fb53a41acd0a93d6960": {
       "category": "format",
       "count": 4,
@@ -101,17 +90,6 @@
       "retry_until": 1792430402.7891476,
       "scope": "provider"
     },
-    "7a7105af81ae98f13b89": {
-      "category": "quota",
-      "count": 12,
-      "first_seen_at": "2026-10-02T20:48:02",
-      "last_seen_at": "2026-10-09T11:03:07",
-      "last_seen_epoch": 1791543787.663585,
-      "provider": "cloudflare",
-      "reason": "Cloudflare API error 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's",
-      "retry_until": 1791565387.663585,
-      "scope": "provider"
-    },
     "7cd7c210360ee67a0f9e": {
       "category": "quality",
       "count": 1,
@@ -122,17 +100,6 @@
       "reason": "manifest fact missing from Jobs output: deadline=2026-11-07",
       "retry_until": 1792683783.9468753,
       "scope": "quality"
-    },
-    "82ce5d050ecd9659a30b": {
-      "category": "cooldown",
-      "count": 226,
-      "first_seen_at": "2026-10-05T15:01:11",
-      "last_seen_at": "2026-10-09T11:08:13",
-      "last_seen_epoch": 1791544093.2856448,
-      "provider": "cloudflare,gemini,groq,mistral,openrouter",
-      "reason": "openrouter candidates are cooling down",
-      "retry_until": 1791561362.7510142,
-      "scope": "global"
     },
     "9b8ec695d1ca9e549f46": {
       "category": "quota",
@@ -178,17 +145,6 @@
       "retry_until": 1792430443.6126285,
       "scope": "quality"
     },
-    "c265fd8cf1cd8b0b0d01": {
-      "category": "quota",
-      "count": 14,
-      "first_seen_at": "2026-10-01T19:49:57",
-      "last_seen_at": "2026-10-09T11:03:42",
-      "last_seen_epoch": 1791543822.0085902,
-      "provider": "cloudflare,gemini,groq,mistral,openrouter",
-      "reason": "mistral provider failed: mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_c",
-      "retry_until": 1791565422.0085902,
-      "scope": "global"
-    },
     "c8c89e727d9503722250": {
       "category": "auth",
       "count": 1,
@@ -221,17 +177,6 @@
       "reason": "vacancy title lacks a clear employment action",
       "retry_until": 1792455189.2627656,
       "scope": "quality"
-    },
-    "f69ff66465ee70a5a639": {
-      "category": "empty",
-      "count": 58,
-      "first_seen_at": "2026-10-01T22:00:14",
-      "last_seen_at": "2026-10-09T11:09:53",
-      "last_seen_epoch": 1791544193.965887,
-      "provider": "cloudflare,gemini,groq,mistral,openrouter",
-      "reason": "openrouter provider failed: OpenRouter returned an empty response.",
-      "retry_until": 1791561362.7510142,
-      "scope": "global"
     }
   },
   "fastest_success_model": "groq:qwen/qwen3.8-27b",
@@ -257,26 +202,26 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 6.193,
+      "avg_time": 6.1839,
       "failures": 24,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-09T11:03:07",
-      "last_success_at": "2026-10-23T10:01:52",
+      "last_success_at": "2026-10-23T14:57:01",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 640,
-      "total_success_time": 3963.4888
+      "successes": 641,
+      "total_success_time": 3963.9065
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 8.8871,
+      "avg_time": 8.8885,
       "failures": 65,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-10-22T15:35:26",
-      "last_success_at": "2026-10-23T10:30:20",
+      "last_success_at": "2026-10-23T14:57:01",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 380,
-      "total_success_time": 3377.1082
+      "successes": 383,
+      "total_success_time": 3404.2861
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
       "avg_time": 3.5533,
@@ -290,15 +235,15 @@
       "total_success_time": 419.2929
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.1392,
+      "avg_time": 1.1376,
       "failures": 135,
       "key_id": "fb4fab4ba1",
       "last_failure_at": "2026-10-22T15:35:30",
-      "last_success_at": "2026-10-23T10:01:51",
+      "last_success_at": "2026-10-23T14:57:01",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 431,
-      "total_success_time": 491.0027
+      "successes": 432,
+      "total_success_time": 491.4608
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.2091,
@@ -346,15 +291,15 @@
       "total_success_time": 14.6661
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 9.0411,
+      "avg_time": 9.0543,
       "failures": 94,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-22T15:37:43",
-      "last_success_at": "2026-10-23T10:01:55",
+      "last_success_at": "2026-10-23T14:57:14",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 285,
-      "total_success_time": 2576.7088
+      "successes": 286,
+      "total_success_time": 2589.5181
     },
     "openrouter:qwen/qwen3.8-27b:1af698c9b3": {
       "failures": 1,
