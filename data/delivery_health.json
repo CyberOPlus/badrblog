@@ -1,19 +1,32 @@
 {
-  "updated_at": "2026-10-26T07:05:53.719860+00:00",
+  "updated_at": "2026-10-26T13:29:05.440578+00:00",
   "state": "facebook_stalled",
   "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
   "hourly_target_met": false,
   "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-23T19:00:38",
   "last_facebook_post_id": "103026497833721_1104619895266408",
-  "minutes_since_facebook": 3605.3,
-  "last_blogger_publish_at": "2026-10-25T12:06:03.672927+00:00",
-  "fresh_candidate_count": 0,
+  "minutes_since_facebook": 3988.5,
+  "last_blogger_publish_at": "2026-10-26T13:28:59.506971+00:00",
+  "fresh_candidate_count": 3,
   "verified_ready_candidate_count": 0,
-  "unverified_ready_candidate_count": 0,
-  "ready_quality_blockers": [],
-  "facebook_pending_count": 24,
-  "oldest_facebook_pending_minutes": 9344.9,
+  "unverified_ready_candidate_count": 3,
+  "ready_quality_blockers": [
+    {
+      "reason": "identity evidence incomplete",
+      "count": 3
+    },
+    {
+      "reason": "application URL is not the direct form/action",
+      "count": 1
+    },
+    {
+      "reason": "application closing deadline is missing or invalid",
+      "count": 1
+    }
+  ],
+  "facebook_pending_count": 25,
+  "oldest_facebook_pending_minutes": 9728.1,
   "oldest_ready_candidate_minutes": 0,
   "pending_first_comments": 0,
   "services": {
@@ -45,7 +58,7 @@
           ]
         },
         "openrouter": {
-          "status": "ok",
+          "status": "empty",
           "secret_names": [
             "OPENROUTER_API_KEY"
           ]
@@ -64,17 +77,17 @@
       "active_issues": [
         {
           "source_name": "Dreamjob — stages",
-          "failure_count": 84,
+          "failure_count": 85,
           "category": "http_block",
-          "retry_after": "2026-10-26T09:27:03Z"
+          "retry_after": "2026-10-26T16:25:57Z"
         }
       ],
       "action": "One or more sources are cooling down after transient fetch failures."
     }
   },
   "coverage": {
-    "status": "blocked_publication",
-    "action": "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers.",
+    "status": "ok",
+    "action": "Discovery coverage is monitored separately from actual publishing.",
     "enabled_feeds": 8,
     "enabled_domains": 6,
     "scanned_recently": 7,
@@ -82,12 +95,12 @@
     "failed_recent_sources": [
       "Dreamjob — stages"
     ],
-    "recent_new_discoveries": 0,
-    "recent_cycle_candidates": 8,
-    "recent_cycle_publishes": 0,
-    "successful_empty_cycle_streak": 3,
-    "minutes_without_blogger": 1139.8,
-    "last_blogger_publish_at": "2026-10-25T12:06:03.672927+00:00"
+    "recent_new_discoveries": 6,
+    "recent_cycle_candidates": 6,
+    "recent_cycle_publishes": 1,
+    "successful_empty_cycle_streak": 0,
+    "minutes_without_blogger": 0.1,
+    "last_blogger_publish_at": "2026-10-26T13:28:59.506971+00:00"
   },
-  "services_checked_at": "2026-10-26T06:27:11.774396+00:00"
+  "services_checked_at": "2026-10-26T13:29:05.440102+00:00"
 }
