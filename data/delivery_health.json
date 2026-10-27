@@ -1,32 +1,28 @@
 {
-  "updated_at": "2026-10-26T23:42:10.231951+00:00",
+  "updated_at": "2026-10-27T02:07:41.891599+00:00",
   "state": "facebook_stalled",
   "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
-  "hourly_target_met": true,
+  "hourly_target_met": false,
   "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-26T19:30:08",
   "last_facebook_post_id": "103026497833721_1107411764987221",
-  "minutes_since_facebook": 252.0,
+  "minutes_since_facebook": 397.6,
   "last_blogger_publish_at": "2026-10-26T23:42:08.362019+00:00",
-  "fresh_candidate_count": 7,
+  "fresh_candidate_count": 1,
   "verified_ready_candidate_count": 0,
-  "unverified_ready_candidate_count": 7,
+  "unverified_ready_candidate_count": 1,
   "ready_quality_blockers": [
     {
-      "reason": "identity evidence incomplete",
-      "count": 6
-    },
-    {
-      "reason": "application URL is not the direct form/action",
-      "count": 2
-    },
-    {
       "reason": "application closing deadline is missing or invalid",
+      "count": 1
+    },
+    {
+      "reason": "identity evidence incomplete",
       "count": 1
     }
   ],
   "facebook_pending_count": 29,
-  "oldest_facebook_pending_minutes": 10341.2,
+  "oldest_facebook_pending_minutes": 10486.7,
   "oldest_ready_candidate_minutes": 0,
   "pending_first_comments": 0,
   "services": {
@@ -91,16 +87,16 @@
     "enabled_feeds": 8,
     "enabled_domains": 6,
     "scanned_recently": 7,
-    "stale_sources": [],
-    "failed_recent_sources": [
+    "stale_sources": [
       "Dreamjob — stages"
     ],
-    "recent_new_discoveries": 0,
-    "recent_cycle_candidates": 9,
-    "recent_cycle_publishes": 4,
+    "failed_recent_sources": [],
+    "recent_new_discoveries": 6,
+    "recent_cycle_candidates": 6,
+    "recent_cycle_publishes": 2,
     "successful_empty_cycle_streak": 0,
-    "minutes_without_blogger": 0.0,
+    "minutes_without_blogger": 145.6,
     "last_blogger_publish_at": "2026-10-26T23:42:08.362019+00:00"
   },
-  "services_checked_at": "2026-10-26T23:17:34.882225+00:00"
+  "services_checked_at": "2026-10-27T02:07:41.891249+00:00"
 }
