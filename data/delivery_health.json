@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-27T02:27:03.047370+00:00",
+  "updated_at": "2026-10-27T07:44:49.027187+00:00",
   "state": "facebook_stalled",
   "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
   "hourly_target_met": false,
   "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-26T19:30:08",
   "last_facebook_post_id": "103026497833721_1107411764987221",
-  "minutes_since_facebook": 416.9,
+  "minutes_since_facebook": 734.7,
   "last_blogger_publish_at": "2026-10-26T23:42:08.362019+00:00",
   "fresh_candidate_count": 1,
   "verified_ready_candidate_count": 0,
@@ -22,7 +22,7 @@
     }
   ],
   "facebook_pending_count": 29,
-  "oldest_facebook_pending_minutes": 10506.1,
+  "oldest_facebook_pending_minutes": 10823.9,
   "oldest_ready_candidate_minutes": 0,
   "pending_first_comments": 0,
   "services": {
@@ -73,17 +73,17 @@
       "active_issues": [
         {
           "source_name": "Dreamjob — stages",
-          "failure_count": 88,
+          "failure_count": 89,
           "category": "http_block",
-          "retry_after": "2026-10-27T05:27:01Z"
+          "retry_after": "2026-10-27T10:44:44Z"
         }
       ],
       "action": "One or more sources are cooling down after transient fetch failures."
     }
   },
   "coverage": {
-    "status": "ok",
-    "action": "Discovery coverage is monitored separately from actual publishing.",
+    "status": "blocked_publication",
+    "action": "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers.",
     "enabled_feeds": 8,
     "enabled_domains": 6,
     "scanned_recently": 7,
@@ -93,10 +93,10 @@
     ],
     "recent_new_discoveries": 0,
     "recent_cycle_candidates": 6,
-    "recent_cycle_publishes": 2,
-    "successful_empty_cycle_streak": 1,
-    "minutes_without_blogger": 164.9,
+    "recent_cycle_publishes": 0,
+    "successful_empty_cycle_streak": 2,
+    "minutes_without_blogger": 482.7,
     "last_blogger_publish_at": "2026-10-26T23:42:08.362019+00:00"
   },
-  "services_checked_at": "2026-10-27T02:07:41.891249+00:00"
+  "services_checked_at": "2026-10-27T07:44:49.026733+00:00"
 }
