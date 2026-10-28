@@ -1,13 +1,21 @@
 {
   "avg_time": 0.5573,
   "cooldowns": {
-    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "failed_at": "2026-10-28T20:33:40",
+    "groq:openai/gpt-oss-120b:fb4fab4ba1": {
+      "failed_at": "2026-10-28T23:35:58",
       "key_id": "fb4fab4ba1",
-      "model": "openai/gpt-oss-20b",
+      "model": "openai/gpt-oss-120b",
       "provider": "groq",
-      "reason": "groq returned an empty response.",
-      "until": 1793219920.398627
+      "reason": "groq API error 413: {\"error\":{\"message\":\"Request too large for model `openai/gpt-oss-120b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
+      "until": 1793232358.9301624
+    },
+    "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
+      "failed_at": "2026-10-28T23:35:58",
+      "key_id": "fb4fab4ba1",
+      "model": "qwen/qwen3.8-27b",
+      "provider": "groq",
+      "reason": "groq API error 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_demand",
+      "until": 1793232361.766369
     }
   },
   "failure_fingerprints": {
@@ -275,32 +283,32 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 6.1282,
+      "avg_time": 6.1962,
       "failures": 24,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-09T11:03:07",
-      "last_success_at": "2026-10-28T19:48:48",
+      "last_success_at": "2026-10-28T23:37:40",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 693,
-      "total_success_time": 4246.8725
+      "successes": 695,
+      "total_success_time": 4306.3411
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 9.3512,
+      "avg_time": 9.4513,
       "failures": 68,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-10-24T00:50:47",
-      "last_success_at": "2026-10-28T20:34:01",
+      "last_success_at": "2026-10-28T23:37:39",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 461,
-      "total_success_time": 4310.8969
+      "successes": 467,
+      "total_success_time": 4413.7402
     },
     "groq:openai/gpt-oss-120b:fb4fab4ba1": {
       "avg_time": 3.5198,
-      "failures": 20,
+      "failures": 21,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-19T19:21:00",
+      "last_failure_at": "2026-10-28T23:35:58",
       "last_success_at": "2026-10-28T20:33:43",
       "model": "openai/gpt-oss-120b",
       "provider": "groq",
@@ -308,21 +316,21 @@
       "total_success_time": 425.8933
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 1.1231,
-      "failures": 141,
+      "avg_time": 1.1216,
+      "failures": 142,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-28T20:33:40",
-      "last_success_at": "2026-10-28T19:48:47",
+      "last_failure_at": "2026-10-28T23:35:58",
+      "last_success_at": "2026-10-28T23:37:40",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 475,
-      "total_success_time": 533.4893
+      "successes": 476,
+      "total_success_time": 533.8774
     },
     "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
       "avg_time": 1.2091,
-      "failures": 10,
+      "failures": 11,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-19T19:35:32",
+      "last_failure_at": "2026-10-28T23:35:58",
       "last_success_at": "2026-10-19T19:35:24",
       "model": "qwen/qwen3.8-27b",
       "provider": "groq",
@@ -364,15 +372,15 @@
       "total_success_time": 14.6661
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 8.3935,
+      "avg_time": 8.3701,
       "failures": 96,
       "key_id": "1af698c9b3",
       "last_failure_at": "2026-10-28T19:46:30",
-      "last_success_at": "2026-10-28T19:48:51",
+      "last_success_at": "2026-10-28T23:37:41",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 319,
-      "total_success_time": 2677.5356
+      "successes": 320,
+      "total_success_time": 2678.4366
     },
     "openrouter:qwen/qwen3.8-27b:1af698c9b3": {
       "failures": 1,

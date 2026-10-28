@@ -1,20 +1,20 @@
 {
-  "updated_at": "2026-10-28T20:34:15.335206+00:00",
+  "updated_at": "2026-10-28T23:37:41.745980+00:00",
   "state": "facebook_stalled",
   "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
   "hourly_target_met": true,
   "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-28T20:34:06",
   "last_facebook_post_id": "103026497833721_1109348338126897",
-  "minutes_since_facebook": 0.2,
-  "last_blogger_publish_at": "2026-10-28T20:34:11.232634+00:00",
-  "fresh_candidate_count": 9,
-  "verified_ready_candidate_count": 1,
+  "minutes_since_facebook": 183.6,
+  "last_blogger_publish_at": "2026-10-28T23:37:37.104780+00:00",
+  "fresh_candidate_count": 8,
+  "verified_ready_candidate_count": 0,
   "unverified_ready_candidate_count": 8,
   "ready_quality_blockers": [
     {
       "reason": "identity evidence incomplete",
-      "count": 8
+      "count": 7
     },
     {
       "reason": "application URL is not the direct form/action",
@@ -25,9 +25,9 @@
       "count": 2
     }
   ],
-  "facebook_pending_count": 30,
-  "oldest_facebook_pending_minutes": 12674.1,
-  "oldest_ready_candidate_minutes": 368.1,
+  "facebook_pending_count": 31,
+  "oldest_facebook_pending_minutes": 12857.6,
+  "oldest_ready_candidate_minutes": 0,
   "pending_first_comments": 0,
   "services": {
     "facebook": {
@@ -77,9 +77,9 @@
       "active_issues": [
         {
           "source_name": "Dreamjob — stages",
-          "failure_count": 96,
+          "failure_count": 97,
           "category": "http_block",
-          "retry_after": "2026-10-28T22:42:36Z"
+          "retry_after": "2026-10-29T02:34:23Z"
         }
       ],
       "action": "One or more sources are cooling down after transient fetch failures."
@@ -96,11 +96,11 @@
       "Dreamjob — stages"
     ],
     "recent_new_discoveries": 0,
-    "recent_cycle_candidates": 6,
-    "recent_cycle_publishes": 2,
+    "recent_cycle_candidates": 5,
+    "recent_cycle_publishes": 3,
     "successful_empty_cycle_streak": 0,
     "minutes_without_blogger": 0.1,
-    "last_blogger_publish_at": "2026-10-28T20:34:11.232634+00:00"
+    "last_blogger_publish_at": "2026-10-28T23:37:37.104780+00:00"
   },
-  "services_checked_at": "2026-10-28T19:48:51.470323+00:00"
+  "services_checked_at": "2026-10-28T23:37:41.745576+00:00"
 }
