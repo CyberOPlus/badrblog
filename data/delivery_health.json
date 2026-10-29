@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-10-29T06:03:52.057365+00:00",
+  "updated_at": "2026-10-29T08:57:47.452950+00:00",
   "state": "facebook_stalled",
   "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
   "hourly_target_met": false,
   "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-28T20:34:06",
   "last_facebook_post_id": "103026497833721_1109348338126897",
-  "minutes_since_facebook": 569.8,
+  "minutes_since_facebook": 743.7,
   "last_blogger_publish_at": "2026-10-28T23:37:37.104780+00:00",
   "fresh_candidate_count": 0,
   "verified_ready_candidate_count": 0,
   "unverified_ready_candidate_count": 0,
   "ready_quality_blockers": [],
   "facebook_pending_count": 31,
-  "oldest_facebook_pending_minutes": 13243.7,
+  "oldest_facebook_pending_minutes": 13417.7,
   "oldest_ready_candidate_minutes": 0,
   "pending_first_comments": 0,
   "services": {
@@ -26,7 +26,7 @@
       "status": "ok",
       "providers": {
         "gemini": {
-          "status": "quota",
+          "status": "ok",
           "secret_names": [
             "GEMINI_API_KEY"
           ]
@@ -73,21 +73,21 @@
     }
   },
   "coverage": {
-    "status": "blocked_publication",
-    "action": "Blogger has not published for six hours despite newly discovered candidates. Inspect per-candidate verification, qualification, and application blockers.",
+    "status": "ok",
+    "action": "Discovery coverage is monitored separately from actual publishing.",
     "enabled_feeds": 8,
     "enabled_domains": 6,
     "scanned_recently": 7,
-    "stale_sources": [],
-    "failed_recent_sources": [
+    "stale_sources": [
       "Dreamjob — stages"
     ],
+    "failed_recent_sources": [],
     "recent_new_discoveries": 0,
-    "recent_cycle_candidates": 8,
+    "recent_cycle_candidates": 0,
     "recent_cycle_publishes": 0,
     "successful_empty_cycle_streak": 2,
-    "minutes_without_blogger": 386.2,
+    "minutes_without_blogger": 560.2,
     "last_blogger_publish_at": "2026-10-28T23:37:37.104780+00:00"
   },
-  "services_checked_at": "2026-10-29T06:03:52.056998+00:00"
+  "services_checked_at": "2026-10-29T08:57:47.452481+00:00"
 }
