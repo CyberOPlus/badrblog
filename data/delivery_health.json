@@ -1,32 +1,28 @@
 {
-  "updated_at": "2026-10-29T12:54:40.686010+00:00",
+  "updated_at": "2026-10-29T15:54:39.195337+00:00",
   "state": "facebook_stalled",
   "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
   "hourly_target_met": false,
   "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-28T20:34:06",
   "last_facebook_post_id": "103026497833721_1109348338126897",
-  "minutes_since_facebook": 980.6,
-  "last_blogger_publish_at": "2026-10-29T12:54:35.370877+00:00",
-  "fresh_candidate_count": 12,
+  "minutes_since_facebook": 1160.6,
+  "last_blogger_publish_at": "2026-10-29T15:54:28.857765+00:00",
+  "fresh_candidate_count": 16,
   "verified_ready_candidate_count": 0,
-  "unverified_ready_candidate_count": 12,
+  "unverified_ready_candidate_count": 16,
   "ready_quality_blockers": [
     {
       "reason": "identity evidence incomplete",
-      "count": 12
+      "count": 15
     },
     {
       "reason": "application URL is not the direct form/action",
-      "count": 1
-    },
-    {
-      "reason": "source detail not fetched",
-      "count": 1
+      "count": 3
     }
   ],
-  "facebook_pending_count": 32,
-  "oldest_facebook_pending_minutes": 13654.5,
+  "facebook_pending_count": 33,
+  "oldest_facebook_pending_minutes": 13834.5,
   "oldest_ready_candidate_minutes": 0,
   "pending_first_comments": 0,
   "services": {
@@ -76,10 +72,10 @@
       "status": "warning",
       "active_issues": [
         {
-          "source_name": "Dreamjob — stages",
-          "failure_count": 100,
-          "category": "http_block",
-          "retry_after": "2026-10-29T15:53:01Z"
+          "source_name": "Tanmia — offres d'emploi",
+          "failure_count": 2,
+          "category": "source_error",
+          "retry_after": "2026-10-29T16:08:26Z"
         }
       ],
       "action": "One or more sources are cooling down after transient fetch failures."
@@ -90,17 +86,19 @@
     "action": "Discovery coverage is monitored separately from actual publishing.",
     "enabled_feeds": 8,
     "enabled_domains": 6,
-    "scanned_recently": 7,
-    "stale_sources": [],
-    "failed_recent_sources": [
+    "scanned_recently": 6,
+    "stale_sources": [
       "Dreamjob — stages"
     ],
-    "recent_new_discoveries": 14,
-    "recent_cycle_candidates": 14,
-    "recent_cycle_publishes": 1,
+    "failed_recent_sources": [
+      "Tanmia — offres d'emploi"
+    ],
+    "recent_new_discoveries": 5,
+    "recent_cycle_candidates": 19,
+    "recent_cycle_publishes": 2,
     "successful_empty_cycle_streak": 0,
-    "minutes_without_blogger": 0.1,
-    "last_blogger_publish_at": "2026-10-29T12:54:35.370877+00:00"
+    "minutes_without_blogger": 0.2,
+    "last_blogger_publish_at": "2026-10-29T15:54:28.857765+00:00"
   },
-  "services_checked_at": "2026-10-29T12:54:40.685477+00:00"
+  "services_checked_at": "2026-10-29T15:54:39.194918+00:00"
 }
