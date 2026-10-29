@@ -1,23 +1,6 @@
 {
   "avg_time": 0.5573,
-  "cooldowns": {
-    "groq:openai/gpt-oss-120b:fb4fab4ba1": {
-      "failed_at": "2026-10-28T23:35:58",
-      "key_id": "fb4fab4ba1",
-      "model": "openai/gpt-oss-120b",
-      "provider": "groq",
-      "reason": "groq API error 413: {\"error\":{\"message\":\"Request too large for model `openai/gpt-oss-120b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "until": 1793232358.9301624
-    },
-    "groq:qwen/qwen3.8-27b:fb4fab4ba1": {
-      "failed_at": "2026-10-28T23:35:58",
-      "key_id": "fb4fab4ba1",
-      "model": "qwen/qwen3.8-27b",
-      "provider": "groq",
-      "reason": "groq API error 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_demand",
-      "until": 1793232361.766369
-    }
-  },
+  "cooldowns": {},
   "failure_fingerprints": {
     "04f774743ec874144094": {
       "category": "format",
