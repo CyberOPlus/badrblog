@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-31T19:21:48",
+  "updated_at": "2026-10-31T21:09:57",
   "articles": [
     {
       "id": "c485f50939cf22d6",
@@ -28812,7 +28812,7 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-31T13:49:20",
-      "status": "ready",
+      "status": "skipped",
       "score": 80,
       "priority": "high",
       "source_links_removed_count": 65,
@@ -28820,7 +28820,7 @@
       "removed_source_links_count": 65,
       "fetched_title": "مباريات التوظيف : مسؤول",
       "meta_description": "",
-      "identity_evidence_invalidated_at": "2026-10-31T13:49:24+00:00",
+      "identity_evidence_invalidated_at": "2026-10-31T21:09:56+00:00",
       "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
       "source_tables": [],
       "source_tables_count": 0,
@@ -28864,7 +28864,7 @@
       "company_logo_url": "https://www.emploi-public.ma/backoffice/files/images/administrations/f67fd073ed7196ec08a292e8935f4c8c.jpg",
       "company_logo_verified": true,
       "company_logo_confidence": 100,
-      "company_logo_source": "emploi_public_administration",
+      "company_logo_source": "verified_registry",
       "company_official_domain": "",
       "company_logo_checksum": "cc5fa4594465c0ca37d95754ddef6faf503cb2e312b4333503c14c090dbb29b7",
       "article_images": [],
@@ -28877,7 +28877,7 @@
       "full_article_text_chars": 487,
       "content_preview": "خيارات الوصول المرئي الإدارة المنظمة الشركة الجهوية متعددة الخدمات بني ملال - خنيفرة آخر أجل لإيداع الترشيحات 15 نونبر 2026 - 23:00 تاريخ النشر 31 أكتوبر 2026 معلومات عن المباراة نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : HTTPS://ECONCOURS.BRAINMAN.MA/CMP/SRM_BK_2026 هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
       "content_preview_chars": 487,
-      "content_fetched_at": "2026-10-31T13:49:24",
+      "content_fetched_at": "2026-10-31T21:09:56",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
       "job_document_texts": [
@@ -28922,30 +28922,17 @@
       "job_document_ocr_unavailable": false,
       "job_document_unread_pages": 0,
       "job_notice_status": "",
-      "identity_evidence_detail_checked": true,
-      "identity_evidence_tables_checked": true,
-      "identity_evidence_documents_checked": true,
-      "identity_evidence_stage_status": "complete",
-      "identity_evidence_stage_checked_at": "2026-10-31T15:15:48+00:00",
-      "identity_evidence_signature": "7475b3059a6581bbd176fb9f",
-      "identity_evidence_strength": 9,
-      "identity_evidence_comparison_strength": 4,
-      "identity_evidence_categories": [
-        "reference",
-        "deadline",
-        "pdf_text",
-        "documents"
-      ],
-      "identity_evidence_reference": "f29c433f 2e91 47f3 9474 1bf7edf67b1e",
-      "identity_evidence_deadline": "2026-11-15T23:00:00+00:00",
-      "identity_evidence_positions": 0,
       "job_pdf_submission_recheck_version": 1,
       "job_score": 80,
       "job_rank_score": 80,
-      "job_quality_status": "publish",
-      "job_quality_reasons": [],
-      "job_hard_gate_passed": true,
-      "job_hard_gate_reasons": [],
+      "job_quality_status": "reject",
+      "job_quality_reasons": [
+        "required diploma is above Bac+3"
+      ],
+      "job_hard_gate_passed": false,
+      "job_hard_gate_reasons": [
+        "required diploma is above Bac+3"
+      ],
       "labels": [
         "jobs",
         "jobs-morocco"
@@ -28958,7 +28945,7 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "571f741bbf94d61c673a",
+      "job_campaign_id": "044db1dc27c4944765e6",
       "seo_slug": "alshrka-aljhwya-mtadda-alkhdmat-bny-mlal-khnyfra-mswwl",
       "desired_slug": "alshrka-aljhwya-mtadda-alkhdmat-bny-mlal-khnyfra-mswwl",
       "job_identity_final": false,
@@ -29227,7 +29214,6 @@
       },
       "ai_status": "failed",
       "ai_error": "source/evidence problem: verified identity evidence stage is incomplete",
-      "ai_retry_pending": true,
       "ai_retry_reason": "source/evidence problem: verified identity evidence stage is incomplete",
       "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
@@ -29235,10 +29221,8 @@
       "ai_failure_scope": "article_input",
       "ai_failure_fingerprint": "53c2ea580a9dbef51425",
       "ai_failure_category": "article_input",
-      "ai_retry_after": "2026-10-31T19:49:41+00:00",
       "ai_quality_status": "article_input_backoff",
       "ai_quality_attempts": 0,
-      "candidate_retry_after": "2026-10-31T19:49:41Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "source/evidence problem: verified identity evidence stage is incomplete",
       "candidate_failure_fingerprint": "57e94199f3a4d77836f2",
@@ -29246,7 +29230,8 @@
       "candidate_failure_backoff_minutes": 360,
       "candidate_failed_at": "2026-10-31T13:49:41",
       "candidate_failure_count": 1,
-      "identity_evidence_document_fingerprint": "https://emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/f29c433f-2e91-47f3-9474-1bf7edf67b1e"
+      "identity_evidence_document_fingerprint": "https://emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/f29c433f-2e91-47f3-9474-1bf7edf67b1e",
+      "skip_reason": "required diploma is above Bac+3"
     },
     {
       "id": "9e52fb1d8f3fabbc",
