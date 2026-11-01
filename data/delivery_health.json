@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-11-01T05:52:49.277172+00:00",
+  "updated_at": "2026-11-01T08:00:35.288052+00:00",
   "state": "facebook_stalled",
   "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
   "hourly_target_met": false,
   "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-29T20:43:04",
   "last_facebook_post_id": "103026497833721_1110336241361440",
-  "minutes_since_facebook": 3429.8,
+  "minutes_since_facebook": 3557.5,
   "last_blogger_publish_at": "2026-10-30T23:46:45.263420+00:00",
   "fresh_candidate_count": 0,
   "verified_ready_candidate_count": 0,
   "unverified_ready_candidate_count": 0,
   "ready_quality_blockers": [],
   "facebook_pending_count": 39,
-  "oldest_facebook_pending_minutes": 17552.7,
+  "oldest_facebook_pending_minutes": 17680.5,
   "oldest_ready_candidate_minutes": 0,
   "pending_first_comments": 0,
   "services": {
@@ -45,7 +45,7 @@
           ]
         },
         "openrouter": {
-          "status": "timeout",
+          "status": "ok",
           "secret_names": [
             "OPENROUTER_API_KEY"
           ]
@@ -73,21 +73,21 @@
     }
   },
   "coverage": {
-    "status": "starved",
-    "action": "Three or more consecutive successful scans found no candidates, and Blogger has not published in 6 hours; investigate sources.",
+    "status": "ok",
+    "action": "Discovery coverage is monitored separately from actual publishing.",
     "enabled_feeds": 8,
     "enabled_domains": 6,
     "scanned_recently": 7,
-    "stale_sources": [],
-    "failed_recent_sources": [
+    "stale_sources": [
       "Dreamjob — stages"
     ],
+    "failed_recent_sources": [],
     "recent_new_discoveries": 0,
     "recent_cycle_candidates": 0,
     "recent_cycle_publishes": 0,
-    "successful_empty_cycle_streak": 3,
-    "minutes_without_blogger": 1806.1,
+    "successful_empty_cycle_streak": 2,
+    "minutes_without_blogger": 1933.8,
     "last_blogger_publish_at": "2026-10-30T23:46:45.263420+00:00"
   },
-  "services_checked_at": "2026-11-01T05:52:49.276698+00:00"
+  "services_checked_at": "2026-11-01T08:00:35.287544+00:00"
 }
