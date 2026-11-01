@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-11-01T01:28:25.630327+00:00",
+  "updated_at": "2026-11-01T05:52:49.277172+00:00",
   "state": "facebook_stalled",
   "action": "A Blogger article has waited at least one hour for Facebook; inspect its delivery error.",
   "hourly_target_met": false,
   "target_minutes": 360,
   "last_facebook_posted_at": "2026-10-29T20:43:04",
   "last_facebook_post_id": "103026497833721_1110336241361440",
-  "minutes_since_facebook": 3165.4,
+  "minutes_since_facebook": 3429.8,
   "last_blogger_publish_at": "2026-10-30T23:46:45.263420+00:00",
   "fresh_candidate_count": 0,
   "verified_ready_candidate_count": 0,
   "unverified_ready_candidate_count": 0,
   "ready_quality_blockers": [],
   "facebook_pending_count": 39,
-  "oldest_facebook_pending_minutes": 17288.3,
+  "oldest_facebook_pending_minutes": 17552.7,
   "oldest_ready_candidate_minutes": 0,
   "pending_first_comments": 0,
   "services": {
@@ -45,7 +45,7 @@
           ]
         },
         "openrouter": {
-          "status": "ok",
+          "status": "timeout",
           "secret_names": [
             "OPENROUTER_API_KEY"
           ]
@@ -64,9 +64,9 @@
       "active_issues": [
         {
           "source_name": "Dreamjob — stages",
-          "failure_count": 113,
+          "failure_count": 114,
           "category": "http_block",
-          "retry_after": "2026-11-01T04:28:19Z"
+          "retry_after": "2026-11-01T08:52:29Z"
         }
       ],
       "action": "One or more sources are cooling down after transient fetch failures."
@@ -85,9 +85,9 @@
     "recent_new_discoveries": 0,
     "recent_cycle_candidates": 0,
     "recent_cycle_publishes": 0,
-    "successful_empty_cycle_streak": 4,
-    "minutes_without_blogger": 1541.7,
+    "successful_empty_cycle_streak": 3,
+    "minutes_without_blogger": 1806.1,
     "last_blogger_publish_at": "2026-10-30T23:46:45.263420+00:00"
   },
-  "services_checked_at": "2026-11-01T01:28:25.629812+00:00"
+  "services_checked_at": "2026-11-01T05:52:49.276698+00:00"
 }
