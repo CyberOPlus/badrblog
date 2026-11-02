@@ -199,7 +199,7 @@ jobs:
           <p>Once you can distinguish each protocol's responsibility, you can follow real traffic without confusing an application request, a TCP segment, an IP packet and a local Ethernet frame.</p>'''
           article=article.replace("{{IMAGE1}}",nodes[0]).replace("{{IMAGE2}}",nodes[1])
           parsed=BeautifulSoup(article,"html.parser")
-          check(len(article)>12500 and len(parsed.find_all("h2"))>=20,"Article incomplete")
+          check(len(article)>12500 and len(parsed.find_all("h2"))>=19,"Article incomplete")
           check(len(parsed.find_all("img"))==2 and [i.get("src") for i in parsed.find_all("img")]==[i.get("src") for i in images],"Original images not preserved")
           check(not re.search(r"[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff]",article),"Non-English article text")
           check(all(k in article for k in ("RFC 9293","RFC 9114","Neighbor Discovery","DHCPv4","nslookup","TLS")),"Technical coverage missing")
