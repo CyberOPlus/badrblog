@@ -64,7 +64,7 @@ def prepare(source,fragment,valid_urls):
         else:check(x==y,"Original resources changed")
     for tag in ("pre","code","script","style","iframe","textarea"):
         check([str(q) for q in before.find_all(tag)]==[str(q) for q in after.find_all(tag)],"Code or protected markup changed")
-    check(before.get_text(" ",strip=True) in after.get_text(" ",strip=True),"Original words changed")
+    check(result.replace("\n"+MARK+"\n"+rendered,"",1)==source,"Original HTML changed outside intended insertion")
     return result
 def main():
     r=Path("migration/editorial/cannibalization_focus_clarifications_2026_11.json")
