@@ -75,7 +75,7 @@ jobs:
           "Ubuntu virtual machine showing a black screen during startup"
           ]
           for im,alt in zip(imgs,alt_text):
-              box=im.find_parent("div",class_="separator")
+              box=im.find_parent("div",class_="separator") or im.find_parent("figure")
               if box is None: fail("Original image wrapper missing")
               while box.parent and getattr(box.parent,"name",None)=="div" and "separator" in (box.parent.get("class") or []):
                   box=box.parent
