@@ -62,6 +62,7 @@ jobs:
               check(wrap is not None,"Missing image wrapper")
               block=BeautifulSoup(str(wrap),"html.parser")
               block.find("img")["alt"]=["Network topology arrangement diagram showing physical and logical network nodes","Types of network topology including bus star ring tree and mesh"][i]
+              if block.find("img").has_attr("title"):block.find("img")["title"]=block.find("img")["alt"]
               for cap in block.find_all("td",class_="tr-caption"):cap.string="Network topology types illustrated in the original guide"
               nodes.append(str(block))
           article=r'''<p><strong>Network topology</strong> describes how devices and connections are arranged and how information moves between them. The best-known types are <strong>point-to-point, bus, star, ring, tree, mesh and hybrid</strong>. Understanding the differences helps you design a network that is easier to expand, maintain and troubleshoot without making incorrect assumptions about performance or reliability.</p>
