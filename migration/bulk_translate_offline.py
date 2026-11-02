@@ -211,7 +211,7 @@ def transform(source, posts, model, cache, is_page=False):
     # Take a snapshot because replace_with changes DOM structure during iteration.
     all_strings = list(soup.find_all(string=True))
     for text_node in all_strings:
-        if not isinstance(text_node, NavigableString) or text_node.parent is None:
+        if type(text_node) is not NavigableString or text_node.parent is None:
             continue
         anc = text_node.parent
         skip = False
