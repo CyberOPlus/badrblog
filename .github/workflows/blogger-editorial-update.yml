@@ -1,9 +1,8 @@
-name: CyberoPlus Editorial - Verified Blogger Taxonomy and Link Repair
+name: CyberoPlus Editorial - One Verified Network Protocols Article
 on:
   push:
     branches: [main]
-    paths:
-      - ".github/workflows/blogger-editorial-update.yml"
+    paths: [".github/workflows/blogger-editorial-update.yml"]
   workflow_dispatch:
 permissions:
   contents: read
@@ -11,151 +10,208 @@ concurrency:
   group: cyberoplus-editorial-one-post
   cancel-in-progress: false
 jobs:
-  verified-batch-content-corrections:
+  verify-and-publish-network-protocols:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 15
     steps:
-      - name: Install authenticated Blogger library
-        run: python -m pip install --disable-pip-version-check "google-auth>=2.20,<3" "requests>=2.31,<3"
-      - name: Normalize all existing Blogger article labels and repair verified broken internal link
+      - name: Install Blogger credentials and HTML parser
+        run: python -m pip install --disable-pip-version-check "google-auth>=2.20,<3" "requests>=2.31,<3" "beautifulsoup4>=4.12,<5"
+      - name: Publish researched English editorial replacement in original Blogger post
         env:
           BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
           BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
           BLOGGER_CLIENT_SECRET_JSON: ${{ secrets.BLOGGER_CLIENT_SECRET_JSON }}
         run: |
           python - <<'PY'
-          import os, re, json, hashlib, time, collections
+          import os,json,re,hashlib
           from urllib.parse import urlsplit
-          from google.auth.transport.requests import AuthorizedSession
+          from bs4 import BeautifulSoup
           from google.oauth2.credentials import Credentials
-          
+          from google.auth.transport.requests import AuthorizedSession
           BID="2750143140558868280"
-          ORIGIN="https://www.cyberoplus.com"
-          OLD_BROKEN="https://www.cyberoplus.com/2026/03/network-protocols-rules-explained"
-          VERIFIED_DEST="https://www.cyberoplus.com/2026/03/what-is-network-protocol.html"
-          DEST_ID="2514711072016023776"
-          CANONICAL={"cybersecurity","artificial-intelligence","technology","guides"}
-          LEGACY=CANONICAL|{"apps","jobs","networking","digital-policy","Technology","Tutorials"}
-          def check(ok,why):
-              if not ok:raise RuntimeError(why)
-          def sha(s):
-              return hashlib.sha256(s.encode("utf-8")).hexdigest()
-          token=json.loads(os.environ["BLOGGER_TOKEN_JSON"])
-          client=json.loads(os.environ["BLOGGER_CLIENT_SECRET_JSON"])
-          conf=client.get("installed") or client.get("web") or {}
+          PID="2514711072016023776"
+          OLD_TITLE="ما هو البروتوكول الشبكي؟ شرح Network Protocols وأشهر الأنواع"
+          URL="https://www.cyberoplus.com/2026/03/what-is-network-protocol.html"
+          PUBLISHED="2026-03-16T21:51:00Z"
+          SOURCE_SHA="6ef3d55e7831cad321f9d0a9c2c2017ea9b890548c00a3ef6c7d1300361c1a53"
+          TITLE="Network Protocols Explained: IP, TCP, UDP, DNS, DHCP and HTTP"
+          def sha(v):return hashlib.sha256(v.encode("utf-8")).hexdigest()
+          def check(c,msg):
+              if not c:raise RuntimeError(msg)
+          t=json.loads(os.environ["BLOGGER_TOKEN_JSON"]);c=json.loads(os.environ["BLOGGER_CLIENT_SECRET_JSON"]);conf=c.get("installed") or c.get("web") or {}
           for key in ("client_id","client_secret","token_uri"):
-              if not token.get(key) and conf.get(key):token[key]=conf[key]
-          session=AuthorizedSession(Credentials.from_authorized_user_info(token))
+              if not t.get(key) and conf.get(key):t[key]=conf[key]
+          session=AuthorizedSession(Credentials.from_authorized_user_info(t))
           base="https://www.googleapis.com/blogger/v3/blogs/"+BID
-          check(os.environ.get("BLOGGER_BLOG_ID")==BID,"Wrong target Blog ID")
-          b=session.get(base,timeout=35);b.raise_for_status();blog=b.json()
-          check(str(blog.get("id"))==BID and (urlsplit(str(blog.get("url",""))).hostname or "").lower() in ("cyberoplus.com","www.cyberoplus.com"),"Wrong target blog")
-          # The existing theme expects /search/label/{cybersecurity,artificial-intelligence,technology,guides}.
-          # Display names are Cybersecurity, Artificial Intelligence, Technology and Tutorials.
-          def category(post):
-              title=str(post.get("title","")).lower()
-              labels=set(post.get("labels") or [])
-              if not labels or not labels.issubset(LEGACY):return None
-              if "cybersecurity" in labels:return "cybersecurity"
-              if "artificial-intelligence" in labels:return "artificial-intelligence"
-              if labels&{"networking","technology","Technology"}:return "technology"
-              if labels&{"guides","Tutorials"}:return "guides"
-              if "digital-policy" in labels:
-                  if "cybersecurity" in title or "الأمن السيبراني" in title:return "cybersecurity"
-                  if "ai act" in title or "الذكاء الاصطناعي" in title:return "artificial-intelligence"
-                  return "technology"
-              if "jobs" in labels:
-                  if any(k in title for k in ("شهادات الأمن السيبراني","مسيرتك المهنية في مجال الأمن السيبراني","cybersecurity certifications","cybersecurity career")):
-                      return "cybersecurity"
-                  return "technology"
-              if "apps" in labels:
-                  if any(k in title for k in ("الذكاء الاصطناعي","chatgpt","deepseek","midjourney","gemini","claude"," ai tools")):
-                      return "artificial-intelligence"
-                  if any(k in title for k in ("احتيال","تجسس","أمان","الحماية","الاختراق","الخصوصية","security","defender control","حماية","التصيد","romance scam","malware")):
-                      return "cybersecurity"
-                  if title.startswith(("كيفية","طريقة","حل خطأ","إصلاح","تثبيت")):
-                      return "guides"
-                  return "technology"
-              return None
-          
-          def fetch_all():
-              allposts=[];next_page=None;seen=set()
-              for _ in range(10):
-                  params={"status":"live","maxResults":100,"fetchBodies":"false","view":"ADMIN"}
-                  if next_page:params["pageToken"]=next_page
-                  r=session.get(base+"/posts",params=params,timeout=50);r.raise_for_status()
-                  data=r.json()
-                  allposts.extend(data.get("items") or [])
-                  next_page=data.get("nextPageToken")
-                  if not next_page:break
-                  check(next_page not in seen,"Repeated pagination token")
-                  seen.add(next_page)
-              return allposts
-          
-          def read_post(pid):
-              r=session.get(base+"/posts/"+pid,params={"view":"ADMIN","fetchBody":"true"},timeout=50)
-              r.raise_for_status()
-              return r.json()
-          
-          posts=fetch_all()
-          check(len(posts)>=250 and len(posts)<=320,"Unexpected inventory: "+str(len(posts)))
-          ids=[str(p["id"]) for p in posts]
-          check(len(ids)==len(set(ids)),"Duplicate post IDs")
-          destination=read_post(DEST_ID)
-          check(destination.get("url")==VERIFIED_DEST,"Verified replacement link no longer points to expected article")
-          changes=0; unchanged=0; skipped=0; links_fixed=0; failures=[];counts=collections.Counter()
-          print("INVENTORY_VERIFIED: "+str(len(posts))+" live posts")
-          for i,record in enumerate(posts,1):
-              pid=str(record["id"])
-              try:
-                  target=category(record)
-                  if target is None:
-                      skipped+=1;print("SKIPPED_UNRECOGNIZED_LABELS: "+pid);continue
-                  check(target in CANONICAL,"Unsupported label")
-                  live=read_post(pid)
-                  # The list snapshot acts as a short-lived concurrency guard against simultaneous manual edits.
-                  if (str(live.get("id"))!=pid or live.get("url")!=record.get("url") or
-                      live.get("title")!=record.get("title") or
-                      live.get("updated")!=record.get("updated") or
-                      live.get("labels")!=record.get("labels")):
-                      skipped+=1;print("SKIPPED_MANUALLY_CHANGED: "+pid);continue
-                  # If the editor added new labels since the list call, skip rather than overwrite.
-                  if category(live)!=target:
-                      skipped+=1;print("SKIPPED_RECLASSIFIED: "+pid);continue
-                  oldlabels=live.get("labels") or []
-                  oldcontent=live.get("content") or ""
-                  newcontent=oldcontent
-                  repaired=False
-                  if OLD_BROKEN in oldcontent:
-                      check(oldcontent.count(OLD_BROKEN)==1,"Unexpected number of broken-link occurrences in "+pid)
-                      newcontent=oldcontent.replace(OLD_BROKEN,VERIFIED_DEST)
-                      repaired=True
-                  update={}
-                  if oldlabels!=[target]:update["labels"]=[target]
-                  if repaired:update["content"]=newcontent
-                  if not update:
-                      unchanged+=1;counts[target]+=1;continue
-                  # Patch ONLY fields we own. Never send title, publication date, URL or any metadata description.
-                  response=session.patch(base+"/posts/"+pid,json=update,timeout=65)
-                  response.raise_for_status()
-                  after=read_post(pid)
-                  check(str(after.get("id"))==pid and after.get("url")==live.get("url") and
-                        after.get("published")==live.get("published") and
-                        after.get("title")==live.get("title") and
-                        after.get("labels")==[target],"Identity or classification verification failed "+pid)
-                  check(sha(after.get("content") or "")==sha(newcontent),"Post body unexpectedly changed "+pid)
-                  changes+=1;counts[target]+=1
-                  if repaired:links_fixed+=1;print("BROKEN_INTERNAL_LINK_FIXED: "+pid)
-                  if i%25==0:print("CHECKPOINT_VERIFIED: "+str(i)+"/"+str(len(posts)))
-              except Exception as e:
-                  failures.append(pid+":"+type(e).__name__+":"+str(e)[:180])
-                  print("POST_FAILED: "+failures[-1])
-                  if len(failures)>=8:
-                      raise RuntimeError("Circuit breaker after 8 post failures; prior successful patches were verified")
-          print("BATCH_COMPLETE: "+json.dumps({"inventory":len(posts),"posts_updated":changes,
-                                             "unchanged":unchanged,"skipped":skipped,"broken_internal_links_fixed":links_fixed,
-                                             "canonical_label_counts":dict(counts),"failures":len(failures)},sort_keys=True))
-          if failures:
-              raise RuntimeError("Some posts were not updated; details in standard workflow execution output")
+          check(os.environ.get("BLOGGER_BLOG_ID")==BID,"Wrong blog target")
+          r=session.get(base,timeout=30);r.raise_for_status()
+          check(str(r.json().get("id"))==BID and (urlsplit(r.json().get("url","")).hostname or "").lower() in ("www.cyberoplus.com","cyberoplus.com"),"Blog domain mismatch")
+          endpoint=base+"/posts/"+PID
+          def read():
+              r=session.get(endpoint,params={"view":"ADMIN","fetchBody":"true"},timeout=45);r.raise_for_status();return r.json()
+          old=read()
+          check(str(old.get("id"))==PID and old.get("url")==URL and old.get("published")==PUBLISHED and old.get("title")==OLD_TITLE and sha(old.get("content",""))==SOURCE_SHA,"The article was manually edited since the last verified export; no write")
+          check(old.get("labels") in (["networking"],["technology"]),"Unexpected label changes; no write")
+          soup=BeautifulSoup(old["content"],"html.parser")
+          images=soup.find_all("img")
+          check(len(images)==2,"Original image count changed")
+          nodes=[]
+          for i,im in enumerate(images):
+              table=im.find_parent("table",class_="tr-caption-container")
+              check(table is not None,"Cannot preserve original image wrapper")
+              fragment=BeautifulSoup(str(table),"html.parser")
+              image=fragment.find("img")
+              alt=["Network protocols overview and connected devices illustration","Network protocols within OSI and TCP IP layers"][i]
+              image["alt"]=alt
+              if image.has_attr("title"):image["title"]=alt
+              cap=fragment.find("td",class_="tr-caption")
+              if cap:cap.string=alt
+              nodes.append(str(fragment))
+          article=r'''<p><strong>A network protocol is a shared set of rules</strong> for formatting, sending, receiving and interpreting information between devices or applications. Protocols make it possible for a Windows computer, an Android phone, a Linux server and the routers between them to communicate without relying on one vendor's private conventions. This guide explains what protocols do, how the Internet protocol suite works and how to recognize IP, TCP, UDP, DNS, DHCP, HTTP, TLS, ICMP and other technologies in a real connection.</p>
+          {{IMAGE1}}
+          <p>Think of protocols as separate agreements about different parts of communication: how a link sends frames, how an IP packet finds a destination network, how an application delivers data and how that data is understood. One protocol rarely solves all of these problems alone.</p>
+          <h2>What is a network protocol?</h2>
+          <p>A <strong>network protocol</strong> defines a set of message formats, meanings and communication procedures. Depending on the protocol, it can specify fields in a header, how endpoints identify one another, which messages start a request, what responses mean, how errors are reported, or how lost information is recovered.</p>
+          <p>Two implementations can use the same protocol even when they run on different operating systems. What matters is that both follow the relevant specification and can interpret the required message formats and state transitions.</p>
+          <aside data-type="info"><strong>Protocol versus service:</strong> a service describes what functionality is offered to another component or user. A protocol describes the rules used between communicating endpoints to provide or support that functionality. For example, a name-resolution service can use DNS messages; the user-facing service and the DNS wire protocol are related but not identical concepts.</aside>
+          <h2>Why do networks need multiple protocols?</h2>
+          <p>Imagine loading a secure website. The browser may first need a destination IP address, then a way to communicate across local and remote networks, a transport mechanism and an application-level request format. Separate protocols cooperate because they solve different tasks:</p>
+          <ol data-steps>
+          <li><strong>DNS</strong> can resolve a hostname into an address or other service information.</li>
+          <li><strong>IP</strong> gives packets logical source and destination addresses for communication across networks.</li>
+          <li><strong>TCP, UDP or QUIC</strong> provides transport-related functions depending on the application and protocol version.</li>
+          <li><strong>TLS</strong> supplies security properties for protected communications; its integration depends on the transport used.</li>
+          <li><strong>HTTP</strong> defines web request and response semantics.</li>
+          <li><strong>Ethernet or Wi-Fi</strong> carries traffic over a local link using its own framing and transmission rules.</li>
+          </ol>
+          <p>Real applications may cache DNS answers, reuse connections, use proxies or negotiate HTTP/3. The list is a conceptual overview rather than a mandatory chronological sequence for every request.</p>
+          <h2>What is a protocol suite?</h2>
+          <p>A <strong>protocol suite</strong> is a family of complementary protocols designed or standardized to work together. <strong>TCP/IP</strong> commonly names the Internet protocol suite: the name does not mean that only TCP and IP exist. The suite also includes UDP, ICMP and many additional protocols used by Internet applications.</p>
+          <p>See our <a href="https://www.cyberoplus.com/2026/03/tcpip-vs-osi-model-comparison.html">OSI versus TCP/IP comparison</a> for a more detailed explanation of its layered organization and the limitations of one-to-one OSI mappings.</p>
+          <h2>Common network protocols and their purposes</h2>
+          <table><thead><tr><th>Protocol</th><th>Main purpose</th><th>Important nuance</th></tr></thead><tbody>
+          <tr><td>IPv4 / IPv6</td><td>Packet addressing and forwarding between networks</td><td>IP alone does not guarantee reliable, in-order delivery</td></tr>
+          <tr><td>TCP</td><td>Reliable ordered byte-stream service between endpoints</td><td>Uses connection state, sequence numbers and retransmission</td></tr>
+          <tr><td>UDP</td><td>Datagram transport</td><td>No built-in guarantee of delivery, ordering or retransmission</td></tr>
+          <tr><td>DNS</td><td>Domain-name and other resource-record information</td><td>DNS is not limited to returning a single IPv4 address</td></tr>
+          <tr><td>DHCP</td><td>Automatic network configuration</td><td>DHCPv4 and DHCPv6 are distinct protocols</td></tr>
+          <tr><td>HTTP</td><td>Web request and response semantics</td><td>HTTP/3 can run over QUIC instead of TCP</td></tr>
+          <tr><td>TLS</td><td>Authenticated and encrypted communications</td><td>Encryption does not prove that a website is trustworthy</td></tr>
+          <tr><td>ICMP / ICMPv6</td><td>Network error reporting and control functions</td><td>Not application transport protocols with TCP/UDP ports</td></tr>
+          <tr><td>ARP / IPv6 NDP</td><td>Local IPv4 resolution / IPv6 neighbor discovery</td><td>IPv6 uses Neighbor Discovery, not IPv4 ARP</td></tr>
+          </tbody></table>
+          <h2>IP: addressing packets across networks</h2>
+          <p>The Internet Protocol (IP) provides a packet format and logical addressing. IPv4 uses 32-bit addresses such as <code>192.0.2.15</code>, while IPv6 uses 128-bit addresses such as <code>2001:db8::15</code>. Those addresses are documentation examples, not endpoints you should assume are reachable.</p>
+          <p>A router selects a next hop or outgoing interface using a routing table and policy. IP packet delivery is a best-effort service; it does not promise that every packet will arrive, arrive only once or arrive in the order sent. The differences between local MAC addressing and routed IP addressing are explained further in our <a href="https://www.cyberoplus.com/2026/03/network-devices-hub-switch-router-firewall.html">guide to switches, routers and network devices</a>.</p>
+          <h2>TCP: reliable ordered byte streams</h2>
+          <p><strong>Transmission Control Protocol (TCP)</strong> provides applications with a reliable, ordered byte-stream interface. It uses sequence numbers, acknowledgments and retransmissions to recover from loss, along with flow control and congestion control mechanisms.</p>
+          <p>TCP does not preserve application message boundaries as individual messages: an application sending two chunks cannot assume the receiver will read exactly two matching chunks. Applications must define their own framing where needed.</p>
+          <p>The authoritative specification is <a href="https://www.rfc-editor.org/rfc/rfc9293.html" rel="noopener noreferrer">RFC 9293</a>, which consolidates and replaces the original RFC 793 specification.</p>
+          <h2>UDP: datagrams without TCP's built-in guarantees</h2>
+          <p><strong>User Datagram Protocol (UDP)</strong> sends datagrams with port-number addressing and minimal transport behavior. UDP itself does not retransmit a lost packet or reorder received datagrams. It is often suitable for applications that handle timing, message boundaries or reliability in their own way.</p>
+          <p>Examples include DNS exchanges, various real-time applications, and QUIC-based Internet services. A protocol built <em>over</em> UDP can still implement reliability: <strong>QUIC</strong> does exactly that for its secure streams. Consult <a href="https://www.rfc-editor.org/rfc/rfc768.html" rel="noopener noreferrer">RFC 768</a> for UDP and <a href="https://www.rfc-editor.org/rfc/rfc9000.html" rel="noopener noreferrer">RFC 9000</a> for QUIC.</p>
+          <h2>TCP versus UDP: a practical comparison</h2>
+          <table><thead><tr><th>Feature</th><th>TCP</th><th>UDP</th></tr></thead><tbody>
+          <tr><td>Delivery interface</td><td>Byte stream</td><td>Datagrams</td></tr>
+          <tr><td>Connection state</td><td>Connection-oriented</td><td>Connectionless at UDP level</td></tr>
+          <tr><td>Reliability</td><td>Transport-managed loss recovery</td><td>Application or higher protocol must supply it if required</td></tr>
+          <tr><td>Ordering</td><td>In-order byte delivery</td><td>No built-in ordered delivery</td></tr>
+          <tr><td>Used by</td><td>Common HTTP/1.1, HTTP/2 and SSH deployments</td><td>DNS queries, some real-time traffic and QUIC</td></tr>
+          </tbody></table>
+          <p>Do not conclude that TCP is always faster, UDP is always faster, or every use of UDP is unreliable. Performance and application-level reliability depend on the complete protocol design, path and workload.</p>
+          <h2>DNS: finding information about a domain</h2>
+          <p><strong>Domain Name System (DNS)</strong> is a distributed naming system. A browser looking up <code>example.com</code> may receive an IPv4 <code>A</code> record, an IPv6 <code>AAAA</code> record or other relevant information. DNS also supports records such as <code>MX</code> for mail routing and <code>TXT</code> for various policies or verification information.</p>
+          <p>DNS caches and resolvers can mean that a browser does not send a fresh DNS query each time it opens a page. DNS also does not guarantee that a returned address belongs to a trustworthy service. See <a href="https://www.rfc-editor.org/rfc/rfc1034.html" rel="noopener noreferrer">RFC 1034</a> and <a href="https://www.rfc-editor.org/rfc/rfc1035.html" rel="noopener noreferrer">RFC 1035</a>.</p>
+          <h2>DHCP: automatic network configuration</h2>
+          <p><strong>Dynamic Host Configuration Protocol</strong> allows a device to obtain network settings without requiring a user to enter every value manually. Typical DHCPv4 configuration can provide an IP address, subnet mask, default gateway and DNS resolver addresses.</p>
+          <p>In a common DHCPv4 exchange, the client may perform the sequence <strong>Discover → Offer → Request → Acknowledgment</strong>. This is a simplified illustration; server/client behavior, renewal and error handling involve additional details. For DHCPv4 see <a href="https://www.rfc-editor.org/rfc/rfc2131.html" rel="noopener noreferrer">RFC 2131</a>.</p>
+          <h2>HTTP, HTTPS and TLS: web requests and secure connections</h2>
+          <p><strong>HTTP</strong> defines requests and responses for resources. Methods such as <code>GET</code> and <code>POST</code>, response status codes and header semantics are specified separately from any particular interface design. A typical <code>GET</code> request asks a server for a resource; a <code>404</code> response indicates the requested target was not found at that server.</p>
+          <p><strong>HTTPS</strong> means HTTP over a secure communication context. HTTP/1.1 and HTTP/2 commonly use TLS over TCP, while <strong>HTTP/3 uses QUIC over UDP</strong> with integrated TLS 1.3-based security mechanisms. Encryption protects communication against certain interception and tampering threats; it does not guarantee the site's honesty or the safety of downloaded files.</p>
+          <p>Primary references: <a href="https://www.rfc-editor.org/rfc/rfc9110.html" rel="noopener noreferrer">RFC 9110 (HTTP semantics)</a> and <a href="https://www.rfc-editor.org/rfc/rfc9114.html" rel="noopener noreferrer">RFC 9114 (HTTP/3)</a>.</p>
+          <h2>ICMP: errors and operational messages</h2>
+          <p><strong>ICMP</strong> carries control and diagnostic messages used in IP networking. For example, an IP router can send an ICMP error under defined conditions; diagnostic tools such as <code>ping</code> often use ICMP Echo messages. Not every device answers every Echo request, and blocking ICMP does not prove that a host is offline.</p>
+          <p>ICMP does not use TCP or UDP application port numbers. Some diagnostic techniques also use UDP or TCP probes, so a tool's output needs to be interpreted in the context of its method.</p>
+          <h2>ARP on IPv4 and Neighbor Discovery on IPv6</h2>
+          <p>On an Ethernet IPv4 LAN, <strong>Address Resolution Protocol (ARP)</strong> can identify which MAC address is associated with a locally reachable IPv4 address. When a destination is outside the local IPv4 network, a host typically resolves the next-hop router's local link address rather than the remote server's Ethernet MAC.</p>
+          <p>IPv6 does not use IPv4 ARP. Its <strong>Neighbor Discovery Protocol (NDP)</strong> relies on ICMPv6 messages for neighbor resolution and related functions. The foundational references are <a href="https://www.rfc-editor.org/rfc/rfc826.html" rel="noopener noreferrer">RFC 826 (ARP)</a> and <a href="https://www.rfc-editor.org/rfc/rfc4861.html" rel="noopener noreferrer">RFC 4861 (IPv6 Neighbor Discovery)</a>.</p>
+          {{IMAGE2}}
+          <h2>What are TCP and UDP port numbers?</h2>
+          <p>Ports help transport protocols identify application endpoints on a host. A port number without its transport protocol is incomplete: <code>TCP 443</code> and <code>UDP 443</code> are not the same socket endpoint. Ports do not identify a physical cable or switch port in this context.</p>
+          <table><thead><tr><th>Common service</th><th>Typical port and transport</th><th>Qualification</th></tr></thead><tbody>
+          <tr><td>HTTP/1.1</td><td>TCP 80</td><td>A server can be configured to use another port</td></tr>
+          <tr><td>HTTPS (HTTP/1.1 or HTTP/2)</td><td>TCP 443</td><td>Common secure web configuration</td></tr>
+          <tr><td>HTTP/3</td><td>UDP 443</td><td>Uses QUIC</td></tr>
+          <tr><td>DNS</td><td>UDP or TCP 53</td><td>Both transports are part of operational DNS use</td></tr>
+          <tr><td>DHCPv4</td><td>UDP 67 and 68</td><td>Server and client use different port numbers</td></tr>
+          <tr><td>SSH</td><td>TCP 22</td><td>Common default, but configurable</td></tr>
+          </tbody></table>
+          <aside data-type="warning"><strong>Port numbers are conventions, not proofs.</strong> A process listening on port 443 is not automatically an HTTPS server, and a service can use a non-default port. Determine the actual protocol and configuration when troubleshooting.</aside>
+          <h2>How protocols work together when you visit a website</h2>
+          <ol data-steps>
+          <li>You enter a hostname such as <code>example.com</code> in your browser.</li>
+          <li>The system obtains destination information through a local cache or DNS resolution.</li>
+          <li>The host chooses a route toward the destination IP; local neighbor-resolution procedures may be necessary to reach the next hop.</li>
+          <li>The client uses a suitable transport: for instance TCP followed by TLS for HTTP/2, or QUIC over UDP for HTTP/3.</li>
+          <li>The browser sends an HTTP request according to the negotiated version.</li>
+          <li>IP packets traverse routers, with link-layer framing appropriate to each hop.</li>
+          <li>The server responds, and the client processes the received information to display the page.</li>
+          </ol>
+          <p>Real requests can involve a proxy, CDN, VPN, multiplexed streams, existing cached connections and retransmissions. This walkthrough describes the roles, not a guarantee that each step appears separately on every request.</p>
+          <h2>How do network protocols relate to the OSI layers?</h2>
+          <p>Use the OSI model as a <strong>learning and troubleshooting framework</strong>, not a rigid description of software implementation. Ethernet frames are primarily discussed in the context of Data Link, IP addresses in Network, TCP and UDP in Transport, and HTTP and DNS in Application. Presentation and Session concerns may be handled by application software and its supporting libraries in actual Internet implementations.</p>
+          <p>Our <a href="https://www.cyberoplus.com/2026/03/osi-model-7-layers-explained.html">OSI seven-layer guide</a> explains the functions with examples. Do not label TLS as universally OSI Layer 6 or assume that every protocol contributes exactly one header in a seven-header stack.</p>
+          <h2>Try inspecting network configuration safely</h2>
+          <h3>Windows</h3>
+          <p>Open Command Prompt and run these read-only diagnostic commands:</p>
+          <pre><code>ipconfig /all
+          nslookup example.com
+          tracert example.com</code></pre>
+          <p><code>ipconfig /all</code> displays interface configuration; <code>nslookup</code> asks about DNS information; and <code>tracert</code> probes an approximate path, where some hops may not reply. These commands observe system behavior rather than changing firewall policies.</p>
+          <h3>Linux</h3>
+          <p>On a typical Linux installation with the necessary tools:</p>
+          <pre><code>ip address
+          ip route
+          getent hosts example.com</code></pre>
+          <p><code>ip address</code> displays assigned interface addresses, <code>ip route</code> shows routing information, and <code>getent hosts</code> uses the system's configured host lookup mechanism. Availability and exact output depend on your distribution and installed packages.</p>
+          <p>Then test your understanding with our <a href="https://www.cyberoplus.com/2026/03/network-exercises-solved-interactive.html">10 solved beginner networking exercises</a>, including MAC addresses, IP routing, TCP and DNS.</p>
+          <h2>Common mistakes when learning protocols</h2>
+          <ul>
+          <li><strong>IP guarantees delivery:</strong> it does not supply the reliable byte-stream guarantees associated with TCP.</li>
+          <li><strong>UDP means unreliability for every app:</strong> applications and QUIC can add transport reliability over UDP.</li>
+          <li><strong>DNS only translates domain names to IPv4:</strong> DNS supports many record types, including IPv6-related records.</li>
+          <li><strong>HTTPS is a separate web language from HTTP:</strong> it uses HTTP semantics in a protected communication context.</li>
+          <li><strong>Every web connection is TCP:</strong> HTTP/3 uses QUIC over UDP.</li>
+          <li><strong>MAC and IP addresses have the same scope:</strong> MAC addressing concerns local link communication; IP supports routing across networks.</li>
+          <li><strong>IPv6 uses ARP:</strong> IPv6 uses Neighbor Discovery.</li>
+          <li><strong>A TCP/UDP port is a physical port:</strong> transport ports identify communication endpoints rather than hardware connectors.</li>
+          </ul>
+          <h2>Recommended standards and next lessons</h2>
+          <ul>
+          <li><a href="https://www.rfc-editor.org/rfc/rfc9293.html" rel="noopener noreferrer">RFC 9293 — TCP specification</a></li>
+          <li><a href="https://www.rfc-editor.org/rfc/rfc768.html" rel="noopener noreferrer">RFC 768 — UDP</a></li>
+          <li><a href="https://www.rfc-editor.org/rfc/rfc1034.html" rel="noopener noreferrer">RFC 1034 — Domain Name System concepts</a></li>
+          <li><a href="https://www.rfc-editor.org/rfc/rfc2131.html" rel="noopener noreferrer">RFC 2131 — DHCPv4</a></li>
+          <li><a href="https://www.rfc-editor.org/rfc/rfc9110.html" rel="noopener noreferrer">RFC 9110 — HTTP semantics</a></li>
+          <li><a href="https://www.rfc-editor.org/rfc/rfc9114.html" rel="noopener noreferrer">RFC 9114 — HTTP/3</a></li>
+          <li><a href="https://www.rfc-editor.org/rfc/rfc4861.html" rel="noopener noreferrer">RFC 4861 — IPv6 Neighbor Discovery</a></li>
+          </ul>
+          <p>Once you can distinguish each protocol's responsibility, you can follow real traffic without confusing an application request, a TCP segment, an IP packet and a local Ethernet frame.</p>'''
+          article=article.replace("{{IMAGE1}}",nodes[0]).replace("{{IMAGE2}}",nodes[1])
+          parsed=BeautifulSoup(article,"html.parser")
+          check(len(article)>12500 and len(parsed.find_all("h2"))>=20,"Article incomplete")
+          check(len(parsed.find_all("img"))==2 and [i.get("src") for i in parsed.find_all("img")]==[i.get("src") for i in images],"Original images not preserved")
+          check(not re.search(r"[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff]",article),"Non-English article text")
+          check(all(k in article for k in ("RFC 9293","RFC 9114","Neighbor Discovery","DHCPv4","nslookup","TLS")),"Technical coverage missing")
+          check(any("network-exercises-solved-interactive.html" in a.get("href","") for a in parsed.find_all("a")),"Related article link missing")
+          check(any("rfc-editor.org" in a.get("href","") for a in parsed.find_all("a")),"Official references missing")
+          print("PRECHECK_PASSED")
+          response=session.patch(endpoint,json={"title":TITLE,"content":article,"labels":["technology"]},timeout=70)
+          response.raise_for_status()
+          after=read()
+          check(str(after.get("id"))==PID and after.get("url")==URL and after.get("published")==PUBLISHED and after.get("title")==TITLE and after.get("labels")==["technology"],"CRITICAL: post identity or metadata mismatch")
+          check(sha(after.get("content",""))==sha(article),"CRITICAL: saved HTML differs")
+          print("PUBLISHED_AND_VERIFIED: "+URL)
+          print("ORIGINAL_PUBLISH_DATE_PRESERVED: "+PUBLISHED)
           
           PY
