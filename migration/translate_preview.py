@@ -105,7 +105,7 @@ def translate_batch(api_key, model, context, segments):
             "Never add, remove, correct, update or speculate about any fact.",
             "Do not output HTML, Markdown wrappers or explanatory commentary.",
             "Translate into English even for short labels; keep English technical expressions.",
-            "Return JSON with one string per original segment ID. Do not merge segments.",
+            "Return strictly a JSON object with an items array, each item has id and translation string. Do not merge segments.",
         ],
         "article_context_for_terminology_only": context[:1200],
         "segments": [{"id": sid, "text": txt} for sid, txt in segments],
@@ -113,7 +113,27 @@ def translate_batch(api_key, model, context, segments):
     import time
     payload = {
         "contents": [{"role": "user", "parts": [{"text": json.dumps(query, ensure_ascii=False)}]}],
-        "generationConfig": {"responseMimeType": "application/json", "temperature": 0.0},
+        "generationConfig": {
+            "responseMimeType": "application/json",
+            "temperature": 0.0,
+            "responseSchema": {
+                "type": "OBJECT",
+                "properties": {
+                    "items": {
+                        "type": "ARRAY",
+                        "items": {
+                            "type": "OBJECT",
+                            "properties": {
+                                "id": {"type": "STRING"},
+                                "translation": {"type": "STRING"}
+                            },
+                            "required": ["id", "translation"]
+                        }
+                    }
+                },
+                "required": ["items"]
+            }
+        },
     }
     candidates = [model]
     if model == "gemini-3.8-flash":
@@ -154,9 +174,17 @@ def translate_batch(api_key, model, context, segments):
         decoded = json.loads(raw)
     except json.JSONDecodeError as e:
         raise RuntimeError("Translation provider returned invalid JSON") from e
-    items = decoded.get("items") if isinstance(decoded, dict) else decoded
+    if isinstance(decoded, dict):
+        items = decoded.get("items") or decoded.get("translations")
+        if isinstance(items, dict):
+            items = [{"id": k, "translation": v} for k, v in items.items()]
+        if items is None and all(isinstance(v, str) for v in decoded.values()):
+            items = [{"id": k, "translation": v} for k, v in decoded.items()]
+    else:
+        items = decoded
     if not isinstance(items, list):
-        raise RuntimeError("Expected JSON list of translation items")
+        raise RuntimeError("Unexpected translation JSON shape; top-level keys={}".format(
+            sorted(decoded.keys()) if isinstance(decoded, dict) else type(decoded).__name__))
     translated = {}
     for item in items:
         if not isinstance(item, dict):
