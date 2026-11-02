@@ -1,0 +1,35 @@
+name: Blogger Migration - Read-only Preflight
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/blogger-migration-preflight.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: blogger-migration-preflight
+  cancel-in-progress: false
+
+jobs:
+  verify-target-read-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout current files
+        uses: actions/checkout@v4
+      - name: Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install minimum authentication dependencies
+        run: python -m pip install --disable-pip-version-check "google-auth>=2.20,<3" "requests>=2.31,<3"
+      - name: Confirm Blogger destination and count posts/pages - no writes
+        env:
+          BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
+          BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
+          BLOGGER_CLIENT_SECRET_JSON: ${{ secrets.BLOGGER_CLIENT_SECRET_JSON }}
+        run: python migration/blogger_preflight.py
