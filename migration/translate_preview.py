@@ -265,7 +265,13 @@ def main():
             raise RuntimeError("No bounded Arabic sample found for " + typ)
         candidate = sorted(suitable, key=lambda x: abs(len(x.get("content", "")) - 1800))[0]
         original_content = str(candidate["content"])
-        new_title, new_content, pieces = translate_document(key, model, str(candidate["title"]), original_content)
+        try:
+            new_title, new_content, pieces = translate_document(key, model, str(candidate["title"]), original_content)
+        except Exception as error:
+            if not examples:
+                raise
+            print("PREVIEW_PARTIAL: {} not saved because translation provider or validation failed: {}".format(typ, type(error).__name__))
+            break
         examples[typ[:-1]] = {
             "id": candidate["id"], "url": candidate.get("url"),
             "original_title": candidate["title"], "english_title": new_title,
@@ -275,11 +281,11 @@ def main():
         print("PREVIEW_VALIDATED: {} translated; {} visible spans; same HTML tag structure".format(typ[:-1], pieces))
     output = Path("migration-output/translation-preview.json")
     output.write_text(json.dumps({
-        "status": "REVIEW_ONLY_NO_BLOGGER_WRITES",
+        "status": "REVIEW_ONLY_NO_BLOGGER_WRITES_PARTIAL" if len(examples) < 2 else "REVIEW_ONLY_NO_BLOGGER_WRITES",
         "provider_model": model,
         "examples": examples,
     }, ensure_ascii=False, indent=2), encoding="utf-8")
-    print("TRANSLATION_PREVIEW_OK: one post and one page saved for human review, no publishing.")
+    print("TRANSLATION_PREVIEW_OK: {} verified resource(s) saved for human review; no publishing.".format(len(examples)))
 
 
 if __name__ == "__main__":
