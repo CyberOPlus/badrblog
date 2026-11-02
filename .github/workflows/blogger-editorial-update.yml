@@ -1,4 +1,4 @@
-name: CyberoPlus Editorial - Networking Number Systems
+name: CyberoPlus Editorial - Network Topology Types
 on:
   push:
     branches: [main]
@@ -10,13 +10,13 @@ concurrency:
   group: cyberoplus-editorial-one-post
   cancel-in-progress: false
 jobs:
-  update-one-verified-post:
+  publish-one-verified-topology-article:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Install Blogger authorization and HTML parsing
+      - name: Install auth and HTML parser
         run: python -m pip install --disable-pip-version-check "google-auth>=2.20,<3" "requests>=2.31,<3" "beautifulsoup4>=4.12,<5"
-      - name: Update existing number systems article and re-read Blogger
+      - name: Update network topology tutorial and re-read published version
         env:
           BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
           BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
@@ -29,15 +29,15 @@ jobs:
           from google.oauth2.credentials import Credentials
           from google.auth.transport.requests import AuthorizedSession
           BLOG_ID="2750143140558868280"
-          PID="4575642421591096050"
-          OLD_TITLE="Binary وDecimal وHex في الشبكات: التحويل والتطبيق العملي"
-          URL="https://www.cyberoplus.com/2026/03/number-systems-binary-decimal-hexadecimal-networks.html"
-          PUBLISHED="2026-03-20T10:36:00Z"
-          OLD_SHA="050b4bef103879e0cc53b5c8c27834f1c34ac776cd3f760bdb3dffe7e0e6e249"
-          TITLE="Binary, Decimal and Hexadecimal for Networking: Conversions and Subnetting"
-          def sha(s):return hashlib.sha256(s.encode("utf-8")).hexdigest()
-          def check(c,msg):
-              if not c:raise RuntimeError(msg)
+          PID="7083948725804421954"
+          TITLE_OLD="توبولوجيا الشبكات: شرح Bus وStar وRing وMesh وTree"
+          ORIGINAL_URL="https://www.cyberoplus.com/2026/03/network-topology-types-explained.html"
+          PUBLISHED="2026-03-14T23:13:00Z"
+          OLD_SHA="e4b935a5c879f031a0762cf24f44643d6ed01fa23bf29922e57647d72f91e42f"
+          TITLE_NEW="Network Topology Types: Star, Bus, Ring, Tree and Mesh Explained"
+          def sha(v):return hashlib.sha256(v.encode("utf-8")).hexdigest()
+          def check(c,m):
+              if not c:raise RuntimeError(m)
           token=json.loads(os.environ["BLOGGER_TOKEN_JSON"])
           client=json.loads(os.environ["BLOGGER_CLIENT_SECRET_JSON"])
           cfg=client.get("installed") or client.get("web") or {}
@@ -45,156 +45,149 @@ jobs:
               if not token.get(k) and cfg.get(k):token[k]=cfg[k]
           s=AuthorizedSession(Credentials.from_authorized_user_info(token))
           base="https://www.googleapis.com/blogger/v3/blogs/"+BLOG_ID
-          check(os.environ.get("BLOGGER_BLOG_ID")==BLOG_ID,"Wrong blog credentials")
+          check(os.environ.get("BLOGGER_BLOG_ID")==BLOG_ID,"Wrong Blog ID")
           r=s.get(base,timeout=30);r.raise_for_status()
-          check(str(r.json().get("id"))==BLOG_ID and (urlsplit(str(r.json().get("url",""))).hostname or "").lower() in ("cyberoplus.com","www.cyberoplus.com"),"Wrong blog")
+          check(str(r.json().get("id"))==BLOG_ID and (urlsplit(str(r.json().get("url",""))).hostname or "").lower() in ("cyberoplus.com","www.cyberoplus.com"),"Unexpected domain")
           endpoint=base+"/posts/"+PID
-          def getpost():
+          def read():
               r=s.get(endpoint,params={"view":"ADMIN","fetchBody":"true"},timeout=45);r.raise_for_status();return r.json()
-          old=getpost()
-          check(str(old.get("id"))==PID and old.get("title")==OLD_TITLE and old.get("url")==URL and old.get("published")==PUBLISHED and old.get("labels")==["technology"] and sha(old.get("content",""))==OLD_SHA,"Original manually edited, no write")
+          old=read()
+          check(str(old.get("id"))==PID and old.get("title")==TITLE_OLD and old.get("url")==ORIGINAL_URL and old.get("published")==PUBLISHED and old.get("labels")==["technology"] and sha(old.get("content",""))==OLD_SHA,"Original edited; will not overwrite")
           soup=BeautifulSoup(old["content"],"html.parser")
           images=soup.find_all("img")
-          check(len(images)==1,"Unexpected original image count")
-          img=images[0]
-          wrap=img.find_parent("div",class_="separator") or img.find_parent("figure")
-          check(wrap is not None,"Original image wrapper missing")
-          while wrap.parent and getattr(wrap.parent,"name",None)=="div" and "separator" in (wrap.parent.get("class") or []):wrap=wrap.parent
-          fragment=BeautifulSoup(str(wrap),"html.parser")
-          fragment.find("img")["alt"]="Binary decimal hexadecimal conversions for IPv4 IPv6 and MAC addresses"
-          article=r'''<p>Understanding <strong>binary, decimal and hexadecimal</strong> makes IPv4 subnetting, IPv6 notation, MAC addresses and Ethernet protocol fields much easier to read. The same bits can be written in different number systems: <code>255</code> in decimal equals <code>11111111</code> in binary and <code>FF</code> in hexadecimal. This guide teaches the conversions step by step, then applies them to real networking examples.</p>
-          {{IMG}}
-          <h2>What does the base of a number mean?</h2>
-          <p>A number system's <strong>base</strong> specifies which symbols it uses and the weight of each digit position. Decimal is base 10, binary is base 2, and hexadecimal is base 16. The underlying value does not change when we represent it using another base.</p>
-          <table><thead><tr><th>System</th><th>Base</th><th>Digits</th><th>Networking applications</th></tr></thead><tbody>
-          <tr><td>Decimal</td><td>10</td><td>0–9</td><td>IPv4 dotted-decimal octets and interface settings</td></tr>
-          <tr><td>Binary</td><td>2</td><td>0–1</td><td>Address bit patterns, masks and prefix calculations</td></tr>
-          <tr><td>Hexadecimal</td><td>16</td><td>0–9 and A–F</td><td>IPv6, MAC addresses, EtherTypes and packet bytes</td></tr>
+          check(len(images)==2,"Original media count changed")
+          nodes=[]
+          for i,im in enumerate(images):
+              wrap=im.find_parent("div",class_="separator") or im.find_parent("table",class_="tr-caption-container")
+              check(wrap is not None,"Missing image wrapper")
+              block=BeautifulSoup(str(wrap),"html.parser")
+              block.find("img")["alt"]=["Network topology arrangement diagram showing physical and logical network nodes","Types of network topology including bus star ring tree and mesh"][i]
+              for cap in block.find_all("td",class_="tr-caption"):cap.string="Network topology types illustrated in the original guide"
+              nodes.append(str(block))
+          article=r'''<p><strong>Network topology</strong> describes how devices and connections are arranged and how information moves between them. The best-known types are <strong>point-to-point, bus, star, ring, tree, mesh and hybrid</strong>. Understanding the differences helps you design a network that is easier to expand, maintain and troubleshoot without making incorrect assumptions about performance or reliability.</p>
+          {{IMAGE1}}
+          <p>A topology is more than the shape of a drawing. It can affect the number of cables, switching dependencies, alternative paths, failure recovery, maintenance cost and the number of points where an attacker or fault might disrupt communication.</p>
+          <h2>Physical topology versus logical topology</h2>
+          <p><strong>Physical topology</strong> shows actual devices and links: for example, workstations connected by Ethernet cables to one central switch. <strong>Logical topology</strong> describes how network communication and traffic paths are organized, even when the wiring looks different.</p>
+          <table><thead><tr><th>Physical topology</th><th>Logical topology</th></tr></thead><tbody>
+          <tr><td>Describes the real wiring and physical interconnections</td><td>Describes traffic flow or logical connectivity</td></tr>
+          <tr><td>Useful for locating damaged links or ports</td><td>Useful for understanding VLANs, forwarding and routing</td></tr>
+          <tr><td>Can be inspected on-site and in cabling diagrams</td><td>May require switching, routing or overlay information to interpret</td></tr>
           </tbody></table>
-          <p>Consider the decimal number 257: <code>2 × 100 + 5 × 10 + 7 × 1 = 257</code>. In other bases, the same positional principle applies but each position carries a different power of that base.</p>
-          <h2>Why decimal appears in IPv4 addresses</h2>
-          <p>IPv4 uses a <strong>32-bit address</strong>, conventionally displayed as four decimal octets separated by dots. For example, <code>192.168.1.10</code> consists of four values, each between 0 and 255. The dots are a human-readable representation of the underlying 32 bits, not part of the binary address itself.</p>
-          <p>A value of 256 cannot fit into a single 8-bit IPv4 octet because eight bits can represent only <strong>2<sup>8</sup> = 256 distinct values</strong>, from 0 through 255 inclusive.</p>
-          <h2>Binary place values: from 128 down to 1</h2>
-          <p>One binary bit is either <code>0</code> or <code>1</code>. In an eight-bit value, the place values from left to right are:</p>
-          <pre><code>128  64  32  16   8   4   2   1
-            1   1   0   0   0   0   0   0  = 192</code></pre>
-          <p>Here <code>11000000</code> equals <code>128 + 64 = 192</code>. The most significant bit is at the left, and the least significant bit is at the right in this conventional written representation.</p>
-          <h2>Convert binary to decimal</h2>
-          <p>To convert a binary value, sum the weights wherever the bit is <code>1</code>. For example:</p>
-          <pre><code>Binary:  10101100
-          Weights: 128 64 32 16 8 4 2 1
-          Result:  128 + 32 + 8 + 4 = 172</code></pre>
-          <p>Every bit position with a zero contributes nothing to the sum. You do not need to memorize a separate result for every possible eight-bit pattern; learning the eight powers of two is sufficient.</p>
-          <h2>Convert decimal to binary</h2>
-          <p>To write 202 in binary, subtract powers of two from the largest available weight:</p>
-          <pre><code>202 - 128 = 74    (bit 128 = 1)
-           74 -  64 = 10    (bit  64 = 1)
-           10 -   8 =  2    (bit   8 = 1)
-            2 -   2 =  0    (bit   2 = 1)
+          <p>For example, devices may connect physically in a star to a switch while the network contains several separate VLANs and routed paths. A physical star does not mean every device can communicate with every other device without policy restrictions.</p>
+          <h2>Seven common network topology types</h2>
+          <p>In education and network design, the main descriptive types are point-to-point, bus, star, ring, tree, mesh and hybrid. They can be combined: a campus may use stars at the access layer and redundant links between distribution devices.</p>
+          {{IMAGE2}}
+          <h2>Point-to-point topology</h2>
+          <p>A <strong>point-to-point topology</strong> has a direct link between two nodes. A dedicated connection between two routers or a single wired connection between two network interfaces is a simple example.</p>
+          <h3>Strengths</h3>
+          <p>The connection is easy to describe, usually has clearly identifiable endpoints, and can make basic link troubleshooting straightforward.</p>
+          <h3>Limitations</h3>
+          <p>A single connection has no alternative physical path unless redundancy is added. Point-to-point itself does not describe how a large multi-device network is arranged.</p>
+          <h2>Bus topology</h2>
+          <p>In a classic <strong>bus topology</strong>, devices share a common physical transmission medium or backbone. Historical coaxial Ethernet is a familiar textbook example.</p>
+          <h3>Advantages</h3>
+          <p>A shared backbone can reduce the number of separate point-to-point cables in a simple historical arrangement, and its basic structure is easy to explain.</p>
+          <h3>Disadvantages</h3>
+          <p>The shared backbone can become a single point of failure; defects in cabling or termination can affect many stations, and shared-medium access introduces performance constraints. Classic bus cabling is not the normal design for modern switched office Ethernet.</p>
+          <h2>Star topology</h2>
+          <p>A <strong>star topology</strong> connects endpoints individually to a central device, such as an Ethernet switch. This is a common physical arrangement in office and classroom LANs.</p>
+          <h3>Advantages</h3>
+          <p>A damaged cable often affects only its endpoint; you can add or remove ports relatively easily within the switch's capacity, and central management simplifies identifying which port is involved in an issue.</p>
+          <h3>Disadvantages</h3>
+          <p>The central device is an important dependency. If the central switch loses power or fails, many or all attached devices may lose local connectivity. Redundancy requires additional design; drawing a star does not automatically provide it.</p>
+          <p>For details on what the central device does, see our <a href="https://www.cyberoplus.com/2026/03/network-devices-hub-switch-router-firewall.html">hub, switch and router comparison</a>.</p>
+          <h2>Ring topology</h2>
+          <p>In a <strong>ring topology</strong>, nodes form a closed loop in which each node connects to two neighboring nodes. Data may travel in a specified direction or use alternative ring behavior depending on the technology and protection mechanism.</p>
+          <h3>Advantages</h3>
+          <p>A ring can offer a structured forwarding path, and some engineered ring technologies provide protection switching or redundant rings to keep traffic moving after a fault.</p>
+          <h3>Disadvantages</h3>
+          <p>A simple unprotected ring can suffer significant disruption from a broken link or node, while protected rings add protocol and operational complexity. Do not assume that every ring has a single direction or is automatically fault-tolerant.</p>
+          <h2>Tree topology</h2>
+          <p>A <strong>tree topology</strong> connects multiple branches under a hierarchy of upstream devices. In a campus, access switches may connect upward through distribution equipment toward core services. The visual hierarchy is useful, but real production networks may add links that make the graph more redundant than a pure tree.</p>
+          <h3>Advantages</h3>
+          <p>The hierarchical structure helps organize large numbers of devices, divide management responsibilities and plan predictable expansion.</p>
+          <h3>Disadvantages</h3>
+          <p>Upstream links or shared aggregation devices can become critical points of failure. A well-managed hierarchy still needs appropriate redundancy where availability requirements justify it.</p>
+          <h2>Mesh topology: multiple connections and alternative paths</h2>
+          <p>In a <strong>mesh topology</strong>, nodes have multiple interconnections so the topology can provide alternative paths. How useful those paths are depends on routing or switching design, link capacity and the failure type.</p>
+          <h3>Full mesh</h3>
+          <p>In a <strong>full mesh</strong>, every distinct pair of nodes has one direct link. For <code>n</code> nodes in a simple undirected graph, the number of links is:</p>
+          <pre><code>Links = n × (n − 1) / 2
           
-          202 decimal = 11001010 binary</code></pre>
-          <p>The eight bit positions are <code>128, 64, 32, 16, 8, 4, 2, 1</code>, so the enabled positions above are 128, 64, 8 and 2. Dividing the number by two repeatedly and recording remainders is another valid conversion method.</p>
-          <h2>Convert a complete IPv4 address to binary</h2>
-          <p>Convert each dotted-decimal octet separately:</p>
-          <table><thead><tr><th>Decimal octet</th><th>Eight-bit binary</th></tr></thead><tbody>
-          <tr><td>192</td><td><code>11000000</code></td></tr>
-          <tr><td>168</td><td><code>10101000</code></td></tr>
-          <tr><td>1</td><td><code>00000001</code></td></tr>
-          <tr><td>10</td><td><code>00001010</code></td></tr>
+          For 4 nodes: 4 × 3 / 2 = 6 links
+          For 6 nodes: 6 × 5 / 2 = 15 links
+          For 10 nodes: 10 × 9 / 2 = 45 links</code></pre>
+          <p>The formula assumes a single direct undirected link per unordered node pair. It does not count separate parallel links, logical overlays or directional circuits. Full mesh can offer strong path redundancy, but connection count and cost grow quickly.</p>
+          <h3>Partial mesh</h3>
+          <p>In a <strong>partial mesh</strong>, only some nodes have direct links to multiple other nodes. This can balance resilience, complexity and cost; its actual fault tolerance depends on which links and devices have alternatives.</p>
+          <h3>What a mesh does not guarantee</h3>
+          <p>Multiple paths do not automatically guarantee uninterrupted service. A routing failure, shared power dependency, security misconfiguration or insufficient capacity can still disrupt traffic. Resilience must be tested for the likely failure scenarios.</p>
+          <h2>Hybrid topology</h2>
+          <p>A <strong>hybrid topology</strong> combines more than one topology type. A university might deploy star connections to classroom switches, a hierarchical distribution network between buildings, and redundant links between critical sites.</p>
+          <h3>Advantages</h3>
+          <p>A hybrid approach can apply simpler and cheaper structures where they are sufficient while adding redundant or specialized connectivity where needed.</p>
+          <h3>Disadvantages</h3>
+          <p>Combining designs can increase documentation and troubleshooting complexity. A network still needs coherent addressing, switching, routing, monitoring and security policies.</p>
+          <h2>Compare topology types side by side</h2>
+          <table><thead><tr><th>Topology</th><th>Main strength</th><th>Main concern</th><th>Common context</th></tr></thead><tbody>
+          <tr><td>Point-to-point</td><td>Direct link between two endpoints</td><td>Single path without added redundancy</td><td>Direct router or device connection</td></tr>
+          <tr><td>Bus</td><td>Simple shared medium</td><td>Shared backbone and access constraints</td><td>Legacy Ethernet examples</td></tr>
+          <tr><td>Star</td><td>Easy endpoint expansion and isolation</td><td>Central switch dependency</td><td>Office and campus access LAN</td></tr>
+          <tr><td>Ring</td><td>Structured circular connectivity</td><td>Protection required for robust fault handling</td><td>Some metro or industrial networks</td></tr>
+          <tr><td>Tree</td><td>Hierarchical organization</td><td>Upstream aggregation dependency</td><td>Campus distribution structures</td></tr>
+          <tr><td>Mesh</td><td>Alternative network paths</td><td>Higher link count and complexity</td><td>Resilient interconnections</td></tr>
+          <tr><td>Hybrid</td><td>Flexible combination of designs</td><td>More design and management decisions</td><td>Real-world enterprise networks</td></tr>
           </tbody></table>
-          <pre><code>192.168.1.10
-          = 11000000.10101000.00000001.00001010</code></pre>
-          <p>This binary format helps when comparing an IPv4 address with a subnet mask or network prefix.</p>
-          <h2>How binary explains IPv4 subnet masks</h2>
-          <p>In CIDR notation, a prefix such as <code>/26</code> describes the first 26 bits of an IPv4 address as the network prefix. A conventional <code>/26</code> mask consists of 26 ones followed by six zeros:</p>
-          <pre><code>11111111.11111111.11111111.11000000
-          = 255.255.255.192
-          = /26</code></pre>
-          <p>The final octet <code>11000000</code> equals 192. The remaining six bits give <code>2<sup>6</sup> = 64</code> addresses per ordinary /26 block. For a traditional subnet with network and directed-broadcast addresses, 62 addresses are normally assignable to hosts; this shortcut must not be applied to every prefix type, notably /31 point-to-point use and /32 host routes.</p>
-          <h2>Work a CIDR example: 10.0.0.130/26</h2>
-          <p>To find the network address, apply the subnet mask to the address's bits. A /26 divides the final octet into blocks of 64: 0–63, 64–127, 128–191, and 192–255.</p>
-          <table><thead><tr><th>Property</th><th>Result</th></tr></thead><tbody>
-          <tr><td>Host address</td><td><code>10.0.0.130</code></td></tr>
-          <tr><td>Subnet mask</td><td><code>255.255.255.192</code></td></tr>
-          <tr><td>Network address</td><td><code>10.0.0.128</code></td></tr>
-          <tr><td>Last address in conventional /26 subnet</td><td><code>10.0.0.191</code></td></tr>
-          <tr><td>Traditional usable host range</td><td><code>10.0.0.129–10.0.0.190</code></td></tr>
-          <tr><td>Addresses in the block</td><td>64</td></tr>
+          <p>The table summarizes broad tendencies, not performance measurements. Actual throughput, latency and resilience depend on hardware, link rate, routing, traffic load and configuration.</p>
+          <h2>Which topology is common in modern LANs?</h2>
+          <p>A switched Ethernet access LAN usually has a <strong>physical star</strong> pattern: endpoints connect individually to an access switch. Larger organizations typically combine many access stars with distribution and core networking, redundancy or other architectural choices.</p>
+          <p>Cisco describes both campus layered architectures and spine-and-leaf designs as examples of practical topological planning. A spine-and-leaf fabric is often better understood as a structured bipartite interconnection between leaf and spine devices, not a mathematical full mesh between every switch in the entire network.</p>
+          <h2>Does Wi-Fi mesh always mean mathematical full mesh?</h2>
+          <p>No. A commercial <strong>Wi-Fi mesh</strong> system commonly describes multiple cooperating access nodes and a backhaul arrangement. Not every node must maintain a dedicated direct link to every other node. Vendor implementations differ, and wireless links may change according to signal quality and topology management.</p>
+          <p>Distinguish a Wi-Fi product's branding from the graph-theoretic definition of full mesh. The latter explicitly requires a direct edge between every distinct pair.</p>
+          <h2>Choosing the right topology</h2>
+          <ol data-steps>
+          <li>Map the number and location of endpoints, buildings and critical services.</li>
+          <li>Identify which links and devices may become single points of failure.</li>
+          <li>Decide which paths need redundancy and what downtime can be tolerated.</li>
+          <li>Estimate switching ports, cabling, physical media and expansion needs.</li>
+          <li>Plan VLANs, routing and security zones separately from the physical drawing.</li>
+          <li>Document the design and test likely link or device failures in a controlled environment.</li>
+          </ol>
+          <p>There is no universally 'best' topology. A low-cost classroom lab and a high-availability data center have different requirements and trade-offs.</p>
+          <h2>Security implications of topology</h2>
+          <p>Topology influences which paths traffic takes, where monitoring can be deployed and which central components are critical. However, <strong>a diagram shape is not a security control by itself</strong>. A mesh does not make a network immune to attacks; a star does not mean every device is trusted; a VLAN does not replace access control or other security measures.</p>
+          <p>Document the actual forwarding domains, management interfaces, routing policies, remote-access exposure and critical failure dependencies. Our <a href="https://www.cyberoplus.com/2026/03/osi-model-7-layers-explained.html">OSI troubleshooting lesson</a> explains why connectivity faults and security policies may affect more than one conceptual layer.</p>
+          <h2>Network topology versus network architecture</h2>
+          <p><strong>Topology</strong> describes the arrangement of nodes and links. <strong>Network architecture</strong> is broader: it includes protocols, roles, services, addressing, security boundaries, management and operational requirements. Two networks may have a similar physical star topology yet very different architectures because one uses VLANs, redundant switches, routing policy or different application services.</p>
+          <h2>Test your understanding</h2>
+          <p>Try these short scenarios before reading the answers:</p>
+          <table><thead><tr><th>Scenario</th><th>Answer</th></tr></thead><tbody>
+          <tr><td>Every lab PC has its own cable to one switch</td><td>Physical star</td></tr>
+          <tr><td>Six devices each directly linked to the other five</td><td>Full mesh with 15 links</td></tr>
+          <tr><td>Three access switches connect upward to one distribution switch</td><td>Hierarchical or tree-like arrangement</td></tr>
+          <tr><td>Several cooperating Wi-Fi units do not all connect directly</td><td>Not a mathematical full mesh</td></tr>
           </tbody></table>
-          <p>The calculation uses <code>130 AND 192 = 128</code> in the final octet. For a full dedicated subnetting lesson and other prefix sizes, see our <a href="https://www.cyberoplus.com/2025/05/networking-subnetting-explained.html">IPv4 subnetting tutorial</a>. The CIDR prefix approach is described in <a href="https://www.rfc-editor.org/rfc/rfc4632.html" rel="noopener noreferrer">RFC 4632</a>.</p>
-          <h2>What is hexadecimal?</h2>
-          <p>Hexadecimal uses 16 digits: <code>0</code> through <code>9</code>, then <code>A</code> through <code>F</code> for decimal values 10 through 15. Each hexadecimal digit represents <strong>four binary bits</strong>, because <code>2<sup>4</sup> = 16</code>.</p>
-          <table><thead><tr><th>Decimal</th><th>Binary nibble</th><th>Hex</th></tr></thead><tbody>
-          <tr><td>10</td><td>1010</td><td>A</td></tr>
-          <tr><td>11</td><td>1011</td><td>B</td></tr>
-          <tr><td>12</td><td>1100</td><td>C</td></tr>
-          <tr><td>13</td><td>1101</td><td>D</td></tr>
-          <tr><td>14</td><td>1110</td><td>E</td></tr>
-          <tr><td>15</td><td>1111</td><td>F</td></tr>
-          </tbody></table>
-          <p>The notation <code>0xFF</code> often indicates a hexadecimal value in programming and technical documentation. In IPv6 addresses, hexadecimal digit groups appear without the <code>0x</code> prefix.</p>
-          <h2>Convert binary to hexadecimal</h2>
-          <p>Group the bits into sets of four from the right, pad with leading zeros if necessary, and convert each group:</p>
-          <pre><code>Binary:  11001010
-          Groups:  1100 1010
-          Hex:       C    A
-          
-          11001010 binary = CA hexadecimal = 202 decimal</code></pre>
-          <p>Two hexadecimal digits represent one eight-bit byte. For example, <code>FF</code> is <code>11111111</code> binary and 255 decimal.</p>
-          <h2>Why MAC addresses are written in hexadecimal</h2>
-          <p>A standard 48-bit EUI-48 MAC address can be written as six hexadecimal pairs, such as <code>02:1a:2b:3c:4d:5e</code>. Each pair is one byte, so six pairs represent six bytes or 48 bits. Hexadecimal notation is more compact than displaying all 48 individual bits.</p>
-          <p>To see why the first octet matters, read our <a href="https://www.cyberoplus.com/2026/04/mac-address-unicast-broadcast-multicast.html">MAC I/G and U/L bit guide</a>. The value <code>0x02</code> has binary form <code>00000010</code>, indicating a locally administered individual address in that example.</p>
-          <h2>Hexadecimal is also used for IPv6</h2>
-          <p>IPv6 addresses are <strong>128 bits</strong>, conventionally written as eight groups of up to four hexadecimal digits. A full-length example is:</p>
-          <pre><code>2001:0db8:0000:0000:0000:0000:0000:0001
-          2001:db8::1</code></pre>
-          <p>The second line is the compressed representation of the first. Leading zeros within a 16-bit group can be omitted, and a single <code>::</code> can compress a consecutive run of zero groups. Only one <code>::</code> can appear in an IPv6 address because multiple omissions would make the number of omitted groups ambiguous.</p>
-          <p>These addresses use the <code>2001:db8::/32</code> documentation prefix, not a claim about a reachable public server. The full IPv6 textual representation is described in <a href="https://www.rfc-editor.org/rfc/rfc4291.html" rel="noopener noreferrer">RFC 4291</a>; the recommended canonical textual representation is described in <a href="https://www.rfc-editor.org/rfc/rfc5952.html" rel="noopener noreferrer">RFC 5952</a>.</p>
-          <h2>Hexadecimal in Ethernet protocol fields</h2>
-          <p>The Ethernet Length/Type field can contain values such as <code>0x0800</code> for IPv4, <code>0x86DD</code> for IPv6, and <code>0x0806</code> for ARP. These are not decimal numbers and should not be confused with TCP/UDP port numbers. The <a href="https://www.cyberoplus.com/2026/03/network-frame-structure-header-crc-explained.html">Ethernet frame structure article</a> explains where that two-byte field appears.</p>
-          <h2>Do beginners need octal for networking?</h2>
-          <p><strong>Octal (base 8)</strong> can appear in historical computing notation and some Unix contexts, but the practical beginner networking examples above mostly require decimal, binary and hexadecimal. You can postpone octal until a course or tool uses it directly.</p>
-          <h2>Short practice exercises</h2>
-          <table><thead><tr><th>Question</th><th>Correct answer</th></tr></thead><tbody>
-          <tr><td>Convert <code>11110000</code> to decimal</td><td>240</td></tr>
-          <tr><td>Convert <code>00101101</code> to hexadecimal</td><td><code>2D</code></td></tr>
-          <tr><td>Convert <code>0x7F</code> to decimal</td><td>127</td></tr>
-          <tr><td>How many values can eight bits represent?</td><td>256 (from 0 to 255)</td></tr>
-          <tr><td>How many bits are in an IPv6 address?</td><td>128</td></tr>
-          <tr><td>What is the mask for an IPv4 /26?</td><td><code>255.255.255.192</code></td></tr>
-          </tbody></table>
-          <p>Try calculating each answer without looking at the solution, then explain the positional weights you used. For related applied questions, continue with our <a href="https://www.cyberoplus.com/2026/03/network-exercises-solved-interactive.html">ten solved networking exercises</a>.</p>
-          <h2>Common conversion mistakes</h2>
+          <p>For more networking practice, use our <a href="https://www.cyberoplus.com/2026/03/network-exercises-solved-interactive.html">ten solved OSI, LAN and topology exercises</a>. Start from the network requirements instead of memorizing which shape is supposedly always fastest or safest.</p>
+          <h2>Technical references</h2>
           <ul>
-          <li><strong>Writing an IPv4 octet as 256:</strong> the maximum eight-bit unsigned value is 255.</li>
-          <li><strong>Mixing decimal and hexadecimal:</strong> <code>10</code> in decimal differs from <code>0x10</code>, which equals 16 decimal.</li>
-          <li><strong>Reversing bit weights:</strong> for conventional written binary, the leftmost bit is the highest positional weight.</li>
-          <li><strong>Confusing an IPv4 prefix with host count:</strong> /26 means 26 prefix bits, not 26 hosts.</li>
-          <li><strong>Assuming every subnet always has address-count-minus-two usable hosts:</strong> /31 and /32 cases require different treatment.</li>
-          <li><strong>Using two double-colon compressions in IPv6:</strong> only one <code>::</code> is allowed.</li>
-          <li><strong>Calling every two-byte hex field a TCP port:</strong> EtherType, addresses and ports have separate meanings.</li>
-          </ul>
-          <h2>Official technical references</h2>
-          <ul>
-          <li><a href="https://www.rfc-editor.org/rfc/rfc4632.html" rel="noopener noreferrer">RFC 4632 — Classless Inter-Domain Routing and IPv4 prefixes</a></li>
-          <li><a href="https://www.rfc-editor.org/rfc/rfc4291.html" rel="noopener noreferrer">RFC 4291 — IPv6 address architecture</a></li>
-          <li><a href="https://www.rfc-editor.org/rfc/rfc5952.html" rel="noopener noreferrer">RFC 5952 — IPv6 text representation recommendations</a></li>
-          <li><a href="https://www.iana.org/assignments/ieee-802-numbers/ieee-802-numbers.xhtml" rel="noopener noreferrer">IANA — IEEE 802 EtherType numbers</a></li>
+          <li><a href="https://www.cisco.com/site/us/en/learn/topics/networking/what-is-network-topology.html" rel="noopener noreferrer">Cisco: physical versus logical topology and campus designs</a></li>
+          <li><a href="https://www.ibm.com/think/topics/network-topology" rel="noopener noreferrer">IBM: point-to-point, bus, star, ring, tree, mesh and hybrid</a></li>
+          <li><a href="https://www.microsoft.com/en-us/microsoft-365/visio/network-diagrams" rel="noopener noreferrer">Microsoft: network diagrams and topology examples</a></li>
           </ul>'''
-          article=article.replace("{{IMG}}",str(fragment))
+          article=article.replace("{{IMAGE1}}",nodes[0]).replace("{{IMAGE2}}",nodes[1])
           parsed=BeautifulSoup(article,"html.parser")
-          check(len(article)>10000 and len(parsed.find_all("h2"))>=14,"Article coverage incomplete")
-          check(len(parsed.find_all("img"))==1 and parsed.find("img").get("src")==img.get("src"),"Original media altered")
-          check(not re.search(r"[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]",article),"Non-English article body")
-          check(all(v in article for v in ("192.168.1.10","255.255.255.192","10.0.0.130","RFC 4291","0x0800")),"Key networking arithmetic missing")
-          check(sum("cyberoplus.com" in a.get("href","") for a in parsed.find_all("a"))>=4,"Internal links missing")
+          check(len(article)>11000 and len(parsed.find_all("h2"))>=14,"Incomplete topology guide")
+          check(len(parsed.find_all("img"))==2 and [x.get("src") for x in parsed.find_all("img")]==[x.get("src") for x in images],"Original images lost")
+          check(not re.search(r"[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff]",article),"Arabic remains")
+          check(all(k in article for k in ("Point-to-point","Full mesh","15 links","Star","Ring","Bus","Hybrid")),"Original topical coverage missing")
+          check(any("cisco.com" in a.get("href","") for a in parsed.find_all("a")) and any("ibm.com" in a.get("href","") for a in parsed.find_all("a")),"Independent sources missing")
           print("PRECHECK_PASSED")
-          r=s.patch(endpoint,json={"title":TITLE,"content":article,"labels":["technology"]},timeout=70);r.raise_for_status()
-          after=getpost()
-          check(str(after.get("id"))==PID and after.get("url")==URL and after.get("published")==PUBLISHED and after.get("title")==TITLE and after.get("labels")==["technology"],"CRITICAL: ID/URL/date changed")
-          check(sha(after.get("content",""))==sha(article),"CRITICAL: Body was not saved exactly")
-          print("PUBLISHED_AND_VERIFIED: "+URL)
-          print("ORIGINAL_DATE_PRESERVED: "+PUBLISHED)
+          r=s.patch(endpoint,json={"title":TITLE_NEW,"content":article,"labels":["technology"]},timeout=70);r.raise_for_status()
+          new=read()
+          check(str(new.get("id"))==PID and new.get("url")==ORIGINAL_URL and new.get("published")==PUBLISHED and new.get("title")==TITLE_NEW and new.get("labels")==["technology"],"CRITICAL: identity changed")
+          check(sha(new.get("content",""))==sha(article),"CRITICAL: HTML content changed")
+          print("PUBLISHED_AND_VERIFIED: "+ORIGINAL_URL)
           
           PY
