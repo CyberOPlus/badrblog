@@ -16,11 +16,11 @@ HOSTS = {"cyberoplus.com", "www.cyberoplus.com"}
 ROOT = Path("migration/legal-pages")
 BASE = "https://www.googleapis.com/blogger/v3/blogs/" + BLOG_ID
 PAGE_DATA = [
-    ("7048792332168336031", "Privacy Policy", "سياسة الخصوصية", "https://www.cyberoplus.com/p/privacy-policy.html", "2025-03-14T02:42:00Z", "18b00b9585955b044f4e3eb770c5398bd3adf584a3c1988b2b98d04eae828bd3"),
-    ("5240089414009174572", "Cookie Policy", "سياسة الكوكيز", "https://www.cyberoplus.com/p/cookie.html", "2025-04-01T14:23:00Z", "582803428ea237082a8aa85d5d35e93db624ee9e633c013f302508fb23f5c75a"),
-    ("6820969043412617138", "Terms of Use", "شروط الاستخدام", "https://www.cyberoplus.com/p/terms-of-use.html", "2025-03-14T02:16:00Z", "c7317c9592c1c15b59610f478e37df98a65660435b916c97ffb932b27627b000"),
-    ("7151465361445641614", "Disclaimer", "إخلاء المسؤولية", "https://www.cyberoplus.com/p/disclaimer.html", "2025-03-14T02:22:00Z", "004fd198b5628e1e1409d0aec80a4ede4be7ef4364ed63adfd2b3f16130fc1d8"),
-    ("5071168766015911433", "About Us", "من نحن ", "https://www.cyberoplus.com/p/about-us.html", "2025-03-14T02:15:00Z", "e2409a943aa10e4d3e42af3707251e9b6603cdb99db11d119b419872cfc48c98"),
+    ("7048792332168336031", "Privacy Policy", "Privacy policy", "https://www.cyberoplus.com/p/privacy-policy.html", "2025-03-14T02:42:00Z", "fd3459511dcd5cf0e2e79c6590c549f344d9d5610a0d4483ad9ffca2abf35ca0"),
+    ("5240089414009174572", "Cookie Policy", "Cookies policy.", "https://www.cyberoplus.com/p/cookie.html", "2025-04-01T14:23:00Z", "3b60313b1b8a00ee1becda8c1138a156f93b842718b2792f0b7cc0edf0181d58"),
+    ("6820969043412617138", "Terms of Use", "Conditions of use", "https://www.cyberoplus.com/p/terms-of-use.html", "2025-03-14T02:16:00Z", "6f8acf9c43b3a380eee2cd85251db95c758b455649696b6ff7a97e75cc5cf6c3"),
+    ("7151465361445641614", "Disclaimer", "Clear responsibility.", "https://www.cyberoplus.com/p/disclaimer.html", "2025-03-14T02:22:00Z", "34dd37807ffde0270da29d9f89c4a1b1d014682fc23ec476fcb13723d7993811"),
+    ("5071168766015911433", "About Us", "Who are we? ", "https://www.cyberoplus.com/p/about-us.html", "2025-03-14T02:15:00Z", "21b27c309d275f878795871fd75562d3778c6877d4e36549b5a09c3775e1e200"),
     ("2878009689065204652", "Contact Us", "اتصل بنا ", "https://www.cyberoplus.com/p/contact-us.html", "2025-03-14T02:14:00Z", "9b8bf884818fa554b05137103bb43974c1c5e760eb4c28ab2a7342281f363cf0"),
 ]
 VALID_INTERNAL = {
