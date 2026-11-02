@@ -1,0 +1,103 @@
+name: CyberoPlus Classify All 259 Published Articles
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/blogger-categorize-259.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cyberoplus-category-edit
+  cancel-in-progress: false
+jobs:
+  categorize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Install Blogger authenticated API client
+        run: python -m pip install --disable-pip-version-check "google-auth>=2.20,<3" "requests>=2.31,<3"
+      - name: Audit 259 live posts and correct only verified categories
+        env:
+          BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
+          BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
+          BLOGGER_CLIENT_SECRET_JSON: ${{ secrets.BLOGGER_CLIENT_SECRET_JSON }}
+        run: |
+          python - <<'PY'
+          import os,json,hashlib,sys,time,collections
+          from urllib.parse import urlsplit
+          from google.oauth2.credentials import Credentials
+          from google.auth.transport.requests import AuthorizedSession
+          BID="2750143140558868280"
+          BASE="https://www.googleapis.com/blogger/v3/blogs/"+BID
+          LABELS={"cybersecurity","artificial-intelligence","technology","guides"}
+          # Each entry is exact post ID, prior label, corrected label and SHA of reviewed source HTML.
+          CORRECTIONS=[["792468559445686977","technology","cybersecurity","117cf6911305cf9961f3cea6b1153d83f0485c0cc43177a24ead9219064dc0ed"],["7621786694024665093","technology","cybersecurity","4857b814fa1e7fe7e927395df707a92e4bcfd1d144bd81e356cf830d89065d3f"],["6662348849887717465","technology","guides","be3a39e1c01a199a3023cfb54f32216b0526dcd2537d8d4ea7d2a1aa7e66abd6"],["4575642421591096050","technology","guides","7aebde022f90a22860604eebd6bc6ce0192a751d03315572d93f3824df371ba9"],["7227988285956030638","cybersecurity","artificial-intelligence","026a72aa4d4cfa994378c3e92bae8154d83c42f5762b2b6cb17a4cb0ec96934b"],["4588432420976640507","guides","technology","4844274cd8d4f5a9bd65f96250e14be3a6ce52d28c227bb3a9571683ea65d18d"],["2891638329788837213","cybersecurity","technology","618163745fa5a21af9047c78f830129a66ceffd97ec240609ac81f4f7be7d843"],["4360005799860809800","technology","cybersecurity","e5b7000322c9a12a8014cd47a66079b447d72b0c313126d1d4b7015e9b72db3c"],["4328295962248764632","cybersecurity","guides","2cc8680c692197bbab7c7585a00f001265d8dceaec38ffebd7208a09108982f6"],["3668013829713783886","technology","cybersecurity","e07a63a2b08116b6817d0f58912299f7c6bcb611844360f3fc582118c0a59c39"],["6778916990731584994","technology","guides","5c9a837682cabff1703e2c849ef8e2f6092506822f0fbedf3b3a3538fd6445ac"],["1534367528860903767","technology","cybersecurity","854cfdc09a9ffaf848d4c39bb61ce7e7393c48ce364c2ffa2fa6bcc30b7b3372"],["1938400037605182096","technology","guides","9baaf50b676a61aa105cf7267d1d1346dcadd9d0e1a73a25a7dc97b8c6fafc02"],["5774108509686824179","cybersecurity","technology","6fca859fb4f9d50a88466052a5681522621774dea97f625fb206763ee987134b"],["5081674028507848664","technology","cybersecurity","3074cb7b4395c87cd2800271b69e2e8a2cc747013b8de4f35e1494a97f125c1f"],["7960980506279251569","cybersecurity","technology","da15579eb63a0d94c85cacbd2c0d7bba9c5bfc17e32c622f3fa88c738b653951"],["6931210730697235735","technology","guides","226226878f9c7166b58b1f6e480e6cde09ccf82d015ee54d970ea5f7d2281375"],["6939592384919727588","technology","cybersecurity","a8b8135d64e07b6fe5f36e32456e53def47d5781f6fb278dd78c5adaeec66179"],["6990533283750683782","technology","guides","7abd61de4cb22847f9afa4cc567ea0185827f4154f2bae83dfb38b57a4bdfd28"],["5462422659023030072","cybersecurity","technology","cc0a3ed310776cff987ed8a7dfd6243a56665d0f1ae2c53775f6b89ad230b67b"],["153675238469482097","technology","cybersecurity","07c4f33dc08eab493456eafac71077a8fcc1f6e9e989b2d8f10082e3c23902fe"]]
+          def sha(s):return hashlib.sha256(s.encode("utf-8")).hexdigest()
+          def check(x,m):
+              if not x:raise RuntimeError(m)
+          secret=json.loads(os.environ["BLOGGER_TOKEN_JSON"])
+          client=json.loads(os.environ["BLOGGER_CLIENT_SECRET_JSON"])
+          conf=client.get("installed") or client.get("web") or {}
+          for k in ("client_id","client_secret","token_uri"):
+              if not secret.get(k) and conf.get(k):secret[k]=conf[k]
+          session=AuthorizedSession(Credentials.from_authorized_user_info(secret))
+          check(os.environ.get("BLOGGER_BLOG_ID")==BID,"Wrong Blog ID")
+          r=session.get(BASE,timeout=30);r.raise_for_status();blog=r.json()
+          check(str(blog.get("id"))==BID and (urlsplit(blog.get("url","")).hostname or "").lower() in ("cyberoplus.com","www.cyberoplus.com"),"Wrong Blogger domain")
+          def read(postid):
+              r=session.get(BASE+"/posts/"+postid,params={"view":"ADMIN","fetchBody":"true"},timeout=45);r.raise_for_status();return r.json()
+          def all_posts():
+              rows=[];token=None;seen=set()
+              while True:
+                  q={"status":"live","maxResults":100,"fetchBodies":"false","view":"ADMIN"}
+                  if token:q["pageToken"]=token
+                  rr=session.get(BASE+"/posts",params=q,timeout=65);rr.raise_for_status();j=rr.json()
+                  rows.extend(j.get("items",[]))
+                  token=j.get("nextPageToken")
+                  if not token:break
+                  check(token not in seen,"Duplicate pagination token");seen.add(token)
+              return rows
+          posts=all_posts()
+          byid={str(p["id"]):p for p in posts}
+          check(len(posts)==259 and len(byid)==259,"Unexpected live-post inventory size: "+str(len(posts)))
+          check(all(len(p.get("labels",[]))==1 and p["labels"][0] in LABELS for p in posts),"At least one article has unexpected labels, aborting categorization")
+          check(all(pid in byid for pid,_,_,_ in CORRECTIONS),"Missing target post from current inventory")
+          check(len(CORRECTIONS)==len(set(x[0] for x in CORRECTIONS))==21,"Invalid correction list")
+          print("LIVE_INVENTORY_VERIFIED: posts=259, canonical_labels=4, no duplicate IDs",flush=True)
+          print("BEFORE: "+str(dict(collections.Counter(p["labels"][0] for p in posts))),flush=True)
+          updated=0;skipped=0;blocked=[]
+          # Change labels only, never title/content/URL/publication date or other post fields.
+          for pid,old_label,target_label,expected_hash in CORRECTIONS:
+              item=read(pid)
+              check(str(item.get("id"))==pid and item.get("status")=="LIVE" and item.get("url"),"Post identity/status mismatch: "+pid)
+              labels=item.get("labels",[])
+              if labels==[target_label]:
+                  skipped+=1;print("ALREADY_CLASSIFIED: "+pid+" "+target_label,flush=True);continue
+              if labels!=[old_label] or sha(item.get("content",""))!=expected_hash or byid[pid].get("title")!=item.get("title"):
+                  blocked.append(pid)
+                  print("BLOCKED_CONCURRENT_EDIT_OR_CONTENT_CHANGE: "+pid+" no write",flush=True)
+                  continue
+              snapshot={k:item.get(k) for k in ("id","title","content","url","published","status")}
+              # Blogger PATCH supports partial resource fields; do not supply article body, title or dates.
+              response=session.patch(BASE+"/posts/"+pid,json={"labels":[target_label]},timeout=60)
+              response.raise_for_status()
+              after=read(pid)
+              check(all(after.get(k)==v for k,v in snapshot.items()),"CRITICAL: content/title/url/publication changed for "+pid)
+              check(after.get("labels")==[target_label],"CRITICAL: corrected label not persisted for "+pid)
+              updated+=1
+              print("LABEL_UPDATED_AND_VERIFIED: "+pid+" "+old_label+" -> "+target_label+" "+item["url"],flush=True)
+          # Final all-article inventory verification from Blogger itself.
+          end=all_posts()
+          check(len(end)==259 and len({str(p["id"]) for p in end})==259,"Final inventory count changed")
+          check(all(len(p.get("labels",[]))==1 and p["labels"][0] in LABELS for p in end),"Final noncanonical labels detected")
+          totals=collections.Counter(p["labels"][0] for p in end)
+          check(sum(totals.values())==259,"Final label count mismatch")
+          print("FINAL_LABEL_COUNTS: "+json.dumps(dict(sorted(totals.items()))),flush=True)
+          print("CLASSIFICATION_SUMMARY: live=259 corrected="+str(updated)+" already="+str(skipped)+" blocked="+str(len(blocked)),flush=True)
+          if blocked:
+              print("BLOCKED_IDS: "+",".join(blocked),flush=True)
+              raise RuntimeError("Some article labels were not changed because sources changed; see blocked IDs")
+          print("ALL_259_CATEGORIZED_AND_VERIFIED",flush=True)
+          
+          PY
