@@ -30,12 +30,12 @@ jobs:
           from google.auth.transport.requests import AuthorizedSession
           from google.oauth2.credentials import Credentials
           BID="2750143140558868280"
-          PID="2964102046594465473"
-          ORIGINAL_TITLE="تثبيت Lubuntu على VirtualBox في Windows 11 و10 خطوة بخطوة"
-          ORIGINAL_URL="https://www.cyberoplus.com/2026/09/install-lubuntu-virtualbox-windows.html"
-          PUBLISHED="2026-09-17T15:50:41+01:00"
-          SOURCE_SHA="30c7eb7caae22b28d83b77d34e8e1a8dbb25fff85872458a7ffb65cf08746216"
-          TITLE="How to Install Lubuntu 26.04 LTS in VirtualBox on Windows 11/10"
+          PID="7688280083681024775"
+          ORIGINAL_TITLE="تحميل Logisim 2.7.1 وتثبيته على Windows وmacOS وLinux مع Java"
+          ORIGINAL_URL="https://www.cyberoplus.com/2026/09/download-logisim-2-7-1-java-windows.html"
+          PUBLISHED="2026-09-20T14:53:42Z"
+          SOURCE_SHA="1f07de08312932c7bb5237d8acd3cabc147cfd23cba7d582647f10330c5ea0aa"
+          TITLE="Logisim 2.7.1: Download and Install on Windows, Mac and Linux"
           def digest(s):return hashlib.sha256(s.encode("utf-8")).hexdigest()
           def check(c,msg):
               if not c:raise RuntimeError(msg)
@@ -60,104 +60,98 @@ jobs:
           check(wrapper is not None,"Cannot preserve image wrapper")
           while wrapper.parent and getattr(wrapper.parent,"name",None)=="div" and "separator" in (wrapper.parent.get("class") or []):wrapper=wrapper.parent
           node=BeautifulSoup(str(wrapper),"html.parser")
-          node.find("img")["alt"]="Lubuntu on VirtualBox for Windows 11 and 10"
+          node.find("img")["alt"]="Logisim digital circuit simulator with Java on Windows macOS or Linux"
           if node.find("img").has_attr("title"):node.find("img")["title"]=node.find("img")["alt"]
-          for c in node.find_all("figcaption"):c.string="Original screenshot from the Lubuntu tutorial"
-          article=r'''<p>Install <strong>Lubuntu 26.04.1 LTS on VirtualBox in Windows 11 or Windows 10</strong> by downloading the official Lubuntu ISO and VirtualBox, creating a virtual machine, allocating RAM and storage, and installing Lubuntu on the virtual disk. This guide is aimed at Linux students who want a lightweight desktop without replacing Windows or changing physical disk partitions.</p>
-          {{IMG}}
-          <p>These steps cover <strong>Lubuntu 26.04.1 LTS</strong> and the VirtualBox 7.2 series. <strong>VirtualBox 7.2.22</strong> is the latest version listed by Oracle on November 2, 2026. Menus can differ slightly between VirtualBox releases. The guidance follows official documentation and is not a claim that every host configuration was independently tested.</p>
-          <h2>Why install Lubuntu instead of standard Ubuntu?</h2>
-          <p>Lubuntu is an official Ubuntu flavor with the <strong>LXQt desktop</strong>. Its desktop is generally lighter than Ubuntu's default GNOME interface, making it an option when you want to practice Terminal commands, file permissions and operating-system exercises while Windows keeps running.</p>
-          <p>For a more detailed explanation of the standard Ubuntu Desktop installation, follow our <a href="https://www.cyberoplus.com/2026/10/install-linux-ubuntu-virtualbox.html">Ubuntu on VirtualBox tutorial</a>. That guide covers the full Ubuntu GNOME experience; this guide focuses on Lubuntu and resource-conscious virtual-machine setup.</p>
-          <aside data-type="info"><strong>Understand host and guest.</strong> Windows stays the host. VirtualBox creates a virtual computer, and Lubuntu is its guest operating system. VirtualBox stores the guest's virtual disk in a file on Windows. Following this VM method does not require repartitioning your physical SSD.</aside>
-          <h2>Step 1: Download VirtualBox and the Lubuntu ISO</h2>
-          <ol data-steps>
-          <li>Open <a href="https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html" rel="noopener noreferrer">Oracle's official VirtualBox downloads page</a> and choose the Windows installer. Version 7.2.22 is provided as <code>VirtualBox-7.2.22-175245-Win.exe</code>.</li>
-          <li>Open <a href="https://lubuntu.me/downloads/" rel="noopener noreferrer">Lubuntu's official download page</a> and select the <strong>26.04.1 LTS Desktop 64-bit</strong> image, named <code>lubuntu-26.04.1-desktop-amd64.iso</code>.</li>
-          <li>Compare the ISO against the SHA256 checksum published by the official download source, particularly when using a mirror or torrent.</li>
-          </ol>
-          <p><code>AMD64</code> means the common 64-bit x86 architecture used on Intel and AMD PCs; it is not an AMD-only download. You do not need VirtualBox Extension Pack for the basic installation.</p>
-          <h2>Step 2: Choose reasonable virtual-machine resources</h2>
-          <p>These are <strong>starting suggestions for a study VM</strong>, not formal Lubuntu minimum requirements or guaranteed performance figures. Your physical Windows PC still needs enough resources for its own tasks.</p>
-          <table><thead><tr><th>Resource</th><th>Starting value</th><th>Reason</th></tr></thead><tbody>
-          <tr><td>Guest memory</td><td>2,048 MB</td><td>Conservative starting allocation; raise it if Windows has sufficient spare RAM</td></tr>
-          <tr><td>Processors</td><td>2</td><td>Leaves capacity for the host on a typical multi-core processor</td></tr>
-          <tr><td>Virtual disk</td><td>30 GB, dynamically allocated</td><td>Allows space for updates, tools and course files</td></tr>
-          <tr><td>Graphics controller</td><td>VMSVGA</td><td>Default VirtualBox graphics type for Linux guests</td></tr>
-          <tr><td>Networking</td><td>NAT</td><td>Ordinary internet access through the Windows host</td></tr>
-          </tbody></table>
-          <aside data-type="warning"><strong>Do not assign all of your RAM or CPU cores to Lubuntu.</strong> VirtualBox requires host resources while the guest runs. Leave sufficient RAM, processor capacity and free disk space for Windows and its background tasks.</aside>
-          <h2>Step 3: Install VirtualBox on Windows</h2>
-          <ol data-steps>
-          <li>Run the VirtualBox Windows installer obtained from Oracle and verify the publisher.</li>
-          <li>Accept the necessary device-driver installation prompts; network connectivity may briefly reset while virtual networking drivers are installed.</li>
-          <li>Finish setup and launch <strong>Oracle VirtualBox</strong>.</li>
-          </ol>
-          <p>If the installation fails, check the current vendor troubleshooting documentation instead of installing a third-party modified binary.</p>
-          <h2>Step 4: Create a new Lubuntu virtual machine</h2>
-          <ol data-steps>
-          <li>Click <strong>New</strong>, give the virtual machine a descriptive name such as <code>Lubuntu-Study</code>, and select your ISO file.</li>
-          <li>If prompted, choose <strong>Linux</strong> as the OS type and <strong>Ubuntu (64-bit)</strong> as the version.</li>
-          <li>When available, choose <strong>Skip Unattended Installation</strong> to use Lubuntu's graphical installer yourself. The exact wording may differ between releases.</li>
-          <li>Assign the RAM and processor settings from the table above, then create a new <strong>30 GB</strong> virtual hard disk.</li>
-          </ol>
-          <p>A <strong>dynamically allocated</strong> virtual disk starts smaller and grows with stored guest files up to its configured maximum. It still consumes real storage on the Windows computer.</p>
-          <h2>Step 5: Check display and networking before booting</h2>
-          <h3>Graphics</h3>
-          <p>With the VM powered off, open <strong>Settings → Display</strong> and use <strong>VMSVGA</strong> for Lubuntu. A video-memory setting up to 128 MB is a reasonable starting point where supported. Leave <strong>3D Acceleration</strong> disabled for the initial setup if you want to minimize extra graphics complexity; enable it later only if needed and supported.</p>
-          <h3>Network</h3>
-          <p>In <strong>Settings → Network → Adapter 1</strong>, choose <strong>Attached to: NAT</strong>. This allows normal outbound network access but does not automatically make the guest directly accessible from other devices on your LAN.</p>
-          <h2>Step 6: Start Lubuntu from its ISO</h2>
-          <ol data-steps>
-          <li>Confirm that <code>lubuntu-26.04.1-desktop-amd64.iso</code> is attached to the VM's virtual optical drive.</li>
-          <li>Click <strong>Start</strong> in VirtualBox.</li>
-          <li>Select the install option from Lubuntu's boot menu or launch the installer from the live desktop, depending on the screen presented.</li>
-          </ol>
-          <p>If you see <code>No Bootable Medium Found</code>, shut down the VM and verify its ISO attachment under <strong>Settings → Storage</strong>. This error is not a reason to change or erase the Windows boot drive.</p>
-          <h2>Step 7: Install Lubuntu on the correct disk</h2>
-          <ol data-steps>
-          <li>Pick the interface language, keyboard layout, region and time zone.</li>
-          <li>At the partitioning screen, identify the <strong>new empty virtual hard disk</strong> by its expected size and confirm that you are running inside the intended VirtualBox VM.</li>
-          <li>If this is the freshly created disposable virtual disk, the installer’s <strong>Erase disk</strong> option prepares that disk for Lubuntu.</li>
-          <li>Create your local username, host name and password, then review the installation summary and proceed.</li>
-          </ol>
-          <aside data-type="warning"><strong>Disk safety is essential.</strong> The <em>Erase disk</em> option deletes data on the selected target. It is appropriate here only after verifying that the selected device is the empty VirtualBox virtual disk. Do not follow this instruction on a physical Windows installation or any other unverified disk.</aside>
-          <h2>Step 8: Restart from the installed virtual disk</h2>
-          <p>After installation, restart the VM. If the installer asks you to remove installation media, detach the ISO from the virtual optical drive under <strong>Settings → Storage</strong>. The guest should boot from its new virtual disk.</p>
-          <p>If the installer appears again after restarting, check whether the ISO is still being booted. If the disk does not boot, confirm that installation finished and that the virtual disk remains attached.</p>
-          <h2>Step 9: Check your new Linux system</h2>
-          <p>Sign in, confirm that the desktop responds, open Terminal and check internet access if you need package downloads.</p>
-          <pre><code>uname -a</code></pre>
-          <p>This prints kernel and machine information. To retrieve package lists and review available upgrades:</p>
-          <pre><code>sudo apt update
-          sudo apt upgrade</code></pre>
-          <p>Review the proposed package changes before confirming; keep adequate disk space for updates. These commands run inside the Lubuntu guest, not on the Windows host.</p>
-          <h2>Troubleshoot common Lubuntu VirtualBox problems</h2>
-          <h3>Black screen or frozen desktop</h3>
-          <p>Power the VM off fully. Check that the graphics controller is <strong>VMSVGA</strong>, disable 3D acceleration temporarily and confirm the Windows host has free RAM and disk space. Consult VirtualBox logs for persistent failures rather than assuming Lubuntu is corrupt.</p>
-          <h3>Ubuntu (64-bit) is not offered</h3>
-          <p>Check whether hardware virtualization is enabled in your PC's BIOS/UEFI. Depending on the hardware it may be called <code>Intel VT-x</code>, <code>Intel Virtualization Technology</code>, <code>AMD-V</code> or <code>SVM Mode</code>. Windows virtualization features can also affect behavior on some hosts.</p>
-          <h3>The desktop will not resize with the VM window</h3>
-          <p>VirtualBox <a href="https://docs.oracle.com/en/virtualization/virtualbox/7.2/user/guestadditions.html" rel="noopener noreferrer">Guest Additions</a> can enable automatic resolution adjustment in supported guests. Follow official installation instructions for your version and verify compatibility before changing drivers.</p>
-          <h3>The VM runs slowly</h3>
-          <p>Check Windows memory pressure, CPU use and free SSD space. A lightweight guest desktop helps but cannot eliminate virtualization overhead or the load of demanding programs running inside the guest.</p>
-          <h2>What to learn next</h2>
-          <p>Practice filesystem navigation, basic shell commands, user permissions, processes, software updates and networking. For a broader learning sequence, see our <a href="https://www.cyberoplus.com/2026/01/learn-cybersecurity-beginners-guide.html">cybersecurity beginner roadmap</a>, or use the <a href="https://www.cyberoplus.com/2026/10/install-linux-ubuntu-virtualbox.html">Ubuntu VirtualBox guide</a> if you want the default GNOME desktop.</p>
-          <h2>Official references</h2>
-          <ul>
-          <li><a href="https://lubuntu.me/downloads/" rel="noopener noreferrer">Lubuntu downloads and supported releases</a></li>
-          <li><a href="https://lubuntu.me/lubuntu-26-04-lts-released/" rel="noopener noreferrer">Lubuntu 26.04 LTS release notes</a></li>
-          <li><a href="https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html" rel="noopener noreferrer">VirtualBox version and download links</a></li>
-          <li><a href="https://docs.oracle.com/en/virtualization/virtualbox/7.2/user/working-with-vms.html" rel="noopener noreferrer">Oracle VirtualBox VM setup documentation</a></li>
-          </ul>'''
+          for c in node.find_all("figcaption"):c.string="Original Logisim and Java illustration"
+          article=r'''<p><strong>Logisim 2.7.1</strong> is the original Java-based digital-logic simulator still used by some older university courses. It is available for Windows, macOS and Linux from <a href="https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/" rel="noopener noreferrer">Carl Burch's original SourceForge release</a>. This guide covers safe downloads, Java installation checks, running the original application, a first logic-gate exercise and the difference between the 2011 Logisim release and the newer Logisim-evolution project.</p>
+{{IMG}}
+<aside data-type="info"><strong>Important version distinction:</strong> original <strong>Logisim 2.7.1</strong> was published in March 2011. <strong>Logisim-evolution 5.0.0</strong>, released September 2026, is a separate actively maintained project. If your instructor explicitly requires 2.7.1, do not automatically replace it with the newer program without checking compatibility.</aside>
+<h2>What can you learn using Logisim?</h2>
+<p>Logisim lets you place digital components on a canvas, connect wires, change binary inputs and watch simulated outputs. Students can practice <strong>AND, OR, NOT and XOR gates</strong>, multiplexers, decoders, counters, registers and small combinational or sequential circuits. It is a teaching simulator, not proof that a physical circuit will satisfy real electrical or timing requirements.</p>
+<h2>Download original Logisim 2.7.1 for Windows, macOS or Linux</h2>
+<p>These are the original files listed by the Carl Burch SourceForge project, dated <strong>March 21, 2011</strong>. Download the package appropriate to your operating system. Avoid repackaged installers from unverified websites.</p>
+<table><thead><tr><th>System</th><th>Original file</th><th>Download</th></tr></thead><tbody>
+<tr><td>Windows</td><td><code>logisim-win-2.7.1.exe</code></td><td><a href="https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/logisim-win-2.7.1.exe/download" rel="noopener noreferrer">Windows EXE</a></td></tr>
+<tr><td>macOS (legacy)</td><td><code>logisim-macosx-2.7.1.tar.gz</code></td><td><a href="https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/logisim-macosx-2.7.1.tar.gz/download" rel="noopener noreferrer">Mac archive</a></td></tr>
+<tr><td>Linux and Java systems</td><td><code>logisim-generic-2.7.1.jar</code></td><td><a href="https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/logisim-generic-2.7.1.jar/download" rel="noopener noreferrer">Generic JAR</a></td></tr>
+</tbody></table>
+<h2>Does Logisim need Java?</h2>
+<p>Original Logisim is a Java application. Check whether a Java launcher is already installed:</p>
+<pre><code>java -version</code></pre>
+<p>If a version number appears, Java is available to the command-line environment. This does not guarantee that every part of a 2011 application works with that Java version. If Java is missing, select a suitable supported runtime for your OS and CPU architecture from a trusted vendor such as <a href="https://adoptium.net/" rel="noopener noreferrer">Eclipse Adoptium</a>. A JRE or JDK with a compatible Java launcher can run a JAR; Java development tools are not inherently necessary just to open the simulator.</p>
+<aside data-type="warning"><strong>Legacy compatibility warning.</strong> Logisim 2.7.1 predates modern Windows, macOS and Apple Silicon hardware. Do not disable security protections to force an old application to run, and do not assume either very old or newest Java releases are universally compatible.</aside>
+<h2>Install Logisim 2.7.1 on Windows</h2>
+<ol data-steps>
+<li>Open Command Prompt and enter <code>java -version</code>. If Java is missing, install an appropriate trusted runtime first.</li>
+<li>Download <code>logisim-win-2.7.1.exe</code> from the original SourceForge project.</li>
+<li>Check the downloaded file and follow the installer prompts, then launch Logisim from Windows Start.</li>
+<li>If the application fails to start, try the generic JAR from a terminal to obtain a clearer error message.</li>
+</ol>
+<p>To launch a JAR, open Command Prompt in its download folder and run:</p>
+<pre><code>java -jar logisim-generic-2.7.1.jar</code></pre>
+<p>If Windows says the Java command cannot be found, review the installed Java runtime and the system <code>PATH</code> setting before reinstalling Logisim.</p>
+<h2>Run Logisim 2.7.1 on Linux</h2>
+<p>Use the <code>.jar</code> file rather than the Windows EXE. Install Java through a trusted distribution package or vendor, navigate to the directory containing the JAR, and run:</p>
+<pre><code>java -version
+java -jar logisim-generic-2.7.1.jar</code></pre>
+<p>Alternatively, supply an absolute path to the JAR. When launch fails, read the exact terminal exception; reinstalling Java repeatedly without checking the message is unlikely to help.</p>
+<h2>Run original Logisim on an Intel Mac</h2>
+<p>The original project has a <code>logisim-macosx-2.7.1.tar.gz</code> archive. Download, extract and inspect it. Recent macOS versions may not launch a package originally built in 2011. If a compatible Java installation exists, the generic JAR is another option:</p>
+<pre><code>java -jar logisim-generic-2.7.1.jar</code></pre>
+<p>This is a troubleshooting option rather than a verified guarantee for current macOS releases.</p>
+<h2>Can Logisim 2.7.1 run on Apple Silicon?</h2>
+<p>Logisim 2.7.1 predates the Apple M-series processors. Do not mistake its historical macOS archive for a native ARM64 installer. You may try the generic JAR with compatible ARM64 Java, but success depends on the OS and runtime. For everyday modern Mac use, consider a <a href="https://github.com/logisim-evolution/logisim-evolution/releases" rel="noopener noreferrer">current Logisim-evolution release</a> built for your platform.</p>
+<h2>Build a simple AND gate to test the simulator</h2>
+<ol data-steps>
+<li>Create a new circuit, then add two input pins and one output pin.</li>
+<li>Place an <strong>AND</strong> gate from the gates library.</li>
+<li>Connect both inputs to the gate and connect its output to the output pin.</li>
+<li>Use the interaction tool to set the input pins to the four combinations below.</li>
+<li>Confirm that the output is 1 only when both inputs are 1.</li>
+</ol>
+<table><thead><tr><th>Input A</th><th>Input B</th><th>A AND B</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td><td>1</td></tr></tbody></table>
+<p>If the simulated output differs, first check the wire connections, pin direction and gate type. A circuit-wiring problem is not necessarily a Java problem.</p>
+<h2>Important components in Logisim</h2>
+<dl><dt><strong>Input and output pins</strong></dt><dd>Set and display binary signals.</dd>
+<dt><strong>AND, OR, NOT, XOR gates</strong></dt><dd>Implement Boolean operations.</dd>
+<dt><strong>Multiplexer</strong></dt><dd>Select one of multiple data inputs using control bits.</dd>
+<dt><strong>Decoder</strong></dt><dd>Translate a binary selection into output lines.</dd>
+<dt><strong>Clock</strong></dt><dd>Generate a repeating signal for sequential-circuit demonstrations.</dd>
+<dt><strong>Registers and counters</strong></dt><dd>Hold state or change it over clock transitions.</dd></dl>
+<p>For related foundations, see our <a href="https://www.cyberoplus.com/2025/05/digital-electronics-basics-for-beginners.html">digital electronics and logic gates introduction</a>. The purpose of that article is to explain binary logic, while this guide covers obtaining and using the Logisim application.</p>
+<h2>Troubleshooting: Logisim will not open</h2>
+<h3>Java is not recognized</h3>
+<p>Run <code>java -version</code>. If the shell reports an unknown command, inspect Java installation and your OS's environment configuration. Use official vendor installers.</p>
+<h3>Double-clicking the JAR does nothing</h3>
+<p>Use <code>java -jar logisim-generic-2.7.1.jar</code> in a terminal. This bypasses JAR file-association problems and may display a useful error.</p>
+<h3>A graphical error appears after launch</h3>
+<p>Record the complete message, Java version, operating-system version and CPU architecture. An old application may have limitations not fixable by selecting a different file extension.</p>
+<h3>Download did not finish or is corrupted</h3>
+<p>Download the original file again from Carl Burch's SourceForge directory. Avoid unofficial reuploads and use publisher-provided verification information when available.</p>
+<h2>Original Logisim 2.7.1 versus Logisim-evolution</h2>
+<table><thead><tr><th>Feature</th><th>Original Logisim 2.7.1</th><th>Logisim-evolution</th></tr></thead><tbody>
+<tr><td>Project</td><td>Carl Burch's historical application</td><td>Separate community-maintained simulator</td></tr>
+<tr><td>Release</td><td>March 2011</td><td>5.0.0 released September 2026</td></tr>
+<tr><td>Recommended when</td><td>Your class mandates the original version</td><td>You can use a current maintained alternative</td></tr>
+<tr><td>Platform compatibility</td><td>Older Java and application packaging</td><td>Updated installers and runtime requirements</td></tr>
+</tbody></table>
+<aside data-type="info"><strong>Course compatibility:</strong> Logisim-evolution is not simply a version-number update to the original project. File formats and available components can differ. Keep an independent copy of important <code>.circ</code> files and ask your instructor before switching a required course tool.</aside>
+<h2>Official references and further reading</h2>
+<ul>
+<li><a href="https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/" rel="noopener noreferrer">Original Logisim 2.7.1 downloads</a></li>
+<li><a href="https://sourceforge.net/projects/circuit/" rel="noopener noreferrer">Original Logisim project information</a></li>
+<li><a href="https://github.com/logisim-evolution/logisim-evolution/releases" rel="noopener noreferrer">Logisim-evolution release notes and installers</a></li>
+<li><a href="https://adoptium.net/" rel="noopener noreferrer">Java runtime downloads from Eclipse Adoptium</a></li>
+</ul>
+<p>Choose the software version your course requires, install only the relevant components, and verify an AND-gate circuit before developing more complex projects.</p>'''
           article=article.replace("{{IMG}}",str(node))
           parsed=BeautifulSoup(article,"html.parser")
           check(len(parsed.find_all("h2"))>=12 and len(article)>7500,"New article incomplete")
           check(len(parsed.find_all("img"))==1 and parsed.find("img").get("src")==original_image.get("src"),"Image changed")
           check(not re.search(r"[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]",article),"Arabic remains in the article")
-          check("VirtualBox-7.2.18" not in article and "Erase disk" in article and "30 GB" in article,"Outdated instructions or missing safety warning")
-          check(len([x for x in parsed.find_all("a") if "cyberoplus.com" in x.get("href","")])>=3,"Internal article links missing")
-          check(any("oracle.com" in x.get("href","") for x in parsed.find_all("a")) and any("lubuntu.me" in x.get("href","") for x in parsed.find_all("a")),"Official references missing")
+          check("Logisim-evolution" in article and "java -jar" in article and "A AND B" in article,"Essential educational content missing")
+          check(len([x for x in parsed.find_all("a") if "cyberoplus.com" in x.get("href","")])>=1,"Internal context link missing")
+          check(any("sourceforge.net/projects/circuit" in x.get("href","") for x in parsed.find_all("a")) and any("github.com/logisim-evolution" in x.get("href","") for x in parsed.find_all("a")),"Official references missing")
           print("PRECHECK_PASSED")
           payload={"title":TITLE,"content":article,"labels":["Tutorials"]}
           r=session.patch(endpoint,json=payload,timeout=70);r.raise_for_status()
