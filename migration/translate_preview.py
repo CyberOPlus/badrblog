@@ -110,17 +110,40 @@ def translate_batch(api_key, model, context, segments):
         "article_context_for_terminology_only": context[:1200],
         "segments": [{"id": sid, "text": txt} for sid, txt in segments],
     }
-    response = requests.post(
-        "https://generativelanguage.googleapis.com/v1beta/models/" + model + ":generateContent",
-        headers={"x-goog-api-key": api_key, "Content-Type": "application/json"},
-        json={
-            "contents": [{"role": "user", "parts": [{"text": json.dumps(query, ensure_ascii=False)}]}],
-            "generationConfig": {"responseMimeType": "application/json", "temperature": 0.0},
-        },
-        timeout=120,
-    )
-    if response.status_code != 200:
-        raise RuntimeError("Translation provider HTTP {} (no Blogger write)".format(response.status_code))
+    import time
+    payload = {
+        "contents": [{"role": "user", "parts": [{"text": json.dumps(query, ensure_ascii=False)}]}],
+        "generationConfig": {"responseMimeType": "application/json", "temperature": 0.0},
+    }
+    candidates = [model]
+    if model == "gemini-3.8-flash":
+        candidates.append("gemini-3.6-flash")
+    response = None
+    for chosen_model in candidates:
+        for attempt in range(3):
+            try:
+                response = requests.post(
+                    "https://generativelanguage.googleapis.com/v1beta/models/" + chosen_model + ":generateContent",
+                    headers={"x-goog-api-key": api_key, "Content-Type": "application/json"},
+                    json=payload,
+                    timeout=120,
+                )
+            except requests.RequestException:
+                if attempt == 2:
+                    raise RuntimeError("Translation API unreachable (no Blogger write)")
+                time.sleep([2, 5, 10][attempt])
+                continue
+            if response.status_code == 200:
+                break
+            if response.status_code not in (429, 500, 502, 503, 504):
+                raise RuntimeError("Translation provider HTTP {} (no Blogger write)".format(response.status_code))
+            print("RETRY: translation provider temporarily unavailable; model={}, attempt={}".format(chosen_model, attempt + 1))
+            if attempt < 2:
+                time.sleep([2, 5, 10][attempt])
+        if response is not None and response.status_code == 200:
+            break
+    if response is None or response.status_code != 200:
+        raise RuntimeError("All translation API retries failed (no Blogger write)")
     data = response.json()
     candidates = data.get("candidates") or []
     if not candidates:
