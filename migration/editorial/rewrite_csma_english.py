@@ -33,14 +33,22 @@ images=parsed.find_all("img")
 check(len(images)==4,"Four original images expected")
 img_html=[]
 for i,img in enumerate(images):
-    wrap=img.find_parent("div",class_="separator") or img.find_parent("figure")
+    wrap=img.find_parent("div",class_="separator") or img.find_parent("figure") or img.find_parent("table",class_="tr-caption-container")
     check(wrap is not None,"Original media wrapper absent")
     node=BeautifulSoup(str(wrap),"html.parser")
-    node.find("img")["alt"]=[
+    descriptive_alt=[
       "Shared Ethernet collision detection using CSMA CD",
       "Half duplex Ethernet backoff sequence",
       "WiFi CSMA CA contention and randomized backoff",
       "Token Ring token passing network example"][i]
+    node.find("img")["alt"]=descriptive_alt
+    node.find("img")["title"]=descriptive_alt
+    captions=[
+      "Comparing CSMA CD, CSMA CA and token passing",
+      "Shared half-duplex Ethernet collision detection and backoff",
+      "WiFi contention using CSMA CA randomized backoff",
+      "Token passing among stations on a historical Token Ring network"]
+    for cell in node.select("td.tr-caption"):cell.string=captions[i]
     img_html.append(str(node))
 new=r'''<p><strong>CSMA/CD, CSMA/CA and token passing</strong> are methods for coordinating access to a shared network medium. They were developed for different network designs and should not be described as interchangeable ways that every modern network sends data. In particular, <strong>CSMA/CD belongs to shared, half-duplex Ethernet</strong>; it is not used on ordinary switched, full-duplex Ethernet links today. Wi-Fi commonly uses contention and collision-avoidance mechanisms, while token passing is associated with historical technologies such as Token Ring.</p>
 {{IMAGE1}}
