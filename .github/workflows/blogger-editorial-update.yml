@@ -52,7 +52,7 @@ jobs:
           old=read()
           print("CURRENT_METADATA: "+json.dumps({"title":old.get("title"),"published":old.get("published"),"labels":old.get("labels"),"url":old.get("url"),"sha":digest(old.get("content",""))},ensure_ascii=False))
           check(str(old.get("id"))==PID and old.get("url")==ORIGINAL_URL and old.get("title")==OLD_TITLE and old.get("published")==PUBLISHED and old.get("labels")==["networking"] and digest(old.get("content",""))==SHA,"Source changed, no write")
-          soup=BeautifulSoup(old["content"],"html.parser);imgs=soup.find_all("img")
+          soup=BeautifulSoup(old["content"],"html.parser");imgs=soup.find_all("img")
           check(len(imgs)==1,"Original image count mismatch")
           img=imgs[0];box=img.find_parent("div",class_="separator") or img.find_parent("figure")
           check(box is not None,"Original image wrapper missing")
