@@ -14,150 +14,126 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
-      - name: Install authentication and parsing dependencies
+      - name: Install credentials and HTML parser
         run: python -m pip install --disable-pip-version-check "google-auth>=2.20,<3" "requests>=2.31,<3" "beautifulsoup4>=4.12,<5"
-      - name: Update exactly one existing checked article
+      - name: Verify source and update original networking exercises
         env:
           BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
           BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
           BLOGGER_CLIENT_SECRET_JSON: ${{ secrets.BLOGGER_CLIENT_SECRET_JSON }}
         run: |
           python - <<'PY'
-          import os,json,re,hashlib
+          import os,json,hashlib,re
           from urllib.parse import urlsplit
           from bs4 import BeautifulSoup
-          from google.auth.transport.requests import AuthorizedSession
           from google.oauth2.credentials import Credentials
+          from google.auth.transport.requests import AuthorizedSession
           BID="2750143140558868280"
-          PID="7891191832212114647"
-          ORIGINAL_TITLE="تحميل Code::Blocks 25.03 مع MinGW لويندوز 11 و10 لتشغيل C وC++"
-          ORIGINAL_URL="https://www.cyberoplus.com/2026/09/download-codeblocks-windows-mingw.html"
-          PUBLISHED="2026-09-17T18:55:54+01:00"
-          SOURCE_SHA="710e204146a4bd0579288b399c97c6552f0d3700da9b0b01234d317d99b93da7"
-          NEW_TITLE="Code::Blocks 25.03 with MinGW: Install C/C++ on Windows 11 or 10"
-          NEW_LABELS=["Tutorials"]
-          def sha(s):return hashlib.sha256(s.encode("utf-8")).hexdigest()
-          def check(cond,msg):
-              if not cond:raise RuntimeError(msg)
-          t=json.loads(os.environ["BLOGGER_TOKEN_JSON"])
-          client=json.loads(os.environ["BLOGGER_CLIENT_SECRET_JSON"])
-          conf=client.get("installed") or client.get("web") or {}
+          PID="7487460749439587272"
+          OLD_TITLE="تمارين الشبكات للمبتدئين: OSI وLAN وTopology مع الحلول"
+          ORIGINAL_URL="https://www.cyberoplus.com/2026/03/networking-exercises-osi-lan-topology-solutions.html"
+          PUBLISHED="2026-03-17T21:11:00Z"
+          SHA="8ca9d87627153a151c58ff6d14e8b61153e67e72fa78be2b792a89c0a833831f"
+          TITLE="10 Beginner Networking Exercises: OSI, LAN, Topology, TCP and DNS"
+          def digest(s):return hashlib.sha256(s.encode("utf-8")).hexdigest()
+          def check(c,m):
+              if not c:raise RuntimeError(m)
+          t=json.loads(os.environ["BLOGGER_TOKEN_JSON"]);client=json.loads(os.environ["BLOGGER_CLIENT_SECRET_JSON"]);conf=client.get("installed") or client.get("web") or {}
           for k in ("client_id","client_secret","token_uri"):
               if not t.get(k) and conf.get(k):t[k]=conf[k]
-          session=AuthorizedSession(Credentials.from_authorized_user_info(t))
-          url="https://www.googleapis.com/blogger/v3/blogs/"+BID
-          check(os.environ.get("BLOGGER_BLOG_ID")==BID,"Wrong blogger credentials")
-          b=session.get(url,timeout=30);b.raise_for_status();info=b.json()
-          check(str(info.get("id"))==BID and (urlsplit(info.get("url","")).hostname or "").lower() in ("cyberoplus.com","www.cyberoplus.com"),"Blog mismatch")
-          endpoint=url+"/posts/"+PID
-          def get():
-              r=session.get(endpoint,params={"view":"ADMIN","fetchBody":"true"},timeout=45);r.raise_for_status();return r.json()
-          old=get()
-          check(str(old.get("id"))==PID and old.get("url")==ORIGINAL_URL and old.get("published")==PUBLISHED and old.get("title")==ORIGINAL_TITLE and old.get("labels")==["apps"] and sha(old.get("content",""))==SOURCE_SHA,"Post changed; no write")
-          soup=BeautifulSoup(old["content"],"html.parser")
-          imgs=soup.find_all("img")
-          check(len(imgs)==1,"Original media unexpected")
-          img=imgs[0];wrapper=img.find_parent("div",class_="separator") or img.find_parent("figure")
-          check(wrapper is not None,"Original image wrapper missing")
-          while wrapper.parent and getattr(wrapper.parent,"name",None)=="div" and "separator" in (wrapper.parent.get("class") or []):wrapper=wrapper.parent
-          node=BeautifulSoup(str(wrapper),"html.parser")
-          node.find("img")["alt"]="CodeBlocks 25.03 IDE for C and C++ programming on Windows"
-          for f in node.find_all("figcaption"):f.string="Code::Blocks original tutorial illustration."
-          content=r'''<p>To install <strong>Code::Blocks 25.03 with a C and C++ compiler on Windows 10 or Windows 11</strong>, download the official <code>codeblocks-25.03mingw-setup.exe</code> package. This edition includes the IDE, MinGW-w64-based GCC/G++ toolchain and GDB, so beginners can compile their first programs without setting up a separate compiler.</p>
+          sess=AuthorizedSession(Credentials.from_authorized_user_info(t))
+          api="https://www.googleapis.com/blogger/v3/blogs/"+BID
+          check(os.environ.get("BLOGGER_BLOG_ID")==BID,"Wrong blog secret")
+          r=sess.get(api,timeout=35);r.raise_for_status()
+          check(str(r.json().get("id"))==BID and (urlsplit(r.json().get("url","")).hostname or "").lower() in ("cyberoplus.com","www.cyberoplus.com"),"Domain mismatch")
+          endpoint=api+"/posts/"+PID
+          def read():
+              r=sess.get(endpoint,params={"view":"ADMIN","fetchBody":"true"},timeout=40);r.raise_for_status();return r.json()
+          old=read()
+          print("CURRENT_METADATA: "+json.dumps({"title":old.get("title"),"published":old.get("published"),"labels":old.get("labels"),"url":old.get("url"),"sha":digest(old.get("content",""))},ensure_ascii=False))
+          check(str(old.get("id"))==PID and old.get("url")==ORIGINAL_URL and old.get("title")==OLD_TITLE and old.get("published")==PUBLISHED and old.get("labels")==["networking"] and digest(old.get("content",""))==SHA,"Source changed, no write")
+          soup=BeautifulSoup(old["content"],"html.parser);imgs=soup.find_all("img")
+          check(len(imgs)==1,"Original image count mismatch")
+          img=imgs[0];box=img.find_parent("div",class_="separator") or img.find_parent("figure")
+          check(box is not None,"Original image wrapper missing")
+          node=BeautifulSoup(str(box),"html.parser")
+          node.find("img")["alt"]="Networking practice quiz on OSI LAN topology and TCP with explained answers"
+          article=r'''<p>These <strong>10 beginner networking exercises with explained answers</strong> test practical understanding of LAN, WAN, network topology, OSI layers, MAC addresses, TCP, intranets, extranets, physical connectivity and DNS. Try each question before reading the solution: the objective is to understand why an answer is correct, not memorize labels.</p>
           {{IMG}}
-          <aside data-type="info"><strong>Which installer should you choose?</strong> For a first installation, the Code::Blocks project recommends <code>codeblocks-25.03mingw-setup.exe</code>. The similarly named <code>codeblocks-25.03-setup.exe</code> is the IDE <em>without</em> the bundled compiler. Installing an editor alone is not enough to build C and C++ applications.</aside>
-          <h2>What is Code::Blocks?</h2>
-          <p>Code::Blocks is a free, open-source integrated development environment (IDE) for working with languages such as C and C++. The editor lets you organize source files into projects, compile and link them, run programs, and debug code. An IDE is not itself a compiler: for C and C++ programs it launches a compiler such as GCC and a linker from a configured toolchain.</p>
-          <h2>Code::Blocks 25.03 download options</h2>
-          <p>The project announced version <strong>25.03 on March 31, 2025</strong>. Its official Windows release directory provides several distinct packages:</p>
-          <table><thead><tr><th>File</th><th>What's included</th><th>Best for</th></tr></thead><tbody>
-          <tr><td><code>codeblocks-25.03mingw-setup.exe</code></td><td>IDE, compiler toolchain and debugger</td><td>Beginners without GCC installed</td></tr>
-          <tr><td><code>codeblocks-25.03-setup.exe</code></td><td>IDE and plugins; no bundled compiler</td><td>People who already configured a toolchain</td></tr>
-          <tr><td><code>codeblocks-25.03-setup-nonadmin.exe</code></td><td>IDE without bundled compiler, packaged for non-admin use</td><td>Specific permission constraints</td></tr>
-          <tr><td><code>codeblocks-25.03mingw-nosetup.zip</code></td><td>IDE and compiler toolchain without a setup wizard</td><td>Advanced or portable-style installations</td></tr>
+          <aside data-type="info"><strong>How to use these exercises:</strong> write your answer to each question first, then compare it with the explanation. The scenarios use common networking models and simplified examples; real networks can have more complex configurations.</aside>
+          <h2>Exercise 1: Is this a LAN or WAN?</h2>
+          <p><strong>Question:</strong> A company connects 35 computers on one office floor through several Ethernet switches. Does this network describe a LAN or a WAN?</p>
+          <aside data-type="info"><strong>Answer: LAN (Local Area Network).</strong> The network spans a relatively limited physical area. A LAN can have a few devices or thousands of them; the number 35 does not make it a WAN. A WAN typically spans larger geographic areas or interconnects separated LANs.</aside>
+          <p>Compare this with an organization linking offices in different cities over a provider network: that inter-office connection is a typical WAN scenario. See <a href="https://www.cisco.com/site/us/en/learn/topics/networking/what-is-a-lan-local-area-network.html" rel="noopener noreferrer">Cisco's LAN explanation</a>.</p>
+          <h2>Exercise 2: Identify the physical network topology</h2>
+          <p><strong>Question:</strong> Every computer in an office has a separate Ethernet cable to one central switch. What is the physical topology?</p>
+          <aside data-type="info"><strong>Answer: Star topology.</strong> Each device is connected individually to the central network device. A failure of one endpoint's cable does not normally disconnect the others, but losing the central switch can interrupt connectivity for the devices attached to it.</aside>
+          <p>This is a description of <em>physical</em> connectivity, not necessarily how logical traffic flows across all segments of the network.</p>
+          <h2>Exercise 3: How many connections in a full mesh?</h2>
+          <p><strong>Question:</strong> Six network nodes are connected in a full mesh, with one direct undirected link between every distinct pair. How many links are necessary?</p>
+          <p>For <code>N</code> nodes, the number of links is:</p>
+          <pre><code>Links = N × (N − 1) / 2
+          Links = 6 × (6 − 1) / 2
+          Links = 6 × 5 / 2 = 15</code></pre>
+          <aside data-type="info"><strong>Answer: 15 links.</strong> Each of the six nodes could connect to five others, giving 30 endpoint-counted connections. Dividing by two prevents counting the same undirected link twice.</aside>
+          <p>A full mesh provides many alternative paths, but the number of physical links grows quickly as nodes are added. This formula assumes exactly one connection per unordered pair, not multiple parallel links.</p>
+          <h2>Exercise 4: What OSI layer handles IP forwarding?</h2>
+          <p><strong>Question:</strong> A router uses a packet's destination IP address and a routing table to select the next hop. Which OSI layer best describes this forwarding function?</p>
+          <aside data-type="info"><strong>Answer: Layer 3, the Network layer.</strong> IP addressing and routing between IP networks map most closely to Layer 3 in the OSI reference model.</aside>
+          <p>This does not mean a real router can only perform Layer 3 operations. Hardware and software platforms may also filter traffic, encapsulate packets, enforce policies and process higher-layer protocols.</p>
+          <h2>Exercise 5: Which address does an Ethernet switch use?</h2>
+          <p><strong>Question:</strong> An ordinary Layer 2 Ethernet switch receives a frame and checks its forwarding table. Does it normally use the destination MAC address or destination IP address to choose an egress port?</p>
+          <aside data-type="info"><strong>Answer: Destination MAC address.</strong> A Layer 2 switch forwards Ethernet frames using learned MAC-to-port information. The Ethernet destination MAC field is distinct from the IP destination address that may be carried inside the frame.</aside>
+          <p>A multilayer switch can also perform IP routing when configured to do so, so distinguish the basic Layer 2 forwarding operation from Layer 3 switching. Read <a href="https://www.cisco.com/site/us/en/learn/topics/networking/what-is-an-ethernet-switch.html" rel="noopener noreferrer">Cisco's Ethernet switch overview</a>.</p>
+          <h2>Exercise 6: Choose TCP or UDP for an ordered byte stream</h2>
+          <p><strong>Question:</strong> A program requires the transport protocol itself to provide a reliable, in-order <strong>byte stream</strong>. Is TCP or UDP the closer match?</p>
+          <aside data-type="info"><strong>Answer: TCP.</strong> TCP specifies a reliable, ordered byte-stream service for applications, with mechanisms for loss recovery and flow control. UDP supplies datagrams with comparatively little protocol machinery, and does not itself guarantee delivery or ordering.</aside>
+          <p>This is a question about protocol-provided service, not a claim that all real-world uses of UDP are unreliable. Applications can build reliability over UDP; QUIC, for example, provides additional transport functionality over UDP.</p>
+          <p>Primary references: <a href="https://www.rfc-editor.org/rfc/rfc9293.html" rel="noopener noreferrer">RFC 9293 (TCP)</a> and <a href="https://www.rfc-editor.org/rfc/rfc768.html" rel="noopener noreferrer">RFC 768 (UDP)</a>.</p>
+          <h2>Exercise 7: Intranet or public Internet?</h2>
+          <p><strong>Question:</strong> A company provides an employee-only portal that requires authorized access from its internal network or through a company-managed remote-access system. What is this service usually called?</p>
+          <aside data-type="info"><strong>Answer: Intranet.</strong> An intranet is a private, organization-focused network or collection of services. Its resources can use web technologies without being publicly available on the Internet.</aside>
+          <p>Using a web browser does not automatically make a portal a public website. What matters here is intended audience and access control.</p>
+          <h2>Exercise 8: What makes an extranet different?</h2>
+          <p><strong>Question:</strong> A supplier receives restricted access to a company's internal order-tracking resources. Is this better described as an intranet or an extranet?</p>
+          <aside data-type="info"><strong>Answer: Extranet.</strong> The company deliberately exposes selected internal resources to authorized external participants such as partners or suppliers, while retaining access restrictions.</aside>
+          <p>Extranet access does not imply unrestricted exposure of the entire internal network. It typically uses authentication and tightly scoped permissions.</p>
+          <h2>Exercise 9: Where should troubleshooting start when the link is down?</h2>
+          <p><strong>Question:</strong> A wired Ethernet adapter displays no link after connecting a cable. Should the first check focus on the Physical layer, DNS, or application authentication?</p>
+          <aside data-type="info"><strong>Answer: Start with the Physical layer.</strong> Check both cable ends, connectors, adapter status, switch port, power, and link indicators. If the physical connection is unavailable, higher-layer diagnosis usually cannot progress.</aside>
+          <p>After confirming link availability, inspect addressing, routing, DNS and application behavior in that order as appropriate. A missing link is a symptom, not definitive proof of a damaged cable; the switch port or adapter can also be at fault.</p>
+          <h2>Exercise 10: Is this a DNS problem?</h2>
+          <p><strong>Question:</strong> A client can reach the intended server using a numeric IP address, but an equivalent hostname fails. Which function should you investigate first?</p>
+          <aside data-type="info"><strong>Answer: Name resolution, including DNS.</strong> The IP test suggests that at least one network path to that address works, so check the hostname, DNS server configuration, address records and resolver behavior rather than assuming all physical or IP connectivity is broken.</aside>
+          <p>Do not overinterpret the result. For HTTPS websites, direct-IP requests can also fail or behave differently because of virtual hosting, TLS certificates and HTTP Host headers; compare equivalent protocols and destinations when troubleshooting.</p>
+          <h2>Score your understanding</h2>
+          <table><thead><tr><th>Correct answers</th><th>Recommended next action</th></tr></thead><tbody>
+          <tr><td>0–4</td><td>Review LAN/WAN, topology and the main OSI layer roles</td></tr>
+          <tr><td>5–7</td><td>Practice distinguishing MAC/IP and TCP/UDP services</td></tr>
+          <tr><td>8–10</td><td>Apply these ideas to actual packet captures and controlled troubleshooting</td></tr>
           </tbody></table>
-          <p><strong>Official links:</strong> <a href="https://www.codeblocks.org/downloads/binaries/" rel="noopener noreferrer">Code::Blocks binary releases</a> and the <a href="https://sourceforge.net/projects/codeblocks/files/Binaries/25.03/Windows/" rel="noopener noreferrer">25.03 Windows packages on the project's SourceForge</a>. Download only from sources linked by the Code::Blocks maintainers. The MinGW-bundled installer contains GCC/G++ and related tools supplied from WinLibs.</p>
-          <h2>What is MinGW-w64 and why is it needed?</h2>
-          <p><strong>MinGW-w64</strong> provides development tools that can produce native Windows programs using GCC and related compilers. <code>gcc</code> compiles C source files, while <code>g++</code> handles C++ programs and the relevant C++ runtime linking. <strong>GDB</strong> is the debugger used to inspect program execution. A toolchain includes more than one executable: compiling normally also involves linking object files and libraries into a runnable application.</p>
-          <p>The 25.03 MinGW bundle includes <strong>GCC 14.2.0</strong> along with other tools described on the official release page. Bundled versions belong to that specific installer; a newer independently installed compiler may not match these numbers.</p>
-          <h2>Install Code::Blocks 25.03 on Windows 11 or Windows 10</h2>
-          <ol data-steps>
-          <li>Open the <a href="https://www.codeblocks.org/downloads/binaries/" rel="noopener noreferrer">official binary downloads page</a> and choose the 64-bit Windows <code>codeblocks-25.03mingw-setup.exe</code> installer.</li>
-          <li>Run the downloaded program after checking its source. Review the installer prompts and confirm the destination directory.</li>
-          <li>Allow the included Code::Blocks components to install, then launch the IDE.</li>
-          <li>On the initial compiler-detection screen, select <strong>GNU GCC Compiler</strong> when the bundled toolchain is detected.</li>
-          <li>Open <strong>Settings → Compiler → Toolchain executables</strong> if you need to verify or adjust the compiler location.</li>
-          </ol>
-          <aside data-type="warning"><strong>Avoid two common mistakes:</strong> downloading the IDE-only installer when you do not have a compiler, or mixing multiple unverified MinGW installations. Either may make Code::Blocks report that no compiler is configured, despite the editor opening successfully.</aside>
-          <h2>Make your first C program</h2>
-          <ol data-steps>
-          <li>Select <strong>File → New → Project → Console application</strong>.</li>
-          <li>Choose <strong>C</strong> when the wizard asks for the programming language.</li>
-          <li>Name the project <code>HelloC</code> and choose a folder in which to save it.</li>
-          <li>Keep the default <strong>GNU GCC Compiler</strong> and the Debug target when offered.</li>
-          <li>Open the generated <code>main.c</code> file and replace its code with the example below.</li>
-          <li>Press <strong>F9</strong> or select <strong>Build → Build and Run</strong>.</li>
-          </ol>
-          <pre><code>#include &lt;stdio.h&gt;
-          
-          int main(void) {
-              printf("Hello, world!\n");
-              return 0;
-          }</code></pre>
-          <p>The expected console output is:</p>
-          <pre><code>Hello, world!</code></pre>
-          <p>The <code>#include &lt;stdio.h&gt;</code> directive makes <code>printf</code> available, while <code>main</code> is the program entry point. The <code>\n</code> character sequence prints a newline. <code>return 0</code> indicates successful completion of the function.</p>
-          <h2>Build and run your first C++ program</h2>
-          <p>For a separate C++ example, create another <strong>Console application</strong> project, choose <strong>C++</strong> and open <code>main.cpp</code>. A C++ compiler is not the same thing as the C language wizard setting.</p>
-          <pre><code>#include &lt;iostream&gt;
-          
-          int main() {
-              std::cout &lt;&lt; "Hello from C++!" &lt;&lt; '\n';
-              return 0;
-          }</code></pre>
-          <p>Press <strong>F9</strong>. A successful build compiles and links the file, then starts the program. If you choose only <strong>Run</strong> after changing source code, you may execute an older compiled program; <strong>Build and Run</strong> avoids that confusion.</p>
-          <h2>What do Build, Run and Debug mean?</h2>
-          <table><thead><tr><th>Action</th><th>Purpose</th></tr></thead><tbody>
-          <tr><td>Build</td><td>Compile source files and link an executable; errors appear in the build log</td></tr>
-          <tr><td>Run</td><td>Launch an already-built executable</td></tr>
-          <tr><td>Build and Run (F9)</td><td>Compile and launch if the build succeeds</td></tr>
-          <tr><td>Debug</td><td>Use breakpoints and inspect program state with a configured debugger</td></tr>
-          </tbody></table>
-          <p>The official <a href="https://www.codeblocks.org/docs/main_codeblocks_en3.html" rel="noopener noreferrer">Code::Blocks manual</a> walks through the console project wizard and compiler settings. Project-based development also makes it easier to manage multiple source files and debug them together.</p>
-          <h2>Fix common installation and compilation errors</h2>
-          <h3>Compiler not detected or GNU GCC missing</h3>
-          <p>Check whether you accidentally installed <code>codeblocks-25.03-setup.exe</code> without MinGW. If you have the bundled edition, open <strong>Settings → Compiler → Toolchain executables</strong>, select <strong>GNU GCC Compiler</strong> and try <strong>Auto-detect</strong>. Check that the installation directory points to the actual toolchain instead of an unrelated empty directory.</p>
-          <h3>Build log says the compiler executable cannot be found</h3>
-          <p>Inspect the exact path and the contents of your toolchain installation. Do not immediately copy unknown DLL files from download sites; identify the missing executable or wrong path first.</p>
-          <h3>Build succeeds but the console closes</h3>
-          <p>A short program can finish immediately. Use the IDE's console runner or start the compiled program from an already open terminal. Avoid adding <code>system("pause")</code> to every example; it is Windows-specific and not necessary for portable C or C++ code.</p>
-          <h3>You selected C++ but named the file .c</h3>
-          <p>Choose the language in the project wizard and use a matching filename extension: <code>.c</code> for C and <code>.cpp</code> for C++. The compiler and standard libraries differ. For example, <code>stdio.h</code> and <code>printf</code> are used in the C sample, while <code>iostream</code> and <code>std::cout</code> appear in the C++ example.</p>
-          <h3>Antivirus or Windows warns about the installer</h3>
-          <p>Verify the download originated from the project's official page and review the publisher information and any available hash checks. A warning is not proof that the file is malicious, but it should not simply be bypassed without verification.</p>
-          <h2>Where to go after your first program</h2>
-          <p>Practice variables, input and output, <code>if</code> conditions, loops, functions, arrays and debugging. Learn how compiler errors differ from logical errors and how to use breakpoints rather than guessing at program behavior. You can then explore the <a href="https://www.cyberoplus.com/2025/03/algorithms-arrays-records-files-comprehensive-guide.html">algorithms and data structures guide</a> for the underlying reasoning used in programming exercises.</p>
-          <h2>Official references</h2>
+          <p>This table is a study aid, <strong>not a standardized exam score</strong>. The best measure is whether you can explain each answer and identify which assumption made it correct.</p>
+          <h2>Related networking lessons</h2>
+          <p>Read our <a href="https://www.cyberoplus.com/2026/03/osi-model-7-layers-explained.html">OSI seven-layer guide</a> for the reference model, or the <a href="https://www.cyberoplus.com/2026/03/osi-vs-tcp-ip-model-differences.html">OSI versus TCP/IP comparison</a> to see how the layered models relate to actual Internet protocols. Work through the ten questions again after studying and try answering without opening the solutions.</p>
+          <h2>Sources and standards</h2>
           <ul>
-          <li><a href="https://www.codeblocks.org/post/codeblocks-25.03-is-here/" rel="noopener noreferrer">Code::Blocks 25.03 release announcement</a></li>
-          <li><a href="https://www.codeblocks.org/downloads/binaries/" rel="noopener noreferrer">Windows binary versions and the recommended MinGW package</a></li>
-          <li><a href="https://www.codeblocks.org/docs/main_codeblocks_en3.html" rel="noopener noreferrer">Official Code::Blocks user guide</a></li>
-          <li><a href="https://sourceforge.net/projects/codeblocks/files/Binaries/25.03/Windows/" rel="noopener noreferrer">Original SourceForge release files</a></li>
+          <li><a href="https://www.cisco.com/site/us/en/learn/topics/networking/what-is-a-lan-local-area-network.html" rel="noopener noreferrer">Cisco: LAN and network scope</a></li>
+          <li><a href="https://www.cisco.com/site/us/en/learn/topics/networking/what-is-an-ethernet-switch.html" rel="noopener noreferrer">Cisco: Ethernet switching</a></li>
+          <li><a href="https://www.rfc-editor.org/rfc/rfc9293.html" rel="noopener noreferrer">IETF RFC 9293: TCP service definition</a></li>
+          <li><a href="https://www.rfc-editor.org/rfc/rfc768.html" rel="noopener noreferrer">IETF RFC 768: UDP</a></li>
           </ul>'''
-          content=content.replace("{{IMG}}",str(node))
-          new=BeautifulSoup(content,"html.parser")
-          check(len(content)>7000 and len(new.find_all("h2"))>=10,"Article incomplete")
-          check(len(new.find_all("img"))==1 and new.find("img").get("src")==img.get("src"),"Image lost")
-          check(not re.search(r"[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff]",content),"Non-English body")
-          check("codeblocks-25.03mingw-setup.exe" in content and "printf" in content and "std::cout" in content and "F9" in content,"Essential content missing")
-          check(any("codeblocks.org" in a.get("href","") for a in new.find_all("a")),"Official sources missing")
-          check(any("cyberoplus.com" in a.get("href","") for a in new.find_all("a")),"Internal link missing")
+          article=article.replace("{{IMG}}",str(node))
+          parsed=BeautifulSoup(article,"html.parser")
+          check(len(article)>6500 and len(parsed.find_all("h2"))>=12,"Article incomplete")
+          check(len(parsed.find_all("img"))==1 and parsed.find("img").get("src")==img.get("src"),"Image lost")
+          check(not re.search(r"[\u0600-\u06ff\u0750-\u077f\u08A0-\u08FF]",article),"Arabic remains")
+          check("Mesh" in article and "15 links" in article and "DNS" in article and "RFC 9293" in article,"Original study objectives incomplete")
+          check(any("cyberoplus.com" in x.get("href","") for x in parsed.find_all("a")),"Internal link missing")
           print("PRECHECK_PASSED")
-          r=session.patch(endpoint,json={"title":NEW_TITLE,"content":content,"labels":NEW_LABELS},timeout=70);r.raise_for_status()
-          after=get()
-          check(str(after.get("id"))==PID and after.get("url")==ORIGINAL_URL and after.get("published")==PUBLISHED and after.get("title")==NEW_TITLE and after.get("labels")==NEW_LABELS,"CRITICAL: Blogger identity changed")
-          check(sha(after.get("content",""))==sha(content),"CRITICAL: Published content mismatch")
+          r=sess.patch(endpoint,json={"title":TITLE,"content":article,"labels":["Tutorials"]},timeout=60);r.raise_for_status()
+          new=read()
+          check(str(new.get("id"))==PID and new.get("url")==ORIGINAL_URL and new.get("published")==PUBLISHED and new.get("title")==TITLE and new.get("labels")==["Tutorials"],"CRITICAL: Metadata changed")
+          check(digest(new.get("content",""))==digest(article),"CRITICAL: Content differs after save")
           print("PUBLISHED_AND_VERIFIED: "+ORIGINAL_URL)
-          print("PUBLISHED_DATE_PRESERVED: "+PUBLISHED)
           
           PY
