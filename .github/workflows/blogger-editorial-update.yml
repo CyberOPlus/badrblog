@@ -1,4 +1,4 @@
-name: CyberoPlus Editorial - Distinct MAC Address and Ethernet Traffic Tutorials
+name: CyberoPlus Editorial - Ethernet Frame Tutorial
 on:
   push:
     branches: [main]
@@ -10,211 +10,184 @@ concurrency:
   group: cyberoplus-editorial-one-post
   cancel-in-progress: false
 jobs:
-  publish-two-distinct-networking-tutorials:
+  publish-verified-article:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Install Blogger auth and HTML parser
+      - name: Install Blogger authentication and HTML parser
         run: python -m pip install --disable-pip-version-check "google-auth>=2.20,<3" "requests>=2.31,<3" "beautifulsoup4>=4.12,<5"
-      - name: Edit and verify two conflicting Blogger articles sequentially
+      - name: Research-backed English Ethernet frame article; verify published post
         env:
           BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
           BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
           BLOGGER_CLIENT_SECRET_JSON: ${{ secrets.BLOGGER_CLIENT_SECRET_JSON }}
         run: |
           python - <<'PY'
-          import os,json,re,hashlib
+          import json,os,re,hashlib
           from urllib.parse import urlsplit
           from bs4 import BeautifulSoup
           from google.oauth2.credentials import Credentials
           from google.auth.transport.requests import AuthorizedSession
           BID="2750143140558868280"
-          SPECS=[
-                    {"id":"3427319989413519679","old_title":"Unicast وMulticast وBroadcast في MAC Address: كيف تميزها؟","url":"https://www.cyberoplus.com/2026/04/mac-address-unicast-broadcast-multicast.html","published":"2026-04-02T13:27:00+01:00","sha":"c6535ef4b22df66b6a2d9e60e783c52c014b42f8fe5b925c3a9f62685a9bf423","title":"MAC Address Bits Explained: I/G, U/L, Unicast and Multicast","html":r'''<p>A <strong>MAC address</strong> on Ethernet usually contains six bytes, written as 12 hexadecimal digits such as <code>02:1a:2b:3c:4d:5e</code>. Two bits in its <strong>first byte</strong> explain whether an address is intended for an individual receiver or a group, and whether it is universally or locally administered. This guide shows how to read the <strong>I/G</strong> and <strong>U/L</strong> bits without confusing them with an IP address, a broadcast frame or the MAC address of a real device.</p>
-                    {{IMG}}
-                    <aside data-type="info"><strong>Scope:</strong> This article concentrates on identifying and interpreting Ethernet MAC address bits. For how switches forward unicast, multicast and broadcast traffic, see the <a href="https://www.cyberoplus.com/2026/03/unicast-multicast-broadcast-networking.html">separate Ethernet delivery and Wireshark guide</a>.</aside>
-                    <h2>The structure of a 48-bit Ethernet MAC address</h2>
-                    <p>An EUI-48 address contains <strong>48 bits (6 octets)</strong>. Each hexadecimal pair represents eight bits, for example:</p>
-                    <pre><code>02:1a:2b:3c:4d:5e
-                    ^^
-                    First octet = 0x02 = 00000010 (binary)</code></pre>
-                    <p>The first octet is especially important when interpreting the two named flags. Do not assume that a written hexadecimal address is automatically guaranteed to be unique: locally administered and randomized MAC addresses are common in virtual machines and modern client devices.</p>
-                    <h2>What does the I/G bit mean?</h2>
-                    <p>The <strong>Individual/Group bit (I/G)</strong>, also called the Group or M bit, is the <strong>least significant bit of the first octet</strong>. A value of <code>0</code> indicates an <strong>individual (unicast)</strong> address. A value of <code>1</code> indicates a <strong>group</strong> address, which can include multicast or broadcast destinations.</p>
-                    <p>Test the first octet with the hexadecimal mask <code>0x01</code>:</p>
-                    <pre><code>0x02 &amp; 0x01 = 0x00   Individual / unicast
-                    0x01 &amp; 0x01 = 0x01   Group / multicast
-                    0xff &amp; 0x01 = 0x01   Group (special broadcast address)</code></pre>
-                    <p>The I/G bit alone does not tell you which multicast protocol uses an address or how many recipients will receive a frame.</p>
-                    <h2>What does the U/L bit mean?</h2>
-                    <p>The <strong>Universal/Local bit (U/L)</strong>, also called the X or Local bit in more recent IEEE-related documentation, is the <strong>second least significant bit</strong> of the first octet. A value of <code>0</code> is used for globally administered assignment; a value of <code>1</code> indicates local administration or a locally structured address plan, depending on the addressing context.</p>
-                    <p>Check this bit with the mask <code>0x02</code>:</p>
-                    <pre><code>0x00 &amp; 0x02 = 0x00   Universal/Global bit setting
-                    0x02 &amp; 0x02 = 0x02   Locally administered bit setting</code></pre>
-                    <p><strong>I/G and U/L are independent.</strong> The first asks whether the destination is an individual or group. The second describes the assignment context, not the destination count. See <a href="https://www.rfc-editor.org/rfc/rfc9542.html" rel="noopener noreferrer">RFC 9542, Section 2.1.1</a> for the standardized terminology and qualifications.</p>
-                    <h2>Quick-reference table for the first octet</h2>
-                    <table><thead><tr><th>First octet</th><th>I/G bit</th><th>U/L bit</th><th>Typical interpretation</th></tr></thead><tbody>
-                    <tr><td><code>00</code></td><td>0</td><td>0</td><td>Individual globally administered address</td></tr>
-                    <tr><td><code>02</code></td><td>0</td><td>1</td><td>Individual locally administered address</td></tr>
-                    <tr><td><code>01</code></td><td>1</td><td>0</td><td>Group address</td></tr>
-                    <tr><td><code>03</code></td><td>1</td><td>1</td><td>Locally administered group address context</td></tr>
-                    <tr><td><code>ff</code></td><td>1</td><td>1</td><td>When all six octets are FF, the special broadcast address</td></tr>
-                    </tbody></table>
-                    <p>The last row is deliberately qualified: <strong>a first octet of FF alone does not prove that the entire address is the all-ones broadcast address</strong>. Check all six bytes.</p>
-                    <h2>Recognizing a unicast MAC address</h2>
-                    <p>A MAC address whose first octet has I/G equal to zero is an <strong>individual address</strong>. For example, <code>02:1a:2b:3c:4d:5e</code> is a locally administered unicast example because the first octet <code>0x02</code> has group bit zero and local bit one.</p>
-                    <p>A unicast MAC address identifies an individual link-layer address for local forwarding; it does <em>not</em> necessarily identify the ultimate destination of an IP packet beyond the next router.</p>
-                    <h2>Recognizing multicast Ethernet addresses</h2>
-                    <p>Group addresses have the I/G bit set. Some familiar examples are:</p>
-                    <table><thead><tr><th>Example MAC</th><th>What it commonly represents</th></tr></thead><tbody>
-                    <tr><td><code>01:00:5e:00:00:fb</code></td><td>An IPv4 multicast-related Ethernet address, often used by mDNS over IPv4</td></tr>
-                    <tr><td><code>33:33:00:00:00:01</code></td><td>An IPv6 multicast-related Ethernet address</td></tr>
-                    </tbody></table>
-                    <p>IPv4 multicast addresses are mapped onto Ethernet multicast addresses using rules described in <a href="https://www.rfc-editor.org/rfc/rfc1112.html" rel="noopener noreferrer">RFC 1112</a>. Because the mapping uses fewer bits, <strong>multiple different IPv4 multicast groups can map to the same Ethernet MAC destination</strong>.</p>
-                    <p>For IPv6 multicast on Ethernet, addresses beginning with <code>33:33</code> are documented in <a href="https://www.rfc-editor.org/rfc/rfc2464.html" rel="noopener noreferrer">RFC 2464</a> and in <a href="https://www.iana.org/assignments/ethernet-numbers" rel="noopener noreferrer">IANA's Ethernet address registry</a>.</p>
-                    <h2>What exactly is the Ethernet broadcast address?</h2>
-                    <p><strong><code>ff:ff:ff:ff:ff:ff</code></strong> is the Ethernet all-stations broadcast destination. All six octets must be FF. On an ordinary switched VLAN, a broadcast frame is generally forwarded toward other member ports according to switch configuration and security restrictions.</p>
-                    <p>Broadcast is a special kind of group destination at the Ethernet addressing level. That is why a filter checking only the I/G bit also matches the all-ones broadcast address. IPv6 does <strong>not</strong> use a conventional IP broadcast service; it uses multicast for many discovery operations. Do not confuse an Ethernet broadcast MAC with an IPv4 broadcast address.</p>
-                    <h2>How to identify the two bits with Python</h2>
-                    <p>The example below inspects the first byte only. It does not query a device, send packets or identify a person:</p>
-                    <pre><code>mac = "02:1a:2b:3c:4d:5e"
-                    first = int(mac.split(":")[0], 16)
-                    
-                    is_group = bool(first &amp; 0x01)
-                    is_local = bool(first &amp; 0x02)
-                    
-                    print("Group address:", is_group)
-                    print("Locally administered:", is_local)</code></pre>
-                    <p>For the example above, the expected values are <code>False</code> and <code>True</code>. To detect broadcast specifically, compare the complete normalized MAC against <code>ff:ff:ff:ff:ff:ff</code>, not merely the two first-octet flags.</p>
-                    <h2>See the I/G and U/L bits in Wireshark</h2>
-                    <p>Wireshark exposes the Ethernet destination and its flags. With an authorized capture from your own network or an approved practice file, inspect these filter fields:</p>
-                    <pre><code>eth.dst.ig == 1
-                    eth.dst.lg == 1
-                    eth.dst == ff:ff:ff:ff:ff:ff</code></pre>
-                    <p>The first selects group-bit destinations, including Ethernet broadcast. The second tests the local bit, and the third selects the exact broadcast address. Field names and supported versions are documented in <a href="https://www.wireshark.org/docs/dfref/e/eth.html" rel="noopener noreferrer">Wireshark's official Ethernet display-filter reference</a>.</p>
-                    <h2>Can MAC address bits identify a manufacturer?</h2>
-                    <p>An IEEE-assigned OUI prefix can help identify the organization assigned a block, but <strong>it does not reliably identify who owns or uses an individual device</strong>. Virtual interfaces, address randomization, locally administered assignments, and shared manufacturing relationships limit simplistic conclusions. The U/L bit can help explain why an address may not be a conventional globally assigned identifier.</p>
-                    <h2>How does an Ethernet switch use these addresses?</h2>
-                    <p>An ordinary Layer 2 switch learns source-MAC-to-port associations for individual addresses and normally forwards known unicast frames toward the learned destination. Broadcast and multicast handling follows other forwarding rules, potentially including flooding or multicast group filtering.</p>
-                    <p>For the forwarding behavior, examples and packet-capture filters, continue with the <a href="https://www.cyberoplus.com/2026/03/unicast-multicast-broadcast-networking.html">Ethernet unicast, multicast and broadcast tutorial</a>. To examine the complete frame, see the <a href="https://www.cyberoplus.com/2026/03/network-frame-structure-header-crc-explained.html">Ethernet frame header and FCS guide</a>.</p>
-                    <h2>Primary references</h2>
-                    <ul>
-                    <li><a href="https://www.rfc-editor.org/rfc/rfc9542.html" rel="noopener noreferrer">RFC 9542 — IEEE 802 parameters and special MAC bits</a></li>
-                    <li><a href="https://www.rfc-editor.org/rfc/rfc1112.html" rel="noopener noreferrer">RFC 1112 — IPv4 multicast mapping onto Ethernet</a></li>
-                    <li><a href="https://www.rfc-editor.org/rfc/rfc2464.html" rel="noopener noreferrer">RFC 2464 — IPv6 over Ethernet</a></li>
-                    <li><a href="https://www.iana.org/assignments/ethernet-numbers" rel="noopener noreferrer">IANA — Ethernet address blocks</a></li>
-                    <li><a href="https://www.wireshark.org/docs/dfref/e/eth.html" rel="noopener noreferrer">Wireshark — Ethernet display filter reference</a></li>
-                    </ul>'''},
-                    {"id":"7782738106340038227","old_title":"Unicast وBroadcast وMulticast — أنواع عناوين MAC وكيف تختلف","url":"https://www.cyberoplus.com/2026/03/unicast-multicast-broadcast-networking.html","published":"2026-03-20T09:17:00Z","sha":"9de538998883c06ea0d2a704f8cac54d138d93697624f43920345ad383c48cfb","title":"Ethernet Unicast vs Multicast vs Broadcast: Switches and Wireshark","html":r'''<p><strong>Unicast, multicast and broadcast describe how Ethernet frames are delivered</strong> on a local network. Unicast is intended for one link-layer destination; multicast is intended for a group; and broadcast uses the all-stations destination address. This guide explains the forwarding behavior of an Ethernet switch, the difference between MAC and IP-level destinations, and how to recognize each frame type in Wireshark.</p>
-                    {{IMG}}
-                    <aside data-type="info"><strong>This article focuses on delivery, not address-bit mathematics.</strong> For the exact first-octet I/G and U/L bits that identify Ethernet group and local addresses, read our <a href="https://www.cyberoplus.com/2026/04/mac-address-unicast-broadcast-multicast.html">MAC address bits and hexadecimal examples guide</a>.</aside>
-                    <h2>Unicast, multicast and broadcast at a glance</h2>
-                    <table><thead><tr><th>Delivery type</th><th>Ethernet destination</th><th>Usual effect on a switched LAN</th></tr></thead><tbody>
-                    <tr><td>Unicast</td><td>One individual MAC address</td><td>Forwarded toward the known destination port; unknown destinations can be flooded</td></tr>
-                    <tr><td>Multicast</td><td>A group MAC address</td><td>Forwarded to relevant member ports when filtering is available, otherwise may be flooded</td></tr>
-                    <tr><td>Broadcast</td><td><code>ff:ff:ff:ff:ff:ff</code></td><td>Typically flooded to other eligible ports in the same broadcast domain</td></tr>
-                    </tbody></table>
-                    <p>These are conceptual behaviors. Port security, VLAN membership, storm control and multicast-snooping features can change what a particular switch forwards.</p>
-                    <h2>What does Ethernet unicast mean?</h2>
-                    <p>A unicast Ethernet frame has an individual destination MAC address. For example, when a Windows PC sends traffic to a file server on the same VLAN, it often transmits a unicast frame addressed to the server's local MAC.</p>
-                    <p>If the IP destination is on a <strong>different subnet</strong>, the sending host normally places its next-hop router's MAC address in the local Ethernet frame rather than the remote server's MAC. The IP destination remains the remote address while the link-layer frame is delivered to the next hop.</p>
-                    <h3>How does the switch learn a unicast destination?</h3>
-                    <p>An ordinary Layer 2 switch records a frame's <strong>source MAC address</strong> and incoming interface, within the relevant VLAN context. When a subsequent frame arrives for a destination it already knows, it forwards it toward the learned port. If that destination is unknown, the switch may flood the frame to eligible ports.</p>
-                    <p>Source-address learning and destination-address forwarding are related, but not the same operation. Learn the wider device context in our <a href="https://www.cyberoplus.com/2026/03/network-devices-hub-switch-router-firewall.html">switch versus router comparison</a>.</p>
-                    <h2>What is broadcast in an Ethernet LAN?</h2>
-                    <p>A broadcast frame uses the exact destination <strong><code>ff:ff:ff:ff:ff:ff</code></strong>. It is intended to reach all stations in the relevant Ethernet broadcast domain, subject to switch configuration and device behavior.</p>
-                    <p>A traditional IPv4 ARP Request is a familiar example: a host may broadcast a question about which local interface has a specified IPv4 address. The owner of that address can reply with a unicast ARP response. An address-resolution exchange can be visible in a packet capture without requiring access to any remote Internet server.</p>
-                    <aside data-type="warning"><strong>A broadcast does not automatically traverse routers.</strong> Ethernet broadcasts are normally bounded by the Layer 2 network or VLAN. A router provides IP forwarding between networks, not unlimited rebroadcasting of every Ethernet frame.</aside>
-                    <h2>What does Ethernet multicast mean?</h2>
-                    <p>A multicast frame is addressed to a group rather than one individual station or all stations indiscriminately. Some group destinations are used to carry IP multicast traffic, while others serve link-local protocols.</p>
-                    <p>For example, IPv4 multicast often maps to an Ethernet address beginning <code>01:00:5e</code>, while IPv6 multicast on Ethernet uses destinations beginning <code>33:33</code>. The full address and packet context matter: the first few bytes alone do not reveal the complete application or prove who receives the traffic.</p>
-                    <h2>What does IGMP snooping do?</h2>
-                    <p>An Ethernet switch without multicast-group information may treat many multicast frames similarly to unknown traffic, flooding them within an appropriate VLAN. A switch with <strong>IGMP snooping</strong> for IPv4 multicast can observe group membership signaling and use it to limit forwarding to interested ports.</p>
-                    <p>For IPv6 multicast, corresponding multicast-listener behavior often involves <strong>MLD snooping</strong>. The exact forwarding design depends on the protocol, switch firmware and network configuration. Do not assume every unmanaged switch implements these features or that all multicast frames are forwarded only to subscribed devices.</p>
-                    <h2>Broadcast domains and VLANs</h2>
-                    <p>A <strong>broadcast domain</strong> is the local Layer 2 scope across which ordinary Ethernet broadcast frames can propagate. A switch can have multiple VLANs, each forming a separate logical domain. Devices connected to the same hardware switch may therefore belong to different broadcast domains.</p>
-                    <p>Routing between VLANs requires an appropriate Layer 3 function and configured policies. This is an important reason not to confuse an Ethernet frame's delivery type with whether its payload eventually reaches a remote IP network.</p>
-                    <h2>Unicast versus multicast versus broadcast: a concrete example</h2>
-                    <p>Imagine a small lab with a desktop, a laptop, a file server and an Ethernet switch:</p>
-                    <ol data-steps>
-                    <li><strong>Unicast:</strong> the desktop sends a file-request frame to the server's known MAC address. The switch forwards it toward the destination port.</li>
-                    <li><strong>Broadcast:</strong> the desktop sends an IPv4 ARP Request using the all-ones destination MAC. The switch can forward that request to eligible ports in the lab VLAN.</li>
-                    <li><strong>Multicast:</strong> an application uses a multicast group on the LAN. Depending on group membership information, the switch forwards it to participating ports or floods it within the permitted scope.</li>
-                    </ol>
-                    <p>The terms say how traffic is addressed and commonly forwarded; they do not establish that a specific receiving application is listening or that every packet reaches every eligible device.</p>
-                    <h2>How is IPv6 different from IPv4 broadcast?</h2>
-                    <p><strong>IPv6 does not provide a general broadcast address.</strong> It uses multicast and specific protocols such as Neighbor Discovery to perform tasks that often involve broadcast in IPv4. On Ethernet, IPv6 multicast is carried using group MAC addresses beginning <code>33:33</code>.</p>
-                    <p>That does not mean Ethernet broadcast frames cease to exist whenever an Ethernet network carries IPv6. Layer 2 and Layer 3 address semantics are different, and a local segment can support multiple network-layer protocols.</p>
-                    <h2>Wireshark practice: identify the destination type</h2>
-                    <p>Open a capture from your own authorized network or a prepared lab recording. In the Ethernet header, expand <strong>Destination</strong> to inspect the MAC address and related flags. These Wireshark display filters help isolate examples:</p>
-                    <table><thead><tr><th>Goal</th><th>Display filter</th></tr></thead><tbody>
-                    <tr><td>Broadcast frames only</td><td><code>eth.dst == ff:ff:ff:ff:ff:ff</code></td></tr>
-                    <tr><td>All group destinations (including broadcast)</td><td><code>(eth.dst[0] &amp; 1)</code></td></tr>
-                    <tr><td>Multicast group addresses but exclude broadcast</td><td><code>(eth.dst[0] &amp; 1) &amp;&amp; eth.dst != ff:ff:ff:ff:ff:ff</code></td></tr>
-                    <tr><td>Individual/unicast destination</td><td><code>!(eth.dst[0] &amp; 1)</code></td></tr>
-                    </tbody></table>
-                    <p>These filter forms are documented in the <a href="https://wiki.wireshark.org/Ethernet" rel="noopener noreferrer">official Wireshark Ethernet wiki</a>. The general group filter also matches Ethernet broadcast, because the all-ones broadcast MAC has its group bit set. To see only group destinations other than broadcast, use the explicit exclusion.</p>
-                    <h2>What does the network interface accept?</h2>
-                    <p>A network adapter does not pass every frame on a switched LAN to its operating system by default. Hardware filtering and driver configuration determine which unicast, broadcast or subscribed multicast frames it receives and processes.</p>
-                    <p>Promiscuous capture mode can alter what an interface accepts locally, but it does <strong>not force a switch to send unrelated unicast traffic to that port</strong>. If another host's switched unicast traffic is absent in your capture, that is normal on many switched networks.</p>
-                    <h2>Common mistakes</h2>
-                    <ul>
-                    <li><strong>Unicast always means the final IP server's MAC:</strong> a router's next-hop MAC may be the local destination.</li>
-                    <li><strong>All multicast is sent only to interested hosts:</strong> some networks flood multicast when filtering information is unavailable.</li>
-                    <li><strong>Broadcast crosses routers automatically:</strong> ordinary Ethernet broadcast is link-local to the domain.</li>
-                    <li><strong>IPv6 uses normal IP broadcast:</strong> IPv6 uses multicast instead.</li>
-                    <li><strong>A group-bit filter excludes broadcast:</strong> broadcast is also a group address at Ethernet level.</li>
-                    <li><strong>Wireshark promiscuous mode reveals the whole switched network:</strong> it cannot override ordinary switch port forwarding.</li>
-                    </ul>
-                    <h2>Continue with the MAC address structure</h2>
-                    <p>For exact <strong>I/G and U/L bit masks</strong>, examples of globally and locally administered addresses and why <code>01:00:5e</code> or <code>33:33</code> prefixes occur, read the <a href="https://www.cyberoplus.com/2026/04/mac-address-unicast-broadcast-multicast.html">MAC addressing structure tutorial</a>. For the complete Ethernet frame layout, see our <a href="https://www.cyberoplus.com/2026/03/network-frame-structure-header-crc-explained.html">Ethernet frame and FCS explanation</a>.</p>
-                    <h2>Official sources</h2>
-                    <ul>
-                    <li><a href="https://www.wireshark.org/docs/dfref/e/eth.html" rel="noopener noreferrer">Wireshark Ethernet filter fields</a></li>
-                    <li><a href="https://wiki.wireshark.org/Ethernet" rel="noopener noreferrer">Wireshark Ethernet capture and display filters</a></li>
-                    <li><a href="https://www.rfc-editor.org/rfc/rfc9542.html" rel="noopener noreferrer">RFC 9542 — MAC address group and local bits</a></li>
-                    <li><a href="https://www.rfc-editor.org/rfc/rfc1112.html" rel="noopener noreferrer">RFC 1112 — IP multicast</a></li>
-                    <li><a href="https://www.rfc-editor.org/rfc/rfc2464.html" rel="noopener noreferrer">RFC 2464 — IPv6 over Ethernet</a></li>
-                    </ul>'''}
-                    ]
-          def sha(t):return hashlib.sha256(t.encode("utf-8")).hexdigest()
-          def check(c,reason):
-              if not c:raise RuntimeError(reason)
-          token=json.loads(os.environ["BLOGGER_TOKEN_JSON"]);client=json.loads(os.environ["BLOGGER_CLIENT_SECRET_JSON"]);cfg=client.get("installed") or client.get("web") or {}
-          for k in ("client_id","client_secret","token_uri"):
-              if not token.get(k) and cfg.get(k):token[k]=cfg[k]
+          PID="1446978415013086081"
+          OLD_TITLE="بنية الـ Frame في الشبكات — شرح كل حقل من En-tête إلى CRC"
+          URL="https://www.cyberoplus.com/2026/03/network-frame-structure-header-crc-explained.html"
+          PUBLISHED="2026-03-28T13:53:00+01:00"
+          OLD_SHA="3c5316fef27eb5dcb4bca35429cfe782c65d00439f2069230096ad61ac71287a"
+          NEW_TITLE="Ethernet Frame Explained: Header, MAC, VLAN, MTU and CRC/FCS"
+          def hashtext(v):return hashlib.sha256(v.encode("utf-8")).hexdigest()
+          def check(ok,why):
+              if not ok:raise RuntimeError(why)
+          token=json.loads(os.environ["BLOGGER_TOKEN_JSON"])
+          client=json.loads(os.environ["BLOGGER_CLIENT_SECRET_JSON"])
+          cfg=client.get("installed") or client.get("web") or {}
+          for key in ("client_id","client_secret","token_uri"):
+              if not token.get(key) and cfg.get(key):token[key]=cfg[key]
           session=AuthorizedSession(Credentials.from_authorized_user_info(token))
-          api="https://www.googleapis.com/blogger/v3/blogs/"+BID
-          check(os.environ.get("BLOGGER_BLOG_ID")==BID,"Blog credential mismatch")
-          r=session.get(api,timeout=30);r.raise_for_status()
-          check(str(r.json().get("id"))==BID and (urlsplit(str(r.json().get("url",""))).hostname or "").lower() in ("cyberoplus.com","www.cyberoplus.com"),"Wrong blog domain")
-          for spec in SPECS:
-              endpoint=api+"/posts/"+spec["id"]
-              def read():
-                  r=session.get(endpoint,params={"view":"ADMIN","fetchBody":"true"},timeout=45);r.raise_for_status();return r.json()
-              old=read()
-              check(str(old.get("id"))==spec["id"] and old.get("title")==spec["old_title"] and old.get("url")==spec["url"] and old.get("published")==spec["published"] and old.get("labels")==["technology"] and sha(old.get("content",""))==spec["sha"],"Source changed: no overwrite of "+spec["id"])
-              soup=BeautifulSoup(old["content"],"html.parser")
-              images=soup.find_all("img")
-              check(len(images)==1,"Original media count changed")
-              img=images[0]
-              wrapper=img.find_parent("div",class_="separator") or img.find_parent("figure")
-              check(wrapper is not None,"Cannot preserve original image")
-              while wrapper.parent and getattr(wrapper.parent,"name",None)=="div" and "separator" in (wrapper.parent.get("class") or []):wrapper=wrapper.parent
-              imagehtml=BeautifulSoup(str(wrapper),"html.parser")
-              imagehtml.find("img")["alt"]="Ethernet MAC addressing and unicast multicast broadcast examples"
-              article=spec["html"].replace("{{IMG}}",str(imagehtml))
-              parsed=BeautifulSoup(article,"html.parser")
-              check(len(article)>6500 and len(parsed.find_all("h2"))>=11,"Incomplete editorial guide")
-              check(len(parsed.find_all("img"))==1 and parsed.find("img").get("src")==img.get("src"),"Image source altered")
-              check(not re.search(r"[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]",article),"Arabic remains in English article")
-              check("RFC 9542" in article and "Wireshark" in article and "MAC" in article,"Technical references missing")
-              print("PRECHECK_PASSED: "+spec["id"])
-              response=session.patch(endpoint,json={"title":spec["title"],"content":article,"labels":["technology"]},timeout=70);response.raise_for_status()
-              after=read()
-              check(str(after.get("id"))==spec["id"] and after.get("url")==spec["url"] and after.get("published")==spec["published"] and after.get("title")==spec["title"] and after.get("labels")==["technology"],"CRITICAL: identity mismatch")
-              check(sha(after.get("content",""))==sha(article),"CRITICAL: saved HTML mismatch")
-              print("PUBLISHED_AND_VERIFIED: "+spec["url"])
-          print("BOTH_DISTINCT_INTENTS_VERIFIED")
+          base="https://www.googleapis.com/blogger/v3/blogs/"+BID
+          check(os.environ.get("BLOGGER_BLOG_ID")==BID,"Wrong Blogger blog")
+          r=session.get(base,timeout=30);r.raise_for_status()
+          check(str(r.json().get("id"))==BID and (urlsplit(str(r.json().get("url",""))).hostname or "").lower() in ("cyberoplus.com","www.cyberoplus.com"),"Wrong blog")
+          endpoint=base+"/posts/"+PID
+          def readpost():
+              response=session.get(endpoint,params={"view":"ADMIN","fetchBody":"true"},timeout=40)
+              response.raise_for_status()
+              return response.json()
+          source=readpost()
+          check(str(source.get("id"))==PID and source.get("url")==URL and source.get("title")==OLD_TITLE and source.get("published")==PUBLISHED and source.get("labels")==["technology"] and hashtext(source.get("content",""))==OLD_SHA,"Source changed since archived snapshot; no write")
+          soup=BeautifulSoup(source["content"],"html.parser")
+          images=soup.find_all("img")
+          check(len(images)==1,"Unexpected original image count")
+          orig=images[0]
+          wrapper=orig.find_parent("div",class_="separator") or orig.find_parent("figure")
+          check(wrapper is not None,"Original figure wrapper missing")
+          while wrapper.parent and getattr(wrapper.parent,"name",None)=="div" and "separator" in (wrapper.parent.get("class") or []):wrapper=wrapper.parent
+          fragment=BeautifulSoup(str(wrapper),"html.parser")
+          fragment.find("img")["alt"]="Ethernet frame format with source MAC destination MAC EtherType data and FCS"
+          if fragment.find("img").has_attr("title"):fragment.find("img")["title"]=fragment.find("img")["alt"]
+          for cap in fragment.find_all("figcaption"):cap.string="Ethernet frame structure and fields"
+          article=r'''<p>An <strong>Ethernet frame</strong> is the link-layer data unit used to carry information between interfaces on an Ethernet network. A typical untagged Ethernet frame contains a <strong>destination MAC address, source MAC address, Length/Type field, payload and Frame Check Sequence (FCS)</strong>. Understanding those fields makes it easier to troubleshoot connectivity and interpret Wireshark captures without confusing an Ethernet frame with an IP packet.</p>
+          {{IMAGE}}
+          <aside data-type="info"><strong>Scope:</strong> This guide explains the standard Ethernet MAC frame and an optional IEEE 802.1Q VLAN tag. Ethernet and Wi-Fi do not have identical frame layouts. For the wider network context, first read the <a href="https://www.cyberoplus.com/2026/03/data-link-layer-osi-model-explained.html">OSI Data Link layer guide</a>, then return here for the byte-by-byte structure.</aside>
+          <h2>Ethernet frame structure: the fields and their sizes</h2>
+          <table><thead><tr><th>Field</th><th>Size</th><th>Purpose</th></tr></thead><tbody>
+          <tr><td>Destination MAC</td><td>6 bytes</td><td>Identifies the intended destination on the local Ethernet link</td></tr>
+          <tr><td>Source MAC</td><td>6 bytes</td><td>Identifies the transmitting source on the link</td></tr>
+          <tr><td>Length/Type</td><td>2 bytes</td><td>Indicates payload length or encapsulated protocol</td></tr>
+          <tr><td>Payload and padding</td><td>46–1500 bytes in the ordinary untagged format</td><td>Carries higher-layer data, with padding if necessary</td></tr>
+          <tr><td>FCS</td><td>4 bytes</td><td>Detects certain transmission errors using CRC-32</td></tr>
+          </tbody></table>
+          <p>For ordinary untagged Ethernet, the minimum MAC frame is <strong>64 bytes</strong> and the familiar maximum is <strong>1518 bytes</strong>, counting destination MAC through FCS but not the preceding preamble and Start Frame Delimiter. An IEEE 802.1Q tag introduces another four bytes and a commonly quoted maximum of <strong>1522 bytes</strong> for a tagged frame.</p>
+          <pre><code>Destination MAC (6 B)
+          Source MAC      (6 B)
+          Length/Type     (2 B)
+          Payload + Pad   (46–1500 B, ordinary untagged case)
+          FCS             (4 B)
+          
+          Minimum untagged MAC frame: 6 + 6 + 2 + 46 + 4 = 64 B
+          Maximum untagged MAC frame: 6 + 6 + 2 + 1500 + 4 = 1518 B</code></pre>
+          <h2>Frame versus packet: what is the difference?</h2>
+          <p>An <strong>IP packet</strong> is a network-layer unit with source and destination IP addresses. An <strong>Ethernet frame</strong> is the local-link container that can transport that packet between Ethernet interfaces. The distinction matters when a packet passes through a router: the router processes the incoming link framing and builds outgoing framing suitable for the next interface.</p>
+          <p>Although the same logical IP communication may cross many routers, the Ethernet source and destination MAC addresses on your local LAN normally describe the immediate link or next hop, not every device on the entire route. The IPv4 TTL or IPv6 Hop Limit also changes at routed hops, so even the IP header is not always byte-for-byte unchanged.</p>
+          <p>See our <a href="https://www.cyberoplus.com/2026/04/mac-ip-end-to-end-communication.html">step-by-step MAC, IP and ARP packet journey</a> for a worked example from one host to another.</p>
+          <h2>Preamble and SFD: why do you not normally see them?</h2>
+          <p>A conventional Ethernet transmission uses a <strong>7-byte preamble</strong> followed by a <strong>1-byte Start Frame Delimiter (SFD)</strong> before the destination MAC field. These aid synchronization and frame-start recognition on the medium. They are part of the physical transmission context rather than the usual 64–1518-byte Ethernet MAC frame-length accounting.</p>
+          <p>Do not add those eight bytes when answering a standard textbook question asking for the ordinary Ethernet frame's minimum 64-byte or maximum 1518-byte size. Network hardware normally handles the preamble and SFD, so a packet-capture application such as Wireshark does not ordinarily display them.</p>
+          <h2>Destination MAC and Source MAC: 6 bytes each</h2>
+          <p>Each field usually contains a 48-bit Ethernet MAC address. The destination may be an individual address, a multicast group address, or the all-ones broadcast address <code>ff:ff:ff:ff:ff:ff</code>. The source field identifies the transmitting Ethernet interface; ordinary Ethernet frames use an individual, not a multicast or broadcast, source address.</p>
+          <p>Ethernet switches learn source MAC addresses and use destination MAC information to forward frames within a VLAN. The meaning of a group's least-significant address bit is explained separately in our <a href="https://www.cyberoplus.com/2026/04/mac-address-unicast-broadcast-multicast.html">MAC address I/G and U/L bits tutorial</a>.</p>
+          <h2>Length/Type: why can the same two bytes have two meanings?</h2>
+          <p>The two-byte field following the source MAC may represent the length of the data field or an <strong>EtherType</strong> identifying the encapsulated protocol, depending on its value and the applicable Ethernet format.</p>
+          <table><thead><tr><th>Value</th><th>Typical interpretation</th></tr></thead><tbody>
+          <tr><td><code>0x0000</code> through <code>0x05DC</code> (0–1500)</td><td>IEEE 802.3 length value</td></tr>
+          <tr><td><code>0x0600</code> or greater (1536 and up)</td><td>EtherType value identifying a protocol</td></tr>
+          <tr><td><code>0x0800</code></td><td>IPv4 EtherType</td></tr>
+          <tr><td><code>0x0806</code></td><td>ARP EtherType</td></tr>
+          <tr><td><code>0x86DD</code></td><td>IPv6 EtherType</td></tr>
+          </tbody></table>
+          <p>Values 1501–1535 are not the ordinary data-length range and should not be presented as standard EtherType assignments. See <a href="https://www.iana.org/assignments/ieee-802-numbers/ieee-802-numbers.xhtml" rel="noopener noreferrer">IANA's IEEE 802 numbers registry</a> for reference information.</p>
+          <h2>What changes with IEEE 802.1Q VLAN tagging?</h2>
+          <p>IEEE 802.1Q can insert a <strong>4-byte VLAN tag</strong> between Source MAC and the original Length/Type field. A common tag consists of a two-byte tag protocol identifier (<code>0x8100</code> in ordinary C-tagged Ethernet) and a two-byte Tag Control Information field.</p>
+          <p>The Tag Control Information includes priority code points (PCP), a drop-eligible indicator (DEI), and a <strong>12-bit VLAN Identifier</strong>. VLAN ID values 0 and 4095 have special significance; a common usable VLAN ID range is 1–4094, subject to platform capabilities and configuration.</p>
+          <pre><code>Untagged: DST(6) | SRC(6) | TYPE(2) | DATA | FCS(4)
+          Tagged:   DST(6) | SRC(6) | TAG(4) | TYPE(2) | DATA | FCS(4)</code></pre>
+          <p>Under the ordinary 1500-byte payload case, a tagged Ethernet frame can be up to 1522 bytes inclusive of the FCS. Some hardware and protocols support multiple tags, so this single-tag model is not the only possible Ethernet frame format. Cisco's <a href="https://www.cisco.com/c/en/us/support/docs/lan-switching/8021q/17056-741-4.html" rel="noopener noreferrer">802.1Q frame-format guide</a> documents these fields and their sizes.</p>
+          <h2>Payload versus padding: why is 46 bytes important?</h2>
+          <p>For a conventional untagged Ethernet frame, the combined data and padding field must provide at least <strong>46 bytes</strong> so the complete MAC frame reaches the 64-byte minimum:</p>
+          <pre><code>6-byte destination MAC
+          + 6-byte source MAC
+          + 2-byte Length/Type
+          + 46-byte minimum payload/padding
+          + 4-byte FCS
+          = 64 bytes</code></pre>
+          <p>If a higher-layer message requires less space, the transmitter can include padding. The receiver must distinguish real protocol data from padding using the relevant encapsulation. It would be incorrect to treat every padding byte as application payload.</p>
+          <h2>Why did Ethernet need a 64-byte minimum?</h2>
+          <p>Ethernet's classic minimum frame length is historically connected to collision detection on shared, half-duplex CSMA/CD Ethernet, where a transmitting station had to remain active long enough to recognize certain collisions. Modern full-duplex switched Ethernet does not rely on collision detection in the same way, but the standard frame-size conventions remain important.</p>
+          <p>Do not confuse the historical explanation with a claim that modern Ethernet switches regularly experience the same shared-medium collisions as classic hubs.</p>
+          <h2>FCS versus CRC: what is the difference?</h2>
+          <p>The <strong>Frame Check Sequence (FCS)</strong> is a field, typically four bytes at the end of an ordinary Ethernet MAC frame. The <strong>Cyclic Redundancy Check (CRC)</strong> is the error-detection calculation used to generate and check that field.</p>
+          <p>A transmitting Ethernet interface calculates the FCS from the relevant frame bytes. A receiver can compute its own check and compare it with the received result, helping it detect corrupted frames. A frame with an invalid FCS is generally discarded by the receiving Ethernet hardware.</p>
+          <aside data-type="warning"><strong>CRC is not a cryptographic integrity or authentication mechanism.</strong> An attacker capable of modifying a frame can generally recompute an unkeyed CRC. FCS is designed to detect transmission errors, not to authenticate the sender or protect against deliberate tampering. For authenticated network traffic, use suitable security protocols rather than relying on Ethernet CRC-32.</aside>
+          <h2>What happens when a frame fails the CRC check?</h2>
+          <p>Receiving hardware ordinarily rejects the frame. Ethernet itself does not promise to retransmit an invalid frame to restore reliable application delivery. Higher-layer protocols or applications may recover from missing data depending on their design; for example, TCP can retransmit a segment when loss is inferred.</p>
+          <p>A growing count of frame-check errors on a physical port can indicate a problem with cabling, optics, interference, hardware or link configuration. Interpreting those counters requires the device and driver's documentation.</p>
+          <h2>Ethernet MTU is not the same as frame size</h2>
+          <p><strong>MTU</strong> describes the maximum payload size supported at a particular network interface or path layer. For common Ethernet carrying IP, the familiar <strong>1500-byte IP MTU</strong> is the maximum IP packet payload that fits in the ordinary Ethernet data field, excluding the Ethernet header and FCS.</p>
+          <p>That is why 1500 bytes, 1518 bytes, and 1522 bytes can all be correct numbers in different questions: they refer to different units or encapsulation overhead. Always read whether a question asks for the IP MTU, an untagged Ethernet frame, or an Ethernet frame with an IEEE 802.1Q VLAN tag.</p>
+          <h2>Are jumbo Ethernet frames always exactly 9000 bytes?</h2>
+          <p>No. <strong>Jumbo frame</strong> is a common term for Ethernet frames larger than the usual 1500-byte data-field size, but support and maximum accepted sizes vary between hardware, driver and network design. An advertised <code>9000</code> setting might describe an IP MTU rather than the total on-wire frame including headers and FCS.</p>
+          <p>Before enabling jumbo frames, verify the end-to-end configuration and whether every relevant path component supports the intended size. Incorrect assumptions can cause drops or difficult-to-diagnose connectivity problems.</p>
+          <h2>Why is the FCS absent from many Wireshark captures?</h2>
+          <p>Wireshark can display only what the operating system and capture driver provide. Many Ethernet interfaces strip the FCS before passing received data to packet-capture software. As a result, a displayed Ethernet packet may not include the four-byte FCS field even though a physical Ethernet transmission carried it.</p>
+          <p>Wireshark's <a href="https://wiki.wireshark.org/Ethernet" rel="noopener noreferrer">Ethernet capture documentation</a> and <a href="https://www.wireshark.org/faq.html" rel="noopener noreferrer">FAQ about capturing entire frames</a> explain these limitations. Capturing in promiscuous mode by itself does not guarantee that the FCS will be exposed by the hardware or driver.</p>
+          <h2>How to inspect Ethernet fields in Wireshark</h2>
+          <ol data-steps>
+          <li>Capture traffic on your own computer or open an authorized practice file.</li>
+          <li>Choose an Ethernet packet and expand <strong>Ethernet II</strong> or the appropriate Ethernet dissector entry.</li>
+          <li>Find <strong>Destination</strong>, <strong>Source</strong>, and <strong>Type</strong> (or Length when relevant).</li>
+          <li>For tagged traffic, expand <strong>802.1Q Virtual LAN</strong> to inspect VLAN information.</li>
+          <li>Examine payload interpretation and whether an FCS field was made available by the capture path.</li>
+          </ol>
+          <p>Useful display filters include:</p>
+          <pre><code>eth
+          eth.type == 0x0800
+          eth.type == 0x86dd
+          eth.dst == ff:ff:ff:ff:ff:ff
+          vlan</code></pre>
+          <p>The syntax can be checked against Wireshark's <a href="https://www.wireshark.org/docs/dfref/e/eth.html" rel="noopener noreferrer">official Ethernet filter reference</a>. Seeing an IP packet in Wireshark does not necessarily mean every physical-layer or MAC-level field was captured.</p>
+          <h2>Common mistakes in Ethernet frame questions</h2>
+          <ul>
+          <li><strong>Counting the preamble in the 64-byte frame:</strong> the standard MAC frame size normally begins at destination MAC.</li>
+          <li><strong>Counting Ethernet and IP headers together as the IP MTU:</strong> the 1500-byte IP MTU excludes Ethernet overhead.</li>
+          <li><strong>Assuming every Ethernet payload is IPv4:</strong> IPv6, ARP and other EtherTypes exist.</li>
+          <li><strong>Treating FCS as encryption:</strong> CRC is an error detector, not message authentication.</li>
+          <li><strong>Claiming all tagged frames are exactly 1522 bytes:</strong> 1522 is a common maximum for the ordinary single-tag 1500-byte-payload case.</li>
+          <li><strong>Expecting every Wireshark capture to contain the FCS:</strong> driver and NIC behavior determine whether it is available.</li>
+          <li><strong>Assuming jumbo means exactly 9000 bytes:</strong> device settings and vendor definitions can differ.</li>
+          </ul>
+          <h2>Related lessons and authoritative references</h2>
+          <p>Continue with our <a href="https://www.cyberoplus.com/2026/03/llc-mac-sublayers-data-link-layer.html">LLC and MAC sublayers explanation</a> to understand the Data Link layer's responsibilities, or study the <a href="https://www.cyberoplus.com/2026/04/ethernet-protocol-how-it-works.html">Ethernet protocol and real LAN behavior</a> for the broader technology.</p>
+          <ul>
+          <li><a href="https://wiki.wireshark.org/Ethernet" rel="noopener noreferrer">Wireshark: Ethernet packet structure, minimum size and FCS visibility</a></li>
+          <li><a href="https://www.wireshark.org/faq.html" rel="noopener noreferrer">Wireshark: capture-driver limitations and FCS</a></li>
+          <li><a href="https://www.iana.org/assignments/ieee-802-numbers/ieee-802-numbers.xhtml" rel="noopener noreferrer">IANA: IEEE 802 EtherType registry</a></li>
+          <li><a href="https://www.cisco.com/c/en/us/support/docs/lan-switching/8021q/17056-741-4.html" rel="noopener noreferrer">Cisco: IEEE 802.1Q header fields and frame sizes</a></li>
+          <li><a href="https://www.ieee802.org/3/efm/public/jul01/presentations/mizrahi_1_0701.pdf" rel="noopener noreferrer">IEEE 802.3 project material: Ethernet frame layout</a></li>
+          </ul>'''
+          article=article.replace("{{IMAGE}}",str(fragment))
+          parsed=BeautifulSoup(article,"html.parser")
+          check(len(article)>12500 and len(parsed.find_all("h2"))>=17,"Incomplete frame guide")
+          check(len(parsed.find_all("img"))==1 and parsed.find("img").get("src")==orig.get("src"),"Original image lost")
+          check(not re.search(r"[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff]",article),"Untranslated Arabic body text")
+          check(all(k in article for k in ("64 bytes","1518 bytes","1522 bytes","FCS","Wireshark","0x0800","IEEE 802.1Q")),"Critical frame fields absent")
+          check(len([a for a in parsed.find_all("a") if "cyberoplus.com" in a.get("href","")])>=4,"Internal links missing")
+          print("PRECHECK_PASSED")
+          r=session.patch(endpoint,json={"title":NEW_TITLE,"content":article,"labels":["technology"]},timeout=70)
+          r.raise_for_status()
+          after=readpost()
+          check(str(after.get("id"))==PID and after.get("url")==URL and after.get("published")==PUBLISHED and after.get("title")==NEW_TITLE and after.get("labels")==["technology"],"CRITICAL: post identity mismatch")
+          check(hashtext(after.get("content",""))==hashtext(article),"CRITICAL: HTML mismatch after publishing")
+          print("PUBLISHED_AND_VERIFIED: "+URL)
+          print("ORIGINAL_DATE_PRESERVED: "+PUBLISHED)
           
           PY
