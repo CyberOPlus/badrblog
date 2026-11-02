@@ -3,8 +3,6 @@ name: Jobs Watchdog
 # Backup only: the five-minute cron auto-cycle is primary. The watchdog wakes
 # every six minutes and recovers missing runs or a genuinely stalled backlog.
 on:
-  schedule:
-    - cron: "4,10,16,22,28,34,40,46,52,58 * * * *"
   workflow_dispatch:
 
 concurrency:
@@ -17,6 +15,7 @@ permissions:
 
 jobs:
   watchdog:
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
