@@ -1,8 +1,9 @@
-name: CyberoPlus Editorial - One Verified Blogger Article
+name: CyberoPlus Editorial - Verified Blogger Taxonomy and Link Repair
 on:
   push:
     branches: [main]
-    paths: [".github/workflows/blogger-editorial-update.yml"]
+    paths:
+      - ".github/workflows/blogger-editorial-update.yml"
   workflow_dispatch:
 permissions:
   contents: read
@@ -10,168 +11,151 @@ concurrency:
   group: cyberoplus-editorial-one-post
   cancel-in-progress: false
 jobs:
-  apply-verified-content:
+  verified-batch-content-corrections:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 25
     steps:
-      - name: Install authentication and HTML parser
-        run: python -m pip install --disable-pip-version-check "google-auth>=2.20,<3" "requests>=2.31,<3" "beautifulsoup4>=4.12,<5"
-      - name: Update verified networking devices article
+      - name: Install authenticated Blogger library
+        run: python -m pip install --disable-pip-version-check "google-auth>=2.20,<3" "requests>=2.31,<3"
+      - name: Normalize all existing Blogger article labels and repair verified broken internal link
         env:
           BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
           BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
           BLOGGER_CLIENT_SECRET_JSON: ${{ secrets.BLOGGER_CLIENT_SECRET_JSON }}
         run: |
           python - <<'PY'
-          import os,json,re,hashlib
+          import os, re, json, hashlib, time, collections
           from urllib.parse import urlsplit
-          from bs4 import BeautifulSoup
-          from google.oauth2.credentials import Credentials
           from google.auth.transport.requests import AuthorizedSession
+          from google.oauth2.credentials import Credentials
+          
           BID="2750143140558868280"
-          PID="1849806080497820039"
-          OLD_TITLE="أجهزة الشبكات: الفرق بين Hub وSwitch وRouter وAccess Point وFirewall"
-          ORIGINAL_URL="https://www.cyberoplus.com/2026/03/network-devices-hub-switch-router-firewall.html"
-          PUBLISHED="2026-03-16T23:31:00Z"
-          SOURCE_SHA="d2136a19d71c53e07ed14e004d9e1ac56d00892a03340092989f321ec448881f"
-          TITLE="Network Devices Explained: Hub vs Switch vs Router vs Access Point vs Firewall"
-          def digest(s):return hashlib.sha256(s.encode("utf-8")).hexdigest()
-          def check(c,m):
-              if not c:raise RuntimeError(m)
-          token=json.loads(os.environ["BLOGGER_TOKEN_JSON"]);client=json.loads(os.environ["BLOGGER_CLIENT_SECRET_JSON"]);conf=client.get("installed") or client.get("web") or {}
-          for k in ("client_id","client_secret","token_uri"):
-              if not token.get(k) and conf.get(k):token[k]=conf[k]
+          ORIGIN="https://www.cyberoplus.com"
+          OLD_BROKEN="https://www.cyberoplus.com/2026/03/network-protocols-rules-explained"
+          VERIFIED_DEST="https://www.cyberoplus.com/2026/03/what-is-network-protocol.html"
+          DEST_ID="2514711072016023776"
+          CANONICAL={"cybersecurity","artificial-intelligence","technology","guides"}
+          LEGACY=CANONICAL|{"apps","jobs","networking","digital-policy","Technology","Tutorials"}
+          def check(ok,why):
+              if not ok:raise RuntimeError(why)
+          def sha(s):
+              return hashlib.sha256(s.encode("utf-8")).hexdigest()
+          token=json.loads(os.environ["BLOGGER_TOKEN_JSON"])
+          client=json.loads(os.environ["BLOGGER_CLIENT_SECRET_JSON"])
+          conf=client.get("installed") or client.get("web") or {}
+          for key in ("client_id","client_secret","token_uri"):
+              if not token.get(key) and conf.get(key):token[key]=conf[key]
           session=AuthorizedSession(Credentials.from_authorized_user_info(token))
-          api="https://www.googleapis.com/blogger/v3/blogs/"+BID
-          check(os.environ.get("BLOGGER_BLOG_ID")==BID,"Wrong blog")
-          r=session.get(api,timeout=30);r.raise_for_status()
-          check(str(r.json().get("id"))==BID and (urlsplit(r.json().get("url","")).hostname or "").lower() in ("cyberoplus.com","www.cyberoplus.com"),"Wrong blog domain")
-          endpoint=api+"/posts/"+PID
-          def get():
-              x=session.get(endpoint,params={"view":"ADMIN","fetchBody":"true"},timeout=40);x.raise_for_status();return x.json()
-          old=get()
-          check(str(old.get("id"))==PID and old.get("title")==OLD_TITLE and old.get("url")==ORIGINAL_URL and old.get("published")==PUBLISHED and old.get("labels")==["networking"] and digest(old.get("content",""))==SOURCE_SHA,"Original changed, no write")
-          soup=BeautifulSoup(old["content"],"html.parser")
-          images=soup.find_all("img");check(len(images)==1,"Unexpected media")
-          img=images[0];box=img.find_parent("div",class_="separator") or img.find_parent("figure")
-          check(box is not None,"Original image wrapper missing")
-          node=BeautifulSoup(str(box),"html.parser")
-          node.find("img")["alt"]="Hub switch router access point and firewall compared in a computer network"
-          article=r'''<p><strong>Hubs, switches, routers, wireless access points and firewalls</strong> all appear in computer networks, but they solve different problems. A hub repeats signals, a switch forwards local Ethernet frames, a router connects IP networks, an access point connects wireless clients, and a firewall applies traffic-control policies. This guide compares their functions and shows how they work together in a home, school or office.</p>
-          {{IMG}}
-          <h2>Network devices compared at a glance</h2>
-          <table><thead><tr><th>Device</th><th>Main job</th><th>Typical information used</th><th>Common use</th></tr></thead><tbody>
-          <tr><td>Repeater</td><td>Regenerate or retransmit signals</td><td>Physical signaling</td><td>Extending a physical connection in supported media</td></tr>
-          <tr><td>Hub</td><td>Repeat incoming bits to other ports</td><td>No MAC address learning</td><td>Legacy shared Ethernet</td></tr>
-          <tr><td>Bridge</td><td>Forward frames between LAN segments</td><td>MAC addresses</td><td>Segment bridging</td></tr>
-          <tr><td>Switch</td><td>Forward local frames to appropriate ports</td><td>MAC address table, VLAN context</td><td>Wired LAN</td></tr>
-          <tr><td>Router</td><td>Forward packets between IP networks</td><td>IP addresses and routing table</td><td>Connecting subnets and WANs</td></tr>
-          <tr><td>Access point</td><td>Provide Wi-Fi association and LAN connectivity</td><td>Wireless MAC and network configuration</td><td>Wireless client access</td></tr>
-          <tr><td>Firewall</td><td>Enforce traffic security policy</td><td>Addresses, ports, connection state or application information</td><td>Controlling permitted communications</td></tr>
-          </tbody></table>
-          <aside data-type="info"><strong>One box may contain several functions.</strong> A consumer Wi-Fi router often integrates a router, Ethernet switch, wireless access point, firewall, DHCP server and NAT capabilities. Names on retail packaging do not always identify a single networking function.</aside>
-          <h2>Repeater: extending a signal without understanding packets</h2>
-          <p>A repeater works at a physical level. It receives and regenerates or retransmits signals according to the relevant technology, helping overcome limits of a transmission path. It does not make decisions based on Ethernet destination MAC addresses or IP routes. The exact device capabilities depend on the medium and standard.</p>
-          <p>Do not assume that an unmanaged device marketed as a Wi-Fi range extender behaves exactly like a classic wired Ethernet repeater; many modern products bridge traffic, serve clients or use mesh networking features.</p>
-          <h2>Hub: legacy shared Ethernet</h2>
-          <p>A classic Ethernet hub is essentially a multiport repeater. When it receives signals on one port, it repeats them toward other appropriate ports instead of learning a destination MAC address and choosing one output as a switch normally would. It creates a shared communication environment, typically associated with legacy half-duplex Ethernet.</p>
-          <p>A hub cannot independently give each attached host a collision-free switched Ethernet link. This is one reason hubs have largely been displaced by Ethernet switches.</p>
-          <h3>Why not use a hub to build a new LAN?</h3>
-          <p>Shared access increases the possibility of collisions under legacy CSMA/CD behavior, makes traffic easier for multiple attached devices to observe, and wastes capacity compared with normal full-duplex switched links. Current networks generally use switches instead.</p>
-          <h2>Bridge: forwarding based on MAC addresses</h2>
-          <p>A network bridge connects link-layer segments and decides where to forward frames. Bridges can learn which MAC addresses appear behind their interfaces and use that information to avoid sending every known unicast frame everywhere. Modern Ethernet switches extend the same bridging ideas across many ports.</p>
-          <p>Bridging and routing are different: a bridge extends or connects Layer 2 domains, whereas a router makes Layer 3 forwarding decisions between IP networks.</p>
-          <h2>Switch: connecting devices on a local network</h2>
-          <p>A typical Ethernet switch learns the <strong>source MAC address</strong> of a received frame and associates it with the ingress port within its VLAN context. When the destination is known, it forwards the frame toward the corresponding port instead of sending it out of every port. Unknown-unicast, broadcast and some multicast cases can involve flooding or dedicated forwarding behavior.</p>
-          <p>Suppose PC A sends an Ethernet frame to PC B on the same VLAN. The switch first learns A's source MAC location, then consults its MAC table for B. If B's destination entry is known, the switch forwards the frame accordingly. The switch ordinarily does not replace both Ethernet MAC addresses merely because it forwards the frame through an Ethernet port.</p>
-          <h3>Why can a switch still flood traffic?</h3>
-          <p>A switch may flood an unknown-unicast frame because it has not learned the destination location. Broadcast frames also propagate across an ordinary broadcast domain, subject to VLAN and security restrictions. This does not mean all traffic is always sent everywhere.</p>
-          <h3>Can a switch also route?</h3>
-          <p>Yes. A <strong>multilayer or Layer 3 switch</strong> can support IP routing between interfaces or VLANs. The device name does not force every capability into exactly one OSI layer. Compare this with the <a href="https://www.cyberoplus.com/2026/03/osi-model-7-layers-explained.html">OSI model and its real-world limitations</a>.</p>
-          <h2>Router: forwarding IP packets between networks</h2>
-          <p>A router connects IP networks and uses destination IP addresses, routing information and policies to select the next hop or outgoing interface. On a typical home network, the router connects a private LAN to an ISP network; in an enterprise, routers also link subnets, sites and data centers.</p>
-          <p>A router does not simply send the same Ethernet frame unchanged across the whole Internet. At each routed hop, link-layer framing is processed and a suitable new encapsulation is used for the outgoing link.</p>
-          <h3>Switch versus router: MAC and IP addresses</h3>
-          <p>The simplified comparison is useful when the operation is clearly identified:</p>
-          <table><thead><tr><th>Question</th><th>Basic Layer 2 switch</th><th>IP router</th></tr></thead><tbody>
-          <tr><td>Primary destination for forwarding</td><td>Destination MAC on the local link</td><td>Destination IP address</td></tr>
-          <tr><td>Usual forwarding scope</td><td>Within the corresponding bridged domain</td><td>Across different IP networks</td></tr>
-          <tr><td>Typical configuration concept</td><td>MAC table, VLANs</td><td>Routes, interfaces, next hops</td></tr>
-          <tr><td>Can be in same appliance?</td><td>Yes</td><td>Yes</td></tr>
-          </tbody></table>
-          <p>Learn more about end-to-end addressing in our <a href="https://www.cyberoplus.com/2026/04/mac-ip-end-to-end-communication.html">MAC versus IP packet-forwarding walkthrough</a>.</p>
-          <h2>Access point: bringing wireless clients onto a network</h2>
-          <p>A wireless <strong>access point (AP)</strong> lets devices use an IEEE 802.11 Wi-Fi network. It manages wireless association and communication, and commonly bridges traffic between wireless clients and a wired LAN. Depending on the product, additional security, VLAN and management features may be available.</p>
-          <h3>Access point versus Wi-Fi router</h3>
-          <p>An AP does not inherently require the full responsibilities of an IP router. A Wi-Fi router marketed for homes often combines the AP with a router, Ethernet switch, DHCP server and firewall. A standalone office AP can instead connect to an existing switch and depend on other equipment for routing and DHCP.</p>
-          <p>Adding another consumer router in its default routing/NAT mode can create double NAT and separate IP networks where you only intended to expand Wi-Fi coverage. When extending the same LAN, check whether the device supports <strong>AP mode</strong> or bridging, and follow the vendor's documented setup.</p>
-          <h2>Firewall: allowing or blocking traffic according to policy</h2>
-          <p>A <strong>firewall</strong> enforces rules controlling network traffic between systems or security zones. Depending on technology and configuration, rules may inspect source and destination IP addresses, transport ports, protocol state and certain application information. Firewalls can be separate appliances, software on a host, or features integrated into a router or cloud environment.</p>
-          <p>The U.S. National Institute of Standards and Technology defines firewalls in its <a href="https://csrc.nist.gov/pubs/sp/800/41/r1/final" rel="noopener noreferrer">SP 800-41 Rev. 1 guidance</a> as devices or programs controlling traffic between networks or hosts with different security postures. The publication is a longstanding reference on policy and technology; check current product documentation for specific features.</p>
-          <h3>Does a firewall replace a router?</h3>
-          <p>Not necessarily. Routing determines where traffic should be forwarded; firewall policy determines whether that traffic is permitted under configured rules. An appliance can implement both, but the responsibilities are conceptually distinct.</p>
-          <h3>Is NAT a firewall?</h3>
-          <p><strong>No, not by itself.</strong> Network Address Translation changes addressing or port information as traffic crosses a translation boundary. Its effect on unsolicited traffic may overlap with typical home security expectations, but NAT is not a substitute for an explicit, well-managed filtering policy.</p>
-          <h2>Collision domains and broadcast domains</h2>
-          <h3>Collision domain</h3>
-          <p>A collision domain describes the shared-medium situation where simultaneous transmissions can interfere in traditional half-duplex Ethernet. A classic hub extends a shared collision domain. Modern full-duplex switched Ethernet links do not use collision detection the same way, so memorizing 'one collision domain per port' should not replace understanding the duplex behavior.</p>
-          <h3>Broadcast domain</h3>
-          <p>An Ethernet Layer 2 broadcast domain describes where a broadcast frame is propagated. Switches normally forward broadcasts inside the relevant VLAN, while routers do not generally forward ordinary Layer 2 broadcasts between IP subnets. VLANs can create distinct broadcast domains on shared switching hardware.</p>
-          <h2>What is a VLAN and why is it relevant to switches?</h2>
-          <p>A <strong>VLAN</strong> separates Layer 2 communication into logical domains. Two computers plugged into the same physical switch may be assigned to different VLANs and unable to exchange ordinary Layer 2 frames directly. Communication across VLANs usually requires a router or a Layer 3 switch with appropriate policies.</p>
-          <p>VLANs help organize traffic and create segmentation boundaries, but they are not a complete substitute for authentication, monitoring or firewall controls.</p>
-          <h2>Example: a small school or office network</h2>
-          <pre><code>ISP network
-             |
-          Router / firewall
-             |
-          Ethernet switch
-             |--- Desktop PCs
-             |--- File server
-             |--- Wireless access point
-                      |--- Student laptops
-                      |--- Mobile devices</code></pre>
-          <p>In this example, wired devices connect to the switch; Wi-Fi clients join through the AP; the router connects the LAN to other IP networks; and firewall policies regulate permitted traffic. Some networks use additional access switches, multiple APs, separate security zones or redundant routers.</p>
-          <h2>Which device do you need?</h2>
-          <table><thead><tr><th>Goal</th><th>Likely device or feature</th><th>Important caveat</th></tr></thead><tbody>
-          <tr><td>Add Ethernet ports to an existing LAN</td><td>Ethernet switch</td><td>Check speed, power and VLAN needs</td></tr>
-          <tr><td>Connect two IP subnets</td><td>Router or Layer 3 switch</td><td>Check routes and access policies</td></tr>
-          <tr><td>Extend Wi-Fi coverage</td><td>Access point or managed mesh system</td><td>Avoid accidental second router/NAT</td></tr>
-          <tr><td>Restrict traffic between networks</td><td>Firewall policy</td><td>Define explicit rules and test them</td></tr>
-          <tr><td>Diagnose an offline wired device</td><td>Check physical link first</td><td>Device choice alone does not solve faults</td></tr>
-          </tbody></table>
-          <h2>Common mistakes to avoid</h2>
-          <ul>
-          <li><strong>Assuming every switch is only Layer 2:</strong> multilayer switches can also route.</li>
-          <li><strong>Assuming a wireless AP automatically routes:</strong> APs commonly bridge to an existing LAN.</li>
-          <li><strong>Treating NAT as a security policy:</strong> use explicit filtering and access control.</li>
-          <li><strong>Confusing MAC and IP forwarding:</strong> they address different network scopes.</li>
-          <li><strong>Calling a hub a switch:</strong> a hub does not learn per-port MAC destinations.</li>
-          <li><strong>Assuming a VLAN fully isolates all risks:</strong> management-plane security and routing policies still matter.</li>
-          <li><strong>Assuming every broadcast crosses a router:</strong> ordinary Layer 2 broadcasts are local to a broadcast domain.</li>
-          </ul>
-          <h2>Check your understanding</h2>
-          <p>After reading, try to explain which device is used when two computers on the same VLAN communicate, when a host accesses another IP subnet, and when a Wi-Fi client connects to a wired file server. For related practice, use the <a href="https://www.cyberoplus.com/2026/03/network-exercises-solved-interactive.html">ten solved networking exercises</a> and our <a href="https://www.cyberoplus.com/2026/03/tcpip-vs-osi-model-comparison.html">OSI versus TCP/IP comparison</a>.</p>
-          <h2>Sources and further reading</h2>
-          <ul>
-          <li><a href="https://www.cisco.com/site/us/en/learn/topics/networking/what-is-network-switching.html" rel="noopener noreferrer">Cisco: network switching and hubs</a></li>
-          <li><a href="https://www.cisco.com/site/us/en/learn/topics/small-business/network-switch-vs-router.html" rel="noopener noreferrer">Cisco: switch versus router</a></li>
-          <li><a href="https://www.cisco.com/site/us/en/learn/topics/small-business/networking-basics.html" rel="noopener noreferrer">Cisco: basic switches, routers and APs</a></li>
-          <li><a href="https://csrc.nist.gov/pubs/sp/800/41/r1/final" rel="noopener noreferrer">NIST SP 800-41 Rev. 1: firewall technology and policy</a></li>
-          </ul>'''
-          article=article.replace("{{IMG}}",str(node))
-          parsed=BeautifulSoup(article,"html.parser")
-          check(len(article)>10000 and len(parsed.find_all("h2"))>=12,"Article is incomplete")
-          check(len(parsed.find_all("img"))==1 and parsed.find("img").get("src")==img.get("src"),"Original image was changed")
-          check(not re.search(r"[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff]",article),"Arabic text remains")
-          check("NAT" in article and "Collision domain" in article and "VLAN" in article and "Access point" in article,"Core comparison missing")
-          check(any("cisco.com" in x.get("href","") for x in parsed.find_all("a")) and any("nist.gov" in x.get("href","") for x in parsed.find_all("a")),"Primary sources missing")
-          check(any("osi-model-7-layers-explained.html" in x.get("href","") for x in parsed.find_all("a")),"Related OSI link missing")
-          print("PRECHECK_PASSED")
-          q=session.patch(endpoint,json={"title":TITLE,"content":article,"labels":["Technology"]},timeout=60);q.raise_for_status()
-          after=get()
-          check(str(after.get("id"))==PID and after.get("url")==ORIGINAL_URL and after.get("published")==PUBLISHED and after.get("title")==TITLE and after.get("labels")==["Technology"],"CRITICAL: Metadata mismatch")
-          check(digest(after.get("content",""))==digest(article),"CRITICAL: HTML mismatch")
-          print("PUBLISHED_AND_VERIFIED: "+ORIGINAL_URL)
+          base="https://www.googleapis.com/blogger/v3/blogs/"+BID
+          check(os.environ.get("BLOGGER_BLOG_ID")==BID,"Wrong target Blog ID")
+          b=session.get(base,timeout=35);b.raise_for_status();blog=b.json()
+          check(str(blog.get("id"))==BID and (urlsplit(str(blog.get("url",""))).hostname or "").lower() in ("cyberoplus.com","www.cyberoplus.com"),"Wrong target blog")
+          # The existing theme expects /search/label/{cybersecurity,artificial-intelligence,technology,guides}.
+          # Display names are Cybersecurity, Artificial Intelligence, Technology and Tutorials.
+          def category(post):
+              title=str(post.get("title","")).lower()
+              labels=set(post.get("labels") or [])
+              if not labels or not labels.issubset(LEGACY):return None
+              if "cybersecurity" in labels:return "cybersecurity"
+              if "artificial-intelligence" in labels:return "artificial-intelligence"
+              if labels&{"networking","technology","Technology"}:return "technology"
+              if labels&{"guides","Tutorials"}:return "guides"
+              if "digital-policy" in labels:
+                  if "cybersecurity" in title or "الأمن السيبراني" in title:return "cybersecurity"
+                  if "ai act" in title or "الذكاء الاصطناعي" in title:return "artificial-intelligence"
+                  return "technology"
+              if "jobs" in labels:
+                  if any(k in title for k in ("شهادات الأمن السيبراني","مسيرتك المهنية في مجال الأمن السيبراني","cybersecurity certifications","cybersecurity career")):
+                      return "cybersecurity"
+                  return "technology"
+              if "apps" in labels:
+                  if any(k in title for k in ("الذكاء الاصطناعي","chatgpt","deepseek","midjourney","gemini","claude"," ai tools")):
+                      return "artificial-intelligence"
+                  if any(k in title for k in ("احتيال","تجسس","أمان","الحماية","الاختراق","الخصوصية","security","defender control","حماية","التصيد","romance scam","malware")):
+                      return "cybersecurity"
+                  if title.startswith(("كيفية","طريقة","حل خطأ","إصلاح","تثبيت")):
+                      return "guides"
+                  return "technology"
+              return None
+          
+          def fetch_all():
+              allposts=[];next_page=None;seen=set()
+              for _ in range(10):
+                  params={"status":"live","maxResults":100,"fetchBodies":"false","view":"ADMIN"}
+                  if next_page:params["pageToken"]=next_page
+                  r=session.get(base+"/posts",params=params,timeout=50);r.raise_for_status()
+                  data=r.json()
+                  allposts.extend(data.get("items") or [])
+                  next_page=data.get("nextPageToken")
+                  if not next_page:break
+                  check(next_page not in seen,"Repeated pagination token")
+                  seen.add(next_page)
+              return allposts
+          
+          def read_post(pid):
+              r=session.get(base+"/posts/"+pid,params={"view":"ADMIN","fetchBody":"true"},timeout=50)
+              r.raise_for_status()
+              return r.json()
+          
+          posts=fetch_all()
+          check(len(posts)>=250 and len(posts)<=320,"Unexpected inventory: "+str(len(posts)))
+          ids=[str(p["id"]) for p in posts]
+          check(len(ids)==len(set(ids)),"Duplicate post IDs")
+          destination=read_post(DEST_ID)
+          check(destination.get("url")==VERIFIED_DEST,"Verified replacement link no longer points to expected article")
+          changes=0; unchanged=0; skipped=0; links_fixed=0; failures=[];counts=collections.Counter()
+          print("INVENTORY_VERIFIED: "+str(len(posts))+" live posts")
+          for i,record in enumerate(posts,1):
+              pid=str(record["id"])
+              try:
+                  target=category(record)
+                  if target is None:
+                      skipped+=1;print("SKIPPED_UNRECOGNIZED_LABELS: "+pid);continue
+                  check(target in CANONICAL,"Unsupported label")
+                  live=read_post(pid)
+                  # The list snapshot acts as a short-lived concurrency guard against simultaneous manual edits.
+                  if (str(live.get("id"))!=pid or live.get("url")!=record.get("url") or
+                      live.get("title")!=record.get("title") or
+                      live.get("updated")!=record.get("updated") or
+                      live.get("labels")!=record.get("labels")):
+                      skipped+=1;print("SKIPPED_MANUALLY_CHANGED: "+pid);continue
+                  # If the editor added new labels since the list call, skip rather than overwrite.
+                  if category(live)!=target:
+                      skipped+=1;print("SKIPPED_RECLASSIFIED: "+pid);continue
+                  oldlabels=live.get("labels") or []
+                  oldcontent=live.get("content") or ""
+                  newcontent=oldcontent
+                  repaired=False
+                  if OLD_BROKEN in oldcontent:
+                      check(oldcontent.count(OLD_BROKEN)==1,"Unexpected number of broken-link occurrences in "+pid)
+                      newcontent=oldcontent.replace(OLD_BROKEN,VERIFIED_DEST)
+                      repaired=True
+                  update={}
+                  if oldlabels!=[target]:update["labels"]=[target]
+                  if repaired:update["content"]=newcontent
+                  if not update:
+                      unchanged+=1;counts[target]+=1;continue
+                  # Patch ONLY fields we own. Never send title, publication date, URL or any metadata description.
+                  response=session.patch(base+"/posts/"+pid,json=update,timeout=65)
+                  response.raise_for_status()
+                  after=read_post(pid)
+                  check(str(after.get("id"))==pid and after.get("url")==live.get("url") and
+                        after.get("published")==live.get("published") and
+                        after.get("title")==live.get("title") and
+                        after.get("labels")==[target],"Identity or classification verification failed "+pid)
+                  check(sha(after.get("content") or "")==sha(newcontent),"Post body unexpectedly changed "+pid)
+                  changes+=1;counts[target]+=1
+                  if repaired:links_fixed+=1;print("BROKEN_INTERNAL_LINK_FIXED: "+pid)
+                  if i%25==0:print("CHECKPOINT_VERIFIED: "+str(i)+"/"+str(len(posts)))
+              except Exception as e:
+                  failures.append(pid+":"+type(e).__name__+":"+str(e)[:180])
+                  print("POST_FAILED: "+failures[-1])
+                  if len(failures)>=8:
+                      raise RuntimeError("Circuit breaker after 8 post failures; prior successful patches were verified")
+          print("BATCH_COMPLETE: "+json.dumps({"inventory":len(posts),"posts_updated":changes,
+                                             "unchanged":unchanged,"skipped":skipped,"broken_internal_links_fixed":links_fixed,
+                                             "canonical_label_counts":dict(counts),"failures":len(failures)},sort_keys=True))
+          if failures:
+              raise RuntimeError("Some posts were not updated; details in standard workflow execution output")
           
           PY
