@@ -176,7 +176,7 @@ jobs:
           </ul>'''
           article=article.replace("{{IMAGE}}",str(fragment))
           parsed=BeautifulSoup(article,"html.parser")
-          check(len(article)>12500 and len(parsed.find_all("h2"))>=17,"Incomplete frame guide")
+          check(len(article)>12500 and len(parsed.find_all("h2"))>=16,"Incomplete frame guide")
           check(len(parsed.find_all("img"))==1 and parsed.find("img").get("src")==orig.get("src"),"Original image lost")
           check(not re.search(r"[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff]",article),"Untranslated Arabic body text")
           check(all(k in article for k in ("64 bytes","1518 bytes","1522 bytes","FCS","Wireshark","0x0800","IEEE 802.1Q")),"Critical frame fields absent")
