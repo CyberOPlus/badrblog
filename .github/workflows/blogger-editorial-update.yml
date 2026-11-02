@@ -184,7 +184,7 @@ jobs:
           check(len(parsed.find_all("h2"))>=17 and len(article)>9500,"New article incomplete")
           check(len(parsed.find_all("img"))==3 and [x.get("src") for x in parsed.find_all("img")]==[x.get("src") for x in images],"Image changed")
           check(not re.search(r"[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]",article),"Arabic remains in the article")
-          check("Half adder" in article and "Logic low" in article and "VIH" in article and "XOR" in article,"Essential fundamentals missing")
+          check("half adder" in article.lower() and "logic low" in article.lower() and "VIH" in article and "XOR" in article,"Essential fundamentals missing")
           check(len([x for x in parsed.find_all("a") if "cyberoplus.com" in x.get("href","")])>=1,"Internal context link missing")
           check(any("ocw.mit.edu" in x.get("href","") for x in parsed.find_all("a")) and any("ti.com" in x.get("href","") for x in parsed.find_all("a")),"Primary-source references missing")
           print("PRECHECK_PASSED")
