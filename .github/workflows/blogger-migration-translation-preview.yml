@@ -38,3 +38,4 @@ jobs:
           path: migration-output/translation-preview.json
           retention-days: 30
           if-no-files-found: error
+# Retry transient Gemini API 503 using guarded model fallback; still no Blogger writes.
