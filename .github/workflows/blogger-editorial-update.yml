@@ -81,6 +81,9 @@ jobs:
                   box=box.parent
               block=BeautifulSoup(str(box),"html.parser")
               block.find("img")["alt"]=alt
+              if block.find("img").has_attr("title"): block.find("img")["title"]=alt
+              caption=block.find("figcaption")
+              if caption: caption.string=alt+". Screenshot from the original tutorial."
               image_html.append(str(block))
           if len(set([i.get("src") for i in imgs]))!=4: fail("Repeated original image source")
           
