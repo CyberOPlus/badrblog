@@ -1,0 +1,134 @@
+<p>Have you ever left your computer and returned to find a window open or activity you don't remember? If you use <strong>Windows 11</strong>, you can examine some sign-in records without installing third-party software by using the built-in <strong>Event Viewer</strong> tool. However, a recorded logon session does not automatically mean someone else used the computer.</p><p></p><div class="separator" style="clear: both; text-align: center;"><a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjvQsAeHLroJfRnEpwDIdPZgPL4gFNh7pEVPZIYfF_baTAgnwTzG8iLzKsLERcixbXvzmtMR9_39ShsY9efwgk_c9JgQZFdEcZj7XadROZ1pc1d8rQVFGcy0M8a_gxlPewS4B8f8Hn3O9AIhmoYVjT5ng1kz12-18daqAZMkvtjpRPjTYSkBNEsOv7yPS7c/s1600/Windows%20Security%20Event%20Viewer%20Setup%20%281%29.png" style="margin-left: 1em; margin-right: 1em;"><img alt="How to Find Out Who Accessed Your Windows 11 PC While You Were Away: Sign-in Log Guide" data-original-height="1024" data-original-width="1536" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjvQsAeHLroJfRnEpwDIdPZgPL4gFNh7pEVPZIYfF_baTAgnwTzG8iLzKsLERcixbXvzmtMR9_39ShsY9efwgk_c9JgQZFdEcZj7XadROZ1pc1d8rQVFGcy0M8a_gxlPewS4B8f8Hn3O9AIhmoYVjT5ng1kz12-18daqAZMkvtjpRPjTYSkBNEsOv7yPS7c/s1600/Windows%20Security%20Event%20Viewer%20Setup%20(1).png" /></a></div><p></p>
+
+<aside data-type="info">
+  <strong>Quick answer</strong>
+  <p>Open <code>Event Viewer</code>, go to <code>Windows Logs &gt; Security</code>, and look for event <code>4624</code> for successful logons, or <code>4625</code> for failed attempts. Check the <code>Logon Type</code>, account name, and timestamp before interpreting the results. Some events are generated routinely by Windows services.</p>
+</aside>
+
+<h2 id="what-logs-show">What can Windows security logs reveal—and what are their limits?</h2>
+<p>Security logs may record when logon sessions were created, failed authentication attempts, and workstation lock and unlock events. They can help you identify the account associated with an event and whether a session was local, network-based, or remote.</p>
+<p>However, <strong>these events cannot establish the real-world identity of the person sitting at the computer</strong>, or show everything that person did. The absence of a particular event does not prove that no activity occurred: what gets recorded depends on audit settings and how long logs are retained.</p>
+
+<h2 id="event-viewer">How to check recent sign-ins on Windows 11</h2>
+<p>Start with the built-in Windows method. You don't need to download any software.</p>
+<ol data-steps="">
+  <li>Press <kbd>Win</kbd> + <kbd>R</kbd> to open the <strong>Run</strong> dialog.</li>
+  <li>Type <code>eventvwr.msc</code>, then press <kbd>Enter</kbd>.</li>
+  <li>In the left-hand pane, open <strong>Windows Logs</strong> and select <strong>Security</strong>.</li>
+  <li>In the <strong>Actions</strong> pane, choose <strong>Filter Current Log</strong>.</li>
+  <li>In the <strong>Event IDs</strong> field, enter <code>4624</code> and click <strong>OK</strong>.</li>
+  <li>Open an event and review its time, the <strong>New Logon</strong> section, and the <strong>Logon Type</strong>.</li>
+</ol>
+<p>If you're checking whether something happened while you were away, compare the timestamp with that period, then examine the logon type. Many ordinary system events do not mean someone opened the computer's screen.</p>
+<aside data-type="attention"><strong>Important note</strong><p>You may need <strong>Administrator</strong> privileges to read the Security log. Don't treat event <code>4624</code> appearing at midnight as evidence of a breach without examining its details.</p></aside>
+
+<h2 id="event-codes">Key Event IDs for investigating sign-ins</h2>
+<p>These are useful starting points for most users:</p>
+<table>
+  <thead><tr><th scope="col">Event ID</th><th scope="col">What the event means</th></tr></thead>
+  <tbody>
+    <tr><td><code>4624</code></td><td>A successful logon session was created.</td></tr>
+    <tr><td><code>4625</code></td><td>A logon attempt failed.</td></tr>
+    <tr><td><code>4800</code></td><td>The workstation was locked, if the relevant auditing is enabled.</td></tr>
+    <tr><td><code>4801</code></td><td>The workstation was unlocked, if the relevant auditing is enabled.</td></tr>
+  </tbody>
+</table>
+<p>To filter for several IDs at once, enter <code>4624,4625,4800,4801</code> in the <strong>Event IDs</strong> field. Don't expect every event to appear on every computer; some depend on audit policy.</p>
+
+<h2 id="logon-type">How to read Logon Type without drawing the wrong conclusion</h2>
+<p>Within event <code>4624</code>, find <strong>Logon Type</strong>. This field describes the kind of session and helps distinguish a person using the computer from a service starting or a network connection.</p>
+<table>
+  <thead><tr><th scope="col">Type</th><th scope="col">Meaning</th></tr></thead>
+  <tbody>
+    <tr><td><code>2</code></td><td><strong>Interactive:</strong> An interactive sign-in to this computer.</td></tr>
+    <tr><td><code>3</code></td><td><strong>Network:</strong> A network logon; by itself, it does not mean someone controlled the screen.</td></tr>
+    <tr><td><code>5</code></td><td><strong>Service:</strong> A session associated with a service being started.</td></tr>
+    <tr><td><code>7</code></td><td><strong>Unlock:</strong> The workstation was unlocked.</td></tr>
+    <tr><td><code>10</code></td><td><strong>RemoteInteractive:</strong> An interactive remote sign-in, such as through Remote Desktop.</td></tr>
+    <tr><td><code>11</code></td><td><strong>CachedInteractive:</strong> A sign-in using locally cached credentials.</td></tr>
+  </tbody>
+</table>
+<p>If you find <code>Logon Type 5</code> while you were asleep, a background service may be responsible. An unexpected account and time associated with <code>Logon Type 10</code> warrant further investigation, but do not independently prove a breach. Likewise, <code>Logon Type 3</code> may involve access to a network resource without opening the desktop.</p>
+
+<h2 id="user-account">How to identify the account that signed in</h2>
+<p>Open the event under the <strong>General</strong> or <strong>Details</strong> tab and review these fields:</p>
+<dl>
+  <dt><code>Date and Time</code></dt><dd>The event's timestamp. Compare it with the time you were away.</dd>
+  <dt><code>New Logon &gt; Account Name</code></dt><dd>The account for which the new session was created.</dd>
+  <dt><code>Account Domain</code></dt><dd>The computer or domain the account belongs to.</dd>
+  <dt><code>Logon Type</code></dt><dd>The session type: interactive, network, service, or remote.</dd>
+  <dt><code>Source Network Address</code></dt><dd>The connection's source address when the authentication mechanism provides it. This field may normally be blank or display <code>-</code>.</dd>
+  <dt><code>Logon ID</code></dt><dd>An identifier that helps correlate events associated with the same session during a more advanced investigation.</dd>
+</dl>
+<aside data-type="info"><strong>Don't confuse Subject with New Logon</strong><p>The <strong>Subject</strong> section typically identifies the account or process that requested the logon session, while <strong>New Logon</strong> identifies the account for which the session was created. Confusing them can lead to incorrect conclusions.</p></aside>
+
+<h2 id="failed-attempts">How to find failed sign-in attempts</h2>
+<p>Return to <strong>Filter Current Log</strong>, enter <code>4625</code>, and open the events you want to investigate. Examine the time, account name, logon type, failure reason, and source information if available.</p>
+<p>A failed attempt might result from an incorrectly entered password, a service using outdated credentials, or an unauthorized attempt. Don't assume every attempt involving a <strong>PIN</strong> or <strong>Windows Hello</strong> will appear in the same way: the events depend on the authentication method and system configuration.</p>
+
+<h2 id="lock-events">How to check when the screen was locked or unlocked</h2>
+<p>You may see event <code>4800</code> when the computer is locked and <code>4801</code> when it is unlocked. Recording these events depends on the <strong>Audit Other Logon/Logoff Events</strong> setting, which might not be enabled. Their absence is therefore not evidence that logs were deleted or that a breach occurred.</p>
+<p>If you want to reconstruct what happened after you left your desk, compare the timing with events <code>4624</code> and <code>4625</code>, as well as any available lock and unlock events, instead of relying on a single ID.</p>
+
+<h2 id="powershell">Check sign-in history with PowerShell</h2>
+<p>To review up to 50 successful and failed logon events from the last seven days, open <strong>Windows PowerShell</strong> with Administrator privileges and run:</p>
+<pre data-result-language="POWERSHELL"><code>Get-WinEvent -FilterHashtable @{
+    LogName   = 'Security'
+    Id        = 4624, 4625
+    StartTime = (Get-Date).AddDays(-7)
+} -MaxEvents 50 |
+Select-Object TimeCreated, Id, Message |
+Format-List</code></pre>
+<p>This command is <strong>read-only</strong>: it does not delete logs or change system settings. Output can be lengthy because <code>Message</code> includes each event's details. If you get <code>Access is denied</code>, check your permissions. If there are no results, that only means no matching events were retrieved for the requested period—not that the computer is necessarily secure or compromised.</p>
+
+<h2 id="real-scenarios">Example: a logon event at 2 a.m.</h2>
+<p>Suppose you haven't used the computer since midnight, but you find an event logged at 2 a.m.:</p>
+<ol>
+  <li><strong>4624, type 5:</strong> This may be a service starting. Check the account and context; don't automatically attribute it to a person.</li>
+  <li><strong>4624, type 2:</strong> An interactive session exists. Check the account, who is authorized to use the device, and surrounding events.</li>
+  <li><strong>4624, type 10:</strong> An interactive remote session exists. If you didn't expect it, investigate the account, source, Remote Desktop settings, and other evidence.</li>
+</ol>
+<aside data-type="attention"><strong>About these examples</strong><p>These scenarios are hypothetical teaching examples, not results from a test we performed on a real computer. The event descriptions and logon types are based on Microsoft's documentation.</p></aside>
+
+<h2 id="practical-experiment">A safe hands-on test</h2>
+<p>The best way to understand the logs is to compare them with an action you know you performed. Try this on your own computer:</p>
+<ol data-steps="">
+  <li>Open <strong>Event Viewer &gt; Windows Logs &gt; Security</strong> and note the time.</li>
+  <li>Save your work and press <kbd>Win</kbd> + <kbd>L</kbd> to lock the screen.</li>
+  <li>Unlock the computer using your usual method.</li>
+  <li>Return to the log, click <strong>Refresh</strong>, and look for events near the time of your test.</li>
+  <li>Note the <strong>Event ID</strong> and <strong>Logon Type</strong>, if available, and compare them with the action you performed.</li>
+</ol>
+<p>The events may differ depending on account type, authentication method, and audit policy. There's no need to change security settings merely to complete this exercise.</p>
+
+<h2 id="what-to-do">What to do if you find suspicious activity</h2>
+<p>If you notice an unfamiliar account, an unexpected remote session, or repeated events you cannot explain, don't use a single log entry to declare the computer compromised. Take these steps:</p>
+<ol data-steps="">
+  <li><strong>Document the evidence:</strong> Record the event's time and ID, account, and session type. Export the logs if an investigation is needed.</li>
+  <li><strong>Review accounts:</strong> Check which users are authorized to access the computer.</li>
+  <li><strong>Check remote-access tools:</strong> Review Remote Desktop and other remote-control software when relevant.</li>
+  <li><strong>Update and scan:</strong> Run a scan with Microsoft Defender and make sure Windows and your applications are up to date.</li>
+  <li><strong>Secure your accounts:</strong> If there are strong signs of compromise, use a trusted device to change affected passwords and enable multifactor authentication.</li>
+</ol>
+<p>If this is a work or organization-owned computer, contact IT support or the security team before deleting evidence or making major changes.</p>
+
+<h2 id="mistakes">Common mistakes when reading sign-in logs</h2>
+<ul>
+  <li>Treating every <code>4624</code> event as proof that a person used the computer.</li>
+  <li>Ignoring <code>Logon Type</code> and looking only at the timestamp.</li>
+  <li>Confusing the account in <strong>Subject</strong> with the one in <strong>New Logon</strong>.</li>
+  <li>Assuming a missing source address is suspicious.</li>
+  <li>Assuming the absence of event <code>4801</code> means someone deliberately cleared the log.</li>
+  <li>Believing logon records alone can reveal every form of spying.</li>
+</ul>
+
+<h2 id="faq">Frequently asked questions</h2>
+<details><summary>How can I tell who last used my computer while I was away?</summary><p>Start by searching for event <code>4624</code>, then check the time, account, and <code>Logon Type</code>. Event <code>4801</code> may help identify when the screen was unlocked if its auditing is enabled, but these events cannot prove the actual identity of the person.</p></details>
+<details><summary>Does Event ID 4624 while I'm asleep mean my computer was hacked?</summary><p>No. Windows may record it when a service starts or another legitimate session is created. Check the logon type and account before drawing conclusions.</p></details>
+<details><summary>Why can't I find event IDs 4800 or 4801?</summary><p>The auditing policy for workstation locking and unlocking might not be enabled, or older logs may no longer be retained.</p></details>
+<details><summary>Does Event Viewer work on Windows 11 Home?</summary><p>Yes. Event Viewer is available on Windows 11 Home, although management of some advanced security policies varies by Windows edition.</p></details>
+<details><summary>Does the PowerShell command reveal the password used to sign in?</summary><p>No. The command here displays information about recorded events, not account passwords.</p></details>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>To check whether unusual logon sessions occurred on <strong>Windows 11</strong>, start with <strong>Event Viewer</strong> and the <strong>Security</strong> log. Review events <code>4624</code> and <code>4625</code>, then examine <code>Logon Type</code>, the account, the time, and related events. <mark>A log entry is a clue that needs context and interpretation—not conclusive proof of a breach.</mark></p>
+<p>To understand operating systems, user accounts, and networks before moving on to advanced security analysis, read our <a href="https://www.cyberoplus.com/2026/01/computer-internet-basics-guide.html">beginner's guide to computers and the internet</a>.</p>
