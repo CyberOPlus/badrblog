@@ -59,18 +59,22 @@ jobs:
                   check(token not in seen,"Duplicate pagination token");seen.add(token)
               return rows
           posts=all_posts()
-          byid={str(p["id"]):p for p in posts}
+          extras=[]
           print("PUBLISHED_NOW: "+str(len(posts)),flush=True)
           for status in ("draft","scheduled"):
               r=session.get(BASE+"/posts",params={"status":status,"maxResults":100,"view":"ADMIN","fetchBodies":"false"},timeout=45);r.raise_for_status()
               arr=r.json().get("items",[])
+              check(not r.json().get("nextPageToken"),"Unexpected number of non-live posts")
+              extras.extend(arr)
               print("OTHER_POST_STATUS: "+status+" count="+str(len(arr))+" ids="+",".join(str(x.get("id")) for x in arr),flush=True)
-          check(len(posts)==259 and len(byid)==259,"Unexpected live-post inventory size: "+str(len(posts)))
-          check(all(len(p.get("labels",[]))==1 and p["labels"][0] in LABELS for p in posts),"At least one article has unexpected labels, aborting categorization")
+          inventory=posts+extras
+          byid={str(p["id"]):p for p in inventory}
+          check(len(inventory)==259 and len(byid)==259,"Unexpected total inventory size: "+str(len(inventory)))
+          check(all(len(p.get("labels",[]))==1 and p["labels"][0] in LABELS for p in inventory),"At least one article has unexpected labels, aborting categorization")
           check(all(pid in byid for pid,_,_,_ in CORRECTIONS),"Missing target post from current inventory")
           check(len(CORRECTIONS)==len(set(x[0] for x in CORRECTIONS))==21,"Invalid correction list")
-          print("LIVE_INVENTORY_VERIFIED: posts=259, canonical_labels=4, no duplicate IDs",flush=True)
-          print("BEFORE: "+str(dict(collections.Counter(p["labels"][0] for p in posts))),flush=True)
+          print("ALL_STATES_INVENTORY_VERIFIED: posts=259, canonical_labels=4, no duplicate IDs",flush=True)
+          print("BEFORE: "+str(dict(collections.Counter(p["labels"][0] for p in inventory))),flush=True)
           updated=0;skipped=0;blocked=[]
           # Change labels only, never title/content/URL/publication date or other post fields.
           for pid,old_label,target_label,expected_hash in CORRECTIONS:
@@ -94,12 +98,16 @@ jobs:
               print("LABEL_UPDATED_AND_VERIFIED: "+pid+" "+old_label+" -> "+target_label+" "+item["url"],flush=True)
           # Final all-article inventory verification from Blogger itself.
           end=all_posts()
+          for status in ("draft","scheduled"):
+              r=session.get(BASE+"/posts",params={"status":status,"maxResults":100,"view":"ADMIN","fetchBodies":"false"},timeout=45);r.raise_for_status()
+              check(not r.json().get("nextPageToken"),"Unexpected pagination of non-live posts")
+              end.extend(r.json().get("items",[]))
           check(len(end)==259 and len({str(p["id"]) for p in end})==259,"Final inventory count changed")
           check(all(len(p.get("labels",[]))==1 and p["labels"][0] in LABELS for p in end),"Final noncanonical labels detected")
           totals=collections.Counter(p["labels"][0] for p in end)
           check(sum(totals.values())==259,"Final label count mismatch")
           print("FINAL_LABEL_COUNTS: "+json.dumps(dict(sorted(totals.items()))),flush=True)
-          print("CLASSIFICATION_SUMMARY: live=259 corrected="+str(updated)+" already="+str(skipped)+" blocked="+str(len(blocked)),flush=True)
+          print("CLASSIFICATION_SUMMARY: total=259 published="+str(len(posts))+" draft_or_scheduled="+str(len(extras))+" corrected="+str(updated)+" already="+str(skipped)+" blocked="+str(len(blocked)),flush=True)
           if blocked:
               print("BLOCKED_IDS: "+",".join(blocked),flush=True)
               raise RuntimeError("Some article labels were not changed because sources changed; see blocked IDs")
