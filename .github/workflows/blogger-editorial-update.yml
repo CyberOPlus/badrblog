@@ -1,4 +1,4 @@
-name: CyberoPlus Editorial - Ethernet Frame Tutorial
+name: CyberoPlus Editorial - Physical Layer Guide
 on:
   push:
     branches: [main]
@@ -10,184 +10,169 @@ concurrency:
   group: cyberoplus-editorial-one-post
   cancel-in-progress: false
 jobs:
-  publish-verified-article:
+  update-one-verified-blogger-article:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Install Blogger authentication and HTML parser
+      - name: Install Blogger dependencies
         run: python -m pip install --disable-pip-version-check "google-auth>=2.20,<3" "requests>=2.31,<3" "beautifulsoup4>=4.12,<5"
-      - name: Research-backed English Ethernet frame article; verify published post
+      - name: Update and re-read the original OSI Physical Layer article
         env:
           BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
           BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
           BLOGGER_CLIENT_SECRET_JSON: ${{ secrets.BLOGGER_CLIENT_SECRET_JSON }}
         run: |
           python - <<'PY'
-          import json,os,re,hashlib
+          import os,json,re,hashlib
           from urllib.parse import urlsplit
           from bs4 import BeautifulSoup
-          from google.oauth2.credentials import Credentials
           from google.auth.transport.requests import AuthorizedSession
-          BID="2750143140558868280"
-          PID="1446978415013086081"
-          OLD_TITLE="بنية الـ Frame في الشبكات — شرح كل حقل من En-tête إلى CRC"
-          URL="https://www.cyberoplus.com/2026/03/network-frame-structure-header-crc-explained.html"
-          PUBLISHED="2026-03-28T13:53:00+01:00"
-          OLD_SHA="3c5316fef27eb5dcb4bca35429cfe782c65d00439f2069230096ad61ac71287a"
-          NEW_TITLE="Ethernet Frame Explained: Header, MAC, VLAN, MTU and CRC/FCS"
-          def hashtext(v):return hashlib.sha256(v.encode("utf-8")).hexdigest()
-          def check(ok,why):
-              if not ok:raise RuntimeError(why)
+          from google.oauth2.credentials import Credentials
+          BLOG_ID="2750143140558868280"
+          PID="3856320934457641448"
+          OLD_TITLE="Physical Layer: شرح الطبقة الفيزيائية في OSI ووظائفها"
+          ORIGINAL_URL="https://www.cyberoplus.com/2026/03/physical-layer-osi-model.html"
+          PUBLISHED="2026-03-18T21:29:00Z"
+          SOURCE_SHA="8c02426b8ddbc8e64c58130168ec5c8d34517fab5af4304ca5c67efe6ebb7398"
+          TITLE="Physical Layer (OSI Layer 1): Signals, Ethernet PHY and Troubleshooting"
+          def sha(s):return hashlib.sha256(s.encode("utf-8")).hexdigest()
+          def check(c,msg):
+              if not c:raise RuntimeError(msg)
           token=json.loads(os.environ["BLOGGER_TOKEN_JSON"])
           client=json.loads(os.environ["BLOGGER_CLIENT_SECRET_JSON"])
           cfg=client.get("installed") or client.get("web") or {}
-          for key in ("client_id","client_secret","token_uri"):
-              if not token.get(key) and cfg.get(key):token[key]=cfg[key]
+          for k in ("client_id","client_secret","token_uri"):
+              if not token.get(k) and cfg.get(k):token[k]=cfg[k]
           session=AuthorizedSession(Credentials.from_authorized_user_info(token))
-          base="https://www.googleapis.com/blogger/v3/blogs/"+BID
-          check(os.environ.get("BLOGGER_BLOG_ID")==BID,"Wrong Blogger blog")
+          base="https://www.googleapis.com/blogger/v3/blogs/"+BLOG_ID
+          check(os.environ.get("BLOGGER_BLOG_ID")==BLOG_ID,"Wrong credentials")
           r=session.get(base,timeout=30);r.raise_for_status()
-          check(str(r.json().get("id"))==BID and (urlsplit(str(r.json().get("url",""))).hostname or "").lower() in ("cyberoplus.com","www.cyberoplus.com"),"Wrong blog")
+          check(str(r.json().get("id"))==BLOG_ID and (urlsplit(str(r.json().get("url",""))).hostname or "").lower() in ("cyberoplus.com","www.cyberoplus.com"),"Unexpected target blog")
           endpoint=base+"/posts/"+PID
-          def readpost():
+          def getpost():
               response=session.get(endpoint,params={"view":"ADMIN","fetchBody":"true"},timeout=40)
-              response.raise_for_status()
-              return response.json()
-          source=readpost()
-          check(str(source.get("id"))==PID and source.get("url")==URL and source.get("title")==OLD_TITLE and source.get("published")==PUBLISHED and source.get("labels")==["technology"] and hashtext(source.get("content",""))==OLD_SHA,"Source changed since archived snapshot; no write")
-          soup=BeautifulSoup(source["content"],"html.parser")
+              response.raise_for_status();return response.json()
+          old=getpost()
+          check(str(old.get("id"))==PID and old.get("title")==OLD_TITLE and old.get("url")==ORIGINAL_URL and old.get("published")==PUBLISHED and old.get("labels")==["technology"] and sha(old.get("content",""))==SOURCE_SHA,"Article manually changed since source snapshot; no write")
+          soup=BeautifulSoup(old["content"],"html.parser")
           images=soup.find_all("img")
-          check(len(images)==1,"Unexpected original image count")
-          orig=images[0]
-          wrapper=orig.find_parent("div",class_="separator") or orig.find_parent("figure")
+          check(len(images)==1,"Original image count changed")
+          img=images[0]
+          wrapper=img.find_parent("div",class_="separator") or img.find_parent("figure")
           check(wrapper is not None,"Original figure wrapper missing")
           while wrapper.parent and getattr(wrapper.parent,"name",None)=="div" and "separator" in (wrapper.parent.get("class") or []):wrapper=wrapper.parent
           fragment=BeautifulSoup(str(wrapper),"html.parser")
-          fragment.find("img")["alt"]="Ethernet frame format with source MAC destination MAC EtherType data and FCS"
+          fragment.find("img")["alt"]="OSI physical layer transmitting electrical optical and radio signals"
           if fragment.find("img").has_attr("title"):fragment.find("img")["title"]=fragment.find("img")["alt"]
-          for cap in fragment.find_all("figcaption"):cap.string="Ethernet frame structure and fields"
-          article=r'''<p>An <strong>Ethernet frame</strong> is the link-layer data unit used to carry information between interfaces on an Ethernet network. A typical untagged Ethernet frame contains a <strong>destination MAC address, source MAC address, Length/Type field, payload and Frame Check Sequence (FCS)</strong>. Understanding those fields makes it easier to troubleshoot connectivity and interpret Wireshark captures without confusing an Ethernet frame with an IP packet.</p>
+          article=r'''<p>The <strong>Physical layer (Layer 1) of the OSI model</strong> is responsible for sending and receiving information as physical signals over a communication medium. It determines how network devices represent data using electrical, optical or radio-frequency signals, along with timing, signaling and interface requirements. Layer 1 is much more than a cable: a physical transceiver must encode and recover data according to the technology used.</p>
           {{IMAGE}}
-          <aside data-type="info"><strong>Scope:</strong> This guide explains the standard Ethernet MAC frame and an optional IEEE 802.1Q VLAN tag. Ethernet and Wi-Fi do not have identical frame layouts. For the wider network context, first read the <a href="https://www.cyberoplus.com/2026/03/data-link-layer-osi-model-explained.html">OSI Data Link layer guide</a>, then return here for the byte-by-byte structure.</aside>
-          <h2>Ethernet frame structure: the fields and their sizes</h2>
-          <table><thead><tr><th>Field</th><th>Size</th><th>Purpose</th></tr></thead><tbody>
-          <tr><td>Destination MAC</td><td>6 bytes</td><td>Identifies the intended destination on the local Ethernet link</td></tr>
-          <tr><td>Source MAC</td><td>6 bytes</td><td>Identifies the transmitting source on the link</td></tr>
-          <tr><td>Length/Type</td><td>2 bytes</td><td>Indicates payload length or encapsulated protocol</td></tr>
-          <tr><td>Payload and padding</td><td>46–1500 bytes in the ordinary untagged format</td><td>Carries higher-layer data, with padding if necessary</td></tr>
-          <tr><td>FCS</td><td>4 bytes</td><td>Detects certain transmission errors using CRC-32</td></tr>
+          <p>In Ethernet, the physical interface is commonly called a <strong>PHY</strong>. On Wi-Fi, the physical layer describes transmission over radio channels. Layer 1 does not independently interpret a website URL, choose an IP route or decide which user is authorized to connect.</p>
+          <aside data-type="info"><strong>Position in the network:</strong> this page covers exactly Layer 1. If you need the complete framework first, read our <a href="https://www.cyberoplus.com/2026/03/osi-model-7-layers-explained.html">OSI seven-layer explanation</a>. For the MAC addresses and frame headers above Layer 1, use our <a href="https://www.cyberoplus.com/2026/03/network-frame-structure-header-crc-explained.html">Ethernet frame guide</a>.</aside>
+          <h2>What does the Physical layer actually do?</h2>
+          <p>The Physical layer offers the lower-level transmission functions needed by data-link technologies. On a sending device it accepts information from the higher link subsystem, encodes and converts it into a suitable signal, and sends it over the medium. On a receiver it detects the physical signal and reconstructs a data stream according to that PHY's specification.</p>
+          <p>That conversion can involve multiple sublayers, encoding rules and analog processing. The simplistic statement that a binary 1 is always a high voltage and a binary 0 is always a low voltage is <strong>not generally correct</strong> for modern Ethernet or Wi-Fi.</p>
+          <h2>Seven important Physical-layer responsibilities</h2>
+          <table><thead><tr><th>Function</th><th>Meaning</th></tr></thead><tbody>
+          <tr><td>Signal representation</td><td>Choose the electrical, optical or radio method for carrying information</td></tr>
+          <tr><td>Line coding</td><td>Convert data to coded sequences suitable for the PHY</td></tr>
+          <tr><td>Modulation</td><td>Map information to physical symbols where the technology requires it</td></tr>
+          <tr><td>Synchronization</td><td>Recover symbol or bit timing and recognize transmission boundaries</td></tr>
+          <tr><td>Data rate</td><td>Define supported physical operating rates and characteristics</td></tr>
+          <tr><td>Media and connectors</td><td>Specify the appropriate cable, optical interface, antenna or other medium</td></tr>
+          <tr><td>Link establishment</td><td>Handle PHY-specific link detection and negotiation where available</td></tr>
           </tbody></table>
-          <p>For ordinary untagged Ethernet, the minimum MAC frame is <strong>64 bytes</strong> and the familiar maximum is <strong>1518 bytes</strong>, counting destination MAC through FCS but not the preceding preamble and Start Frame Delimiter. An IEEE 802.1Q tag introduces another four bytes and a commonly quoted maximum of <strong>1522 bytes</strong> for a tagged frame.</p>
-          <pre><code>Destination MAC (6 B)
-          Source MAC      (6 B)
-          Length/Type     (2 B)
-          Payload + Pad   (46–1500 B, ordinary untagged case)
-          FCS             (4 B)
-          
-          Minimum untagged MAC frame: 6 + 6 + 2 + 46 + 4 = 64 B
-          Maximum untagged MAC frame: 6 + 6 + 2 + 1500 + 4 = 1518 B</code></pre>
-          <h2>Frame versus packet: what is the difference?</h2>
-          <p>An <strong>IP packet</strong> is a network-layer unit with source and destination IP addresses. An <strong>Ethernet frame</strong> is the local-link container that can transport that packet between Ethernet interfaces. The distinction matters when a packet passes through a router: the router processes the incoming link framing and builds outgoing framing suitable for the next interface.</p>
-          <p>Although the same logical IP communication may cross many routers, the Ethernet source and destination MAC addresses on your local LAN normally describe the immediate link or next hop, not every device on the entire route. The IPv4 TTL or IPv6 Hop Limit also changes at routed hops, so even the IP header is not always byte-for-byte unchanged.</p>
-          <p>See our <a href="https://www.cyberoplus.com/2026/04/mac-ip-end-to-end-communication.html">step-by-step MAC, IP and ARP packet journey</a> for a worked example from one host to another.</p>
-          <h2>Preamble and SFD: why do you not normally see them?</h2>
-          <p>A conventional Ethernet transmission uses a <strong>7-byte preamble</strong> followed by a <strong>1-byte Start Frame Delimiter (SFD)</strong> before the destination MAC field. These aid synchronization and frame-start recognition on the medium. They are part of the physical transmission context rather than the usual 64–1518-byte Ethernet MAC frame-length accounting.</p>
-          <p>Do not add those eight bytes when answering a standard textbook question asking for the ordinary Ethernet frame's minimum 64-byte or maximum 1518-byte size. Network hardware normally handles the preamble and SFD, so a packet-capture application such as Wireshark does not ordinarily display them.</p>
-          <h2>Destination MAC and Source MAC: 6 bytes each</h2>
-          <p>Each field usually contains a 48-bit Ethernet MAC address. The destination may be an individual address, a multicast group address, or the all-ones broadcast address <code>ff:ff:ff:ff:ff:ff</code>. The source field identifies the transmitting Ethernet interface; ordinary Ethernet frames use an individual, not a multicast or broadcast, source address.</p>
-          <p>Ethernet switches learn source MAC addresses and use destination MAC information to forward frames within a VLAN. The meaning of a group's least-significant address bit is explained separately in our <a href="https://www.cyberoplus.com/2026/04/mac-address-unicast-broadcast-multicast.html">MAC address I/G and U/L bits tutorial</a>.</p>
-          <h2>Length/Type: why can the same two bytes have two meanings?</h2>
-          <p>The two-byte field following the source MAC may represent the length of the data field or an <strong>EtherType</strong> identifying the encapsulated protocol, depending on its value and the applicable Ethernet format.</p>
-          <table><thead><tr><th>Value</th><th>Typical interpretation</th></tr></thead><tbody>
-          <tr><td><code>0x0000</code> through <code>0x05DC</code> (0–1500)</td><td>IEEE 802.3 length value</td></tr>
-          <tr><td><code>0x0600</code> or greater (1536 and up)</td><td>EtherType value identifying a protocol</td></tr>
-          <tr><td><code>0x0800</code></td><td>IPv4 EtherType</td></tr>
-          <tr><td><code>0x0806</code></td><td>ARP EtherType</td></tr>
-          <tr><td><code>0x86DD</code></td><td>IPv6 EtherType</td></tr>
-          </tbody></table>
-          <p>Values 1501–1535 are not the ordinary data-length range and should not be presented as standard EtherType assignments. See <a href="https://www.iana.org/assignments/ieee-802-numbers/ieee-802-numbers.xhtml" rel="noopener noreferrer">IANA's IEEE 802 numbers registry</a> for reference information.</p>
-          <h2>What changes with IEEE 802.1Q VLAN tagging?</h2>
-          <p>IEEE 802.1Q can insert a <strong>4-byte VLAN tag</strong> between Source MAC and the original Length/Type field. A common tag consists of a two-byte tag protocol identifier (<code>0x8100</code> in ordinary C-tagged Ethernet) and a two-byte Tag Control Information field.</p>
-          <p>The Tag Control Information includes priority code points (PCP), a drop-eligible indicator (DEI), and a <strong>12-bit VLAN Identifier</strong>. VLAN ID values 0 and 4095 have special significance; a common usable VLAN ID range is 1–4094, subject to platform capabilities and configuration.</p>
-          <pre><code>Untagged: DST(6) | SRC(6) | TYPE(2) | DATA | FCS(4)
-          Tagged:   DST(6) | SRC(6) | TAG(4) | TYPE(2) | DATA | FCS(4)</code></pre>
-          <p>Under the ordinary 1500-byte payload case, a tagged Ethernet frame can be up to 1522 bytes inclusive of the FCS. Some hardware and protocols support multiple tags, so this single-tag model is not the only possible Ethernet frame format. Cisco's <a href="https://www.cisco.com/c/en/us/support/docs/lan-switching/8021q/17056-741-4.html" rel="noopener noreferrer">802.1Q frame-format guide</a> documents these fields and their sizes.</p>
-          <h2>Payload versus padding: why is 46 bytes important?</h2>
-          <p>For a conventional untagged Ethernet frame, the combined data and padding field must provide at least <strong>46 bytes</strong> so the complete MAC frame reaches the 64-byte minimum:</p>
-          <pre><code>6-byte destination MAC
-          + 6-byte source MAC
-          + 2-byte Length/Type
-          + 46-byte minimum payload/padding
-          + 4-byte FCS
-          = 64 bytes</code></pre>
-          <p>If a higher-layer message requires less space, the transmitter can include padding. The receiver must distinguish real protocol data from padding using the relevant encapsulation. It would be incorrect to treat every padding byte as application payload.</p>
-          <h2>Why did Ethernet need a 64-byte minimum?</h2>
-          <p>Ethernet's classic minimum frame length is historically connected to collision detection on shared, half-duplex CSMA/CD Ethernet, where a transmitting station had to remain active long enough to recognize certain collisions. Modern full-duplex switched Ethernet does not rely on collision detection in the same way, but the standard frame-size conventions remain important.</p>
-          <p>Do not confuse the historical explanation with a claim that modern Ethernet switches regularly experience the same shared-medium collisions as classic hubs.</p>
-          <h2>FCS versus CRC: what is the difference?</h2>
-          <p>The <strong>Frame Check Sequence (FCS)</strong> is a field, typically four bytes at the end of an ordinary Ethernet MAC frame. The <strong>Cyclic Redundancy Check (CRC)</strong> is the error-detection calculation used to generate and check that field.</p>
-          <p>A transmitting Ethernet interface calculates the FCS from the relevant frame bytes. A receiver can compute its own check and compare it with the received result, helping it detect corrupted frames. A frame with an invalid FCS is generally discarded by the receiving Ethernet hardware.</p>
-          <aside data-type="warning"><strong>CRC is not a cryptographic integrity or authentication mechanism.</strong> An attacker capable of modifying a frame can generally recompute an unkeyed CRC. FCS is designed to detect transmission errors, not to authenticate the sender or protect against deliberate tampering. For authenticated network traffic, use suitable security protocols rather than relying on Ethernet CRC-32.</aside>
-          <h2>What happens when a frame fails the CRC check?</h2>
-          <p>Receiving hardware ordinarily rejects the frame. Ethernet itself does not promise to retransmit an invalid frame to restore reliable application delivery. Higher-layer protocols or applications may recover from missing data depending on their design; for example, TCP can retransmit a segment when loss is inferred.</p>
-          <p>A growing count of frame-check errors on a physical port can indicate a problem with cabling, optics, interference, hardware or link configuration. Interpreting those counters requires the device and driver's documentation.</p>
-          <h2>Ethernet MTU is not the same as frame size</h2>
-          <p><strong>MTU</strong> describes the maximum payload size supported at a particular network interface or path layer. For common Ethernet carrying IP, the familiar <strong>1500-byte IP MTU</strong> is the maximum IP packet payload that fits in the ordinary Ethernet data field, excluding the Ethernet header and FCS.</p>
-          <p>That is why 1500 bytes, 1518 bytes, and 1522 bytes can all be correct numbers in different questions: they refer to different units or encapsulation overhead. Always read whether a question asks for the IP MTU, an untagged Ethernet frame, or an Ethernet frame with an IEEE 802.1Q VLAN tag.</p>
-          <h2>Are jumbo Ethernet frames always exactly 9000 bytes?</h2>
-          <p>No. <strong>Jumbo frame</strong> is a common term for Ethernet frames larger than the usual 1500-byte data-field size, but support and maximum accepted sizes vary between hardware, driver and network design. An advertised <code>9000</code> setting might describe an IP MTU rather than the total on-wire frame including headers and FCS.</p>
-          <p>Before enabling jumbo frames, verify the end-to-end configuration and whether every relevant path component supports the intended size. Incorrect assumptions can cause drops or difficult-to-diagnose connectivity problems.</p>
-          <h2>Why is the FCS absent from many Wireshark captures?</h2>
-          <p>Wireshark can display only what the operating system and capture driver provide. Many Ethernet interfaces strip the FCS before passing received data to packet-capture software. As a result, a displayed Ethernet packet may not include the four-byte FCS field even though a physical Ethernet transmission carried it.</p>
-          <p>Wireshark's <a href="https://wiki.wireshark.org/Ethernet" rel="noopener noreferrer">Ethernet capture documentation</a> and <a href="https://www.wireshark.org/faq.html" rel="noopener noreferrer">FAQ about capturing entire frames</a> explain these limitations. Capturing in promiscuous mode by itself does not guarantee that the FCS will be exposed by the hardware or driver.</p>
-          <h2>How to inspect Ethernet fields in Wireshark</h2>
+          <p>These responsibilities vary by technology and Ethernet PHY type. Not every device uses the same coding, negotiation or modulation process.</p>
+          <h2>Bits versus symbols: why the distinction matters</h2>
+          <p>A <strong>bit</strong> is a binary information unit. A <strong>symbol</strong> is one distinct physical signaling state or modulation event used by a communication system. Depending on the encoding, a symbol can represent part of a bit, one bit, multiple bits or a more complex coded relationship.</p>
+          <p>For example, the mapping between bit rate and symbol rate depends on modulation order, coding overhead and the number of signal paths. It is incorrect to claim that every one-gigabit-per-second Ethernet interface sends exactly one billion independent voltage pulses per second.</p>
+          <aside data-type="warning"><strong>Do not mix up bit rate and symbol rate.</strong> Transmission standards can use coding, multi-level signaling and multiple pairs or channels. Bandwidth, signaling rate and actual delivered application throughput are different quantities.</aside>
+          <h2>How copper Ethernet carries data</h2>
+          <p>Twisted-pair Ethernet uses electrical signaling across copper conductors. A PHY is designed for the supported cabling, connectors, frequency response, link distance and signaling scheme. The name of a cabling category alone does not guarantee a particular connection speed or successful link negotiation.</p>
+          <h3>What is a PHY and why is it important?</h3>
+          <p>Within IEEE 802.3 systems, the PHY provides functions between the MAC-related interface and the physical medium. Specific architectures can distinguish <strong>PCS (Physical Coding Sublayer)</strong>, <strong>PMA (Physical Medium Attachment)</strong> and <strong>PMD (Physical Medium Dependent)</strong>. The exact subdivision depends on the PHY specification.</p>
+          <p>For example, 1000BASE-X PHYs can use 8B/10B coding; other Ethernet families use other schemes. You should not assume that one coding method applies to all Ethernet speeds. The <a href="https://standards.ieee.org/ieee/802.3/10422/" rel="noopener noreferrer">IEEE 802.3 Ethernet standard</a> describes selected Ethernet PHYs for copper, fiber, backplanes and related environments.</p>
+          <h2>What happens on a fiber-optic Ethernet link?</h2>
+          <p>Fiber-optic networking carries information using modulated optical signals. A transmitter converts the outgoing data into light according to its optical interface, and a receiver processes the incoming light to recover the encoded information. The supported wavelength, fiber type, optical budget, connector and transceiver design all affect compatibility.</p>
+          <p>Light does not mean that every optical link automatically supports the same distance or rate. Single-mode and multimode fiber deployments have different practical uses, and compatibility requires checking the actual Ethernet standard and vendor specifications.</p>
+          <p>For the media details, read our <a href="https://www.cyberoplus.com/2026/03/fiber-optic-cable-networking-guide.html">fiber-optic cable and transceiver guide</a>.</p>
+          <h2>How Wi-Fi uses the Physical layer</h2>
+          <p>Wi-Fi is based on IEEE 802.11 and transmits through radio waves instead of a conventional copper Ethernet PHY. The Wi-Fi PHY specifies aspects of radio signaling, channels, coding and modulation. Depending on the 802.11 generation and configuration, technologies can include OFDM or OFDMA, multiple spatial streams and other features.</p>
+          <p>The <strong>Wi-Fi MAC layer</strong> separately defines how devices contend for or coordinate use of the shared wireless medium. Do not treat Wi-Fi channel selection, association, encryption and routing as identical PHY operations. PHY and MAC cooperate but have different responsibilities.</p>
+          <h2>From an Ethernet frame to an on-wire signal</h2>
           <ol data-steps>
-          <li>Capture traffic on your own computer or open an authorized practice file.</li>
-          <li>Choose an Ethernet packet and expand <strong>Ethernet II</strong> or the appropriate Ethernet dissector entry.</li>
-          <li>Find <strong>Destination</strong>, <strong>Source</strong>, and <strong>Type</strong> (or Length when relevant).</li>
-          <li>For tagged traffic, expand <strong>802.1Q Virtual LAN</strong> to inspect VLAN information.</li>
-          <li>Examine payload interpretation and whether an FCS field was made available by the capture path.</li>
+          <li>An application supplies data through the host networking stack.</li>
+          <li>Network and transport protocols prepare their packet or segment data as appropriate.</li>
+          <li>Ethernet's link-layer logic forms a frame containing local MAC addressing and other necessary fields.</li>
+          <li>The selected Ethernet PHY handles the required physical encoding, signaling and transmission for its configured link.</li>
+          <li>The receiver's PHY reconstructs the transmitted data stream and passes it to the link-layer logic.</li>
+          <li>Higher layers interpret the frame's payload according to the encapsulated protocol.</li>
           </ol>
-          <p>Useful display filters include:</p>
-          <pre><code>eth
-          eth.type == 0x0800
-          eth.type == 0x86dd
-          eth.dst == ff:ff:ff:ff:ff:ff
-          vlan</code></pre>
-          <p>The syntax can be checked against Wireshark's <a href="https://www.wireshark.org/docs/dfref/e/eth.html" rel="noopener noreferrer">official Ethernet filter reference</a>. Seeing an IP packet in Wireshark does not necessarily mean every physical-layer or MAC-level field was captured.</p>
-          <h2>Common mistakes in Ethernet frame questions</h2>
+          <p>This is a functional sketch. Hardware offloading, buffering, frame checks, internal interfaces and exact implementation details vary across devices. The <a href="https://www.cyberoplus.com/2026/04/ethernet-protocol-how-it-works.html">Ethernet technology overview</a> explains the whole local-link process at a wider level.</p>
+          <h2>Physical layer versus Data Link layer</h2>
+          <table><thead><tr><th>Question</th><th>Layer 1: Physical</th><th>Layer 2: Data Link</th></tr></thead><tbody>
+          <tr><td>What is transmitted?</td><td>Physical signals encoding a data stream</td><td>Frames using link-layer structure</td></tr>
+          <tr><td>What is addressed?</td><td>Physical interface and medium characteristics</td><td>Local link-layer addresses such as Ethernet MAC</td></tr>
+          <tr><td>Typical concepts</td><td>Connectors, PHY, synchronization, signaling, modulation</td><td>Ethernet frame, MAC address, FCS, bridge forwarding</td></tr>
+          <tr><td>Common initial symptom</td><td>Link not established or signal errors</td><td>Unexpected VLAN, MAC learning or frame forwarding behavior</td></tr>
+          </tbody></table>
+          <p>The comparison is conceptual, not an assertion that every product's internal hardware cleanly splits at a single physical boundary. A NIC commonly implements several related functions in one device.</p>
+          <h2>Does the Physical layer transmit 'bits'?</h2>
+          <p>Networking textbooks often call the Layer 1 protocol data unit <strong>bits</strong>. That is a useful abstraction, but a modern physical channel may use coded symbols, multilevel modulation, serialization and parallel lanes to transmit information. The concept of bits describes the recovered digital information, not a claim that each bit is a distinct voltage pulse on the medium.</p>
+          <h2>Which networking devices work at Layer 1?</h2>
+          <p>Physical-layer responsibilities appear in transceivers, PHY chips, media converters, repeaters, cables, connectors and optical modules. A classic Ethernet repeater or hub can operate without examining the destination IP address. Switches, routers and wireless access points also contain Layer 1 interfaces even though their overall functions are broader.</p>
+          <p>In practical device identification, distinguish a <strong>component's Physical-layer function</strong> from the entire product. Our <a href="https://www.cyberoplus.com/2026/03/network-devices-hub-switch-router-firewall.html">hub, switch, router, AP and firewall comparison</a> explains why a modern appliance may implement several layers.</p>
+          <h2>What Layer 1 does not do</h2>
           <ul>
-          <li><strong>Counting the preamble in the 64-byte frame:</strong> the standard MAC frame size normally begins at destination MAC.</li>
-          <li><strong>Counting Ethernet and IP headers together as the IP MTU:</strong> the 1500-byte IP MTU excludes Ethernet overhead.</li>
-          <li><strong>Assuming every Ethernet payload is IPv4:</strong> IPv6, ARP and other EtherTypes exist.</li>
-          <li><strong>Treating FCS as encryption:</strong> CRC is an error detector, not message authentication.</li>
-          <li><strong>Claiming all tagged frames are exactly 1522 bytes:</strong> 1522 is a common maximum for the ordinary single-tag 1500-byte-payload case.</li>
-          <li><strong>Expecting every Wireshark capture to contain the FCS:</strong> driver and NIC behavior determine whether it is available.</li>
-          <li><strong>Assuming jumbo means exactly 9000 bytes:</strong> device settings and vendor definitions can differ.</li>
+          <li>It does <strong>not</strong> choose IP routes across networks.</li>
+          <li>It does <strong>not</strong> perform DNS lookups.</li>
+          <li>It does <strong>not</strong> interpret HTTP pages or application messages.</li>
+          <li>It does <strong>not</strong> normally make Ethernet MAC learning decisions for bridge forwarding.</li>
+          <li>It does <strong>not</strong> guarantee that a physical link being up means that IP or an application will work.</li>
           </ul>
-          <h2>Related lessons and authoritative references</h2>
-          <p>Continue with our <a href="https://www.cyberoplus.com/2026/03/llc-mac-sublayers-data-link-layer.html">LLC and MAC sublayers explanation</a> to understand the Data Link layer's responsibilities, or study the <a href="https://www.cyberoplus.com/2026/04/ethernet-protocol-how-it-works.html">Ethernet protocol and real LAN behavior</a> for the broader technology.</p>
+          <h2>Physical layer errors and what they can mean</h2>
+          <h3>The Ethernet port shows no link</h3>
+          <p>Check the cable seating, connector, transceiver, device power, switch port state and correct interface. A link indicator that remains off can reflect a broken cable, incompatible transceiver, disabled port or other physical negotiation issue.</p>
+          <h3>Link comes up but the speed is lower than expected</h3>
+          <p>Inspect the negotiated speed, cabling category and quality, both connected interfaces' capabilities, and any documented PHY or transceiver restrictions. A label on the cable does not prove that every link segment supports the desired mode.</p>
+          <h3>Increasing CRC, FCS or symbol errors</h3>
+          <p>Error counters can be clues to cabling, signal quality, optical power, connectors, interference or hardware faults, depending on the technology. However, FCS error detection belongs to the link-level frame check, even when underlying physical problems are the root cause. Inspect the counter definitions in the device manual before drawing conclusions.</p>
+          <h3>Wi-Fi connection has poor signal</h3>
+          <p>Check distance, obstructions, channel conditions, interference, antenna placement and client capabilities. Good signal strength alone does not prove that the Internet application or DNS works correctly.</p>
+          <h2>A practical Layer 1 troubleshooting workflow</h2>
+          <ol data-steps>
+          <li>Determine whether the problem affects wired Ethernet, fiber or Wi-Fi.</li>
+          <li>Check interface status and whether the physical link is established.</li>
+          <li>Confirm that devices and transceivers are powered and enabled.</li>
+          <li>Inspect cables, ports, connectors, optics or radio conditions as appropriate.</li>
+          <li>Check supported link speed and negotiation settings on both ends.</li>
+          <li>Look for physical error counters, optical alarms or excessive retransmission symptoms as supported by the device.</li>
+          <li>Only after physical connectivity is established, investigate the link, IP addressing, routing, DNS and application behavior.</li>
+          </ol>
+          <aside data-type="info"><strong>Diagnostic limitation:</strong> a 'link up' indication tells you that a physical connection is established according to the device; it does not prove that VLAN assignment, DHCP, routing or the desired application is functioning.</aside>
+          <h2>Why understanding Layer 1 helps with networking</h2>
+          <p>The Physical layer is the foundation on which higher layers depend. You may configure the correct IP addresses and routing tables, but a broken physical path still prevents ordinary communication. At the same time, functioning physical links alone cannot guarantee that a network service is reachable. Separating those questions lets you troubleshoot more efficiently.</p>
+          <p>Test your understanding with the <a href="https://www.cyberoplus.com/2026/03/network-exercises-solved-interactive.html">solved networking exercises</a>, especially the problems that distinguish physical link loss from DNS and routing faults.</p>
+          <h2>Sources and further reading</h2>
           <ul>
-          <li><a href="https://wiki.wireshark.org/Ethernet" rel="noopener noreferrer">Wireshark: Ethernet packet structure, minimum size and FCS visibility</a></li>
-          <li><a href="https://www.wireshark.org/faq.html" rel="noopener noreferrer">Wireshark: capture-driver limitations and FCS</a></li>
-          <li><a href="https://www.iana.org/assignments/ieee-802-numbers/ieee-802-numbers.xhtml" rel="noopener noreferrer">IANA: IEEE 802 EtherType registry</a></li>
-          <li><a href="https://www.cisco.com/c/en/us/support/docs/lan-switching/8021q/17056-741-4.html" rel="noopener noreferrer">Cisco: IEEE 802.1Q header fields and frame sizes</a></li>
-          <li><a href="https://www.ieee802.org/3/efm/public/jul01/presentations/mizrahi_1_0701.pdf" rel="noopener noreferrer">IEEE 802.3 project material: Ethernet frame layout</a></li>
+          <li><a href="https://standards.ieee.org/ieee/802.3/10422/" rel="noopener noreferrer">IEEE: Ethernet standard and Physical-layer overview</a></li>
+          <li><a href="https://technav.ieee.org/topic/physical-layer/" rel="noopener noreferrer">IEEE Technology Navigator: Physical layer</a></li>
+          <li><a href="https://docs.amd.com/r/7.2-English/pg138-axi-ethernet/PCS/PMA" rel="noopener noreferrer">AMD: 1000BASE-X PCS and PMA implementation details</a></li>
+          <li><a href="https://www.wireshark.org/faq.html" rel="noopener noreferrer">Wireshark: packet capture and visibility limitations</a></li>
+          <li><a href="https://www.iso.org/standard/20269.html" rel="noopener noreferrer">ISO/IEC 7498-1: OSI basic reference model</a></li>
           </ul>'''
           article=article.replace("{{IMAGE}}",str(fragment))
           parsed=BeautifulSoup(article,"html.parser")
-          check(len(article)>12500 and len(parsed.find_all("h2"))>=16,"Incomplete frame guide")
-          check(len(parsed.find_all("img"))==1 and parsed.find("img").get("src")==orig.get("src"),"Original image lost")
-          check(not re.search(r"[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff]",article),"Untranslated Arabic body text")
-          check(all(k in article for k in ("64 bytes","1518 bytes","1522 bytes","FCS","Wireshark","0x0800","IEEE 802.1Q")),"Critical frame fields absent")
-          check(len([a for a in parsed.find_all("a") if "cyberoplus.com" in a.get("href","")])>=4,"Internal links missing")
+          check(len(article)>12000 and len(parsed.find_all("h2"))>=15,"Incomplete physical layer guide")
+          check(len(parsed.find_all("img"))==1 and parsed.find("img").get("src")==img.get("src"),"Original image lost")
+          check(not re.search(r"[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]",article),"Arabic body remains")
+          check(all(k in article for k in ("PHY","PCS","PMA","PMD","Wi-Fi","Fiber","802.3","Layer 1")),"Critical concepts missing")
+          check(sum("cyberoplus.com" in a.get("href","") for a in parsed.find_all("a"))>=4,"Internal article links absent")
           print("PRECHECK_PASSED")
-          r=session.patch(endpoint,json={"title":NEW_TITLE,"content":article,"labels":["technology"]},timeout=70)
-          r.raise_for_status()
-          after=readpost()
-          check(str(after.get("id"))==PID and after.get("url")==URL and after.get("published")==PUBLISHED and after.get("title")==NEW_TITLE and after.get("labels")==["technology"],"CRITICAL: post identity mismatch")
-          check(hashtext(after.get("content",""))==hashtext(article),"CRITICAL: HTML mismatch after publishing")
-          print("PUBLISHED_AND_VERIFIED: "+URL)
+          r=session.patch(endpoint,json={"title":TITLE,"content":article,"labels":["technology"]},timeout=70);r.raise_for_status()
+          after=getpost()
+          check(str(after.get("id"))==PID and after.get("url")==ORIGINAL_URL and after.get("published")==PUBLISHED and after.get("title")==TITLE and after.get("labels")==["technology"],"CRITICAL: Article metadata mismatch")
+          check(sha(after.get("content",""))==sha(article),"CRITICAL: Published body mismatch")
+          print("PUBLISHED_AND_VERIFIED: "+ORIGINAL_URL)
           print("ORIGINAL_DATE_PRESERVED: "+PUBLISHED)
           
           PY
