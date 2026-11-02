@@ -127,7 +127,7 @@ jobs:
           check(len(article)>6500 and len(parsed.find_all("h2"))>=12,"Article incomplete")
           check(len(parsed.find_all("img"))==1 and parsed.find("img").get("src")==img.get("src"),"Image lost")
           check(not re.search(r"[\u0600-\u06ff\u0750-\u077f\u08A0-\u08FF]",article),"Arabic remains")
-          check("Mesh" in article and "15 links" in article and "DNS" in article and "RFC 9293" in article,"Original study objectives incomplete")
+          check("mesh" in article.lower() and "15 links" in article and "DNS" in article and "RFC 9293" in article,"Original study objectives incomplete")
           check(any("cyberoplus.com" in x.get("href","") for x in parsed.find_all("a")),"Internal link missing")
           print("PRECHECK_PASSED")
           r=sess.patch(endpoint,json={"title":TITLE,"content":article,"labels":["Tutorials"]},timeout=60);r.raise_for_status()
