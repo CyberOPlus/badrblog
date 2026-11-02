@@ -1,0 +1,19 @@
+name: Cancel unreviewed automatic translation
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/cancel-unreviewed-translation.yml"
+  workflow_dispatch:
+permissions:
+  actions: write
+  contents: read
+jobs:
+  stop-unreviewed-translation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel previous unreviewed automatic translation run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --method POST /repos/CyberOPlus/badrblog/actions/runs/41498226178/cancel
