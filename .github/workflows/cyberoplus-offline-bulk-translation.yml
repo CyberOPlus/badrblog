@@ -1,0 +1,59 @@
+name: CyberoPlus - Bulk Offline Arabic to English Translation (Blogger)
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/cyberoplus-offline-bulk-translation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: cyberoplus-bulk-translation-2026-11-02
+  cancel-in-progress: false
+
+jobs:
+  translate-and-publish:
+    name: Translate and verify shard ${{ matrix.shard }} of 24
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install local/offline neural translation engine and Blogger client
+        run: |
+          python -m pip install --disable-pip-version-check "argostranslate>=1.10,<2" "google-auth>=2.20,<3" "requests>=2.31,<3" "beautifulsoup4>=4.12,<5"
+          python -m py_compile migration/bulk_translate_offline.py
+      - name: Read original verified 259-post / 6-page Blogger export
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          curl --fail --show-error --silent --location --retry 4 --retry-delay 4 \
+            --header "Authorization: Bearer ${GH_TOKEN}" \
+            --header "Accept: application/vnd.github+json" \
+            --output /tmp/cyberoplus-live-export.zip \
+            "https://api.github.com/repos/CyberOPlus/badrblog/actions/artifacts/13157461008/zip"
+          unzip -t /tmp/cyberoplus-live-export.zip >/dev/null
+          echo "Verified existing input export present; no new backup or progress artifact created"
+      - name: Translate live-unchanged source posts and pages; preserve HTML, media, code, dates and URLs
+        env:
+          SHARD_ID: ${{ matrix.shard }}
+          SHARD_COUNT: "24"
+          BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
+          BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
+          BLOGGER_CLIENT_SECRET_JSON: ${{ secrets.BLOGGER_CLIENT_SECRET_JSON }}
+          ARGOS_DEVICE_TYPE: cpu
+          ARGOS_COMPUTE_TYPE: int8
+          ARGOS_INTER_THREADS: "1"
+          ARGOS_INTRA_THREADS: "2"
+          PYTHONUNBUFFERED: "1"
+        run: python migration/bulk_translate_offline.py
