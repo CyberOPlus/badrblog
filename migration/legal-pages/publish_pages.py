@@ -18,8 +18,8 @@ BASE = "https://www.googleapis.com/blogger/v3/blogs/" + BLOG_ID
 PAGE_DATA = [
     ("7048792332168336031", "Privacy Policy", "سياسة الخصوصية", "https://www.cyberoplus.com/p/privacy-policy.html", "2025-03-14T02:42:00Z", "18b00b9585955b044f4e3eb770c5398bd3adf584a3c1988b2b98d04eae828bd3"),
     ("5240089414009174572", "Cookie Policy", "سياسة الكوكيز", "https://www.cyberoplus.com/p/cookie.html", "2025-04-01T14:23:00Z", "582803428ea237082a8aa85d5d35e93db624ee9e633c013f302508fb23f5c75a"),
-    ("6820969043412617138", "Terms of Use", "شروط الاستخدام", "https://www.cyberoplus.com/p/terms-of-use.html", "2025-03-14T02:46:00Z", "c7317c9592c1c15b59610f478e37df98a65660435b916c97ffb932b27627b000"),
-    ("7151465361445641614", "Disclaimer", "إخلاء المسؤولية", "https://www.cyberoplus.com/p/disclaimer.html", "2025-03-14T02:43:00Z", "004fd198b5628e1e1409d0aec80a4ede4be7ef4364ed63adfd2b3f16130fc1d8"),
+    ("6820969043412617138", "Terms of Use", "شروط الاستخدام", "https://www.cyberoplus.com/p/terms-of-use.html", "2025-03-14T02:16:00Z", "c7317c9592c1c15b59610f478e37df98a65660435b916c97ffb932b27627b000"),
+    ("7151465361445641614", "Disclaimer", "إخلاء المسؤولية", "https://www.cyberoplus.com/p/disclaimer.html", "2025-03-14T02:22:00Z", "004fd198b5628e1e1409d0aec80a4ede4be7ef4364ed63adfd2b3f16130fc1d8"),
     ("5071168766015911433", "About Us", "من نحن ", "https://www.cyberoplus.com/p/about-us.html", "2025-03-14T02:15:00Z", "e2409a943aa10e4d3e42af3707251e9b6603cdb99db11d119b419872cfc48c98"),
     ("2878009689065204652", "Contact Us", "اتصل بنا ", "https://www.cyberoplus.com/p/contact-us.html", "2025-03-14T02:14:00Z", "9b8bf884818fa554b05137103bb43974c1c5e760eb4c28ab2a7342281f363cf0"),
 ]
