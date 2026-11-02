@@ -5,213 +5,167 @@ on:
     paths:
       - ".github/workflows/blogger-editorial-update.yml"
   workflow_dispatch:
-
 permissions:
   contents: read
-
 concurrency:
   group: cyberoplus-editorial-one-post
   cancel-in-progress: false
-
 jobs:
   apply-verified-content:
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
-      - name: Install authenticated Blogger client and HTML parser
+      - name: Install authentication and HTML parsing dependencies
         run: python -m pip install --disable-pip-version-check "google-auth>=2.20,<3" "requests>=2.31,<3" "beautifulsoup4>=4.12,<5"
-      - name: Verify original, translate in place, publish and re-read
+      - name: Update exactly one checked Blogger post
         env:
           BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
           BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
           BLOGGER_CLIENT_SECRET_JSON: ${{ secrets.BLOGGER_CLIENT_SECRET_JSON }}
         run: |
           python - <<'PY'
-          import os, json, hashlib, re
+          import os,json,re,hashlib
           from urllib.parse import urlsplit
           from bs4 import BeautifulSoup
-          from google.oauth2.credentials import Credentials
           from google.auth.transport.requests import AuthorizedSession
-          
-          BLOG_ID="2750143140558868280"
-          POST_ID="7718135904608222564"
-          ORIGINAL_SHA="96aef299f83e169f4d218528eb07ff8d1aafcaa384276de5a977ca1a288696a3"
-          ORIGINAL_URL="https://www.cyberoplus.com/2026/10/install-linux-ubuntu-virtualbox.html"
-          ORIGINAL_PUBLISHED="2026-10-06T11:00:03Z"
-          NEW_TITLE="How to Install Ubuntu on VirtualBox (Windows 11/10): Step-by-Step Guide"
-          NEW_LABELS=["Tutorials"]
-          BASE="https://www.googleapis.com/blogger/v3"
-          
-          def digest(s): return hashlib.sha256(s.encode("utf-8")).hexdigest()
-          def fail(message): raise RuntimeError(message)
-          
-          token=json.loads(os.environ["BLOGGER_TOKEN_JSON"])
+          from google.oauth2.credentials import Credentials
+          BID="2750143140558868280"
+          PID="2964102046594465473"
+          ORIGINAL_TITLE="تثبيت Lubuntu على VirtualBox في Windows 11 و10 خطوة بخطوة"
+          ORIGINAL_URL="https://www.cyberoplus.com/2026/09/install-lubuntu-virtualbox-windows.html"
+          PUBLISHED="2026-09-17T15:50:41+01:00"
+          SOURCE_SHA="30c7eb7caae22b28d83b77d34e8e1a8dbb25fff85872458a7ffb65cf08746216"
+          TITLE="How to Install Lubuntu 26.04 LTS in VirtualBox on Windows 11/10"
+          def digest(s):return hashlib.sha256(s.encode("utf-8")).hexdigest()
+          def check(c,msg):
+              if not c:raise RuntimeError(msg)
+          info=json.loads(os.environ["BLOGGER_TOKEN_JSON"])
           client=json.loads(os.environ["BLOGGER_CLIENT_SECRET_JSON"])
-          config=client.get("installed") or client.get("web") or {}
+          conf=client.get("installed") or client.get("web") or {}
           for k in ("client_id","client_secret","token_uri"):
-              if not token.get(k) and config.get(k): token[k]=config[k]
-          session=AuthorizedSession(Credentials.from_authorized_user_info(token))
-          if os.environ.get("BLOGGER_BLOG_ID")!=BLOG_ID: fail("Blog ID secret mismatch")
-          blog=session.get(BASE+"/blogs/"+BLOG_ID,timeout=45)
-          blog.raise_for_status()
-          if urlsplit(blog.json().get("url","")).hostname not in ("cyberoplus.com","www.cyberoplus.com"): fail("Wrong destination blog")
-          path=BASE+"/blogs/"+BLOG_ID+"/posts/"+POST_ID
-          response=session.get(path,params={"view":"ADMIN","fetchBody":"true"},timeout=45)
-          response.raise_for_status()
-          old=response.json()
-          if (str(old.get("id"))!=POST_ID or old.get("url")!=ORIGINAL_URL
-              or old.get("published")!=ORIGINAL_PUBLISHED or old.get("title")!="كيفية تثبيت Linux على VirtualBox وتشغيل Ubuntu على Windows خطوة بخطوة"
-              or old.get("labels")!=["apps","guides"] or digest(old.get("content",""))!=ORIGINAL_SHA):
-              fail("Source article changed since the verified original: no write made")
-          
-          soup=BeautifulSoup(old["content"],"html.parser")
-          imgs=soup.find_all("img")
-          if len(imgs)!=4: fail("Expected four original images")
-          image_html=[]
-          alt_text=[
-          "Oracle VirtualBox and Ubuntu setup on Windows",
-          "VirtualBox storage settings when a virtual machine cannot find bootable media",
-          "Ubuntu desktop displayed in a small VirtualBox window",
-          "Ubuntu virtual machine showing a black screen during startup"
-          ]
-          for im,alt in zip(imgs,alt_text):
-              box=im.find_parent("div",class_="separator") or im.find_parent("figure")
-              if box is None: fail("Original image wrapper missing")
-              while box.parent and getattr(box.parent,"name",None)=="div" and "separator" in (box.parent.get("class") or []):
-                  box=box.parent
-              block=BeautifulSoup(str(box),"html.parser")
-              block.find("img")["alt"]=alt
-              if block.find("img").has_attr("title"): block.find("img")["title"]=alt
-              caption=block.find("figcaption")
-              if caption: caption.string=alt+". Screenshot from the original tutorial."
-              image_html.append(str(block))
-          if len(set([i.get("src") for i in imgs]))!=4: fail("Repeated original image source")
-          
-          article = r'''<p>Want to run <strong>Ubuntu Linux on Windows 11 or Windows 10</strong> without replacing Windows or repartitioning your drive? You can create a virtual machine with <strong>Oracle VirtualBox</strong>. This guide explains the installation, reasonable hardware settings, and how to troubleshoot common problems after the first boot.</p>
-          {{IMG1}}
-          <p>We focus on Ubuntu Desktop 26.04.1 LTS and the official VirtualBox 7.2 series. The latest VirtualBox release verified on <strong>November 2, 2026</strong> is 7.2.22. Menu names may differ slightly between releases. The installation steps below are based on official Ubuntu and Oracle documentation; they are not claims from an independently tested computer.</p>
-          
-          <h2>What are we installing?</h2>
-          <p><strong>Windows is the host</strong>: it continues running on your physical computer. <strong>Ubuntu is the guest</strong>: it runs inside a virtual computer created by VirtualBox. VirtualBox itself is neither Ubuntu nor a Linux distribution. A virtual disk is stored as a file on Windows, so you do not need to resize the partitions on your physical SSD to follow this tutorial.</p>
-          <p>A virtual machine is useful for learning Linux commands, programming, experimenting with software, and practicing in a separate environment. However, it still uses the host computer's RAM, processor and disk space.</p>
-          
-          <h2>Requirements before you start</h2>
-          <p>Canonical lists a 2 GHz dual-core processor, <strong>6 GB of system memory</strong> and <strong>25 GB of free storage</strong> for a comfortable Ubuntu Desktop 26.04 LTS experience. Because the Windows host must run at the same time, your physical computer needs additional resources beyond those assigned to the guest.</p>
-          <aside data-type="info"><strong>Only 8 GB of physical RAM?</strong> Ubuntu Desktop may leave too little memory for Windows. A lighter desktop distribution is often a better learning environment. See our <a href="https://www.cyberoplus.com/2026/09/install-lubuntu-virtualbox-windows.html">Lubuntu installation guide for VirtualBox</a>.</aside>
-          <p>Download the <strong>AMD64 desktop ISO</strong> for a typical 64-bit Intel or AMD Windows PC. The name AMD64 describes the common 64-bit x86 architecture; it does not mean the image is restricted to AMD processors. Use official download pages rather than unknown mirrors.</p>
-          
-          <h2>Check whether virtualization is enabled in Windows</h2>
-          <ol data-steps=""><li>Open <strong>Task Manager</strong>.</li><li>Choose <strong>Performance</strong>, then <strong>CPU</strong>.</li><li>Check the <strong>Virtualization</strong> entry.</li><li>If it shows <strong>Disabled</strong>, consult your computer manufacturer's instructions before changing the BIOS or UEFI setting.</li></ol>
-          <p>Depending on the firmware, the setting might be called <code>Intel VT-x</code>, <code>Intel Virtualization Technology</code>, <code>AMD-V</code> or <code>SVM Mode</code>. Do not change unrelated firmware settings.</p>
-          
-          <h2>Install Oracle VirtualBox on Windows</h2>
-          <ol data-steps=""><li>Open the <a href="https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html">official Oracle VirtualBox download page</a>.</li><li>Download the installer listed for <strong>Windows</strong>.</li><li>Run the installer and follow its prompts. Windows may ask permission to install VirtualBox network drivers.</li><li>Finish the setup and open VirtualBox.</li></ol>
-          <p>VirtualBox may temporarily interrupt network connectivity while installing its networking components. Keep your work saved before installation. You do not need the optional Extension Pack just to create a basic Ubuntu virtual machine.</p>
-          
-          <h2>Create an Ubuntu virtual machine</h2>
-          <ol data-steps=""><li>In VirtualBox, choose <strong>New</strong>.</li><li>Give the machine a descriptive name such as <code>Ubuntu Desktop</code>.</li><li>Select the Ubuntu Desktop ISO you downloaded from Canonical.</li><li>Review the guest type and architecture. Use a 64-bit Linux/Ubuntu configuration for the AMD64 image.</li><li>Choose the RAM, CPU and virtual disk settings explained below before starting the machine.</li></ol>
-          <p>Recent VirtualBox releases can offer <strong>unattended installation</strong>, which creates an account and performs much of the installation automatically. If you prefer to follow Ubuntu's installer screens yourself, disable or skip unattended installation when creating the VM. The exact wizard screens depend on your VirtualBox version.</p>
-          
-          <h2>How much RAM should you assign to Ubuntu?</h2>
-          <p>Do not allocate nearly all physical memory to the virtual machine. These are starting points, not fixed performance guarantees:</p>
-          <table><thead><tr><th>Physical RAM</th><th>Practical starting point</th></tr></thead><tbody>
-          <tr><td>8 GB</td><td>Consider Lubuntu or another lighter guest; Ubuntu Desktop may put excessive pressure on the Windows host.</td></tr>
-          <tr><td>16 GB</td><td>Try about 6 GB for the Ubuntu guest and keep enough memory for Windows.</td></tr>
-          <tr><td>32 GB or more</td><td>Start with a moderate allocation and increase it only when your workload requires more.</td></tr>
+              if not info.get(k) and conf.get(k):info[k]=conf[k]
+          session=AuthorizedSession(Credentials.from_authorized_user_info(info))
+          BASE="https://www.googleapis.com/blogger/v3"
+          check(os.environ.get("BLOGGER_BLOG_ID")==BID,"Unexpected blog credential target")
+          r=session.get(BASE+"/blogs/"+BID,timeout=30);r.raise_for_status();blog=r.json()
+          check(str(blog.get("id"))==BID and (urlsplit(blog.get("url","")).hostname or "").lower() in ("cyberoplus.com","www.cyberoplus.com"),"Wrong blog domain")
+          endpoint=BASE+"/blogs/"+BID+"/posts/"+PID
+          def getpost():
+              response=session.get(endpoint,params={"view":"ADMIN","fetchBody":"true"},timeout=45);response.raise_for_status();return response.json()
+          source=getpost()
+          check(str(source.get("id"))==PID and source.get("url")==ORIGINAL_URL and source.get("title")==ORIGINAL_TITLE and source.get("published")==PUBLISHED and source.get("labels")==["guides"] and digest(source.get("content",""))==SOURCE_SHA,"Source changed: do not modify")
+          soup=BeautifulSoup(source["content"],"html.parser")
+          images=soup.find_all("img");check(len(images)==1,"Original media count changed")
+          original_image=images[0];wrapper=original_image.find_parent("div",class_="separator") or original_image.find_parent("figure")
+          check(wrapper is not None,"Cannot preserve image wrapper")
+          while wrapper.parent and getattr(wrapper.parent,"name",None)=="div" and "separator" in (wrapper.parent.get("class") or []):wrapper=wrapper.parent
+          node=BeautifulSoup(str(wrapper),"html.parser")
+          node.find("img")["alt"]="Lubuntu on VirtualBox for Windows 11 and 10"
+          if node.find("img").has_attr("title"):node.find("img")["title"]=node.find("img")["alt"]
+          for c in node.find_all("figcaption"):c.string="Original screenshot from the Lubuntu tutorial"
+          article=r'''<p>Install <strong>Lubuntu 26.04.1 LTS on VirtualBox in Windows 11 or Windows 10</strong> by downloading the official Lubuntu ISO and VirtualBox, creating a virtual machine, allocating RAM and storage, and installing Lubuntu on the virtual disk. This guide is aimed at Linux students who want a lightweight desktop without replacing Windows or changing physical disk partitions.</p>
+          {{IMG}}
+          <p>These steps cover <strong>Lubuntu 26.04.1 LTS</strong> and the VirtualBox 7.2 series. <strong>VirtualBox 7.2.22</strong> is the latest version listed by Oracle on November 2, 2026. Menus can differ slightly between VirtualBox releases. The guidance follows official documentation and is not a claim that every host configuration was independently tested.</p>
+          <h2>Why install Lubuntu instead of standard Ubuntu?</h2>
+          <p>Lubuntu is an official Ubuntu flavor with the <strong>LXQt desktop</strong>. Its desktop is generally lighter than Ubuntu's default GNOME interface, making it an option when you want to practice Terminal commands, file permissions and operating-system exercises while Windows keeps running.</p>
+          <p>For a more detailed explanation of the standard Ubuntu Desktop installation, follow our <a href="https://www.cyberoplus.com/2026/10/install-linux-ubuntu-virtualbox.html">Ubuntu on VirtualBox tutorial</a>. That guide covers the full Ubuntu GNOME experience; this guide focuses on Lubuntu and resource-conscious virtual-machine setup.</p>
+          <aside data-type="info"><strong>Understand host and guest.</strong> Windows stays the host. VirtualBox creates a virtual computer, and Lubuntu is its guest operating system. VirtualBox stores the guest's virtual disk in a file on Windows. Following this VM method does not require repartitioning your physical SSD.</aside>
+          <h2>Step 1: Download VirtualBox and the Lubuntu ISO</h2>
+          <ol data-steps>
+          <li>Open <a href="https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html" rel="noopener noreferrer">Oracle's official VirtualBox downloads page</a> and choose the Windows installer. Version 7.2.22 is provided as <code>VirtualBox-7.2.22-175245-Win.exe</code>.</li>
+          <li>Open <a href="https://lubuntu.me/downloads/" rel="noopener noreferrer">Lubuntu's official download page</a> and select the <strong>26.04.1 LTS Desktop 64-bit</strong> image, named <code>lubuntu-26.04.1-desktop-amd64.iso</code>.</li>
+          <li>Compare the ISO against the SHA256 checksum published by the official download source, particularly when using a mirror or torrent.</li>
+          </ol>
+          <p><code>AMD64</code> means the common 64-bit x86 architecture used on Intel and AMD PCs; it is not an AMD-only download. You do not need VirtualBox Extension Pack for the basic installation.</p>
+          <h2>Step 2: Choose reasonable virtual-machine resources</h2>
+          <p>These are <strong>starting suggestions for a study VM</strong>, not formal Lubuntu minimum requirements or guaranteed performance figures. Your physical Windows PC still needs enough resources for its own tasks.</p>
+          <table><thead><tr><th>Resource</th><th>Starting value</th><th>Reason</th></tr></thead><tbody>
+          <tr><td>Guest memory</td><td>2,048 MB</td><td>Conservative starting allocation; raise it if Windows has sufficient spare RAM</td></tr>
+          <tr><td>Processors</td><td>2</td><td>Leaves capacity for the host on a typical multi-core processor</td></tr>
+          <tr><td>Virtual disk</td><td>30 GB, dynamically allocated</td><td>Allows space for updates, tools and course files</td></tr>
+          <tr><td>Graphics controller</td><td>VMSVGA</td><td>Default VirtualBox graphics type for Linux guests</td></tr>
+          <tr><td>Networking</td><td>NAT</td><td>Ordinary internet access through the Windows host</td></tr>
           </tbody></table>
-          <p>Giving Ubuntu more memory will not automatically make it faster if Windows starts swapping to disk because too little RAM remains available.</p>
-          
-          <h2>How many CPU cores should you assign?</h2>
-          <p>For basic Terminal exercises and normal desktop use, <strong>two virtual CPUs</strong> are a reasonable starting point on a host with sufficient processing capacity. You can increase the setting later for heavier workloads, but do not allocate all your host's available logical processors to the VM.</p>
-          
-          <h2>How large should the virtual disk be?</h2>
-          <p>Ubuntu Desktop lists 25 GB of free storage as a minimum comfort target. For a VM used for education, allocating <strong>30–40 GB</strong> of virtual disk capacity provides more room for updates and practice files. You must still have sufficient free space on the physical Windows drive.</p>
-          <p>A <strong>dynamically allocated</strong> virtual disk grows as guest data is written, up to the capacity you configure. It is not an unlimited disk, and the host's available space still matters.</p>
-          
-          <h2>Boot the ISO and install Ubuntu</h2>
-          <ol data-steps=""><li>Verify that the downloaded Ubuntu ISO is attached to the VM's virtual optical drive.</li><li>Choose <strong>Start</strong>.</li><li>If you are using the interactive Ubuntu installer, select your language, keyboard layout and installation options.</li><li>Create your user account and password, then finish installing Ubuntu <strong>onto the virtual disk</strong>.</li><li>Restart the guest when the installer finishes. Remove or detach the installation ISO if requested.</li></ol>
-          <aside data-type="info"><strong>Disk selection matters:</strong> the drive presented inside a correctly configured VirtualBox guest is the virtual disk created for that machine. Always verify you are working in the intended VM before confirming any erase or install action.</aside>
-          <p>When unattended installation is enabled, allow VirtualBox to complete its automated steps instead of following the interactive installer sequence.</p>
-          
-          <h2>Fix “No Bootable Medium Found” in VirtualBox</h2>
-          <p>This message means the VM did not find a bootable device. <strong>Before installing Ubuntu</strong>, check whether the ISO is actually attached under <strong>Settings → Storage</strong>. <strong>After installation</strong>, verify that the virtual hard disk is still attached and that Ubuntu was installed on it successfully.</p>
-          {{IMG2}}
-          <p>Also review the boot order. Do not repeatedly reinstall Ubuntu before confirming which virtual storage devices VirtualBox can see.</p>
-          
-          <h2>Install or check VirtualBox Guest Additions</h2>
-          <p><strong>Guest Additions</strong> provide integration features such as improved display handling, mouse integration, shared clipboard and shared folders. Depending on the guest and installation method, some components may already be available or may need installation.</p>
-          <ol data-steps=""><li>Start Ubuntu and sign in.</li><li>In the VirtualBox VM window, open <strong>Devices</strong> and select the option to insert the Guest Additions CD image if needed.</li><li>Follow the supported Linux Guest Additions installation process for your VirtualBox release. Additional guest packages or build tools may be required.</li><li>Restart the Ubuntu guest and check whether the intended integration feature works.</li></ol>
-          <p>Oracle documents the detailed procedure in the <a href="https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html">VirtualBox documentation and download area</a>. Avoid blindly running unverified scripts copied from third-party websites.</p>
-          
-          <h2>Fix a small Ubuntu display or Full Screen problems</h2>
-          <p>If the Ubuntu desktop stays at a small fixed resolution, check the Guest Additions installation before adjusting random display settings. Restart Ubuntu after installation, then try resizing the VM window or choosing the full-screen option in VirtualBox.</p>
-          {{IMG3}}
-          <p>Display behavior can also depend on the chosen virtual graphics controller and the Linux desktop session.</p>
-          
-          <h2>Enable copy and paste between Windows and Ubuntu</h2>
-          <p>After confirming Guest Additions are working, change <strong>Shared Clipboard</strong> to <strong>Bidirectional</strong> if you want to copy text in either direction. Clipboard sharing is normally disabled by default for a newly created VM.</p>
-          <aside data-type="info">Clipboard and folder sharing deliberately move information across the host–guest boundary. Enable these features only if you are comfortable with the data being accessible between both systems, especially when testing untrusted software.</aside>
-          
-          <h2>Share a Windows folder with your Ubuntu guest</h2>
-          <p>Use VirtualBox's <strong>Shared Folders</strong> settings to select a Windows directory. With automatic mounting enabled, Linux guests commonly show mounted shared folders under a path beginning with <code>/media/sf_</code>.</p>
-          <p>If you can see a shared folder but cannot access it, check whether the guest account has the relevant <code>vboxsf</code> group permissions. Do not change permissions on unrelated system directories to work around a shared-folder problem.</p>
-          
-          <h2>Which network mode should you use: NAT or Bridged?</h2>
-          <p>For web browsing, package updates and most beginner exercises, leave the virtual network adapter on <strong>NAT</strong>. The guest can access the internet through the host without necessarily appearing as another directly reachable device on your local network.</p>
-          <p><strong>Bridged Adapter</strong> is useful when the guest needs to participate more directly in the local network. Use it only if you understand the additional connectivity and exposure it can create.</p>
-          
-          <h2>Why is Ubuntu running slowly inside VirtualBox?</h2>
-          <p>Check the host's remaining RAM and CPU capacity, whether hardware virtualization is enabled, whether storage is overloaded, and whether Guest Additions are installed correctly. Closing heavyweight Windows applications can make more resources available to the guest.</p>
-          <p>A host with 8 GB of RAM may run a lighter distribution more comfortably. Our <a href="https://www.cyberoplus.com/2026/09/install-lubuntu-virtualbox-windows.html">Lubuntu on VirtualBox walkthrough</a> covers that alternative. Increasing every virtual hardware setting to its maximum is rarely the best first troubleshooting step.</p>
-          
-          <h2>How to investigate a black screen</h2>
-          <p>If the VM starts but displays only a black screen, first confirm whether the issue occurs before or after Ubuntu installation. Check the ISO attachment, guest memory and the selected VirtualBox display configuration.</p>
-          {{IMG4}}
-          <p>Then review the virtual graphics controller and 3D acceleration settings. Change <strong>one setting at a time</strong> and restart the guest after each change so that you can identify which adjustment made a difference.</p>
-          
-          <h2>Virtual machine or dual boot?</h2>
-          <p>A VM runs Ubuntu inside Windows and is generally easier to remove or recreate without changing the real disk's partition layout. A dual-boot configuration installs Linux on the actual computer and requires decisions about disk partitions and boot management.</p>
-          <p>If you are considering the latter, read our <a href="https://www.cyberoplus.com/2026/04/dual-boot-windows-kali-linux.html">guide to dual-booting Windows and Linux</a>, taking particular care with its partitioning and backup prerequisites. That is a different, higher-risk procedure from creating a virtual machine.</p>
-          
-          <h2>What to learn after installing Ubuntu</h2>
-          <p>Start with the filesystem, Terminal navigation, file permissions, software updates and basic networking before installing large collections of security tools. If your long-term goal is cybersecurity, our <a href="https://www.cyberoplus.com/2026/01/learn-cybersecurity-beginners-guide.html">beginner cybersecurity learning roadmap</a> explains where Linux skills fit into the wider field.</p>
-          <p>Inside Ubuntu, you can update package information with <code>sudo apt update</code> and install available package upgrades with <code>sudo apt upgrade</code>, after checking any prompts and available disk space.</p>
-          
-          <h2>Official VirtualBox and Ubuntu downloads</h2>
-          <p><strong>Verified November 2, 2026:</strong> Oracle lists <strong>VirtualBox 7.2.22</strong> as its current release, replacing the 7.2.20 installer referenced in an earlier version of this guide. The official Windows installer is available below, and Oracle's downloads page is the best place to check for newer releases later.</p>
-          <ul><li><a href="https://download.virtualbox.org/virtualbox/7.2.22/VirtualBox-7.2.22-175245-Win.exe">VirtualBox 7.2.22 for Windows — official installer</a></li>
-          <li><a href="https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html">Oracle VirtualBox — official downloads and documentation</a></li>
-          <li><a href="https://releases.ubuntu.com/26.04.1/ubuntu-26.04.1-desktop-amd64.iso">Ubuntu 26.04.1 LTS Desktop AMD64 — official ISO</a></li>
-          <li><a href="https://ubuntu.com/download/desktop">Ubuntu Desktop — official latest downloads and system requirements</a></li>
-          <li><a href="https://releases.ubuntu.com/">Ubuntu release images — official archive</a></li>
-          <li><a href="https://ubuntu.com/tutorials/how-to-run-ubuntu-desktop-on-a-virtual-machine-using-virtualbox">Canonical's VirtualBox installation tutorial</a></li></ul>
-          <p>For software integrity, compare downloads with the publisher's published checksums when available. These sources document expected behavior; this article does not claim that every combination of host hardware and guest settings has been tested here.</p>'''
-          for i,block in enumerate(image_html,1):
-              article=article.replace("{{IMG%d}}"%i,block)
-          if "{{IMG" in article: fail("Unresolved image insertion")
+          <aside data-type="warning"><strong>Do not assign all of your RAM or CPU cores to Lubuntu.</strong> VirtualBox requires host resources while the guest runs. Leave sufficient RAM, processor capacity and free disk space for Windows and its background tasks.</aside>
+          <h2>Step 3: Install VirtualBox on Windows</h2>
+          <ol data-steps>
+          <li>Run the VirtualBox Windows installer obtained from Oracle and verify the publisher.</li>
+          <li>Accept the necessary device-driver installation prompts; network connectivity may briefly reset while virtual networking drivers are installed.</li>
+          <li>Finish setup and launch <strong>Oracle VirtualBox</strong>.</li>
+          </ol>
+          <p>If the installation fails, check the current vendor troubleshooting documentation instead of installing a third-party modified binary.</p>
+          <h2>Step 4: Create a new Lubuntu virtual machine</h2>
+          <ol data-steps>
+          <li>Click <strong>New</strong>, give the virtual machine a descriptive name such as <code>Lubuntu-Study</code>, and select your ISO file.</li>
+          <li>If prompted, choose <strong>Linux</strong> as the OS type and <strong>Ubuntu (64-bit)</strong> as the version.</li>
+          <li>When available, choose <strong>Skip Unattended Installation</strong> to use Lubuntu's graphical installer yourself. The exact wording may differ between releases.</li>
+          <li>Assign the RAM and processor settings from the table above, then create a new <strong>30 GB</strong> virtual hard disk.</li>
+          </ol>
+          <p>A <strong>dynamically allocated</strong> virtual disk starts smaller and grows with stored guest files up to its configured maximum. It still consumes real storage on the Windows computer.</p>
+          <h2>Step 5: Check display and networking before booting</h2>
+          <h3>Graphics</h3>
+          <p>With the VM powered off, open <strong>Settings → Display</strong> and use <strong>VMSVGA</strong> for Lubuntu. A video-memory setting up to 128 MB is a reasonable starting point where supported. Leave <strong>3D Acceleration</strong> disabled for the initial setup if you want to minimize extra graphics complexity; enable it later only if needed and supported.</p>
+          <h3>Network</h3>
+          <p>In <strong>Settings → Network → Adapter 1</strong>, choose <strong>Attached to: NAT</strong>. This allows normal outbound network access but does not automatically make the guest directly accessible from other devices on your LAN.</p>
+          <h2>Step 6: Start Lubuntu from its ISO</h2>
+          <ol data-steps>
+          <li>Confirm that <code>lubuntu-26.04.1-desktop-amd64.iso</code> is attached to the VM's virtual optical drive.</li>
+          <li>Click <strong>Start</strong> in VirtualBox.</li>
+          <li>Select the install option from Lubuntu's boot menu or launch the installer from the live desktop, depending on the screen presented.</li>
+          </ol>
+          <p>If you see <code>No Bootable Medium Found</code>, shut down the VM and verify its ISO attachment under <strong>Settings → Storage</strong>. This error is not a reason to change or erase the Windows boot drive.</p>
+          <h2>Step 7: Install Lubuntu on the correct disk</h2>
+          <ol data-steps>
+          <li>Pick the interface language, keyboard layout, region and time zone.</li>
+          <li>At the partitioning screen, identify the <strong>new empty virtual hard disk</strong> by its expected size and confirm that you are running inside the intended VirtualBox VM.</li>
+          <li>If this is the freshly created disposable virtual disk, the installer’s <strong>Erase disk</strong> option prepares that disk for Lubuntu.</li>
+          <li>Create your local username, host name and password, then review the installation summary and proceed.</li>
+          </ol>
+          <aside data-type="warning"><strong>Disk safety is essential.</strong> The <em>Erase disk</em> option deletes data on the selected target. It is appropriate here only after verifying that the selected device is the empty VirtualBox virtual disk. Do not follow this instruction on a physical Windows installation or any other unverified disk.</aside>
+          <h2>Step 8: Restart from the installed virtual disk</h2>
+          <p>After installation, restart the VM. If the installer asks you to remove installation media, detach the ISO from the virtual optical drive under <strong>Settings → Storage</strong>. The guest should boot from its new virtual disk.</p>
+          <p>If the installer appears again after restarting, check whether the ISO is still being booted. If the disk does not boot, confirm that installation finished and that the virtual disk remains attached.</p>
+          <h2>Step 9: Check your new Linux system</h2>
+          <p>Sign in, confirm that the desktop responds, open Terminal and check internet access if you need package downloads.</p>
+          <pre><code>uname -a</code></pre>
+          <p>This prints kernel and machine information. To retrieve package lists and review available upgrades:</p>
+          <pre><code>sudo apt update
+          sudo apt upgrade</code></pre>
+          <p>Review the proposed package changes before confirming; keep adequate disk space for updates. These commands run inside the Lubuntu guest, not on the Windows host.</p>
+          <h2>Troubleshoot common Lubuntu VirtualBox problems</h2>
+          <h3>Black screen or frozen desktop</h3>
+          <p>Power the VM off fully. Check that the graphics controller is <strong>VMSVGA</strong>, disable 3D acceleration temporarily and confirm the Windows host has free RAM and disk space. Consult VirtualBox logs for persistent failures rather than assuming Lubuntu is corrupt.</p>
+          <h3>Ubuntu (64-bit) is not offered</h3>
+          <p>Check whether hardware virtualization is enabled in your PC's BIOS/UEFI. Depending on the hardware it may be called <code>Intel VT-x</code>, <code>Intel Virtualization Technology</code>, <code>AMD-V</code> or <code>SVM Mode</code>. Windows virtualization features can also affect behavior on some hosts.</p>
+          <h3>The desktop will not resize with the VM window</h3>
+          <p>VirtualBox <a href="https://docs.oracle.com/en/virtualization/virtualbox/7.2/user/guestadditions.html" rel="noopener noreferrer">Guest Additions</a> can enable automatic resolution adjustment in supported guests. Follow official installation instructions for your version and verify compatibility before changing drivers.</p>
+          <h3>The VM runs slowly</h3>
+          <p>Check Windows memory pressure, CPU use and free SSD space. A lightweight guest desktop helps but cannot eliminate virtualization overhead or the load of demanding programs running inside the guest.</p>
+          <h2>What to learn next</h2>
+          <p>Practice filesystem navigation, basic shell commands, user permissions, processes, software updates and networking. For a broader learning sequence, see our <a href="https://www.cyberoplus.com/2026/01/learn-cybersecurity-beginners-guide.html">cybersecurity beginner roadmap</a>, or use the <a href="https://www.cyberoplus.com/2026/10/install-linux-ubuntu-virtualbox.html">Ubuntu VirtualBox guide</a> if you want the default GNOME desktop.</p>
+          <h2>Official references</h2>
+          <ul>
+          <li><a href="https://lubuntu.me/downloads/" rel="noopener noreferrer">Lubuntu downloads and supported releases</a></li>
+          <li><a href="https://lubuntu.me/lubuntu-26-04-lts-released/" rel="noopener noreferrer">Lubuntu 26.04 LTS release notes</a></li>
+          <li><a href="https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html" rel="noopener noreferrer">VirtualBox version and download links</a></li>
+          <li><a href="https://docs.oracle.com/en/virtualization/virtualbox/7.2/user/working-with-vms.html" rel="noopener noreferrer">Oracle VirtualBox VM setup documentation</a></li>
+          </ul>'''
+          article=article.replace("{{IMG}}",str(node))
           parsed=BeautifulSoup(article,"html.parser")
-          if [x.get("src") for x in parsed.find_all("img")]!=[x.get("src") for x in imgs]: fail("Original media not preserved")
-          if any(ord(ch) in range(0x0600,0x0900) for ch in article): fail("Arabic text remains in English article")
-          existing_internal={a.get("href") for a in soup.find_all("a") if (a.get("href") or "").startswith("https://www.cyberoplus.com/")}
-          new_internal={a.get("href") for a in parsed.find_all("a") if (a.get("href") or "").startswith("https://www.cyberoplus.com/")}
-          if not existing_internal.issubset(new_internal): fail("An existing contextual internal link was lost")
-          if len(parsed.find_all("h2"))<18 or len(parsed.find_all("img"))!=4 or len(article)<9000: fail("Edited article incomplete")
-          if not any("7.2.22" in a.get("href","") for a in parsed.find_all("a")): fail("Latest Oracle link missing")
-          if any("7.2.20" in a.get("href","") for a in parsed.find_all("a")): fail("Outdated Oracle link remains")
-          print("PRE_PUBLISH_VALIDATED: original ID, URL, date, hash, 4 images, contextual links and English sections checked")
-          payload={"title":NEW_TITLE,"content":article,"labels":NEW_LABELS}
-          patch=session.patch(path,json=payload,timeout=60)
-          patch.raise_for_status()
-          saved=session.get(path,params={"view":"ADMIN","fetchBody":"true"},timeout=45)
-          saved.raise_for_status()
-          after=saved.json()
-          if (str(after.get("id"))!=POST_ID or after.get("url")!=ORIGINAL_URL or after.get("published")!=ORIGINAL_PUBLISHED
-              or after.get("title")!=NEW_TITLE or after.get("labels")!=NEW_LABELS):
-              fail("CRITICAL: Blogger update response differs on identity, URL, publication date or label")
-          if digest(after.get("content",""))!=digest(article):
-              fail("CRITICAL: published HTML content differs from the verified article")
+          check(len(parsed.find_all("h2"))>=12 and len(article)>7500,"New article incomplete")
+          check(len(parsed.find_all("img"))==1 and parsed.find("img").get("src")==original_image.get("src"),"Image changed")
+          check(not re.search(r"[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]",article),"Arabic remains in the article")
+          check("VirtualBox-7.2.18" not in article and "Erase disk" in article and "30 GB" in article,"Outdated instructions or missing safety warning")
+          check(len([x for x in parsed.find_all("a") if "cyberoplus.com" in x.get("href","")])>=3,"Internal article links missing")
+          check(any("oracle.com" in x.get("href","") for x in parsed.find_all("a")) and any("lubuntu.me" in x.get("href","") for x in parsed.find_all("a")),"Official references missing")
+          print("PRECHECK_PASSED")
+          payload={"title":TITLE,"content":article,"labels":["Tutorials"]}
+          r=session.patch(endpoint,json=payload,timeout=70);r.raise_for_status()
+          after=getpost()
+          check(str(after.get("id"))==PID and after.get("url")==ORIGINAL_URL and after.get("published")==PUBLISHED and after.get("title")==TITLE and after.get("labels")==["Tutorials"],"CRITICAL: changed target identity or publication metadata")
+          check(digest(after.get("content",""))==digest(article),"CRITICAL: HTML saved differs from expected")
           print("PUBLISHED_AND_VERIFIED: "+ORIGINAL_URL)
-          print("POST_ID_PRESERVED: "+POST_ID)
-          print("PUBLISHED_DATE_PRESERVED: "+ORIGINAL_PUBLISHED)
-          print("IMAGE_COUNT: 4; LABELS: Tutorials; ORACLE_RELEASE: 7.2.22");
+          print("PUBLISHED_DATE_PRESERVED: "+PUBLISHED)
+          print("META_DESCRIPTION_NOT_PATCHED: Blogger v3 does not expose searchDescription")
+          
           PY
