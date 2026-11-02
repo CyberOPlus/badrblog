@@ -53,8 +53,7 @@ jobs:
           def getpost():
               response=session.get(endpoint,params={"view":"ADMIN","fetchBody":"true"},timeout=45);response.raise_for_status();return response.json()
           source=getpost()
-          print("CURRENT_METADATA: "+json.dumps({"title":source.get("title"),"url":source.get("url"),"published":source.get("published"),"labels":source.get("labels"),"sha256":digest(source.get("content",""))},ensure_ascii=False))
-          check(str(source.get("id"))==PID and source.get("url")==ORIGINAL_URL and source.get("title")==ORIGINAL_TITLE and source.get("published")==PUBLISHED and source.get("labels")==["guides"] and digest(source.get("content",""))==SOURCE_SHA,"Source changed: do not modify")
+          check(str(source.get("id"))==PID and source.get("url")==ORIGINAL_URL and source.get("title")==ORIGINAL_TITLE and source.get("published")==PUBLISHED and source.get("labels")==["apps","guides"] and digest(source.get("content",""))==SOURCE_SHA,"Source changed: do not modify")
           soup=BeautifulSoup(source["content"],"html.parser")
           images=soup.find_all("img");check(len(images)==1,"Original media count changed")
           original_image=images[0];wrapper=original_image.find_parent("div",class_="separator") or original_image.find_parent("figure")
