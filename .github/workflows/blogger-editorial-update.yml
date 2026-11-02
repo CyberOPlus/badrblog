@@ -64,86 +64,86 @@ jobs:
           if node.find("img").has_attr("title"):node.find("img")["title"]=node.find("img")["alt"]
           for c in node.find_all("figcaption"):c.string="Original Logisim and Java illustration"
           article=r'''<p><strong>Logisim 2.7.1</strong> is the original Java-based digital-logic simulator still used by some older university courses. It is available for Windows, macOS and Linux from <a href="https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/" rel="noopener noreferrer">Carl Burch's original SourceForge release</a>. This guide covers safe downloads, Java installation checks, running the original application, a first logic-gate exercise and the difference between the 2011 Logisim release and the newer Logisim-evolution project.</p>
-{{IMG}}
-<aside data-type="info"><strong>Important version distinction:</strong> original <strong>Logisim 2.7.1</strong> was published in March 2011. <strong>Logisim-evolution 5.0.0</strong>, released September 2026, is a separate actively maintained project. If your instructor explicitly requires 2.7.1, do not automatically replace it with the newer program without checking compatibility.</aside>
-<h2>What can you learn using Logisim?</h2>
-<p>Logisim lets you place digital components on a canvas, connect wires, change binary inputs and watch simulated outputs. Students can practice <strong>AND, OR, NOT and XOR gates</strong>, multiplexers, decoders, counters, registers and small combinational or sequential circuits. It is a teaching simulator, not proof that a physical circuit will satisfy real electrical or timing requirements.</p>
-<h2>Download original Logisim 2.7.1 for Windows, macOS or Linux</h2>
-<p>These are the original files listed by the Carl Burch SourceForge project, dated <strong>March 21, 2011</strong>. Download the package appropriate to your operating system. Avoid repackaged installers from unverified websites.</p>
-<table><thead><tr><th>System</th><th>Original file</th><th>Download</th></tr></thead><tbody>
-<tr><td>Windows</td><td><code>logisim-win-2.7.1.exe</code></td><td><a href="https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/logisim-win-2.7.1.exe/download" rel="noopener noreferrer">Windows EXE</a></td></tr>
-<tr><td>macOS (legacy)</td><td><code>logisim-macosx-2.7.1.tar.gz</code></td><td><a href="https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/logisim-macosx-2.7.1.tar.gz/download" rel="noopener noreferrer">Mac archive</a></td></tr>
-<tr><td>Linux and Java systems</td><td><code>logisim-generic-2.7.1.jar</code></td><td><a href="https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/logisim-generic-2.7.1.jar/download" rel="noopener noreferrer">Generic JAR</a></td></tr>
-</tbody></table>
-<h2>Does Logisim need Java?</h2>
-<p>Original Logisim is a Java application. Check whether a Java launcher is already installed:</p>
-<pre><code>java -version</code></pre>
-<p>If a version number appears, Java is available to the command-line environment. This does not guarantee that every part of a 2011 application works with that Java version. If Java is missing, select a suitable supported runtime for your OS and CPU architecture from a trusted vendor such as <a href="https://adoptium.net/" rel="noopener noreferrer">Eclipse Adoptium</a>. A JRE or JDK with a compatible Java launcher can run a JAR; Java development tools are not inherently necessary just to open the simulator.</p>
-<aside data-type="warning"><strong>Legacy compatibility warning.</strong> Logisim 2.7.1 predates modern Windows, macOS and Apple Silicon hardware. Do not disable security protections to force an old application to run, and do not assume either very old or newest Java releases are universally compatible.</aside>
-<h2>Install Logisim 2.7.1 on Windows</h2>
-<ol data-steps>
-<li>Open Command Prompt and enter <code>java -version</code>. If Java is missing, install an appropriate trusted runtime first.</li>
-<li>Download <code>logisim-win-2.7.1.exe</code> from the original SourceForge project.</li>
-<li>Check the downloaded file and follow the installer prompts, then launch Logisim from Windows Start.</li>
-<li>If the application fails to start, try the generic JAR from a terminal to obtain a clearer error message.</li>
-</ol>
-<p>To launch a JAR, open Command Prompt in its download folder and run:</p>
-<pre><code>java -jar logisim-generic-2.7.1.jar</code></pre>
-<p>If Windows says the Java command cannot be found, review the installed Java runtime and the system <code>PATH</code> setting before reinstalling Logisim.</p>
-<h2>Run Logisim 2.7.1 on Linux</h2>
-<p>Use the <code>.jar</code> file rather than the Windows EXE. Install Java through a trusted distribution package or vendor, navigate to the directory containing the JAR, and run:</p>
-<pre><code>java -version
-java -jar logisim-generic-2.7.1.jar</code></pre>
-<p>Alternatively, supply an absolute path to the JAR. When launch fails, read the exact terminal exception; reinstalling Java repeatedly without checking the message is unlikely to help.</p>
-<h2>Run original Logisim on an Intel Mac</h2>
-<p>The original project has a <code>logisim-macosx-2.7.1.tar.gz</code> archive. Download, extract and inspect it. Recent macOS versions may not launch a package originally built in 2011. If a compatible Java installation exists, the generic JAR is another option:</p>
-<pre><code>java -jar logisim-generic-2.7.1.jar</code></pre>
-<p>This is a troubleshooting option rather than a verified guarantee for current macOS releases.</p>
-<h2>Can Logisim 2.7.1 run on Apple Silicon?</h2>
-<p>Logisim 2.7.1 predates the Apple M-series processors. Do not mistake its historical macOS archive for a native ARM64 installer. You may try the generic JAR with compatible ARM64 Java, but success depends on the OS and runtime. For everyday modern Mac use, consider a <a href="https://github.com/logisim-evolution/logisim-evolution/releases" rel="noopener noreferrer">current Logisim-evolution release</a> built for your platform.</p>
-<h2>Build a simple AND gate to test the simulator</h2>
-<ol data-steps>
-<li>Create a new circuit, then add two input pins and one output pin.</li>
-<li>Place an <strong>AND</strong> gate from the gates library.</li>
-<li>Connect both inputs to the gate and connect its output to the output pin.</li>
-<li>Use the interaction tool to set the input pins to the four combinations below.</li>
-<li>Confirm that the output is 1 only when both inputs are 1.</li>
-</ol>
-<table><thead><tr><th>Input A</th><th>Input B</th><th>A AND B</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td><td>1</td></tr></tbody></table>
-<p>If the simulated output differs, first check the wire connections, pin direction and gate type. A circuit-wiring problem is not necessarily a Java problem.</p>
-<h2>Important components in Logisim</h2>
-<dl><dt><strong>Input and output pins</strong></dt><dd>Set and display binary signals.</dd>
-<dt><strong>AND, OR, NOT, XOR gates</strong></dt><dd>Implement Boolean operations.</dd>
-<dt><strong>Multiplexer</strong></dt><dd>Select one of multiple data inputs using control bits.</dd>
-<dt><strong>Decoder</strong></dt><dd>Translate a binary selection into output lines.</dd>
-<dt><strong>Clock</strong></dt><dd>Generate a repeating signal for sequential-circuit demonstrations.</dd>
-<dt><strong>Registers and counters</strong></dt><dd>Hold state or change it over clock transitions.</dd></dl>
-<p>For related foundations, see our <a href="https://www.cyberoplus.com/2025/05/digital-electronics-basics-for-beginners.html">digital electronics and logic gates introduction</a>. The purpose of that article is to explain binary logic, while this guide covers obtaining and using the Logisim application.</p>
-<h2>Troubleshooting: Logisim will not open</h2>
-<h3>Java is not recognized</h3>
-<p>Run <code>java -version</code>. If the shell reports an unknown command, inspect Java installation and your OS's environment configuration. Use official vendor installers.</p>
-<h3>Double-clicking the JAR does nothing</h3>
-<p>Use <code>java -jar logisim-generic-2.7.1.jar</code> in a terminal. This bypasses JAR file-association problems and may display a useful error.</p>
-<h3>A graphical error appears after launch</h3>
-<p>Record the complete message, Java version, operating-system version and CPU architecture. An old application may have limitations not fixable by selecting a different file extension.</p>
-<h3>Download did not finish or is corrupted</h3>
-<p>Download the original file again from Carl Burch's SourceForge directory. Avoid unofficial reuploads and use publisher-provided verification information when available.</p>
-<h2>Original Logisim 2.7.1 versus Logisim-evolution</h2>
-<table><thead><tr><th>Feature</th><th>Original Logisim 2.7.1</th><th>Logisim-evolution</th></tr></thead><tbody>
-<tr><td>Project</td><td>Carl Burch's historical application</td><td>Separate community-maintained simulator</td></tr>
-<tr><td>Release</td><td>March 2011</td><td>5.0.0 released September 2026</td></tr>
-<tr><td>Recommended when</td><td>Your class mandates the original version</td><td>You can use a current maintained alternative</td></tr>
-<tr><td>Platform compatibility</td><td>Older Java and application packaging</td><td>Updated installers and runtime requirements</td></tr>
-</tbody></table>
-<aside data-type="info"><strong>Course compatibility:</strong> Logisim-evolution is not simply a version-number update to the original project. File formats and available components can differ. Keep an independent copy of important <code>.circ</code> files and ask your instructor before switching a required course tool.</aside>
-<h2>Official references and further reading</h2>
-<ul>
-<li><a href="https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/" rel="noopener noreferrer">Original Logisim 2.7.1 downloads</a></li>
-<li><a href="https://sourceforge.net/projects/circuit/" rel="noopener noreferrer">Original Logisim project information</a></li>
-<li><a href="https://github.com/logisim-evolution/logisim-evolution/releases" rel="noopener noreferrer">Logisim-evolution release notes and installers</a></li>
-<li><a href="https://adoptium.net/" rel="noopener noreferrer">Java runtime downloads from Eclipse Adoptium</a></li>
-</ul>
-<p>Choose the software version your course requires, install only the relevant components, and verify an AND-gate circuit before developing more complex projects.</p>'''
+          {{IMG}}
+          <aside data-type="info"><strong>Important version distinction:</strong> original <strong>Logisim 2.7.1</strong> was published in March 2011. <strong>Logisim-evolution 5.0.0</strong>, released September 2026, is a separate actively maintained project. If your instructor explicitly requires 2.7.1, do not automatically replace it with the newer program without checking compatibility.</aside>
+          <h2>What can you learn using Logisim?</h2>
+          <p>Logisim lets you place digital components on a canvas, connect wires, change binary inputs and watch simulated outputs. Students can practice <strong>AND, OR, NOT and XOR gates</strong>, multiplexers, decoders, counters, registers and small combinational or sequential circuits. It is a teaching simulator, not proof that a physical circuit will satisfy real electrical or timing requirements.</p>
+          <h2>Download original Logisim 2.7.1 for Windows, macOS or Linux</h2>
+          <p>These are the original files listed by the Carl Burch SourceForge project, dated <strong>March 21, 2011</strong>. Download the package appropriate to your operating system. Avoid repackaged installers from unverified websites.</p>
+          <table><thead><tr><th>System</th><th>Original file</th><th>Download</th></tr></thead><tbody>
+          <tr><td>Windows</td><td><code>logisim-win-2.7.1.exe</code></td><td><a href="https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/logisim-win-2.7.1.exe/download" rel="noopener noreferrer">Windows EXE</a></td></tr>
+          <tr><td>macOS (legacy)</td><td><code>logisim-macosx-2.7.1.tar.gz</code></td><td><a href="https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/logisim-macosx-2.7.1.tar.gz/download" rel="noopener noreferrer">Mac archive</a></td></tr>
+          <tr><td>Linux and Java systems</td><td><code>logisim-generic-2.7.1.jar</code></td><td><a href="https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/logisim-generic-2.7.1.jar/download" rel="noopener noreferrer">Generic JAR</a></td></tr>
+          </tbody></table>
+          <h2>Does Logisim need Java?</h2>
+          <p>Original Logisim is a Java application. Check whether a Java launcher is already installed:</p>
+          <pre><code>java -version</code></pre>
+          <p>If a version number appears, Java is available to the command-line environment. This does not guarantee that every part of a 2011 application works with that Java version. If Java is missing, select a suitable supported runtime for your OS and CPU architecture from a trusted vendor such as <a href="https://adoptium.net/" rel="noopener noreferrer">Eclipse Adoptium</a>. A JRE or JDK with a compatible Java launcher can run a JAR; Java development tools are not inherently necessary just to open the simulator.</p>
+          <aside data-type="warning"><strong>Legacy compatibility warning.</strong> Logisim 2.7.1 predates modern Windows, macOS and Apple Silicon hardware. Do not disable security protections to force an old application to run, and do not assume either very old or newest Java releases are universally compatible.</aside>
+          <h2>Install Logisim 2.7.1 on Windows</h2>
+          <ol data-steps>
+          <li>Open Command Prompt and enter <code>java -version</code>. If Java is missing, install an appropriate trusted runtime first.</li>
+          <li>Download <code>logisim-win-2.7.1.exe</code> from the original SourceForge project.</li>
+          <li>Check the downloaded file and follow the installer prompts, then launch Logisim from Windows Start.</li>
+          <li>If the application fails to start, try the generic JAR from a terminal to obtain a clearer error message.</li>
+          </ol>
+          <p>To launch a JAR, open Command Prompt in its download folder and run:</p>
+          <pre><code>java -jar logisim-generic-2.7.1.jar</code></pre>
+          <p>If Windows says the Java command cannot be found, review the installed Java runtime and the system <code>PATH</code> setting before reinstalling Logisim.</p>
+          <h2>Run Logisim 2.7.1 on Linux</h2>
+          <p>Use the <code>.jar</code> file rather than the Windows EXE. Install Java through a trusted distribution package or vendor, navigate to the directory containing the JAR, and run:</p>
+          <pre><code>java -version
+          java -jar logisim-generic-2.7.1.jar</code></pre>
+          <p>Alternatively, supply an absolute path to the JAR. When launch fails, read the exact terminal exception; reinstalling Java repeatedly without checking the message is unlikely to help.</p>
+          <h2>Run original Logisim on an Intel Mac</h2>
+          <p>The original project has a <code>logisim-macosx-2.7.1.tar.gz</code> archive. Download, extract and inspect it. Recent macOS versions may not launch a package originally built in 2011. If a compatible Java installation exists, the generic JAR is another option:</p>
+          <pre><code>java -jar logisim-generic-2.7.1.jar</code></pre>
+          <p>This is a troubleshooting option rather than a verified guarantee for current macOS releases.</p>
+          <h2>Can Logisim 2.7.1 run on Apple Silicon?</h2>
+          <p>Logisim 2.7.1 predates the Apple M-series processors. Do not mistake its historical macOS archive for a native ARM64 installer. You may try the generic JAR with compatible ARM64 Java, but success depends on the OS and runtime. For everyday modern Mac use, consider a <a href="https://github.com/logisim-evolution/logisim-evolution/releases" rel="noopener noreferrer">current Logisim-evolution release</a> built for your platform.</p>
+          <h2>Build a simple AND gate to test the simulator</h2>
+          <ol data-steps>
+          <li>Create a new circuit, then add two input pins and one output pin.</li>
+          <li>Place an <strong>AND</strong> gate from the gates library.</li>
+          <li>Connect both inputs to the gate and connect its output to the output pin.</li>
+          <li>Use the interaction tool to set the input pins to the four combinations below.</li>
+          <li>Confirm that the output is 1 only when both inputs are 1.</li>
+          </ol>
+          <table><thead><tr><th>Input A</th><th>Input B</th><th>A AND B</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td><td>1</td></tr></tbody></table>
+          <p>If the simulated output differs, first check the wire connections, pin direction and gate type. A circuit-wiring problem is not necessarily a Java problem.</p>
+          <h2>Important components in Logisim</h2>
+          <dl><dt><strong>Input and output pins</strong></dt><dd>Set and display binary signals.</dd>
+          <dt><strong>AND, OR, NOT, XOR gates</strong></dt><dd>Implement Boolean operations.</dd>
+          <dt><strong>Multiplexer</strong></dt><dd>Select one of multiple data inputs using control bits.</dd>
+          <dt><strong>Decoder</strong></dt><dd>Translate a binary selection into output lines.</dd>
+          <dt><strong>Clock</strong></dt><dd>Generate a repeating signal for sequential-circuit demonstrations.</dd>
+          <dt><strong>Registers and counters</strong></dt><dd>Hold state or change it over clock transitions.</dd></dl>
+          <p>For related foundations, see our <a href="https://www.cyberoplus.com/2025/05/digital-electronics-basics-for-beginners.html">digital electronics and logic gates introduction</a>. The purpose of that article is to explain binary logic, while this guide covers obtaining and using the Logisim application.</p>
+          <h2>Troubleshooting: Logisim will not open</h2>
+          <h3>Java is not recognized</h3>
+          <p>Run <code>java -version</code>. If the shell reports an unknown command, inspect Java installation and your OS's environment configuration. Use official vendor installers.</p>
+          <h3>Double-clicking the JAR does nothing</h3>
+          <p>Use <code>java -jar logisim-generic-2.7.1.jar</code> in a terminal. This bypasses JAR file-association problems and may display a useful error.</p>
+          <h3>A graphical error appears after launch</h3>
+          <p>Record the complete message, Java version, operating-system version and CPU architecture. An old application may have limitations not fixable by selecting a different file extension.</p>
+          <h3>Download did not finish or is corrupted</h3>
+          <p>Download the original file again from Carl Burch's SourceForge directory. Avoid unofficial reuploads and use publisher-provided verification information when available.</p>
+          <h2>Original Logisim 2.7.1 versus Logisim-evolution</h2>
+          <table><thead><tr><th>Feature</th><th>Original Logisim 2.7.1</th><th>Logisim-evolution</th></tr></thead><tbody>
+          <tr><td>Project</td><td>Carl Burch's historical application</td><td>Separate community-maintained simulator</td></tr>
+          <tr><td>Release</td><td>March 2011</td><td>5.0.0 released September 2026</td></tr>
+          <tr><td>Recommended when</td><td>Your class mandates the original version</td><td>You can use a current maintained alternative</td></tr>
+          <tr><td>Platform compatibility</td><td>Older Java and application packaging</td><td>Updated installers and runtime requirements</td></tr>
+          </tbody></table>
+          <aside data-type="info"><strong>Course compatibility:</strong> Logisim-evolution is not simply a version-number update to the original project. File formats and available components can differ. Keep an independent copy of important <code>.circ</code> files and ask your instructor before switching a required course tool.</aside>
+          <h2>Official references and further reading</h2>
+          <ul>
+          <li><a href="https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/" rel="noopener noreferrer">Original Logisim 2.7.1 downloads</a></li>
+          <li><a href="https://sourceforge.net/projects/circuit/" rel="noopener noreferrer">Original Logisim project information</a></li>
+          <li><a href="https://github.com/logisim-evolution/logisim-evolution/releases" rel="noopener noreferrer">Logisim-evolution release notes and installers</a></li>
+          <li><a href="https://adoptium.net/" rel="noopener noreferrer">Java runtime downloads from Eclipse Adoptium</a></li>
+          </ul>
+          <p>Choose the software version your course requires, install only the relevant components, and verify an AND-gate circuit before developing more complex projects.</p>'''
           article=article.replace("{{IMG}}",str(node))
           parsed=BeautifulSoup(article,"html.parser")
           check(len(parsed.find_all("h2"))>=12 and len(article)>7500,"New article incomplete")
