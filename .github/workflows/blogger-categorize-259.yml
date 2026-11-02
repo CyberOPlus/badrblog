@@ -60,6 +60,11 @@ jobs:
               return rows
           posts=all_posts()
           byid={str(p["id"]):p for p in posts}
+          print("PUBLISHED_NOW: "+str(len(posts)),flush=True)
+          for status in ("draft","scheduled"):
+              r=session.get(BASE+"/posts",params={"status":status,"maxResults":100,"view":"ADMIN","fetchBodies":"false"},timeout=45);r.raise_for_status()
+              arr=r.json().get("items",[])
+              print("OTHER_POST_STATUS: "+status+" count="+str(len(arr))+" ids="+",".join(str(x.get("id")) for x in arr),flush=True)
           check(len(posts)==259 and len(byid)==259,"Unexpected live-post inventory size: "+str(len(posts)))
           check(all(len(p.get("labels",[]))==1 and p["labels"][0] in LABELS for p in posts),"At least one article has unexpected labels, aborting categorization")
           check(all(pid in byid for pid,_,_,_ in CORRECTIONS),"Missing target post from current inventory")
