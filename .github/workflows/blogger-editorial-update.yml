@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Install authentication and HTML parser
         run: python -m pip install --disable-pip-version-check "google-auth>=2.20,<3" "requests>=2.31,<3" "beautifulsoup4>=4.12,<5"
-      - name: Verify source and update OSI layer tutorial
+      - name: Verify source and edit OSI versus TCP/IP comparison
         env:
           BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
           BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
@@ -26,150 +26,155 @@ jobs:
           import os,json,re,hashlib
           from urllib.parse import urlsplit
           from bs4 import BeautifulSoup
-          from google.auth.transport.requests import AuthorizedSession
           from google.oauth2.credentials import Credentials
+          from google.auth.transport.requests import AuthorizedSession
           BID="2750143140558868280"
-          PID="9047040125804870618"
-          OLD_TITLE="نموذج OSI: شرح الطبقات السبع ووظيفة كل طبقة مع أمثلة"
-          ORIGINAL_URL="https://www.cyberoplus.com/2026/03/osi-model-7-layers-explained.html"
-          PUBLISHED="2026-03-16T22:49:00Z"
-          SOURCE_SHA="234afb318856ff87557ec9bad65e436a27040fda5865c9f83e174c5ff7152371"
-          TITLE="OSI Model Explained: All 7 Layers, Examples and Troubleshooting"
+          PID="5678460729615741263"
+          OLD_TITLE="TCP/IP مقابل OSI: الفرق بين النموذجين وكيف يعمل الإنترنت فعليًا"
+          ORIGINAL_URL="https://www.cyberoplus.com/2026/03/tcpip-vs-osi-model-comparison.html"
+          PUBLISHED="2026-03-16T23:11:00Z"
+          SOURCE_SHA="3509b27425d24bfce549f59424bb5e19bc1009bb71995f505d2537d3765b313e"
+          TITLE="OSI vs TCP/IP: Layer Comparison and How the Internet Works"
           def sha(s):return hashlib.sha256(s.encode("utf-8")).hexdigest()
-          def check(condition,msg):
-              if not condition:raise RuntimeError(msg)
+          def check(c,m):
+              if not c:raise RuntimeError(m)
           token=json.loads(os.environ["BLOGGER_TOKEN_JSON"]);client=json.loads(os.environ["BLOGGER_CLIENT_SECRET_JSON"]);conf=client.get("installed") or client.get("web") or {}
-          for k in ("client_id","client_secret","token_uri"):
-              if not token.get(k) and conf.get(k):token[k]=conf[k]
-          session=AuthorizedSession(Credentials.from_authorized_user_info(token))
-          api="https://www.googleapis.com/blogger/v3/blogs/"+BID
-          check(os.environ.get("BLOGGER_BLOG_ID")==BID,"Wrong Blogger target")
-          r=session.get(api,timeout=30);r.raise_for_status()
-          check(str(r.json().get("id"))==BID and (urlsplit(r.json().get("url","")).hostname or "").lower() in ("cyberoplus.com","www.cyberoplus.com"),"Domain mismatch")
+          for key in ("client_id","client_secret","token_uri"):
+              if not token.get(key) and conf.get(key):token[key]=conf[key]
+          s=AuthorizedSession(Credentials.from_authorized_user_info(token));api="https://www.googleapis.com/blogger/v3/blogs/"+BID
+          check(os.environ.get("BLOGGER_BLOG_ID")==BID,"Wrong blog")
+          r=s.get(api,timeout=30);r.raise_for_status()
+          check(str(r.json().get("id"))==BID and (urlsplit(r.json().get("url","")).hostname or "").lower() in ("cyberoplus.com","www.cyberoplus.com"),"Wrong domain")
           endpoint=api+"/posts/"+PID
-          def getpost():
-              r=session.get(endpoint,params={"view":"ADMIN","fetchBody":"true"},timeout=45);r.raise_for_status();return r.json()
-          old=getpost()
-          check(str(old.get("id"))==PID and old.get("url")==ORIGINAL_URL and old.get("title")==OLD_TITLE and old.get("published")==PUBLISHED and old.get("labels")==["networking"] and sha(old.get("content",""))==SOURCE_SHA,"Original post differs; no write")
-          soup=BeautifulSoup(old["content"],"html.parser");images=soup.find_all("img")
-          check(len(images)==1,"Unexpected image count")
-          img=images[0];wrapper=img.find_parent("div",class_="separator") or img.find_parent("figure")
-          check(wrapper is not None,"Image wrapper missing")
-          node=BeautifulSoup(str(wrapper),"html.parser")
-          node.find("img")["alt"]="OSI seven layers reference model from physical to application"
-          article=r'''<p>The <strong>OSI model</strong> divides network communications into <strong>seven conceptual layers</strong>: Physical, Data Link, Network, Transport, Session, Presentation and Application. It helps students understand how data travels across networks and gives engineers a vocabulary for troubleshooting. This guide explains each layer, relates it to real protocols and follows one web request across the stack.</p>
+          def get():
+              r=s.get(endpoint,params={"view":"ADMIN","fetchBody":"true"},timeout=40);r.raise_for_status();return r.json()
+          old=get()
+          check(str(old.get("id"))==PID and old.get("title")==OLD_TITLE and old.get("url")==ORIGINAL_URL and old.get("published")==PUBLISHED and old.get("labels")==["networking"] and sha(old.get("content",""))==SOURCE_SHA,"Original post changed")
+          soup=BeautifulSoup(old["content"],"html.parser")
+          imgs=soup.find_all("img");check(len(imgs)==1,"Media count differs")
+          img=imgs[0];box=img.find_parent("div",class_="separator") or img.find_parent("figure")
+          check(box is not None,"Image wrapper missing")
+          node=BeautifulSoup(str(box),"html.parser");node.find("img")["alt"]="Diagram comparing seven OSI reference layers with four TCP IP layers"
+          article=r'''<p><strong>OSI and TCP/IP are not rival networking products.</strong> The seven-layer OSI model is a conceptual way to understand network responsibilities, while the TCP/IP protocol suite describes the protocols that underpin today's Internet. This guide compares their layers, explains how real data travels across networks, and shows why HTTP/3 and QUIC make rigid protocol-to-layer assignments misleading.</p>
           {{IMG}}
-          <aside data-type="info"><strong>Reference model, not a mandatory Internet protocol stack:</strong> the OSI model is defined by ISO/IEC 7498-1. It describes functions and relationships; it does <em>not</em> require modern networks to implement seven separate protocol headers or seven software modules. The Internet chiefly uses the TCP/IP protocol suite, whose layering is not an exact one-to-one implementation of OSI.</aside>
-          <h2>The seven OSI layers at a glance</h2>
-          <table><thead><tr><th>Layer</th><th>Name</th><th>Primary idea</th><th>Useful example</th></tr></thead><tbody>
-          <tr><td>7</td><td>Application</td><td>Network services for applications</td><td>HTTP, DNS</td></tr>
-          <tr><td>6</td><td>Presentation</td><td>Representation and transformation of data</td><td>Encoding and serialization concepts</td></tr>
-          <tr><td>5</td><td>Session</td><td>Managing dialog and exchange state</td><td>Session-management functions</td></tr>
-          <tr><td>4</td><td>Transport</td><td>End-to-end application transport</td><td>TCP, UDP</td></tr>
-          <tr><td>3</td><td>Network</td><td>Logical addressing and forwarding</td><td>IPv4, IPv6, routers</td></tr>
-          <tr><td>2</td><td>Data Link</td><td>Delivery over a link using frames</td><td>Ethernet MAC switching</td></tr>
-          <tr><td>1</td><td>Physical</td><td>Transmitting signals over media</td><td>Copper, fiber, radio</td></tr>
+          <aside data-type="info"><strong>Quick distinction:</strong> OSI is a seven-layer reference model defined by ISO. TCP/IP is an implemented family of standards such as IP, TCP, UDP, DNS and HTTP. The TCP/IP architecture is commonly represented with four layers, but some textbooks use a five-layer teaching model separating the Link and Physical functions.</aside>
+          <h2>OSI versus TCP/IP: comparison table</h2>
+          <table><thead><tr><th>Feature</th><th>OSI model</th><th>TCP/IP architecture</th></tr></thead><tbody>
+          <tr><td>Purpose</td><td>Reference model for network functions and interconnection concepts</td><td>Internet protocols and practical communication architecture</td></tr>
+          <tr><td>Common layer count</td><td>Seven</td><td>Four, or five in some teaching diagrams</td></tr>
+          <tr><td>Highest conceptual functions</td><td>Application, Presentation, Session</td><td>Usually grouped in the Application layer</td></tr>
+          <tr><td>End-to-end transport</td><td>Transport layer</td><td>Transport layer, such as TCP or UDP</td></tr>
+          <tr><td>Routing</td><td>Network layer</td><td>Internet layer, based on IP</td></tr>
+          <tr><td>Local delivery and signals</td><td>Data Link and Physical</td><td>Link layer, sometimes shown as Link and Physical</td></tr>
+          <tr><td>Primary standards</td><td>ISO/IEC 7498-1 reference model</td><td>IETF and other Internet-related specifications</td></tr>
           </tbody></table>
-          <p>The numbering starts at the <strong>Physical layer (1)</strong> and ends at the <strong>Application layer (7)</strong>. When diagnosing a connection problem, you can move up from links and addressing toward the application, but that is a troubleshooting method rather than an inflexible rule.</p>
-          <h2>Layer 1: Physical — electrical, optical and radio signals</h2>
-          <p>The Physical layer deals with how raw information is represented and conveyed over a transmission medium. It includes interfaces, signaling, physical encoding, timing and media characteristics. An Ethernet PHY connected to twisted-pair copper or fiber performs physical-layer functions. The OSI Physical layer is not simply a list of cable names.</p>
-          <h3>Typical Physical-layer symptoms</h3>
-          <p>A network interface shows no link, a fiber transceiver is missing or incompatible, or the port cannot establish its expected link speed. First inspect cabling, connectors, power, adapter settings and the remote switch port.</p>
-          <p>For additional detail, visit our <a href="https://www.cyberoplus.com/2026/03/physical-layer-osi-model.html">Physical layer and transmission media guide</a>.</p>
-          <h2>Layer 2: Data Link — frames and local forwarding</h2>
-          <p>Data Link organizes transmission across a link, using frames and the rules applicable to that technology. On Ethernet, frames carry <strong>source and destination MAC addresses</strong>, a type or length field, and a frame check sequence (FCS) used for error detection. An ordinary Layer 2 switch learns where MAC addresses are reachable and forwards frames accordingly.</p>
-          <p>In classic IEEE descriptions, Data Link functions are often discussed using Logical Link Control (LLC) and Media Access Control (MAC). Not every deployed protocol uses those conceptual subdivisions identically.</p>
-          <h3>Frame versus packet</h3>
-          <p>An <strong>Ethernet frame</strong> carries a payload across a particular link. That payload may contain an <strong>IP packet</strong> intended for a remote destination. A router can remove one link-layer header and add another while forwarding an IP packet between interfaces.</p>
-          <p>Read our <a href="https://www.cyberoplus.com/2026/03/network-frame-structure-header-crc-explained.html">Ethernet frame structure guide</a> to understand individual fields and CRC error detection.</p>
-          <h2>Layer 3: Network — IP addresses and routing</h2>
-          <p>Layer 3 addresses hosts across logical IP networks and describes packet forwarding between networks. <strong>IPv4 and IPv6</strong> provide addressing and packet formats; routers use routing tables to decide where matching packets should go next.</p>
-          <p>A destination MAC identifies the recipient on the current link, while a destination IP address identifies the IP destination toward which packets are forwarded. They serve different scopes. A router also decrements IPv4 TTL or IPv6 Hop Limit to prevent indefinite forwarding loops.</p>
-          <h3>Typical Network-layer symptoms</h3>
-          <p>Incorrect subnet or prefix configuration, no default route, unreachable next hop or routing-policy problems. Try checking the local interface address and routing table before concluding that a DNS server is at fault.</p>
-          <h2>Layer 4: Transport — moving data between applications</h2>
-          <p>The Transport layer provides communication services to applications using network hosts. <strong>TCP</strong> offers a reliable, ordered byte-stream service, maintains connection state, and performs flow and congestion control. <strong>UDP</strong> carries datagrams with fewer built-in transport guarantees.</p>
-          <p>Both TCP and UDP use port numbers. A TCP destination port of <code>443</code> is common for HTTPS over TCP, but the same port number can also be used with UDP for HTTP/3 over QUIC. The port number alone is not proof of the complete application protocol.</p>
-          <aside data-type="info"><strong>Important modern nuance:</strong> HTTP/3 runs on <strong>QUIC</strong>, which uses UDP datagrams but itself implements secure transport, streams and loss recovery. Do not teach students that all web traffic necessarily uses TCP, or that UDP applications cannot have reliable delivery mechanisms. See <a href="https://www.rfc-editor.org/rfc/rfc9000.html" rel="noopener noreferrer">RFC 9000</a> and <a href="https://www.rfc-editor.org/rfc/rfc9114.html" rel="noopener noreferrer">RFC 9114</a>.</aside>
-          <h2>Layer 5: Session — coordinating exchanges</h2>
-          <p>In the OSI reference model, Session deals with managing dialogs between communicating systems, including setting up, maintaining or coordinating exchanges. It is best understood as a <strong>function</strong> rather than a promise that every modern Internet application has a separate Layer 5 protocol.</p>
-          <p>A website's login cookie or application session is not automatically a direct implementation of OSI Layer 5. Web sessions are generally application-layer concepts and may span several connections.</p>
-          <h2>Layer 6: Presentation — representing information</h2>
-          <p>Presentation functions concern how data is represented and transformed so communicating systems can interpret it. The model covers concerns such as data representation, encoding and transformations.</p>
-          <p>Encoding UTF-8 text, serializing JSON and applying cryptographic protection are examples of concerns that help illustrate presentation-related work. In the real TCP/IP suite these functions may live in application libraries or in separate protocols. Saying <strong>TLS is always OSI Layer 6</strong> is misleading; the boundaries are not rigid.</p>
-          <h2>Layer 7: Application — network services used by applications</h2>
-          <p>Application-layer protocols define exchanges that user programs and services rely on, such as <strong>HTTP</strong> for web resources and <strong>DNS</strong> for name resolution. The OSI Application layer is not the complete browser interface or every feature of an application; it refers to communication services and protocols at the top of the conceptual stack.</p>
-          <p>For example, a browser making an HTTPS request needs a hostname resolved, a suitable transport association and a route through the network. All these functions cooperate; no single OSI layer creates the full user experience.</p>
-          <h2>What happens when you open a website?</h2>
-          <p>Consider a simplified request for an HTTPS site over HTTP/2 on TCP:</p>
+          <p>Neither layer count indicates performance or quality. What matters for implementation is the specific protocol, interface, application and operating environment.</p>
+          <h2>What are the seven OSI layers?</h2>
           <ol data-steps>
-          <li>The browser determines the destination hostname and may need to resolve it using DNS.</li>
-          <li>The host selects an appropriate destination IP address and route.</li>
-          <li>The browser establishes a TCP connection where needed and negotiates TLS security for HTTPS.</li>
-          <li>The application creates an HTTP request, which is carried as transport data.</li>
-          <li>IP packets travel across one or more networks, encapsulated in link-specific frames on each link.</li>
-          <li>Each local physical interface transmits the signals required by its medium.</li>
-          <li>The destination host processes the received data and sends an HTTP response using the established communication.</li>
+          <li><strong>Physical (1):</strong> signaling and transmission media, such as Ethernet PHY connections.</li>
+          <li><strong>Data Link (2):</strong> local framing and access to a link, such as Ethernet frames and MAC address forwarding.</li>
+          <li><strong>Network (3):</strong> logical addressing and forwarding between networks, such as IP routing.</li>
+          <li><strong>Transport (4):</strong> end-to-end communication services between applications.</li>
+          <li><strong>Session (5):</strong> coordination of communication dialogs and exchange state.</li>
+          <li><strong>Presentation (6):</strong> data representation, encoding and transformations.</li>
+          <li><strong>Application (7):</strong> communication services used by network applications.</li>
           </ol>
-          <p>Real browsers may reuse existing connections, employ DNS caching, proxy services, VPN tunnels, IPv6 or HTTP/3 over QUIC. The numbered sequence above illustrates one common path, not every possible network exchange.</p>
-          <h2>Encapsulation and decapsulation</h2>
-          <p><strong>Encapsulation</strong> means packaging one unit of data inside another protocol's data unit. For example, application data can be carried in a TCP segment, within an IP packet, inside an Ethernet frame. At the receiving side the protocol processing interprets the corresponding headers and delivers the payload to the relevant higher-layer function.</p>
-          <pre><code>Application data
-              ↓
-          TCP segment (for a TCP-based example)
-              ↓
-          IP packet
-              ↓
-          Ethernet frame
-              ↓
-          Physical signals</code></pre>
-          <p>This is an <strong>example of common Internet encapsulation</strong>, not a one-header-per-layer law. Some functions correspond to abstract OSI layers but do not contribute a separate header.</p>
-          <h2>OSI versus TCP/IP: what is the difference?</h2>
-          <p>OSI is a seven-layer <strong>reference model</strong>. TCP/IP is a deployed <strong>protocol suite and architecture</strong> often represented using four conceptual layers: Application, Transport, Internet and Link. The lower OSI Physical and Data Link layers are usually grouped into the TCP/IP Link layer; OSI Session and Presentation concerns tend to be handled within the TCP/IP Application environment.</p>
-          <p>That mapping is approximate, not a formal rule. For the detailed comparison, read our <a href="https://www.cyberoplus.com/2026/03/tcpip-vs-osi-model-comparison.html">OSI versus TCP/IP guide</a>.</p>
-          <h2>Use OSI for network troubleshooting</h2>
-          <table><thead><tr><th>Observed problem</th><th>Good starting point</th><th>First checks</th></tr></thead><tbody>
-          <tr><td>No Ethernet link</td><td>Physical</td><td>Cable, transceiver, adapter, switch port</td></tr>
-          <tr><td>Device has link, but cannot reach local peer</td><td>Data Link or Network</td><td>MAC/VLAN context, IP settings, ARP/ND</td></tr>
-          <tr><td>Local peers work but remote network fails</td><td>Network</td><td>Default route, prefix, firewall, next hop</td></tr>
-          <tr><td>IP path works but connection fails</td><td>Transport/application</td><td>Ports, filtering, service state, protocol</td></tr>
-          <tr><td>Host IP works but hostname fails</td><td>Application name resolution</td><td>DNS records and resolver settings</td></tr>
+          <p>Read the <a href="https://www.cyberoplus.com/2026/03/osi-model-7-layers-explained.html">complete OSI seven-layer guide</a> for the function and troubleshooting examples of each layer. This comparison article focuses instead on the relationship between reference-model labels and real Internet protocols.</p>
+          <h2>The TCP/IP layers in the four-layer view</h2>
+          <h3>Application layer</h3>
+          <p>Application protocols and supporting services include HTTP, DNS, SMTP and SSH. Data formatting, authentication, encryption and the management of application sessions may be implemented within applications and their supporting protocol libraries. There is no universal separate OSI-style Session or Presentation layer in the deployed TCP/IP architecture.</p>
+          <h3>Transport layer</h3>
+          <p>Common Internet transport protocols include <strong>TCP</strong> and <strong>UDP</strong>. TCP provides a reliable, in-order byte stream to applications. UDP carries datagrams with limited built-in guarantees. Both use ports for addressing transport endpoints.</p>
+          <h3>Internet layer</h3>
+          <p><strong>IPv4 and IPv6</strong> packets carry data between IP networks, with routers forwarding according to destination addresses and routing decisions. Related mechanisms include ICMP, important for network diagnostics and error reporting. Neither IP version guarantees in-order application delivery simply by forwarding packets.</p>
+          <h3>Link layer</h3>
+          <p>The Link layer describes how packets are sent over the next local segment using technologies such as Ethernet or Wi-Fi. On Ethernet, an IP packet is usually carried in an Ethernet frame with local source and destination MAC addresses. Physical-media functions are often grouped here in a four-layer model.</p>
+          <h2>How do the layers map?</h2>
+          <table><thead><tr><th>OSI layer</th><th>Typical TCP/IP representation</th><th>Examples and caveats</th></tr></thead><tbody>
+          <tr><td>7 Application</td><td>Application</td><td>HTTP, DNS and other application protocols</td></tr>
+          <tr><td>6 Presentation</td><td>Application-related functions</td><td>Encoding, serialization and transformations</td></tr>
+          <tr><td>5 Session</td><td>Application-related functions</td><td>Managing communication state and dialogs</td></tr>
+          <tr><td>4 Transport</td><td>Transport</td><td>TCP and UDP; QUIC spans several conceptual concerns</td></tr>
+          <tr><td>3 Network</td><td>Internet</td><td>IPv4, IPv6 and routing</td></tr>
+          <tr><td>2 Data Link</td><td>Link</td><td>Ethernet frames and switching</td></tr>
+          <tr><td>1 Physical</td><td>Link, or separate Physical in 5-layer textbooks</td><td>Media, interfaces and signaling</td></tr>
           </tbody></table>
-          <p>The table suggests a starting investigation, not a guaranteed fault diagnosis. A firewall or policy can affect behavior at multiple layers.</p>
-          <h2>Eight common misunderstandings</h2>
+          <aside data-type="warning"><strong>Do not treat this mapping as a law.</strong> The columns describe educational approximations. Protocols often contain functions that cross conceptual OSI boundaries; rigidly assigning TLS, QUIC or every application session to exactly one OSI layer can produce incorrect explanations.</aside>
+          <h2>Does TCP/IP mean one protocol or two protocols?</h2>
+          <p><strong>TCP/IP</strong> often refers to the entire Internet protocol suite rather than only the two named protocols. Its two names historically emphasize Transmission Control Protocol and Internet Protocol, but applications also use UDP, ICMP, DNS, and other protocols. Modern HTTP/3 uses QUIC over UDP, so Internet communication is not restricted to TCP.</p>
+          <p>The base Internet host requirements in <a href="https://www.rfc-editor.org/rfc/rfc1122.html" rel="noopener noreferrer">RFC 1122</a> discuss link, IP and transport layers; companion <a href="https://www.rfc-editor.org/rfc/rfc1123.html" rel="noopener noreferrer">RFC 1123</a> covers application and support protocols. Those documents demonstrate how real standards organize requirements without assuming that every OSI reference layer has a dedicated deployed protocol.</p>
+          <h2>Real example: opening a website using HTTP/2 over TCP</h2>
+          <p>Consider a simplified browser connecting to <code>https://example.com/</code> over HTTP/2 and TCP. Actual browsers can cache names, reuse connections or negotiate different versions.</p>
+          <ol data-steps>
+          <li><strong>Application:</strong> the browser uses a URL and may ask a resolver for the site's IP address.</li>
+          <li><strong>Transport:</strong> the browser establishes TCP communication with the intended service, commonly at port <code>443</code>.</li>
+          <li><strong>Security:</strong> TLS negotiates protection for HTTPS; treating TLS as an isolated mandatory OSI Layer 6 is too simplistic.</li>
+          <li><strong>Internet:</strong> the host sends IP packets addressed to the selected destination IP.</li>
+          <li><strong>Link:</strong> each local hop transmits the IP packet in a suitable link-layer frame, such as Ethernet.</li>
+          <li><strong>Physical:</strong> an appropriate physical interface conveys the encoded signals across cable, fiber or radio media.</li>
+          <li><strong>Return path:</strong> the server responds, and the client's stack delivers data through the applicable layers to the browser.</li>
+          </ol>
+          <p>A local Ethernet destination MAC address may be the <strong>default gateway's MAC</strong>, not the remote web server's MAC. Routers replace link-layer framing at each hop as they forward IP packets toward the destination.</p>
+          <h2>Encapsulation: data, segments, packets and frames</h2>
+          <p>For a TCP connection over Ethernet, a useful schematic is:</p>
+          <pre><code>Application data
+             inside TCP segment
+                inside IP packet
+                   inside Ethernet frame
+                      transmitted as physical signals</code></pre>
+          <p>A frame and an IP packet are not interchangeable names. The Ethernet frame addresses delivery on its local link, while IP supports forwarding across multiple networks. The same IP packet may receive different local link-layer wrappers at successive network hops.</p>
+          <p>When receiving traffic, the host processes the relevant encapsulation and delivers the payload to the intended transport endpoint and application. Not every protocol adds a header corresponding neatly to one of the seven OSI layers.</p>
+          <h2>Does HTTP always use TCP?</h2>
+          <p>No. Traditional HTTP/1.1 and HTTP/2 connections usually run over TCP, often with TLS for HTTPS. <strong>HTTP/3</strong> uses <strong>QUIC over UDP</strong>, as specified by <a href="https://www.rfc-editor.org/rfc/rfc9114.html" rel="noopener noreferrer">RFC 9114</a>. QUIC provides its own protected connections, streams, recovery and transport behavior while using UDP datagrams to traverse IP networks.</p>
+          <p>The existence of QUIC shows why labeling every feature as one exclusive OSI layer obscures actual protocol architecture. <a href="https://www.rfc-editor.org/rfc/rfc9000.html" rel="noopener noreferrer">RFC 9000</a> is the authoritative starting point for QUIC's core design.</p>
+          <h2>Where does TLS belong in the models?</h2>
+          <p>TLS is responsible for communication security, including authentication and encryption in common Internet applications. The real placement of TLS depends on the protocol using it. For example, HTTPS over TCP typically uses TLS above TCP; QUIC integrates TLS 1.3 handshake mechanisms into its transport.</p>
+          <p>It can be <em>helpful</em> to describe encryption or representation as Presentation-like functions, but that analogy is not the same as saying modern TLS is formally a dedicated OSI Layer 6 protocol in all deployments.</p>
+          <h2>Is OSI useful when the Internet uses TCP/IP?</h2>
+          <p>Yes. OSI is a shared language for discussing responsibilities. A no-link error suggests physical connectivity checks; the wrong VLAN or MAC forwarding behavior involves Data Link questions; missing routes involve IP; an unavailable TCP service suggests a transport or service problem.</p>
+          <p>A layered troubleshooting process helps isolate a fault, but problems often span multiple layers. A security firewall can filter based on IP addresses, ports, connection state or even application content. Modern switches may also have IP-routing capabilities.</p>
+          <h2>Common student misconceptions</h2>
           <ul>
-          <li><strong>OSI is a seven-step software stack installed on all hosts:</strong> it is a conceptual reference model.</li>
-          <li><strong>Each layer always adds a header:</strong> physical and conceptual service boundaries do not work that way.</li>
-          <li><strong>Session means a browser login:</strong> application session state is not a direct one-to-one OSI Layer 5 implementation.</li>
-          <li><strong>TLS must be Layer 6:</strong> deployed protocol layering is more nuanced.</li>
-          <li><strong>All web traffic uses TCP:</strong> HTTP/3 uses QUIC over UDP.</li>
-          <li><strong>A switch can only work at Layer 2:</strong> multilayer switches may also route IP.</li>
-          <li><strong>A router never examines application data:</strong> some devices provide filtering and additional security functions.</li>
-          <li><strong>A frame and packet mean the same thing:</strong> the terms commonly refer to data units at different scopes.</li>
+          <li><strong>TCP/IP has exactly four layers in every textbook:</strong> the five-layer teaching view is also common.</li>
+          <li><strong>OSI is obsolete and useless:</strong> it remains valuable as a reference and troubleshooting vocabulary.</li>
+          <li><strong>TCP/IP consists of TCP and IP only:</strong> it is a broader suite.</li>
+          <li><strong>The OSI Transport layer always means TCP:</strong> UDP and other protocol designs also matter.</li>
+          <li><strong>HTTP always uses TCP:</strong> HTTP/3 runs on QUIC over UDP.</li>
+          <li><strong>Every device belongs to exactly one layer:</strong> real switches, routers and firewalls can implement multiple functions.</li>
+          <li><strong>One application message equals one packet:</strong> segmentation, buffering, retransmission and MTU constraints make that assumption wrong.</li>
+          <li><strong>A router simply preserves the entire Ethernet frame:</strong> frames are processed and replaced between links.</li>
           </ul>
-          <h2>Practice the model with real questions</h2>
-          <p>Test your understanding with the <a href="https://www.cyberoplus.com/2026/03/network-exercises-solved-interactive.html">ten beginner networking exercises with answers</a>. Practice identifying whether a fault involves a cable, MAC address, IP route, transport connection or DNS instead of memorizing all seven names without understanding their roles.</p>
-          <h2>Primary reference materials</h2>
+          <h2>How to learn OSI and TCP/IP together</h2>
+          <ol data-steps>
+          <li>Learn the seven OSI functions and explain what problem each one addresses.</li>
+          <li>Learn the four TCP/IP concepts and the basic purposes of Ethernet, IP, TCP, UDP, DNS and HTTP.</li>
+          <li>Trace one request from a browser to a server, distinguishing frames, IP packets and transport data.</li>
+          <li>Explain why routers can change local MAC addresses while the IP destination still names a remote host.</li>
+          <li>Study HTTP/3 and QUIC as a counterexample to rigid layer mapping.</li>
+          <li>Practice with our <a href="https://www.cyberoplus.com/2026/03/network-exercises-solved-interactive.html">ten solved networking exercises</a>.</li>
+          </ol>
+          <h2>Original standards and technical sources</h2>
           <ul>
-          <li><a href="https://www.iso.org/standard/20269.html" rel="noopener noreferrer">ISO/IEC 7498-1:1994 — OSI basic reference model</a></li>
-          <li><a href="https://www.rfc-editor.org/rfc/rfc1122.html" rel="noopener noreferrer">RFC 1122 — Internet host communication layers</a></li>
-          <li><a href="https://www.rfc-editor.org/rfc/rfc9293.html" rel="noopener noreferrer">RFC 9293 — TCP</a></li>
-          <li><a href="https://www.rfc-editor.org/rfc/rfc9000.html" rel="noopener noreferrer">RFC 9000 — QUIC</a></li>
+          <li><a href="https://www.iso.org/standard/20269.html" rel="noopener noreferrer">ISO/IEC 7498-1 — OSI basic reference model</a></li>
+          <li><a href="https://www.rfc-editor.org/rfc/rfc1122.html" rel="noopener noreferrer">RFC 1122 — Internet host communications requirements</a></li>
+          <li><a href="https://www.rfc-editor.org/rfc/rfc1123.html" rel="noopener noreferrer">RFC 1123 — Internet application and support requirements</a></li>
+          <li><a href="https://www.rfc-editor.org/rfc/rfc9293.html" rel="noopener noreferrer">RFC 9293 — TCP specification</a></li>
+          <li><a href="https://www.rfc-editor.org/rfc/rfc9000.html" rel="noopener noreferrer">RFC 9000 — QUIC transport</a></li>
           <li><a href="https://www.rfc-editor.org/rfc/rfc9114.html" rel="noopener noreferrer">RFC 9114 — HTTP/3</a></li>
           </ul>'''
           article=article.replace("{{IMG}}",str(node))
           parsed=BeautifulSoup(article,"html.parser")
-          check(len(article)>9500 and len(parsed.find_all("h2"))>=13,"Article coverage insufficient")
-          check(len(parsed.find_all("img"))==1 and parsed.find("img").get("src")==img.get("src"),"Original image not preserved")
-          check(not re.search(r"[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff]",article),"Arabic remains in English article")
-          check("QUIC" in article and "Session" in article and "Presentation" in article and "OSI versus TCP/IP" in article,"Core OSI concepts missing")
-          check(any("iso.org" in a.get("href","") for a in parsed.find_all("a")) and any("rfc-editor.org" in a.get("href","") for a in parsed.find_all("a")),"Primary references missing")
-          check(any("network-exercises-solved-interactive" in a.get("href","") for a in parsed.find_all("a")),"Updated exercise link missing")
+          check(len(article)>10000 and len(parsed.find_all("h2"))>=12,"Article coverage insufficient")
+          check(len(parsed.find_all("img"))==1 and parsed.find("img").get("src")==img.get("src"),"Original image missing")
+          check(not re.search(r"[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]",article),"Untranslated text")
+          check("HTTP/3" in article and "RFC 1122" in article and "QUIC" in article and "four layers" in article,"Key concepts missing")
+          check(any("iso.org" in a.get("href","") for a in parsed.find_all("a")) and any("rfc-editor.org" in a.get("href","") for a in parsed.find_all("a")),"Sources missing")
+          check(any("osi-model-7-layers-explained.html" in a.get("href","") for a in parsed.find_all("a")),"Related published OSI link missing")
           print("PRECHECK_PASSED")
-          r=session.patch(endpoint,json={"title":TITLE,"content":article,"labels":["Technology"]},timeout=65);r.raise_for_status()
-          new=getpost()
-          check(str(new.get("id"))==PID and new.get("url")==ORIGINAL_URL and new.get("published")==PUBLISHED and new.get("title")==TITLE and new.get("labels")==["Technology"],"CRITICAL: Blogger metadata mismatch")
-          check(sha(new.get("content",""))==sha(article),"CRITICAL: Blogger HTML mismatch")
+          r=s.patch(endpoint,json={"title":TITLE,"content":article,"labels":["Technology"]},timeout=60);r.raise_for_status()
+          after=get()
+          check(str(after.get("id"))==PID and after.get("url")==ORIGINAL_URL and after.get("published")==PUBLISHED and after.get("title")==TITLE and after.get("labels")==["Technology"],"CRITICAL: Post metadata mismatch")
+          check(sha(after.get("content",""))==sha(article),"CRITICAL: Published HTML mismatch")
           print("PUBLISHED_AND_VERIFIED: "+ORIGINAL_URL)
           
           PY
