@@ -30,12 +30,12 @@ jobs:
           from google.auth.transport.requests import AuthorizedSession
           from google.oauth2.credentials import Credentials
           BID="2750143140558868280"
-          PID="7688280083681024775"
-          ORIGINAL_TITLE="تحميل Logisim 2.7.1 وتثبيته على Windows وmacOS وLinux مع Java"
-          ORIGINAL_URL="https://www.cyberoplus.com/2026/09/download-logisim-2-7-1-java-windows.html"
-          PUBLISHED="2026-09-20T14:53:42Z"
-          SOURCE_SHA="1f07de08312932c7bb5237d8acd3cabc147cfd23cba7d582647f10330c5ea0aa"
-          TITLE="Logisim 2.7.1: Download and Install on Windows, Mac and Linux"
+          PID="1127557226544113413"
+          ORIGINAL_TITLE="أساسيات الإلكترونيات الرقمية: Binary وLogic Gates والدوائر المنطقية للمبتدئين"
+          ORIGINAL_URL="https://www.cyberoplus.com/2025/05/digital-electronics-basics-for-beginners.html"
+          PUBLISHED="2025-05-25T14:22:00+01:00"
+          SOURCE_SHA="55e34ff26c352d71c0a8cffee67c5d17aafebe62a6f3c55e46a01560c98f2a3d"
+          TITLE="Digital Electronics Basics: Binary, Logic Gates and Truth Tables"
           def digest(s):return hashlib.sha256(s.encode("utf-8")).hexdigest()
           def check(c,msg):
               if not c:raise RuntimeError(msg)
@@ -53,110 +53,145 @@ jobs:
           def getpost():
               response=session.get(endpoint,params={"view":"ADMIN","fetchBody":"true"},timeout=45);response.raise_for_status();return response.json()
           source=getpost()
-          check(str(source.get("id"))==PID and source.get("url")==ORIGINAL_URL and source.get("title")==ORIGINAL_TITLE and source.get("published")==PUBLISHED and source.get("labels")==["apps","guides"] and digest(source.get("content",""))==SOURCE_SHA,"Source changed: do not modify")
+          check(str(source.get("id"))==PID and source.get("url")==ORIGINAL_URL and source.get("title")==ORIGINAL_TITLE and source.get("published")==PUBLISHED and source.get("labels")==["technology"] and digest(source.get("content",""))==SOURCE_SHA,"Source changed: do not modify")
           soup=BeautifulSoup(source["content"],"html.parser")
-          images=soup.find_all("img");check(len(images)==1,"Original media count changed")
-          original_image=images[0];wrapper=original_image.find_parent("div",class_="separator") or original_image.find_parent("figure")
-          check(wrapper is not None,"Cannot preserve image wrapper")
-          while wrapper.parent and getattr(wrapper.parent,"name",None)=="div" and "separator" in (wrapper.parent.get("class") or []):wrapper=wrapper.parent
-          node=BeautifulSoup(str(wrapper),"html.parser")
-          node.find("img")["alt"]="Logisim digital circuit simulator with Java on Windows macOS or Linux"
-          if node.find("img").has_attr("title"):node.find("img")["title"]=node.find("img")["alt"]
-          for c in node.find_all("figcaption"):c.string="Original Logisim and Java illustration"
-          article=r'''<p><strong>Logisim 2.7.1</strong> is the original Java-based digital-logic simulator still used by some older university courses. It is available for Windows, macOS and Linux from <a href="https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/" rel="noopener noreferrer">Carl Burch's original SourceForge release</a>. This guide covers safe downloads, Java installation checks, running the original application, a first logic-gate exercise and the difference between the 2011 Logisim release and the newer Logisim-evolution project.</p>
-          {{IMG}}
-          <aside data-type="info"><strong>Important version distinction:</strong> original <strong>Logisim 2.7.1</strong> was published in March 2011. <strong>Logisim-evolution 5.0.0</strong>, released September 2026, is a separate actively maintained project. If your instructor explicitly requires 2.7.1, do not automatically replace it with the newer program without checking compatibility.</aside>
-          <h2>What can you learn using Logisim?</h2>
-          <p>Logisim lets you place digital components on a canvas, connect wires, change binary inputs and watch simulated outputs. Students can practice <strong>AND, OR, NOT and XOR gates</strong>, multiplexers, decoders, counters, registers and small combinational or sequential circuits. It is a teaching simulator, not proof that a physical circuit will satisfy real electrical or timing requirements.</p>
-          <h2>Download original Logisim 2.7.1 for Windows, macOS or Linux</h2>
-          <p>These are the original files listed by the Carl Burch SourceForge project, dated <strong>March 21, 2011</strong>. Download the package appropriate to your operating system. Avoid repackaged installers from unverified websites.</p>
-          <table><thead><tr><th>System</th><th>Original file</th><th>Download</th></tr></thead><tbody>
-          <tr><td>Windows</td><td><code>logisim-win-2.7.1.exe</code></td><td><a href="https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/logisim-win-2.7.1.exe/download" rel="noopener noreferrer">Windows EXE</a></td></tr>
-          <tr><td>macOS (legacy)</td><td><code>logisim-macosx-2.7.1.tar.gz</code></td><td><a href="https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/logisim-macosx-2.7.1.tar.gz/download" rel="noopener noreferrer">Mac archive</a></td></tr>
-          <tr><td>Linux and Java systems</td><td><code>logisim-generic-2.7.1.jar</code></td><td><a href="https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/logisim-generic-2.7.1.jar/download" rel="noopener noreferrer">Generic JAR</a></td></tr>
+          images=soup.find_all("img");check(len(images)==3,"Original media count changed")
+          saved=[]
+          alt_text=[
+              "Digital electronics breadboard with binary logic signals",
+              "Logic-low and logic-high input voltage thresholds with undefined region",
+              "Half adder circuit using XOR for sum and AND for carry"]
+          for old_image,alt in zip(images,alt_text):
+              wrap=old_image.find_parent("div",class_="separator")
+              check(wrap is not None,"Original image wrapper missing")
+              node=BeautifulSoup(str(wrap),"html.parser")
+              node.find("img")["alt"]=alt
+              if node.find("img").has_attr("title"):node.find("img")["title"]=alt
+              saved.append(str(node))
+          article=r'''<p><strong>Digital electronics</strong> explains how computers represent information with binary states and process it through <strong>logic gates</strong>. This beginner-friendly guide covers binary numbers, voltage logic levels, truth tables, AND/OR/NOT/XOR gates, a half adder, and the difference between combinational and sequential circuits.</p>
+          {{IMG1}}
+          <p>First, an important distinction: logical <code>0</code> and <code>1</code> are <strong>abstract values</strong>. They do not universally mean zero volts and one volt, or no current and some current. Real components interpret specified voltage ranges as valid logic low or high; those ranges depend on the device and its logic family.</p>
+          <h2>What is digital electronics?</h2>
+          <p>Digital circuits encode information using a set of discrete states. In most binary systems, we label the states <code>0</code> and <code>1</code>. Logic circuits transform these states to implement decisions, arithmetic, storage and control functions.</p>
+          <p>Digital building blocks are found inside processors, arithmetic logic units (ALUs), registers, microcontrollers, counters, memory interfaces and embedded control systems. MIT's <a href="https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/" rel="noopener noreferrer">Computation Structures course</a> teaches how physical transistors form gates, larger logic blocks, state machines and processors.</p>
+          <h2>Analog versus digital signals</h2>
+          <p>Both analog and digital circuits are physical electronic systems; the difference lies in how information is represented and interpreted.</p>
+          <table><thead><tr><th>Analog</th><th>Digital</th></tr></thead><tbody>
+          <tr><td>A signal may represent values across a continuous range</td><td>Information is represented with discrete states</td></tr>
+          <tr><td>Example: sensor voltage corresponding to temperature</td><td>Example: a binary control input interpreted as low or high</td></tr>
+          <tr><td>Exact amplitude can encode the measured quantity</td><td>Ranges of physical values are interpreted as logical symbols</td></tr>
+          <tr><td>Used in amplifiers and signal-conditioning circuits</td><td>Used in logic gates, counters, registers and processors</td></tr>
           </tbody></table>
-          <h2>Does Logisim need Java?</h2>
-          <p>Original Logisim is a Java application. Check whether a Java launcher is already installed:</p>
-          <pre><code>java -version</code></pre>
-          <p>If a version number appears, Java is available to the command-line environment. This does not guarantee that every part of a 2011 application works with that Java version. If Java is missing, select a suitable supported runtime for your OS and CPU architecture from a trusted vendor such as <a href="https://adoptium.net/" rel="noopener noreferrer">Eclipse Adoptium</a>. A JRE or JDK with a compatible Java launcher can run a JAR; Java development tools are not inherently necessary just to open the simulator.</p>
-          <aside data-type="warning"><strong>Legacy compatibility warning.</strong> Logisim 2.7.1 predates modern Windows, macOS and Apple Silicon hardware. Do not disable security protections to force an old application to run, and do not assume either very old or newest Java releases are universally compatible.</aside>
-          <h2>Install Logisim 2.7.1 on Windows</h2>
-          <ol data-steps>
-          <li>Open Command Prompt and enter <code>java -version</code>. If Java is missing, install an appropriate trusted runtime first.</li>
-          <li>Download <code>logisim-win-2.7.1.exe</code> from the original SourceForge project.</li>
-          <li>Check the downloaded file and follow the installer prompts, then launch Logisim from Windows Start.</li>
-          <li>If the application fails to start, try the generic JAR from a terminal to obtain a clearer error message.</li>
-          </ol>
-          <p>To launch a JAR, open Command Prompt in its download folder and run:</p>
-          <pre><code>java -jar logisim-generic-2.7.1.jar</code></pre>
-          <p>If Windows says the Java command cannot be found, review the installed Java runtime and the system <code>PATH</code> setting before reinstalling Logisim.</p>
-          <h2>Run Logisim 2.7.1 on Linux</h2>
-          <p>Use the <code>.jar</code> file rather than the Windows EXE. Install Java through a trusted distribution package or vendor, navigate to the directory containing the JAR, and run:</p>
-          <pre><code>java -version
-          java -jar logisim-generic-2.7.1.jar</code></pre>
-          <p>Alternatively, supply an absolute path to the JAR. When launch fails, read the exact terminal exception; reinstalling Java repeatedly without checking the message is unlikely to help.</p>
-          <h2>Run original Logisim on an Intel Mac</h2>
-          <p>The original project has a <code>logisim-macosx-2.7.1.tar.gz</code> archive. Download, extract and inspect it. Recent macOS versions may not launch a package originally built in 2011. If a compatible Java installation exists, the generic JAR is another option:</p>
-          <pre><code>java -jar logisim-generic-2.7.1.jar</code></pre>
-          <p>This is a troubleshooting option rather than a verified guarantee for current macOS releases.</p>
-          <h2>Can Logisim 2.7.1 run on Apple Silicon?</h2>
-          <p>Logisim 2.7.1 predates the Apple M-series processors. Do not mistake its historical macOS archive for a native ARM64 installer. You may try the generic JAR with compatible ARM64 Java, but success depends on the OS and runtime. For everyday modern Mac use, consider a <a href="https://github.com/logisim-evolution/logisim-evolution/releases" rel="noopener noreferrer">current Logisim-evolution release</a> built for your platform.</p>
-          <h2>Build a simple AND gate to test the simulator</h2>
-          <ol data-steps>
-          <li>Create a new circuit, then add two input pins and one output pin.</li>
-          <li>Place an <strong>AND</strong> gate from the gates library.</li>
-          <li>Connect both inputs to the gate and connect its output to the output pin.</li>
-          <li>Use the interaction tool to set the input pins to the four combinations below.</li>
-          <li>Confirm that the output is 1 only when both inputs are 1.</li>
-          </ol>
-          <table><thead><tr><th>Input A</th><th>Input B</th><th>A AND B</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td><td>1</td></tr></tbody></table>
-          <p>If the simulated output differs, first check the wire connections, pin direction and gate type. A circuit-wiring problem is not necessarily a Java problem.</p>
-          <h2>Important components in Logisim</h2>
-          <dl><dt><strong>Input and output pins</strong></dt><dd>Set and display binary signals.</dd>
-          <dt><strong>AND, OR, NOT, XOR gates</strong></dt><dd>Implement Boolean operations.</dd>
-          <dt><strong>Multiplexer</strong></dt><dd>Select one of multiple data inputs using control bits.</dd>
-          <dt><strong>Decoder</strong></dt><dd>Translate a binary selection into output lines.</dd>
-          <dt><strong>Clock</strong></dt><dd>Generate a repeating signal for sequential-circuit demonstrations.</dd>
-          <dt><strong>Registers and counters</strong></dt><dd>Hold state or change it over clock transitions.</dd></dl>
-          <p>For related foundations, see our <a href="https://www.cyberoplus.com/2025/05/digital-electronics-basics-for-beginners.html">digital electronics and logic gates introduction</a>. The purpose of that article is to explain binary logic, while this guide covers obtaining and using the Logisim application.</p>
-          <h2>Troubleshooting: Logisim will not open</h2>
-          <h3>Java is not recognized</h3>
-          <p>Run <code>java -version</code>. If the shell reports an unknown command, inspect Java installation and your OS's environment configuration. Use official vendor installers.</p>
-          <h3>Double-clicking the JAR does nothing</h3>
-          <p>Use <code>java -jar logisim-generic-2.7.1.jar</code> in a terminal. This bypasses JAR file-association problems and may display a useful error.</p>
-          <h3>A graphical error appears after launch</h3>
-          <p>Record the complete message, Java version, operating-system version and CPU architecture. An old application may have limitations not fixable by selecting a different file extension.</p>
-          <h3>Download did not finish or is corrupted</h3>
-          <p>Download the original file again from Carl Burch's SourceForge directory. Avoid unofficial reuploads and use publisher-provided verification information when available.</p>
-          <h2>Original Logisim 2.7.1 versus Logisim-evolution</h2>
-          <table><thead><tr><th>Feature</th><th>Original Logisim 2.7.1</th><th>Logisim-evolution</th></tr></thead><tbody>
-          <tr><td>Project</td><td>Carl Burch's historical application</td><td>Separate community-maintained simulator</td></tr>
-          <tr><td>Release</td><td>March 2011</td><td>5.0.0 released September 2026</td></tr>
-          <tr><td>Recommended when</td><td>Your class mandates the original version</td><td>You can use a current maintained alternative</td></tr>
-          <tr><td>Platform compatibility</td><td>Older Java and application packaging</td><td>Updated installers and runtime requirements</td></tr>
+          <p>Even a digital voltage waveform transitions continuously in the physical world. The abstraction is useful because circuits are designed to distinguish valid logical states despite variations and noise.</p>
+          <h2>Understanding binary numbers and bits</h2>
+          <p>The binary number system has base 2. Its digits are <code>0</code> and <code>1</code>, and each binary position has a weight that is a power of two. One binary digit is called a <strong>bit</strong>.</p>
+          <p>Consider the four-bit binary number <code>1011</code>:</p>
+          <pre><code>1011 (binary)
+          = 1×8 + 0×4 + 1×2 + 1×1
+          = 11 (decimal)</code></pre>
+          <p>With <code>n</code> bits, there are <strong>2 to the power of n</strong> different bit patterns. For four bits, that is <strong>16 combinations</strong>, from <code>0000</code> through <code>1111</code>. Bit patterns may represent numbers, characters, addresses, instructions or other kinds of data depending on the encoding.</p>
+          <h2>What are logic levels?</h2>
+          <p>A digital input is a physical signal. A chip's data sheet specifies voltage conditions that it can reliably interpret as logic low or logic high. These thresholds are not identical for every chip, voltage supply or logic family.</p>
+          <dl>
+          <dt><strong>VIL</strong></dt><dd>The maximum input voltage guaranteed to be interpreted as logic low.</dd>
+          <dt><strong>VIH</strong></dt><dd>The minimum input voltage guaranteed to be interpreted as logic high.</dd>
+          <dt><strong>VOL</strong></dt><dd>The specified low-level output voltage under defined operating conditions.</dd>
+          <dt><strong>VOH</strong></dt><dd>The specified high-level output voltage under defined operating conditions.</dd>
+          </dl>
+          <p>Between valid low and high input ranges, the circuit may have an <strong>undefined input region</strong>; you should not assume what logic level it will report. A source's guaranteed high output must satisfy the receiving input's high threshold, and its low output must meet the receiving input's low threshold.</p>
+          {{IMG2}}
+          <aside data-type="warning"><strong>Do not wire real chips based only on a truth table.</strong> Check the exact component data sheet for supply voltage, VIL/VIH, VOL/VOH, output-current limits and timing. A logic diagram describes intended behavior, not electrical compatibility.</aside>
+          <h2>What is a logic gate?</h2>
+          <p>A logic gate implements a Boolean function. It accepts one or more inputs and produces an output that can be described using a <strong>truth table</strong> or Boolean expression.</p>
+          <p>For two binary inputs <code>A</code> and <code>B</code>, the four possible combinations are <code>00</code>, <code>01</code>, <code>10</code> and <code>11</code>. A complete truth table with <code>n</code> binary inputs contains <strong>2<sup>n</sup></strong> rows.</p>
+          <h2>AND gate: both conditions must be true</h2>
+          <p>An AND gate produces <code>1</code> only when all required inputs are <code>1</code>. For two inputs, its Boolean expression is <code>A · B</code>.</p>
+          <table><thead><tr><th>A</th><th>B</th><th>A AND B</th></tr></thead><tbody>
+          <tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td><td>1</td></tr>
           </tbody></table>
-          <aside data-type="info"><strong>Course compatibility:</strong> Logisim-evolution is not simply a version-number update to the original project. File formats and available components can differ. Keep an independent copy of important <code>.circ</code> files and ask your instructor before switching a required course tool.</aside>
-          <h2>Official references and further reading</h2>
+          <p>A simple logical example is a process that should run only when a safety condition is satisfied <em>and</em> a start request has been given. This describes a Boolean decision, not a complete safety-certified hardware design.</p>
+          <h2>OR gate: at least one condition is true</h2>
+          <p>An OR gate produces <code>1</code> whenever one or more inputs are <code>1</code>. In Boolean algebra it is often written <code>A + B</code>. Here the plus sign denotes logical OR, not ordinary arithmetic addition.</p>
+          <table><thead><tr><th>A</th><th>B</th><th>A OR B</th></tr></thead><tbody>
+          <tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td></tr>
+          </tbody></table>
+          <h2>NOT gate: invert one input</h2>
+          <p>NOT, also called an <strong>inverter</strong>, changes <code>0</code> to <code>1</code> and <code>1</code> to <code>0</code>. It has one input in its basic form.</p>
+          <table><thead><tr><th>A</th><th>NOT A</th></tr></thead><tbody><tr><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td></tr></tbody></table>
+          <h2>XOR gate: inputs must differ</h2>
+          <p>For two inputs, XOR (exclusive OR) is <code>1</code> when their values differ and <code>0</code> when they are equal. Unlike OR, the XOR output is <code>0</code> when <code>A=1</code> and <code>B=1</code>.</p>
+          <table><thead><tr><th>A</th><th>B</th><th>A XOR B</th></tr></thead><tbody>
+          <tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>0</td></tr>
+          </tbody></table>
+          <h2>Compare the most common two-input gates</h2>
+          <table><thead><tr><th>A</th><th>B</th><th>AND</th><th>OR</th><th>XOR</th></tr></thead><tbody>
+          <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td></tr>
+          </tbody></table>
+          <p>A helpful way to remember them is to ask when the output becomes <code>1</code>: AND requires both; OR requires at least one; XOR requires different input values.</p>
+          <h2>NAND and NOR gates</h2>
+          <p><strong>NAND</strong> is the inversion of AND, while <strong>NOR</strong> is the inversion of OR:</p>
+          <pre><code>NAND(A,B) = NOT(A AND B)
+          NOR(A,B)  = NOT(A OR B)</code></pre>
+          <p>Each of NAND and NOR can be used to construct any Boolean function. This property is called <strong>functional completeness</strong> and helps explain their importance in logic-circuit design.</p>
+          <h2>From logic gates to a half adder</h2>
+          <p>A <strong>half adder</strong> combines two one-bit values, <code>A</code> and <code>B</code>. It has two outputs: <strong>Sum</strong>, the low-order sum bit, and <strong>Carry</strong>, the bit carried into the next binary position.</p>
+          <pre><code>Sum   = A XOR B
+          Carry = A AND B</code></pre>
+          <table><thead><tr><th>A</th><th>B</th><th>Sum</th><th>Carry</th></tr></thead><tbody>
+          <tr><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+          </tbody></table>
+          <p>The final row represents <code>1 + 1 = 10</code> in binary: the sum bit is 0 and the carry bit is 1.</p>
+          {{IMG3}}
+          <p>Half adders are an introductory step toward full adders and larger arithmetic structures. For a hands-on exercise, follow the <a href="https://www.cyberoplus.com/2026/09/download-logisim-2-7-1-java-windows.html">Logisim 2.7.1 installation and first logic-gate simulation guide</a>, then try building a half adder using XOR and AND gates.</p>
+          <h2>Combinational versus sequential logic</h2>
+          <h3>Combinational circuits</h3>
+          <p>The logical output of a combinational circuit is determined by its current inputs, after accounting for physical propagation delay. Logic gates, multiplexers, decoders and arithmetic adders are typical examples.</p>
+          <h3>Sequential circuits</h3>
+          <p>Sequential circuits have <strong>state</strong>: past information stored in elements such as latches or flip-flops can affect present outputs. Registers, counters and finite-state machines are examples. Many sequential circuits use clocks to coordinate state changes, although some are asynchronous.</p>
+          <h2>Why real circuits differ from ideal truth tables</h2>
+          <p>Truth tables specify logic but omit physical behavior such as <strong>propagation delay</strong>, supply voltage, signal rise and fall times, noise margins, drive strength, and setup or hold constraints of storage elements. A circuit may be logically correct while failing due to timing or electrical incompatibility.</p>
+          <p>When moving from simulation to physical hardware, consult each component's data sheet, and test within the manufacturer's recommended operating conditions.</p>
+          <h2>How logic gates become a processor</h2>
+          <p>A conceptual progression is <strong>transistors → logic gates → combinational and sequential blocks → registers and arithmetic units → processor control and data paths</strong>. This is an educational abstraction, not a claim that today's CPUs are simple or that software instructions directly manipulate individual gates.</p>
+          <h2>Common beginner mistakes</h2>
           <ul>
-          <li><a href="https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/" rel="noopener noreferrer">Original Logisim 2.7.1 downloads</a></li>
-          <li><a href="https://sourceforge.net/projects/circuit/" rel="noopener noreferrer">Original Logisim project information</a></li>
-          <li><a href="https://github.com/logisim-evolution/logisim-evolution/releases" rel="noopener noreferrer">Logisim-evolution release notes and installers</a></li>
-          <li><a href="https://adoptium.net/" rel="noopener noreferrer">Java runtime downloads from Eclipse Adoptium</a></li>
+          <li><strong>Equating 0 and 1 with fixed voltages:</strong> valid thresholds vary by chip and logic family.</li>
+          <li><strong>Confusing OR and XOR:</strong> only XOR gives zero when both two-input signals are 1.</li>
+          <li><strong>Memorizing without checking tables:</strong> derive the result for each input combination.</li>
+          <li><strong>Ignoring physical timing:</strong> real gates do not respond instantaneously.</li>
+          <li><strong>Jumping straight to CPU architecture:</strong> practice binary arithmetic and logic blocks first.</li>
           </ul>
-          <p>Choose the software version your course requires, install only the relevant components, and verify an AND-gate circuit before developing more complex projects.</p>'''
-          article=article.replace("{{IMG}}",str(node))
+          <h2>A practical learning sequence</h2>
+          <ol data-steps>
+          <li>Understand digital abstraction and the difference between analog and digital.</li>
+          <li>Convert small numbers between decimal and binary.</li>
+          <li>Identify valid logic low and high ranges using a real data sheet.</li>
+          <li>Construct truth tables for AND, OR, NOT and XOR.</li>
+          <li>Combine gates to form NAND, NOR and simple Boolean functions.</li>
+          <li>Simulate a half adder, then a full adder.</li>
+          <li>Continue with multiplexers, decoders, latches, flip-flops and registers before CPU internals.</li>
+          </ol>
+          <h2>References for further study</h2>
+          <ul>
+          <li><a href="https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/" rel="noopener noreferrer">MIT OpenCourseWare: Computation Structures</a></li>
+          <li><a href="https://computation-structures.github.io/course/" rel="noopener noreferrer">MIT 6.004 course notes and exercises archive</a></li>
+          <li><a href="https://www.ti.com/lit/sg/sdyu001ac/sdyu001ac.pdf" rel="noopener noreferrer">Texas Instruments: Logic Guide and electrical levels</a></li>
+          <li><a href="https://www.cyberoplus.com/2026/09/download-logisim-2-7-1-java-windows.html">Cyb​eroPlus: install Logisim and practice your first circuit</a></li>
+          </ul>
+          <p>The key is to understand <strong>the relationship between binary representations, Boolean functions and real electrical signals</strong>. Once you can explain a truth table and reproduce it with a gate-level simulator, you have a foundation for digital circuit design and computer architecture.</p>'''
+          article=article.replace("{{IMG1}}",saved[0]).replace("{{IMG2}}",saved[1]).replace("{{IMG3}}",saved[2])
           parsed=BeautifulSoup(article,"html.parser")
-          check(len(parsed.find_all("h2"))>=12 and len(article)>7500,"New article incomplete")
-          check(len(parsed.find_all("img"))==1 and parsed.find("img").get("src")==original_image.get("src"),"Image changed")
+          check(len(parsed.find_all("h2"))>=17 and len(article)>9500,"New article incomplete")
+          check(len(parsed.find_all("img"))==3 and [x.get("src") for x in parsed.find_all("img")]==[x.get("src") for x in images],"Image changed")
           check(not re.search(r"[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]",article),"Arabic remains in the article")
-          check("Logisim-evolution" in article and "java -jar" in article and "A AND B" in article,"Essential educational content missing")
+          check("Half adder" in article and "Logic low" in article and "VIH" in article and "XOR" in article,"Essential fundamentals missing")
           check(len([x for x in parsed.find_all("a") if "cyberoplus.com" in x.get("href","")])>=1,"Internal context link missing")
-          check(any("sourceforge.net/projects/circuit" in x.get("href","") for x in parsed.find_all("a")) and any("github.com/logisim-evolution" in x.get("href","") for x in parsed.find_all("a")),"Official references missing")
+          check(any("ocw.mit.edu" in x.get("href","") for x in parsed.find_all("a")) and any("ti.com" in x.get("href","") for x in parsed.find_all("a")),"Primary-source references missing")
           print("PRECHECK_PASSED")
-          payload={"title":TITLE,"content":article,"labels":["Tutorials"]}
+          payload={"title":TITLE,"content":article,"labels":["Technology"]}
           r=session.patch(endpoint,json=payload,timeout=70);r.raise_for_status()
           after=getpost()
-          check(str(after.get("id"))==PID and after.get("url")==ORIGINAL_URL and after.get("published")==PUBLISHED and after.get("title")==TITLE and after.get("labels")==["Tutorials"],"CRITICAL: changed target identity or publication metadata")
+          check(str(after.get("id"))==PID and after.get("url")==ORIGINAL_URL and after.get("published")==PUBLISHED and after.get("title")==TITLE and after.get("labels")==["Technology"],"CRITICAL: changed target identity or publication metadata")
           check(digest(after.get("content",""))==digest(article),"CRITICAL: HTML saved differs from expected")
           print("PUBLISHED_AND_VERIFIED: "+ORIGINAL_URL)
           print("PUBLISHED_DATE_PRESERVED: "+PUBLISHED)
