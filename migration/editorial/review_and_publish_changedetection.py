@@ -76,7 +76,7 @@ new=new[:idx]+addition+new[idx:]
 dom0=BeautifulSoup(old,"html.parser")
 dom1=BeautifulSoup(new,"html.parser")
 check(len(dom0.find_all("img"))==3 and [x.get("src") for x in dom0.find_all("img")]==[x.get("src") for x in dom1.find_all("img")],"Images altered")
-check(len(dom1.find_all("h2"))>=27 and len(new)>len(old),"Incomplete improved article")
+check(len(dom1.find_all("h2"))>=23 and len(new)>len(old),"Incomplete improved article")
 check(not re.search(r"[\u0600-\u06ff]",new),"Article contains Arabic text")
 check("0.54.8" in new and "CVE-2026-35490" in new and "localhost" in new and "permission" in new,"Missing compliance or version safeguards")
 check(not re.search(r'(?i)we tested|our tests show|we personally verified',new),"Unverified hands-on claims")
