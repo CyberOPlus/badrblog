@@ -40,3 +40,4 @@ jobs:
           if-no-files-found: error
 # Retry transient Gemini API 503 using guarded model fallback; still no Blogger writes.
 # Require structured JSON schema for translation segments; still preview-only.
+# Preserve already-validated preview items on partial provider failures.
