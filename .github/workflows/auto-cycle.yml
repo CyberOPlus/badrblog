@@ -26,12 +26,6 @@ name: Jobs Auto Cycle
 # The concurrency lock below prevents two production cycles from overlapping.
 
 on:
-  schedule:
-    - cron: "*/5 * * * *"
-  push:
-    branches: [main]
-    paths:
-      - ".github/workflows/auto-cycle.yml"
   workflow_dispatch:
     inputs:
       verify:
@@ -50,7 +44,7 @@ env:
 
 jobs:
   auto-cycle:
-    if: github.ref == 'refs/heads/main'
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
