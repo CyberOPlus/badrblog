@@ -2,16 +2,13 @@ name: Blogger Migration - Translation Preview ONLY
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - ".github/workflows/blogger-migration-translation-preview.yml"
 
 permissions:
   contents: read
 
 jobs:
   translation-preview-no-publishing:
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
