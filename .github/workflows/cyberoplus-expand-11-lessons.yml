@@ -7,7 +7,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: cyberoplus-inplace-editorial-updates
+  group: cyberoplus-reviewed-expansion-11
   cancel-in-progress: false
 jobs:
   expand-eleven-technical-lessons:
@@ -30,3 +30,4 @@ jobs:
           name: cyberoplus-expanded-11-verified-results
           path: results_11.json
           if-no-files-found: warn
+# Explicit one-time run; no recurring schedule. Correct manifest identity validation.

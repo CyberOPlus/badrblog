@@ -16,7 +16,7 @@ def get(pid):
  r=s.get(API+'/posts/'+pid,params={'view':'ADMIN','fetchBody':'true'},timeout=45);r.raise_for_status();return r.json()
 blog=s.get(API,timeout=30);blog.raise_for_status();o=blog.json();check(str(o['id'])==BID and urlsplit(o['url']).hostname in ('cyberoplus.com','www.cyberoplus.com'),'Wrong Blogger blog')
 z=zipfile.ZipFile(io.BytesIO(base64.b64decode((DIR/'expanded_payload.b64').read_text('ascii'),validate=True)));check(z.testzip() is None,'Corrupt editorial archive')
-rows=json.loads(z.read('MANIFEST.json'));check(len(rows)==11 and len(set(x['post_id'] for x in rows))==12,'Unexpected inventory')
+rows=json.loads(z.read('MANIFEST.json'));check(len(rows)==11 and len(set(x['post_id'] for x in rows))==11,'Unexpected inventory')
 results=[]
 for r in rows:
  pid=r['post_id'];status='BLOCKED';reason=''
