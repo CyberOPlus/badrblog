@@ -1,0 +1,33 @@
+name: CyberoPlus - One Time Preservation-Gated Editorial Lead Fixes
+on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/cyberoplus-round3-115-reviewed-intros.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cyberoplus-inplace-editorial-updates
+  cancel-in-progress: false
+jobs:
+  preserve-original-and-update-intro:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check "google-auth>=2.20,<3" "requests>=2.31,<3" "beautifulsoup4>=4.12,<5"
+      - name: Update only individually preflight-approved existing Blogger leads
+        env:
+          BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
+          BLOGGER_CLIENT_SECRET_JSON: ${{ secrets.BLOGGER_CLIENT_SECRET_JSON }}
+        run: python -u migration/editorial/round3_careful_intros/publish_115.py
+      - name: Keep actual per-post outcomes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cyberoplus-round3-verified-post-results
+          path: round3_results.json
+          if-no-files-found: warn
