@@ -1,0 +1,37 @@
+name: CyberoPlus - Guarded 2026-11-04 In-Place Editorial Update
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/cyberoplus-guarded-nov2026.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cyberoplus-guarded-editorial-20261104
+  cancel-in-progress: false
+jobs:
+  patch-only-existing-reviewed-safe-cohort:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Blogger OAuth and HTML parser dependencies
+        run: python -m pip install --disable-pip-version-check 'google-auth>=2.20,<3' 'requests>=2.31,<3' 'beautifulsoup4>=4.12,<5'
+      - name: Patch only existing verified Blogger posts without changing publication dates or permalinks
+        env:
+          BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
+          BLOGGER_CLIENT_SECRET_JSON: ${{ secrets.BLOGGER_CLIENT_SECRET_JSON }}
+          CYBEROPLUS_SAFE_WRITE: 'true'
+        run: python -u migration/editorial/nov2026_verified_candidates/publish_guarded.py
+      - name: Store every attempted post ID and result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cyberoplus-safe-publication-results-2026-11-04
+          path: publication_results.json
+          retention-days: 14
+          if-no-files-found: warn
