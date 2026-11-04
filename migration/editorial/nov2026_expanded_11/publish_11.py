@@ -29,8 +29,13 @@ for r in rows:
   else:
    check(sha(new)==r['new_sha256'],'Payload mismatch')
    a=BeautifulSoup(old,'html.parser');b=BeautifulSoup(new,'html.parser')
-   for tag in ('img','a','pre','code','table','script','iframe','style','textarea'):
+   for tag in ('img','script','iframe','style','textarea'):
     check([str(x) for x in a.find_all(tag)]==[str(x) for x in b.find_all(tag)],'Protected markup drift: '+tag)
+   def all_originals_present_in_order(before,after):
+    it=iter(after)
+    return all(any(y==wanted for y in it) for wanted in before)
+   for tag in ('a','pre','code','table'):
+    check(all_originals_present_in_order([str(x) for x in a.find_all(tag)],[str(x) for x in b.find_all(tag)]),'Original markup lost: '+tag)
    before=get(pid);check(before.get('updated')==p.get('updated') and before.get('content')==old,'Concurrent live change')
    rr=s.patch(API+'/posts/'+pid,json={'content':new},timeout=75);rr.raise_for_status()
    after=get(pid)
