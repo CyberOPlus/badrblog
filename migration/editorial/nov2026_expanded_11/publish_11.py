@@ -25,7 +25,7 @@ for r in rows:
   check(p.get('status')=='LIVE' and str(p.get('id'))==pid,'Not the existing published post')
   check(p.get('url')==r['url'] and p.get('published')==r['published'],'URL or published date drift')
   if sha(old)==sha(new):status='ALREADY_SAME';reason='Desired body is already live'
-  elif sha(old)!=r['current_sha256']:status='SKIPPED_LIVE_DIFF';reason='Live body changed; do not overwrite'
+  elif sha(old)!=r['baseline_sha256']:status='SKIPPED_LIVE_DIFF';reason='Live body changed; do not overwrite'
   else:
    check(sha(new)==r['new_sha256'],'Payload mismatch')
    a=BeautifulSoup(old,'html.parser');b=BeautifulSoup(new,'html.parser')
