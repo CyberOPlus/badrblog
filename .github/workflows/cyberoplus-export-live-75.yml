@@ -1,0 +1,30 @@
+name: CyberoPlus - Read Current Blogger HTML for Remaining 75
+on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/cyberoplus-export-live-75.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  read-live-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check "google-auth>=2.20,<3" "requests>=2.31,<3"
+      - name: Read actual Blogger live post HTML without any updates
+        env:
+          BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
+          BLOGGER_CLIENT_SECRET_JSON: ${{ secrets.BLOGGER_CLIENT_SECRET_JSON }}
+        run: python -u migration/editorial/live75_export/export_live.py
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cyberoplus-live-75-readonly
+          path: cyberoplus_live_75_readonly.zip
+          retention-days: 3
+          if-no-files-found: warn
