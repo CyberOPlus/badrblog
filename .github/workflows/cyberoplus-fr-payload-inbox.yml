@@ -1,0 +1,37 @@
+name: CyberoPlus - Temporary French Payload (1 day)
+run-name: French payload part ${{ inputs.part_number }} of 25
+on:
+  workflow_dispatch:
+    inputs:
+      package_id:
+        description: Package ID
+        required: true
+        default: cyberoplus-fr-02558663
+        type: string
+      part_number:
+        description: Part number (1-25)
+        required: true
+        type: string
+      payload_b64:
+        description: French payload chunk (temporary, 1 day)
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  receive-one-day-part:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - id: receive
+        name: Validate part without printing article text
+        run: python migration/french-20261110/receive_part.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.receive.outputs.artifact_name }}
+          path: migration-inbox/
+          retention-days: 1
+          if-no-files-found: error
