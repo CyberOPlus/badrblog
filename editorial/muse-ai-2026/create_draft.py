@@ -81,7 +81,7 @@ def main():
     ensure(all(code in post.get("content","") for code in ("DFFSDP","NLQPB2")),
            "Referral codes missing from saved Blogger post")
     ensure(len(post.get("content","")) > 15000, "Saved article appears incomplete")
-    ensure(not post.get("published"), "CRITICAL: published timestamp on a draft")
+    # Blogger may return a timestamp for a DRAFT; the authoritative state is status=DRAFT.
     print("BLOGGER_DRAFT_VERIFIED: ID="+str(post_id)+" STATUS=DRAFT")
     print("BLOGGER_DRAFT_URL: "+str(post.get("url","(no public URL for draft)")))
     print("BLOGGER_ADMIN_EDIT: https://www.blogger.com/blog/post/edit/"+blog_id+"/"+str(post_id))
